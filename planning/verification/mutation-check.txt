@@ -1,0 +1,15 @@
+Mutation: prerequisite readiness all() changed to any() in a disposable copy.
+Expected: tests fail. Actual exit code: 1
+.............F..
+======================================================================
+FAIL: test_only_dependency_free_first_story_is_ready (test_project_tracker.TrackerTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Swarneil Pradhan\Documents\Codex\2026-10-20\new-chat\Veya\tests\test_project_tracker.py", line 38, in test_only_dependency_free_first_story_is_ready
+    self.assertIn('VEY-001', [s['id'] for s in ready])
+AssertionError: 'VEY-001' not found in []
+
+----------------------------------------------------------------------
+Ran 16 tests in 1.149s
+
+FAILED (failures=1)

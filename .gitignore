@@ -10,3 +10,6 @@ __pycache__/
 native/*.exe
 preview/*.html
 src-tauri/gen/
+planning/.tracker.lock
+planning/backlog-*.tmp
+repository.bundle

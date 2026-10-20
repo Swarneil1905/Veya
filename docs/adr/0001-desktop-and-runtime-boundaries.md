@@ -1,0 +1,3 @@
+# Keep native authority in Rust and agent behavior in Python
+
+Use Tauri/Rust for native lifecycle, file grants, credential references and IPC, with a Python application runtime behind typed contracts. Local mode uses SQLite and a checkpointed loop; team mode moves durable work to Temporal and PostgreSQL. Requiring a remote cluster for every desktop launch would increase setup and operating cost before the first useful task. Putting unrestricted native authority in the model-facing runtime would make tool permissions harder to audit. Go and Kafka remain conditional additions backed by a measured need.

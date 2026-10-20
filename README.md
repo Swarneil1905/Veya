@@ -1,4 +1,19 @@
-# Relay Studio
+# Veya
+
+Veya is the new short working name for the desktop AI employee project. Start with the comprehensive plan:
+
+- [Project scope, goals and architecture](planning/SCOPE.md)
+- [240 code-change stories](planning/BACKLOG.md)
+- [Current delivery status](planning/STATUS.md)
+- [24 deliverables and release gates](planning/DELIVERABLES.md)
+- [Tracking commands and folder setup](planning/TRACKING.md)
+- [Risks and unresolved decisions](planning/RISKS.md)
+
+The existing app below is the earlier Relay Studio prototype. Its source identity, layout and native startup repair are explicit backlog work. No product story is marked complete solely because the planning package exists.
+
+The intended repository location is `C:\Users\Swarneil Pradhan\Project\Veya`. This session could not write there. Extract the delivered archive into `C:\Users\Swarneil Pradhan\Project` and follow TRACKING.md to restore the included Git history bundle.
+
+## Prototype baseline
 
 A Windows-first desktop AI employee application with an engineering workspace. This package is the **initial product/design prototype**, with a Tauri host, interactive React UI, deterministic demo behaviors, and a plan for the complete agent/evaluation platform. The next product iteration puts task delegation and completed work at the center of the UI.
 
