@@ -1,0 +1,95 @@
+{
+  "reviewed": "2026-10-20",
+  "notes": "Historical record of the initial selective reading. A subsequent project-local import added 39 skills and their support files: see docs/SKILLS.md and .agents/skills-lock.json for the authoritative installed inventory. UI/UX Pro Max search now runs locally; the original design was not regenerated. No hooks, global installers, or global ChatGPT skill registration were performed.",
+  "sources": [
+    {
+      "repository": "anthropics/skills",
+      "path": "skills/frontend-design/SKILL.md",
+      "commit": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
+      "url": "https://github.com/anthropics/skills/blob/dbd4588f9e1033efb41dad4bef2f7947c8993d44/skills/frontend-design/SKILL.md",
+      "status": "Read in this session; not globally installed"
+    },
+    {
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "path": ".claude/skills/ui-ux-pro-max/SKILL.md",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/56ea9cf174ed86786187daa9de0e6247cb0747e4/.claude/skills/ui-ux-pro-max/SKILL.md",
+      "status": "Read in this session; not globally installed"
+    },
+    {
+      "repository": "vercel-labs/agent-skills",
+      "path": "skills/react-best-practices/SKILL.md",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "url": "https://github.com/vercel-labs/agent-skills/blob/063bee94c3f4df8453406c830b0a7df0f2860278/skills/react-best-practices/SKILL.md",
+      "status": "Read in this session; not globally installed"
+    },
+    {
+      "repository": "addyosmani/agent-skills",
+      "path": "skills/api-and-interface-design/SKILL.md",
+      "commit": "aeac41d4d005999432bb7312f7ff06383a91d59d",
+      "url": "https://github.com/addyosmani/agent-skills/blob/aeac41d4d005999432bb7312f7ff06383a91d59d/skills/api-and-interface-design/SKILL.md",
+      "status": "Read in this session; not globally installed"
+    },
+    {
+      "repository": "mattpocock/skills",
+      "path": "skills/engineering/improve-codebase-architecture/SKILL.md",
+      "commit": "5beb35b040e3de97e54fa9e386d7e42d15c295c2",
+      "url": "https://github.com/mattpocock/skills/blob/5beb35b040e3de97e54fa9e386d7e42d15c295c2/skills/engineering/improve-codebase-architecture/SKILL.md",
+      "status": "Read in this session; not globally installed"
+    },
+    {
+      "repository": "affaan-m/ECC",
+      "path": ".agents/skills/eval-harness/SKILL.md",
+      "commit": "07971588f8ac7a60080ba8c1b7920c9e8e733e7d",
+      "url": "https://github.com/affaan-m/ECC/blob/07971588f8ac7a60080ba8c1b7920c9e8e733e7d/.agents/skills/eval-harness/SKILL.md",
+      "status": "Read in this session; not globally installed"
+    },
+    {
+      "repository": "wshobson/agents",
+      "path": "plugins/backend-development/skills/workflow-orchestration-patterns/SKILL.md",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "url": "https://github.com/wshobson/agents/blob/0874a27b17a22e2b7c2e2bcd725768e0803cad06/plugins/backend-development/skills/workflow-orchestration-patterns/SKILL.md",
+      "status": "Read in this session; not globally installed"
+    },
+    {
+      "repository": "wshobson/agents",
+      "path": "plugins/cicd-automation/skills/deployment-pipeline-design/SKILL.md",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "url": "https://github.com/wshobson/agents/blob/0874a27b17a22e2b7c2e2bcd725768e0803cad06/plugins/cicd-automation/skills/deployment-pipeline-design/SKILL.md",
+      "status": "Read in this session; not globally installed"
+    },
+    {
+      "repository": "wshobson/agents",
+      "path": "plugins/backend-development/skills/architecture-patterns/SKILL.md",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "url": "https://github.com/wshobson/agents/blob/0874a27b17a22e2b7c2e2bcd725768e0803cad06/plugins/backend-development/skills/architecture-patterns/SKILL.md",
+      "status": "Read in this session; not globally installed"
+    },
+    {
+      "repository": "wshobson/agents",
+      "path": "plugins/backend-development/skills/temporal-python-testing/SKILL.md",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "url": "https://github.com/wshobson/agents/blob/0874a27b17a22e2b7c2e2bcd725768e0803cad06/plugins/backend-development/skills/temporal-python-testing/SKILL.md",
+      "status": "Read in this session; not globally installed"
+    },
+    {
+      "repository": "wshobson/agents",
+      "path": "plugins/python-development/skills/python-observability/SKILL.md",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "url": "https://github.com/wshobson/agents/blob/0874a27b17a22e2b7c2e2bcd725768e0803cad06/plugins/python-development/skills/python-observability/SKILL.md",
+      "status": "Read in this session; not globally installed"
+    },
+    {
+      "repository": "mattpocock/skills",
+      "path": "skills/engineering/codebase-design/SKILL.md",
+      "commit": "5beb35b040e3de97e54fa9e386d7e42d15c295c2",
+      "status": "Read in this session; not globally installed"
+    },
+    {
+      "repository": "temporalio/skill-temporal-developer",
+      "path": "SKILL.md",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "status": "Read in this session; not globally installed"
+    }
+  ]
+}

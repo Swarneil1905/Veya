@@ -1,0 +1,11 @@
+import {readFileSync,writeFileSync,mkdirSync,readdirSync} from 'node:fs';
+const html=readFileSync('dist/index.html','utf8');
+const script=html.match(/<script[^>]+src="([^"]+)"[^>]*><\/script>/);
+const style=html.match(/<link[^>]+href="([^"]+\.css)"[^>]*>/);
+if(!script||!style)throw new Error('Built frontend assets not found.');
+const js=readFileSync(`dist${script[1]}`,'utf8').replaceAll('</script','<\\/script');
+const css=readFileSync(`dist${style[1]}`,'utf8');
+const bundled=html.replace(script[0],()=>`<script type="module">${js}</script>`).replace(style[0],()=>`<style>${css}</style>`);
+mkdirSync('preview',{recursive:true});
+writeFileSync('preview/Relay-Studio-Preview.html',bundled);
+console.log('Created self-contained desktop UI preview.');

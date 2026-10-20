@@ -1,0 +1,12 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Relay Studio",
+  "version": "0.1.0",
+  "identifier": "dev.swarneil.relaystudio",
+  "build": {"beforeDevCommand":"pnpm dev","beforeBuildCommand":"pnpm build","devUrl":"http://localhost:4317","frontendDist":"../dist"},
+  "app": {
+    "windows": [{"title":"Relay Studio — Design preview","width":1440,"height":1000,"minWidth":800,"minHeight":640}],
+    "security": {"csp":"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' ipc: http://ipc.localhost; object-src 'none'; base-uri 'self'"}
+  },
+  "bundle": {"active":true,"targets":["nsis"],"shortDescription":"Agent operations desktop prototype","category":"DeveloperTool"}
+}

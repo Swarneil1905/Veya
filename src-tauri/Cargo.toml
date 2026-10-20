@@ -1,0 +1,15 @@
+[package]
+name = "relay-studio"
+version = "0.1.0"
+description = "Relay Studio desktop design prototype"
+edition = "2021"
+license = "MIT"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+
+[features]
+custom-protocol = ["tauri/custom-protocol"]

@@ -1,0 +1,10 @@
+import {readFileSync,existsSync} from 'node:fs';
+import assert from 'node:assert/strict';
+const config=JSON.parse(readFileSync('src-tauri/tauri.conf.json','utf8'));
+assert.ok(config.app.security.csp.includes("default-src 'self'"));
+assert.ok(!config.app.security.csp.includes('unsafe-eval'));
+for(const p of ['docs/PRODUCT_PLAN.md','docs/ARCHITECTURE.md','docs/EVALUATION_PROTOCOL.md','docs/CI_CD.md','pnpm-lock.yaml'])assert.ok(existsSync(p),`Missing ${p}`);
+const source=readFileSync('src/App.tsx','utf8');
+assert.ok(source.includes('Synthetic demo data'));
+assert.ok(source.includes('No live model benchmark has been run'));
+console.log('Project contracts and demo labeling verified.');

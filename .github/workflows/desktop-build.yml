@@ -1,0 +1,40 @@
+name: Build Windows installer
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: desktop-build-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  quality:
+    uses: ./.github/workflows/quality.yml
+  package:
+    needs: quality
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+          cache: pnpm
+      - uses: dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec tauri build --bundles nsis
+      - run: node scripts/release-manifest.mjs --native
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: relay-studio-windows-unsigned-${{ github.sha }}
+          path: |
+            src-tauri/target/release/bundle/nsis/*.exe
+            artifacts/build-manifest.json
+            artifacts/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 14
+      - name: Record release boundary
+        shell: pwsh
+        run: '"Unsigned prototype installer. No GitHub Release was published and no update channel was changed." >> $env:GITHUB_STEP_SUMMARY'

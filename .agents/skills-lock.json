@@ -1,0 +1,2991 @@
+{
+  "schema_version": 1,
+  "imported_at": "2026-10-20",
+  "scope": "project-local",
+  "files": [
+    {
+      "path": ".agents/skills/frontend-design/LICENSE.txt",
+      "upstream_git_blob": "f433b1a53f5b830a205fd2df78e2b34974656c7b",
+      "repository": "anthropics/skills",
+      "commit": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
+      "source_path": "skills/frontend-design/LICENSE.txt",
+      "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+    },
+    {
+      "path": ".agents/skills/frontend-design/SKILL.md",
+      "upstream_git_blob": "a5333457c414d20d625f307df945842c0952ecc3",
+      "repository": "anthropics/skills",
+      "commit": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
+      "source_path": "skills/frontend-design/SKILL.md",
+      "sha256": "d91970639e9f5c37682ac7ab60094d35f1c7c1f38d731bd56396563aee10c1d3"
+    },
+    {
+      "path": ".agents/skills/mcp-builder/SKILL.md",
+      "upstream_git_blob": "8a1a77a47d141967b246adb4da4f91037578ff7d",
+      "repository": "anthropics/skills",
+      "commit": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
+      "source_path": "skills/mcp-builder/SKILL.md",
+      "sha256": "0f4592dcb53cf2b5d6b7febee6b4152018b565551a1c29e3c612f57b218ab295"
+    },
+    {
+      "path": ".agents/skills/mcp-builder/LICENSE.txt",
+      "upstream_git_blob": "4f881c52d1f72f4cfb720e339e2d35c3058d01a9",
+      "repository": "anthropics/skills",
+      "commit": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
+      "source_path": "skills/mcp-builder/LICENSE.txt",
+      "sha256": "bc6b3af2f331cbc7fb0da1344efb2cbe5877a31498b4d70dbc7000f3405a1362"
+    },
+    {
+      "path": ".agents/skills/mcp-builder/reference/node_mcp_server.md",
+      "upstream_git_blob": "f6e5df982adc0848bf261c47ab8d65a1e0469391",
+      "repository": "anthropics/skills",
+      "commit": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
+      "source_path": "skills/mcp-builder/reference/node_mcp_server.md",
+      "sha256": "c3ba35a4f599dd53be9c6555ae72c19a7bf412cd5426576c2c08d42755482c66"
+    },
+    {
+      "path": ".agents/skills/mcp-builder/reference/mcp_best_practices.md",
+      "upstream_git_blob": "b9d343cc3ae89b1fc139dae96bdb2b7e29ba3648",
+      "repository": "anthropics/skills",
+      "commit": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
+      "source_path": "skills/mcp-builder/reference/mcp_best_practices.md",
+      "sha256": "80fb4369a349447cf18ecdd7494fe7938b6065377e9f08c077cec411093a3007"
+    },
+    {
+      "path": ".agents/skills/mcp-builder/reference/evaluation.md",
+      "upstream_git_blob": "87e9bb78840fac113d93b4a27ab5b229a18cf226",
+      "repository": "anthropics/skills",
+      "commit": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
+      "source_path": "skills/mcp-builder/reference/evaluation.md",
+      "sha256": "8c99479f8a2d22a636c38e274537aac3610879e26f34e0709825077c4576f427"
+    },
+    {
+      "path": ".agents/skills/mcp-builder/scripts/connections.py",
+      "upstream_git_blob": "ffcd0da3fbe1539320d022017ae83b61a9587a5c",
+      "repository": "anthropics/skills",
+      "commit": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
+      "source_path": "skills/mcp-builder/scripts/connections.py",
+      "sha256": "9403668a2041568772082a8b334122c1f88daf0541fb393af4522d0094a47a6e"
+    },
+    {
+      "path": ".agents/skills/mcp-builder/reference/python_mcp_server.md",
+      "upstream_git_blob": "cf7ec996d2e6e3655bc75ff6902738d03a37334e",
+      "repository": "anthropics/skills",
+      "commit": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
+      "source_path": "skills/mcp-builder/reference/python_mcp_server.md",
+      "sha256": "2da52f77e675191014ca2e146a4b95aa04d0ca7dd7e2b100322df15ade685e80"
+    },
+    {
+      "path": ".agents/skills/mcp-builder/scripts/example_evaluation.xml",
+      "upstream_git_blob": "41e4459b5af861e61f1ca87d2f8f5ab5543dc054",
+      "repository": "anthropics/skills",
+      "commit": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
+      "source_path": "skills/mcp-builder/scripts/example_evaluation.xml",
+      "sha256": "9272b348ddcc4b06ba562367ccd0770e018158c0068ac5116d5e34aaeff8777a"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/app-interface.csv",
+      "upstream_git_blob": "95e328c807a23be02c9c32c736d0fa19109c6076",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/app-interface.csv",
+      "sha256": "331e7cf2c0b222d80c566c5f255c63cb339f65bfd02e471a720f28e4864a9f08"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/catalog-summary.json",
+      "upstream_git_blob": "f911c3ae48fac5863a5a5e210866ec5cabece164",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/catalog-summary.json",
+      "sha256": "6638da97231c07fb5cef3cd9d3ce483ca7b2f9748980f8c27490eb03968d8894"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/SKILL.md",
+      "upstream_git_blob": "41f8e2fd7f8c568228d0b55186ebe3f7b4007377",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/SKILL.md",
+      "sha256": "ea087c341bfb5b23195c7302027268ede86da802554c18a5c4896a6017b439f9"
+    },
+    {
+      "path": ".agents/skills/mcp-builder/scripts/requirements.txt",
+      "upstream_git_blob": "e73e5d1e356edafadb9dc9243e6f300f2c5529b3",
+      "repository": "anthropics/skills",
+      "commit": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
+      "source_path": "skills/mcp-builder/scripts/requirements.txt",
+      "sha256": "d5d7558b2368ecea9dfeed7d1fbc71ee9e0750bebd1282faa527d528a344c3c7"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/charts.csv",
+      "upstream_git_blob": "c6f4f875fd5b34379f24dbb541539492366a1058",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/charts.csv",
+      "sha256": "4115cf1120680f2cedef0676cb648f30c7ef4699e2a947535d4113e71ed3b12a"
+    },
+    {
+      "path": ".agents/skills/mcp-builder/scripts/evaluation.py",
+      "upstream_git_blob": "41778569c45a458e0eea839b8917692ad65be2d5",
+      "repository": "anthropics/skills",
+      "commit": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
+      "source_path": "skills/mcp-builder/scripts/evaluation.py",
+      "sha256": "49ed1d17cdce5da101b210197740713f49b935c29d4f339542a14b132658e6f7"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/colors.csv",
+      "upstream_git_blob": "5d2bf7389105f8a824b504b57cc93c00dc1d7e0a",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/colors.csv",
+      "sha256": "8162429222bce22df62b564085946a30d07cc9722c58d0a3a494bd0d1d00841c"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/data-provenance.json",
+      "upstream_git_blob": "e41d2e553bdc7e5a8e6d16f5daab565faf372188",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/data-provenance.json",
+      "sha256": "e82fb33ed49375a300e93d9c11ccd1c1493c999e84ee7ee295e527634786e2e0"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/icons.csv",
+      "upstream_git_blob": "cfc3f1eccd7e5aee15d8d70f86d8fa17ba737958",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/icons.csv",
+      "sha256": "50816c6012030178195a16ee481ebf58b47bd985d70e8ec58886cc83f6eddafc"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/landing.csv",
+      "upstream_git_blob": "34858160aa2789c49dca274d48bb116d51dd3f0a",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/landing.csv",
+      "sha256": "9a2edd3bb676c2a58f00ade7a062e285222d4297bfd847c8d5b056f0dbbf52d0"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/google-fonts.csv",
+      "upstream_git_blob": "d7f87e3e0159b1caba083b9954793d9852256aa0",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/google-fonts.csv",
+      "sha256": "1c8c3b2ea1faf6a1012da463756def8b3889db33f2226f0343bb4daa80307d03"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/google-font-licenses.json",
+      "upstream_git_blob": "3ac2c34e80665bc902e265c52ab6c27b1654524c",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/google-font-licenses.json",
+      "sha256": "35688523f2955795caa1a47c53b83099e60c1708461476f9cc3a050cf3b0148a"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/motion.csv",
+      "upstream_git_blob": "8e0ca9ceb0e4cd4832aee60ac74713e1e1830de8",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/motion.csv",
+      "sha256": "381affe8df8ea1f66fbbda2598827f9f54299107bbe6a1b4e9b68f6b62091ceb"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/phosphor-icons-upstream.json",
+      "upstream_git_blob": "ec1d76b8117ccbfdce5df214bf0d993e41a75318",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/phosphor-icons-upstream.json",
+      "sha256": "2399325233b277b5c97a80e6a5e8941154f5d057beee4e7613db87c87d700236"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/products.csv",
+      "upstream_git_blob": "9f40f1d1f9743c4a81603076dfbfd115bbb55246",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/products.csv",
+      "sha256": "42473f75e8dde5987bdf89ce55d8c168091b80a356cae691dd60247d80720b70"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/react-performance.csv",
+      "upstream_git_blob": "425a8e76c6b3bae40e8c633ffbf7ad6222c9f73a",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/react-performance.csv",
+      "sha256": "3d925802539abac5afeb63ae8aa1960b7229ad271b3a47caed40ab2d97ad0734"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/stacks/angular.csv",
+      "upstream_git_blob": "5a1878dbee2b3c55c6468cbb18699b84d1a8c4d2",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/stacks/angular.csv",
+      "sha256": "704be83f2bad30c7e6de01afb113ffa01e0c458762f48b7102f31ba2367b5553"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/stacks/flutter.csv",
+      "upstream_git_blob": "731805c4076bd9f2755ca4bd7def5be6f6df7e9c",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/stacks/flutter.csv",
+      "sha256": "64dba0ac17349f28bce517a0f5f48c54d9ed2e487ec0c0258303463b382f41a0"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/stacks/astro.csv",
+      "upstream_git_blob": "1fd2492420b20a0b311295ab883597fadb8245a6",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/stacks/astro.csv",
+      "sha256": "2c2f55fadaafc05e04cc321c8194a1a28b656e6757fe2ba316f41b16428299c6"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/stacks/html-tailwind.csv",
+      "upstream_git_blob": "9089eb0fc821ff0c8d135f8ee503be345e8fcb84",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/stacks/html-tailwind.csv",
+      "sha256": "d05a581d20af57b8ca0104a6d31d90a07c437d500662a96c3029fc2f9a4678ee"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/stacks/javafx.csv",
+      "upstream_git_blob": "744bd80f437f12bfb5bb9c84630a58022604675a",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/stacks/javafx.csv",
+      "sha256": "2e819b8d5abdd23ad4dae0991650fdb57af497aabd68b37463aa9c442944c869"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/stacks/jetpack-compose.csv",
+      "upstream_git_blob": "8daa0b8f9a2ca3f0f1711664d9d677cd1c38dd9e",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/stacks/jetpack-compose.csv",
+      "sha256": "699de218b286948eaec7d15767b6e1350ee299167e49bf476d82e3ff58724e0a"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/stacks/laravel.csv",
+      "upstream_git_blob": "ed11b0fba457e02857f996d1542fb0b8e1271756",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/stacks/laravel.csv",
+      "sha256": "854ea4daa5fc61292d22235ad33b49ba3fe22423c3de8d3cb03758ffed3b59f9"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/stacks/avalonia.csv",
+      "upstream_git_blob": "c67f4117105865587eda9020c57d8c209f3a929a",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/stacks/avalonia.csv",
+      "sha256": "442fca14675a020683473e7e49f08abb27b9df0765c80efe54aef61f1a4ac258"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/stacks/nextjs.csv",
+      "upstream_git_blob": "acdaf097dff26ba0d3b22ab4544bf6169c87afd4",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/stacks/nextjs.csv",
+      "sha256": "ecd2c27b2ea0127d203ae726060efcdd7335b5e83f96b99e4f3befbbfeebd5a4"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/stacks/nuxtjs.csv",
+      "upstream_git_blob": "ceab9cf3358d2788af0bd7dc14cb3fab769740d0",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/stacks/nuxtjs.csv",
+      "sha256": "3d9b54ed2d151bd9c86e9e5609b8a6f88a00c4c52fa601a30af96c49b2c4d176"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/stacks/nuxt-ui.csv",
+      "upstream_git_blob": "e2aaeca45faa8b987bf94010162b14d458811dde",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/stacks/nuxt-ui.csv",
+      "sha256": "fce682a338cfcdbf35d318d20e5befbe7b5d81b05abc37f87677a6d9cde84dc6"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/stacks/react.csv",
+      "upstream_git_blob": "fe8f001e695a978733449e04e99d7135af0f1bf3",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/stacks/react.csv",
+      "sha256": "4dd176a9787e5c6306b5df94158d75955adcdc6edab41ce5286641a5842303c1"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/stacks/shadcn.csv",
+      "upstream_git_blob": "0e8bedf3084e7a40d6310bcd3011c437efcb1700",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/stacks/shadcn.csv",
+      "sha256": "e56cfde5b74907836ac3582a4779d5b7f3d206a702ab81b8669a1b668c3eeb51"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/stacks/swiftui.csv",
+      "upstream_git_blob": "ea9b95e8922e663b2adf27a7346e2c2f44c7a215",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/stacks/swiftui.csv",
+      "sha256": "bdd9231ff3ad658f4e7c063e1eb49df2fd09ac8d90631a86df899b39833b9623"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/stacks/svelte.csv",
+      "upstream_git_blob": "51684fe70448e15333cd16207db7da8aea0508e6",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/stacks/svelte.csv",
+      "sha256": "f6e379ba802941ba26b01d4ffbe3cd39120f2587659a1d93851c707f66bc13db"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/stacks/react-native.csv",
+      "upstream_git_blob": "a5aea45dc1d0341b11ee42076a86db842d4d2a19",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/stacks/react-native.csv",
+      "sha256": "ba31dd9c0c04da6bc02a74448bf121f9c0728ae5ba3b4d47b487778b0a1135b5"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/stacks/threejs.csv",
+      "upstream_git_blob": "f62286320038beabbdc5e11e07ca2818d8e959a4",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/stacks/threejs.csv",
+      "sha256": "155d583b9c64da0df4b6c6cb060c02eab222505e0734d6353da02c9e2b5d982b"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/stacks/uno.csv",
+      "upstream_git_blob": "9cab32326b4ad3a3cf43451a3c24553a41126cc1",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/stacks/uno.csv",
+      "sha256": "a0474363e4225b5367214d5675fd3e075f137026f9500f0d04357882ef4f6d48"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/stacks/wpf.csv",
+      "upstream_git_blob": "4e88d6750833a74f85ba487cf2b8f4ff6ebd2f4a",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/stacks/wpf.csv",
+      "sha256": "9781a9950b20333637b30a02e498b7efca21b618a3eeb8665836f3ac6e974da7"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/stacks/winui.csv",
+      "upstream_git_blob": "107ecead11728a83ec0ea10d815a9d1f43a35792",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/stacks/winui.csv",
+      "sha256": "e676dc1c13ee6c205c40b0746f1335150a346c7a49a0616d2545bc3d2c930c85"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/ui-reasoning.csv",
+      "upstream_git_blob": "8931d4c809f8e22ddac00ce612ce0c35f34a59b6",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/ui-reasoning.csv",
+      "sha256": "f0774dd741cecdad5eec842034bd6d5e9ea50e9f220a1910069748daa0bb8e9a"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/typography.csv",
+      "upstream_git_blob": "70d107d107de30150863c965767320ec33ef29ad",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/typography.csv",
+      "sha256": "321fc446e89024488ebae96dda93efc4d2307bd8bddb240857ad51364f6782c8"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/stacks/vue.csv",
+      "upstream_git_blob": "83997c515775170f22b638635aae0a67a46dfc87",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/stacks/vue.csv",
+      "sha256": "b655f1ebb9dff2652d15981f31b1784c8a6d4759efd2815a14f3088257569f95"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/styles.csv",
+      "upstream_git_blob": "d1eb2c216e453005ffa8232ffb94491c183afe3c",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/styles.csv",
+      "sha256": "a93a4d9d7025856575d7b7583bda020be9043013432c5af7c58af9dbdfb206b7"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/ux-guidelines.csv",
+      "upstream_git_blob": "4e7d52b296537a03513b18b2c3f2b946cc802051",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/ux-guidelines.csv",
+      "sha256": "ff81ec613f70ba9fc3fcce52dbe4ae35d44b2079dbe6dc066d2d6e38c28facd5"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/references/pro-rules.md",
+      "upstream_git_blob": "b2ce233287e37ec9ca13476c4014b922e9d5a0e9",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/references/pro-rules.md",
+      "sha256": "d28442d61c310b49c054a4ea736f89fb3008beebdbbc38c4b3a540b8f7fadf23"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/references/quick-reference.md",
+      "upstream_git_blob": "7acc7e7540ca6981d878a90aae4455c1638e2385",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/references/quick-reference.md",
+      "sha256": "0609bc7c89dacb40472465d8fc14257b56b2c43439660fc8d6fa3b8c022e1876"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/core.py",
+      "upstream_git_blob": "670fe33070cfe706401da4ff276831257dbf1e25",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/core.py",
+      "sha256": "c3be4b23e7150e6b45095213158cfa3c8ad96502f01dde3f6ffff9de64a4f481"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/data/stacks/uwp.csv",
+      "upstream_git_blob": "04a84ea092a7657fef11e5daa97982be52dc6f59",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/data/stacks/uwp.csv",
+      "sha256": "c409f08c1fbba1f1029f1acaa554e7b4471cc85517a5751c9f2e62465badcd5c"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/search.py",
+      "upstream_git_blob": "5038aa875a0d39f24dea803a4c73b38f8f56915f",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/search.py",
+      "sha256": "d54e648fe0ec2932cac66684220cc17be4bd4b4eba1d23d3195d509d398db374"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/reasoning_contract.py",
+      "upstream_git_blob": "63652a666b130c249ea1e2954316f1ac8a5a73d5",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/reasoning_contract.py",
+      "sha256": "b8bac1af82aa280d3e06f00aabaeac4337e632996b07fed874e2b6ee6e9c5913"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/design_system.py",
+      "upstream_git_blob": "d5fe1575f00d839f919603bd09b44fe7e9def4fb",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/design_system.py",
+      "sha256": "e7d1c94c4b2eada17c5551157668362659ccf9626d34dbd58e68142410f90103"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-api.json",
+      "upstream_git_blob": "eacf1bb4559875808247df711376e8cc47c4f7c4",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-api.json",
+      "sha256": "22d8dc81a7d6827b7e8b64b53e7d184210fb9759e8e294e0d5133c81cc460176"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-catalog.json",
+      "upstream_git_blob": "4eb89d4d3312b670ef70d44563bf2ffd5cf814bb",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-catalog.json",
+      "sha256": "c608ad5c4084ebc50a4bbbfb69ea2456c01fd5519c457e18410fffd250ae948f"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-metadata.json",
+      "upstream_git_blob": "43edcbec14c4a5e68d373eda8466c235f2ee7e9b",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-metadata.json",
+      "sha256": "30bffc29ae348416a2de2f9c6c418e768e4578f136b0f4bac5d2f70124f2e9ba"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-existing.csv",
+      "upstream_git_blob": "83279e0f218e9725b8a14486a558fa10ff134949",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-existing.csv",
+      "sha256": "4e0761b839dc6b2187a370e82eddc0aed8a7ff10c09e28dd814bb3656dac595b"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-overrides.json",
+      "upstream_git_blob": "162fd1830b08dc1a7b8b891f92f16dbb8b7015f2",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-overrides.json",
+      "sha256": "6243a48a4619986768c4628e2d0c98ff195beba71ba9be5df8f0c52fc6d90c0b"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/phosphor-core.json",
+      "upstream_git_blob": "be0edd337f2c731af41b8a745d37089172c5dc60",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/phosphor-core.json",
+      "sha256": "ae4d0bb076240824e1b643c2270d1f8cc0952a69502ec1e622b7dedd85b930bb"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/icons-curated.csv",
+      "upstream_git_blob": "3171bfc7a0a6b3b36745b4f7f0c7743f0afad953",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/icons-curated.csv",
+      "sha256": "68362c9a700c13b96f000784a0198c1c7e117a7088a01c85744e44233038fe9d"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/phosphor-package.json",
+      "upstream_git_blob": "ad9e6ef4b835e65a6c0bd0ad9d11f0517fd718c1",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/phosphor-package.json",
+      "sha256": "500588c757d6de03e3d7e69b27a8b8b1f88ccf6bb0333e4c1e9b0d6a4f112475"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/phosphor-react-exports.json",
+      "upstream_git_blob": "4a0b4587ce9876acac1904831ea774bbf8c69edf",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/phosphor-react-exports.json",
+      "sha256": "d79f2ee0afdbc2f87776733e145df3538a16a25d7c2fba0056bb48295dad0ded"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/relevance-baseline.json",
+      "upstream_git_blob": "0894a44cc154a01d3b2d624a66c30e7ac3e1a3d5",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/fixtures/relevance-baseline.json",
+      "sha256": "0df200fc54c1cb97a52d6775e7f501509163cea8f8b73fd7268429bc1f835afe"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/phosphor-react-package.json",
+      "upstream_git_blob": "a0db183da61e63f3a8f9e3fbfba7405144f41c1e",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/phosphor-react-package.json",
+      "sha256": "1c57a1d76bcc0cdd3632d4c18b9c0e79576b4591df39831c9607e5d0eb4f2cec"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/test_catalog_summary_line_endings.py",
+      "upstream_git_blob": "056c8e5e7d8ba69c87c31c8ad7bcd32ca3d7223c",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/test_catalog_summary_line_endings.py",
+      "sha256": "fa6ff09f0ec2c99013588c77397f5082dddebe8f467e94c5f8378ec9595f4989"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/test_catalog_refresh.py",
+      "upstream_git_blob": "8379cc3a224bb9f3dca2a3ebd561cd92b7e05ae4",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/test_catalog_refresh.py",
+      "sha256": "3e2ca5d12702318f641ae62d0c14f22a3bcc84d84e79b863c0e947d475604adb"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/relevance-thresholds.json",
+      "upstream_git_blob": "1f90e9891fa96bcf9f27db54bcc4bc1eb41328a7",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/fixtures/relevance-thresholds.json",
+      "sha256": "1fbe8623fe3e49c8d828139bca9df69043746e488e8bf09d93dfb9cbc31f5cef"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/fixtures/relevance-cases.json",
+      "upstream_git_blob": "a1fbb87835bda252ba8ae7f15e7090cee580cb42",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/fixtures/relevance-cases.json",
+      "sha256": "e77d36eebbf6ddc2860946a02cdb659351da6c09f2688f1ed30939a418099646"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "upstream_git_blob": "b30c0ae54c25f38ec91b37a56cda04426b2510a9",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/test_core.py",
+      "sha256": "3527fe2f4b852f69f07c17ddc0d615d9a6e025c924e45a33985579a94a8d2118"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "upstream_git_blob": "44c80c1caa159058a7a5858284ea269bcb561449",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py",
+      "sha256": "95ad2c154349f7021f55a558f8dcdd71df1a24fcf531a4364a8e49526a0865ef"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "upstream_git_blob": "312dc383b3f6548d7200e928c192673a907b5016",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py",
+      "sha256": "0360d6e10080c0bca214f2b0bbad582ba50702a542ce21013351aca54938df3a"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/test_core_data_quality.py",
+      "upstream_git_blob": "6d36c79b1f9f8c68c4b02f86a09c5e5f9ba410fe",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/test_core_data_quality.py",
+      "sha256": "3ffc6b4905c9ea26d7ac4527ab154d153584231aee71b2ae4bd017977fa09cc5"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/test_design_system_stack.py",
+      "upstream_git_blob": "50f0080300b56f4891014d878edddb781b36d7de",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/test_design_system_stack.py",
+      "sha256": "83d09ffe8cfbf7b265f362129f061dfe8e5e167ce5db43adaead197cabc9ca38"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/test_style_taxonomy.py",
+      "upstream_git_blob": "09ec131ea6d609e21aaf81327a2e3ffe1ea59d4c",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/test_style_taxonomy.py",
+      "sha256": "cd14d0092e8a454d213aa104b53e4e70ba698491fa00fde9fdec5ca8a3d70011"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/test_native_desktop_stack_freshness.py",
+      "upstream_git_blob": "79e07f4f5f9c88025506cb3d7bb5aad01dbbd339",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/test_native_desktop_stack_freshness.py",
+      "sha256": "3942845712b9a829323cd3568511483135f2a8c7cd79ccf61679da4b0f624dbb"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/test_skill_script_paths.py",
+      "upstream_git_blob": "36514964d7ea6edcadc169e0d713c18b1cc0bb09",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/test_skill_script_paths.py",
+      "sha256": "7cec24b94be771bc60bc84f8993e614bb16d4047930e1dd3d3bed91628311d44"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/test_relevance_evaluator.py",
+      "upstream_git_blob": "ed158e2d4e39a342090b29435dee25bcf5c4444f",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/test_relevance_evaluator.py",
+      "sha256": "2fe56a4d6fe5fff15ff592274b0eeaba925146cefea6c0fa29d8f1b77c9aca1f"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/test_web_stack_freshness.py",
+      "upstream_git_blob": "a54b0eaaa564fc4e0390537b268eaca46d36d5bd",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/test_web_stack_freshness.py",
+      "sha256": "74897571398585f27e2c35d09d81b0a531c8c774f4a2967e5e1b1d1b05a483d9"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
+      "upstream_git_blob": "8db3b873f958b93906abb8f4e4d6ef75a344c76e",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py",
+      "sha256": "b51d32ee8a15505b87cb81957fb2d1b385e041e8beb4463c311d236bfd29ebd4"
+    },
+    {
+      "path": ".agents/skills/ui-ux-pro-max/scripts/validate_data.py",
+      "upstream_git_blob": "8b6c7941f6ad3e51cb9d412b11185133e7763001",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": ".claude/skills/ui-ux-pro-max/scripts/validate_data.py",
+      "sha256": "a599aa256049cf30954d1f164721b99e453eb7e4cb8241bcab2d5573e6cf58b8"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/SKILL.md",
+      "upstream_git_blob": "237988de4a66dd8a71d30a2c24ebe1a86b58d04e",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/SKILL.md",
+      "sha256": "71ed7794962fa6e803ee83030517b5b93a9f70fbfeb431ec4535c5480a8d8355"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/README.md",
+      "upstream_git_blob": "f283e1c0c21c5b13c848452528c3949ff544846c",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/README.md",
+      "sha256": "9eafb2123d3b8b2aef41fba0db2648a3f4f49996f8c7c8bb2c86263befd8b48a"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/AGENTS.md",
+      "upstream_git_blob": "4e340a50684a8e7811d5bfa4df48bd9989d0fd87",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/AGENTS.md",
+      "sha256": "fc93e7421177bbf869cce892bc60a6c83a4517d974bc3bf65c4e2c1e58a6ccf6"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/_sections.md",
+      "upstream_git_blob": "4d20c144bc3b9265fc5976c704a8dd60ed3a806a",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/_sections.md",
+      "sha256": "01c59969e4e867f0708c8f8ef9c6d87fab9a07d0586244f429ff84013db8a115"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/metadata.json",
+      "upstream_git_blob": "3bec38b176cc71d105895ec4678bbe79305dcb4c",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/metadata.json",
+      "sha256": "c4e18bac3290fbe1b471a605867d4df68b03144ea26b8befdbe8f9d8fd124354"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/_template.md",
+      "upstream_git_blob": "1e9e70703485021e0b969f5731f38c8b9f8694db",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/_template.md",
+      "sha256": "99df2a3ea088c6c22de2484ddc7e964d0e9923846f44c63380343ecc64455442"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/advanced-event-handler-refs.md",
+      "upstream_git_blob": "97e7ade243aa6dae50d6faa5111dea0d04778ead",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/advanced-event-handler-refs.md",
+      "sha256": "a3097edeecfb2ff6851cd66ed8cdf0617c3c88180504bee824aa6e75a215bbbc"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/advanced-init-once.md",
+      "upstream_git_blob": "73ee38e5e74c0afa28cb730afe3275479432092a",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/advanced-init-once.md",
+      "sha256": "3e4dc22173eb0e2b6dcf583e3babd862b8696328f8f59aee7c4d746c5bc05f6c"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/advanced-effect-event-deps.md",
+      "upstream_git_blob": "24d901b62be66f6088eb1de5b262e67f5c337d57",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/advanced-effect-event-deps.md",
+      "sha256": "55ed8f9f27a1bff803d6fa55828176207714b02123cbb97ddb8a90d88024a723"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/advanced-use-latest.md",
+      "upstream_git_blob": "9c7cb501693d4a9521697f13dbd5906dd99f0257",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/advanced-use-latest.md",
+      "sha256": "8a3f64dfe5a77d1564248faf17fe662ae75b55d497a243cb30b38eb07ccbbf9a"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/async-cheap-condition-before-await.md",
+      "upstream_git_blob": "5799d7f6ee6e9d70422048ab0cae06ca021d22b2",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/async-cheap-condition-before-await.md",
+      "sha256": "03107c1f70a293cd58a8abc5474c5548e20ea4efdf01b6d45aae7ad0ac1cb32c"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/async-api-routes.md",
+      "upstream_git_blob": "6feda1ef0ac06b57b33c7b5bd6a19ca88d6c8a34",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/async-api-routes.md",
+      "sha256": "523338540d73427dc14c0cbb19f2741ebccdf8b105a7b2c1b33d2905cf237a42"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/async-defer-await.md",
+      "upstream_git_blob": "460b5e16baf9c66f85e4169eb9d43e4d07f2ce94",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/async-defer-await.md",
+      "sha256": "f3c142d090615abdcc99d31c123be37b31f0f1ed8d9ec9f7789a3bc6883ae0fb"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/async-dependencies.md",
+      "upstream_git_blob": "0484ebab993f3db78277e8731872473d02475e6d",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/async-dependencies.md",
+      "sha256": "16ef469f877e30c6b8e1e1b4bc3e527312fa3c6318cb785a4eca186ea236131a"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/async-parallel.md",
+      "upstream_git_blob": "64133f6c31fec81eaaabd712586337d20122e09f",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/async-parallel.md",
+      "sha256": "6d2f841896279e976dfcdc1ac89e70771ac188baadfd43c096b5706cb838b961"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/bundle-analyzable-paths.md",
+      "upstream_git_blob": "8276f156cf1aa8a611bd5bc3cadcb362e16ccd13",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/bundle-analyzable-paths.md",
+      "sha256": "62090b5c815fd71bf1133dce754f51abc16a9456d0ccd025fd627de27726e92a"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/async-suspense-boundaries.md",
+      "upstream_git_blob": "1fbc05b04ed2474637b12014a77688750e78f931",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/async-suspense-boundaries.md",
+      "sha256": "de05fedac2eb7ae563b887b5a424464ec3dfaf84e5b7797467ebe2a796ac8afc"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/bundle-barrel-imports.md",
+      "upstream_git_blob": "22d1050196671b7bc9f9aaf88cc665ba6fa8deb0",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/bundle-barrel-imports.md",
+      "sha256": "e648f6d54525f07a691357040ca5bff6ea3424788a91ff63812adb29622a671b"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/bundle-defer-third-party.md",
+      "upstream_git_blob": "db041d1510e51defeade05926ba4e6bbad1068b5",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/bundle-defer-third-party.md",
+      "sha256": "3719fb47b191e8db4fe22686ec88448ad5af9e6838585425abbe103d0b642e37"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/bundle-conditional.md",
+      "upstream_git_blob": "99d6fc90e31d683d2b6b71353b92d620b484b644",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/bundle-conditional.md",
+      "sha256": "09c8259c3efb04fc0abb8e412ccbda217c222ae8118516283e571c995fe3a7d4"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/bundle-dynamic-imports.md",
+      "upstream_git_blob": "60b62695e7a080e2020ff2242d8d841c5e3ecbc4",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/bundle-dynamic-imports.md",
+      "sha256": "401817a7369f315fc5a68a1095742ff7d53d0461906880dc9d64a41495ee1986"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/bundle-preload.md",
+      "upstream_git_blob": "7000504065472628ae614786a3faadd23b0435a7",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/bundle-preload.md",
+      "sha256": "d1f7cc28da7cd5ab249acd287edc5b761afcfb194e9cb62cd44c5f3543db2de2"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/client-localstorage-schema.md",
+      "upstream_git_blob": "d30a1a7d4f85b0d50a0808eaa1b382c6deb595f4",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/client-localstorage-schema.md",
+      "sha256": "0fb7cdf9dc93fdf22f87e3669f953fb9d4ac9b0be42eec4a29fe9a2560610b88"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/client-swr-dedup.md",
+      "upstream_git_blob": "2a430f27fd6abdc1b1b2f809b7a60114ff506790",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/client-swr-dedup.md",
+      "sha256": "644652c39c6cc00de8d1c77a7273612e868dc3f7edda30764164c12ec0f764a3"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/client-event-listeners.md",
+      "upstream_git_blob": "aad4ae91605d715aad8e92b76bd7fb85c91d7cdf",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/client-event-listeners.md",
+      "sha256": "242a873349febc1ce685e85617994784dbab92c2eaa68aed7fed5a83e7680e93"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-cache-function-results.md",
+      "upstream_git_blob": "180f8ac8fffd7e6ee320242d59d06565d40a12f8",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/js-cache-function-results.md",
+      "sha256": "3daaa11d24f4295cb6be8bc6f407f2ce83cc7b5bd1f0e68891ea8ab835721dc7"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-batch-dom-css.md",
+      "upstream_git_blob": "a62d84ed8149b6d4f173debc7043af03f8f8dd06",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/js-batch-dom-css.md",
+      "sha256": "480b891b9eaf96e929dc1e964274a4828e3a78009b7d00ccd965a0d425215959"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/client-passive-event-listeners.md",
+      "upstream_git_blob": "ce39a889efb4452ec4c044555ff818301dcf7ece",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/client-passive-event-listeners.md",
+      "sha256": "1f35016f9053de69e884ee9be00654e37979c2ca85f5e57764dc2626ff7acb4b"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-cache-property-access.md",
+      "upstream_git_blob": "39eec9061b4ca820150cc8183fb73f9e0c91ce85",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/js-cache-property-access.md",
+      "sha256": "73e47431e74878a927061bf0ddc7cd91a7556cb35d2573f3421e82300d9ae311"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-combine-iterations.md",
+      "upstream_git_blob": "044d017ec3b24b53e46d638acd1d936a22ac6323",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/js-combine-iterations.md",
+      "sha256": "71add08aeeb43091d4ff4c0b2842cce8b4bdef8ad3e732cc034bb5a84827e746"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-cache-storage.md",
+      "upstream_git_blob": "aa4a30c08176aabd27b41fa44d5c1981457b675f",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/js-cache-storage.md",
+      "sha256": "11b826b0433898c1ece2d3547010d8e77db9fb240185748c45db91493de9b6cc"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-flatmap-filter.md",
+      "upstream_git_blob": "ee0edf0da256eb8b62c5a998c768c51eb520e8cd",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/js-flatmap-filter.md",
+      "sha256": "9e5b166a41914d975bef7635467f8fb32cd98b5c3126c0bc6f163490812fb5f0"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-early-exit.md",
+      "upstream_git_blob": "f46cb89c6cbe06e481aba0136848e3b17263ba96",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/js-early-exit.md",
+      "sha256": "925ce5ce87f3347186ca62212f29cc6baa2b8c85a96d2720ad07c3d0abf781c0"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-index-maps.md",
+      "upstream_git_blob": "9d357a00b15ac67cdd638886f5197a13173a637d",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/js-index-maps.md",
+      "sha256": "5df1bdc2cfabb2c98abd55d26762e5c18189535c2e686184f426082e62920391"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-hoist-regexp.md",
+      "upstream_git_blob": "dae3fefdc0a1db66badcd4875489715edcdb038b",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/js-hoist-regexp.md",
+      "sha256": "f9e9aef2f7c2307dd7310f283df85dcada45fc43e9bb941b0c3aa414dec21ec4"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-length-check-first.md",
+      "upstream_git_blob": "8b89573630fdc3aa10564273f390ecc7e2b1cd3e",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/js-length-check-first.md",
+      "sha256": "8b54a311c826b299272f29187fc58bc55772a04c4a72eeb29456ee96dc9fc624"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-min-max-loop.md",
+      "upstream_git_blob": "4b6656e96aecf3ae6ade52974090ae8b3e3f2bb5",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/js-min-max-loop.md",
+      "sha256": "87dfb67e2f39df6ad8bcfb5b78c5fb364d3c07554ad188a202408d99f3763421"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rendering-activity.md",
+      "upstream_git_blob": "c957a490b7c2688542766150741e85e066539251",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rendering-activity.md",
+      "sha256": "1e5e7eaf3555e61d6a2e900089c676527d26259501db5594f59544b6c664f85a"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-set-map-lookups.md",
+      "upstream_git_blob": "680a4892ee291c432bf8e769a44d0f1eb102b74b",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/js-set-map-lookups.md",
+      "sha256": "a7fd781a6ba9ad49065961b6f9a90ef486bf6b648390e1a08704025f98e1642b"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-tosorted-immutable.md",
+      "upstream_git_blob": "eae8b3f8aed2c7a893ceaae4cab55fa1c444b309",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/js-tosorted-immutable.md",
+      "sha256": "d0a5e1b0fec48a0a81397957e2f068e224329f7c42cb5feeed8aae6fa64025e8"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rendering-conditional-render.md",
+      "upstream_git_blob": "7e866f5852dac80e0822e7f7c33476f5c9fc22f1",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rendering-conditional-render.md",
+      "sha256": "2ec2fa23c4148285144687050c52369adba3da2fbe3d486f8d3e0aad8f06f2bc"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rendering-content-visibility.md",
+      "upstream_git_blob": "aa6656362b2c0dad9ffea788b5850843d6c0629e",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rendering-content-visibility.md",
+      "sha256": "64eee6d5b916fe74df33363994b27fc7f71bea3bcedc7ee04bda23107ca3e6e4"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rendering-animate-svg-wrapper.md",
+      "upstream_git_blob": "646744cbe53b213c6fa5ead54ef107510e5be89d",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rendering-animate-svg-wrapper.md",
+      "sha256": "9c6ae0ca7a51434e803887c64cded760956579a1452ccb80a461a03f9c937c77"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/js-request-idle-callback.md",
+      "upstream_git_blob": "d81927e5f0ddb9fa4eece79197728bfc4382cbfe",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/js-request-idle-callback.md",
+      "sha256": "ee08f83905b4011abbc33d594033157d77561b5bbd9b36b04f0f409581ffec32"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rendering-hoist-jsx.md",
+      "upstream_git_blob": "32d2f3fcea53dadcf847231ee20c60fa2c5c3049",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rendering-hoist-jsx.md",
+      "sha256": "93b229560fae92005ed9a2a829064607b39b2e984e92d221d05b2d41df2b7c0e"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rendering-script-defer-async.md",
+      "upstream_git_blob": "ee275ed1c06da8f1ae70e744e47965799eaebf02",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rendering-script-defer-async.md",
+      "sha256": "4cea07b7875ba7fc2c7465ff23b63a2bb334f90aaf2d9293d38d67b05fdb32ab"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rendering-hydration-suppress-warning.md",
+      "upstream_git_blob": "24ba2513a29f5259b3184695d2d4da25e03e42ac",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rendering-hydration-suppress-warning.md",
+      "sha256": "915bacb934e2927d84b37a3f3d225a47b309ac8f9e494ed2bcb66ce07c5676a2"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rendering-resource-hints.md",
+      "upstream_git_blob": "1290bef06baf459f85dc5856ffc4486951224a48",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rendering-resource-hints.md",
+      "sha256": "351b1095d641717b930f1b2253282b7120af3023bc74e06c17675168d4286864"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rendering-hydration-no-flicker.md",
+      "upstream_git_blob": "5cf0e79b69afd7564b965c09435a2c7ee79eb2bd",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rendering-hydration-no-flicker.md",
+      "sha256": "dc7ab358c67c177bca6e6f360fbc935ebe4efa928c0ba3ebd3f9f3d9e2000ca3"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rendering-usetransition-loading.md",
+      "upstream_git_blob": "0c1b0b98e884d2c77bdec66df754693bd48c7777",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rendering-usetransition-loading.md",
+      "sha256": "3a1249c3f13026b6f54ab5712c388df219d6af01b12aa542749acd99a46f4bc1"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-defer-reads.md",
+      "upstream_git_blob": "e867c95f02fe6ed6ac2f91fdf1c0922304e0423a",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rerender-defer-reads.md",
+      "sha256": "234050a77faf50cb306be10a9e15bd4421134ab5907e75f13e6d78e2bd262dc9"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rendering-svg-precision.md",
+      "upstream_git_blob": "6d7712860365294936a1b736d29d3eb970b91da7",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rendering-svg-precision.md",
+      "sha256": "ed468533f6e95f622859c884b122cf21f9f593ed6bb3d500a54de4b9f9bcb9fb"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-dependencies.md",
+      "upstream_git_blob": "47a4d92685702e3a3b07073c62a61800fa0a6d7d",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rerender-dependencies.md",
+      "sha256": "17eb5830956fb56486fd3cfc7431f5849d39751730c05ad9e77dd4f0c27169c5"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-derived-state.md",
+      "upstream_git_blob": "e5c899f6c073338bbd1b73c0275bc3e5e7d9ae7b",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rerender-derived-state.md",
+      "sha256": "1c326bb67b01fb084eb00c8911b0a7cff54681c2315b629f88e49b64eaa6481d"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-derived-state-no-effect.md",
+      "upstream_git_blob": "3d9fe4050794ea6655add6bee50cfbc104e5dc31",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rerender-derived-state-no-effect.md",
+      "sha256": "cb11ec76f50aa7b6847269f02d79b120c889a30d9ecd2c1d578f75144419c77a"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-memo.md",
+      "upstream_git_blob": "f8982ab612105a3b7faee1292b797338e7fb5271",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rerender-memo.md",
+      "sha256": "1f258990c2f27ff6256b3cc5c43300631bb3f0d81f749aed08d07fcdcc131dd1"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-functional-setstate.md",
+      "upstream_git_blob": "b004ef45e347503947fee397b6c3d163b0a317fb",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rerender-functional-setstate.md",
+      "sha256": "5e68df6b2ae8058e67f476ff1ac67bde159f5a9d18df439e46eabcdeb7b52e58"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-lazy-state-init.md",
+      "upstream_git_blob": "4ecb350fbadff3db805b72429276e672d42736dc",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rerender-lazy-state-init.md",
+      "sha256": "4ae844740f266fc8cbf050701230286624a2440ec5be67b9a63d9edc3c580573"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-move-effect-to-event.md",
+      "upstream_git_blob": "dd58a1af091b3cf5cb271d25904af4feb836d1aa",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rerender-move-effect-to-event.md",
+      "sha256": "abc2cbf167bee056743023351e96806a411d3398da8802093620aecf0721f029"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-memo-with-default-value.md",
+      "upstream_git_blob": "63570491848cb42c2bc7073bceb754893a6a4cfa",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rerender-memo-with-default-value.md",
+      "sha256": "81c47476564ad8a79fc68fc442734255ca7d6829424359464503fda0a9f9a0dd"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-no-inline-components.md",
+      "upstream_git_blob": "d97592acefced05bc4a8538c77d226fa24c08534",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rerender-no-inline-components.md",
+      "sha256": "1cc32907a770272524ba682eef9e7efdd8ad4533b6f89b718a1fcd7d1d0eb6a3"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-simple-expression-in-memo.md",
+      "upstream_git_blob": "59dfab0f3b048097627e0ca6e4c8da36629a5268",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rerender-simple-expression-in-memo.md",
+      "sha256": "5bdcf2d1558ba5204e643c887b7b4060f89630969425651eb68e96427d97f800"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-split-combined-hooks.md",
+      "upstream_git_blob": "89d805644dbffe3877bc1356bdf8ad416a5c715b",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rerender-split-combined-hooks.md",
+      "sha256": "6f45d703343484ef9acef9388397f3642966ae6a5a258899a0cf1f9977cfbf6c"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-use-ref-transient-values.md",
+      "upstream_git_blob": "cf04b81f8a531eacd07a32e8917fb3ed3c1bbecb",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rerender-use-ref-transient-values.md",
+      "sha256": "f1a649af9d1d0b5c762f6c9c4c1c70c90d7df82aa10296ee87aadb78c1b76c54"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/server-after-nonblocking.md",
+      "upstream_git_blob": "e8f5b260f5fc6d58141bc61e0a091569adb81e7e",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/server-after-nonblocking.md",
+      "sha256": "d0b8d24a3db9f0f65f9e2bddbf230b0e03a5f60e1229d93a4a18f5e7a991c7c2"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-use-deferred-value.md",
+      "upstream_git_blob": "619c04b0142bf5a5b7d0f69532a56b797a78f664",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rerender-use-deferred-value.md",
+      "sha256": "8c3579576a61a949884167745dcfaf1d5426ba305cc61fd0a79602d70fda4909"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/rerender-transitions.md",
+      "upstream_git_blob": "d99f43f764232e994a49a1df89ec9d624552f439",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/rerender-transitions.md",
+      "sha256": "60f4033909a62df5e5b8c601494f9e50a562e2f8c1c2d81eac24f38142265f1c"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/server-cache-react.md",
+      "upstream_git_blob": "87c9ca33168a321a59fbaaa84843e2f48c99751a",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/server-cache-react.md",
+      "sha256": "fddeea6c870bb3da4134b61d54b7d09b83d2603f929b7547cd3dc1dc269edd5c"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/server-auth-actions.md",
+      "upstream_git_blob": "ee82c0442bc69ffae7bf20c07709d57893da1123",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/server-auth-actions.md",
+      "sha256": "a2ca8aa102839251c7971ec784560fab943c20b36fe6f80365d4110c13260c23"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/server-cache-lru.md",
+      "upstream_git_blob": "ef6938aa53c55dc3c0035bd6c66838810d870260",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/server-cache-lru.md",
+      "sha256": "1924b64561841923b88a657085097a0aeba3e0ba2d5470b9f5c15cc10d6ae70f"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/server-dedup-props.md",
+      "upstream_git_blob": "fb24a2562c73fadbb9a11a79897c2cf93ea3c69a",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/server-dedup-props.md",
+      "sha256": "c2747424cdac46be62f835f245a0aa887b0090b416d28e2ac8676702645eeb37"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/server-hoist-static-io.md",
+      "upstream_git_blob": "25205c2fc42d0dd684d6423acde642774329a8cc",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/server-hoist-static-io.md",
+      "sha256": "5abea4dd882b13661bd5f7dfb93f9e547d5f08176c61c448ade91b210ed5d49f"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/server-parallel-nested-fetching.md",
+      "upstream_git_blob": "be1dc25075e40e6bda46cb24dc5a6f42b916b0e8",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/server-parallel-nested-fetching.md",
+      "sha256": "ad5d9656984d4a959997a2367bf59cc6632297b4634a1dd13a087939d83f30b3"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/server-parallel-fetching.md",
+      "upstream_git_blob": "1affc835a601a894fd02de08e6c9cdfd76d34b64",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/server-parallel-fetching.md",
+      "sha256": "569a2e9fc04f9606686cd75c5894ef8781b502786a7fffe241396846c7733472"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/server-no-shared-module-state.md",
+      "upstream_git_blob": "ff7d9f29c6e0e42ec1471acec8a3c7f394c8358d",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/server-no-shared-module-state.md",
+      "sha256": "4d869bf1cd2f1632e5ca4c0e64b1cf0e71c5f5a0f940bc8a22174d205e735ed7"
+    },
+    {
+      "path": ".agents/skills/react-best-practices/rules/server-serialization.md",
+      "upstream_git_blob": "39c5c4164c31be7f171ea2f4b3b32fe47709a651",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/react-best-practices/rules/server-serialization.md",
+      "sha256": "f4c7d68b29c82381baad059c4a7f09e868e71ec9c3115a26ad3ae7d24c0dfe1f"
+    },
+    {
+      "path": ".agents/skills/composition-patterns/README.md",
+      "upstream_git_blob": "01f359b0e79ce544d1463057be54946e50d62bcd",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/composition-patterns/README.md",
+      "sha256": "85915a43a6f0b4efe525e3cf6398dd866166da2025837c4460468a24a940da94"
+    },
+    {
+      "path": ".agents/skills/composition-patterns/SKILL.md",
+      "upstream_git_blob": "d07025bf943345bc1cf15eb923594f889ff881f0",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/composition-patterns/SKILL.md",
+      "sha256": "e38e0eaa609316b10423a9a138ed95e35099accd3f735585295c8a8f165c28a3"
+    },
+    {
+      "path": ".agents/skills/composition-patterns/AGENTS.md",
+      "upstream_git_blob": "558bf9aa1e36db2161f1633c9bfae14a819f0508",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/composition-patterns/AGENTS.md",
+      "sha256": "89e3ddd58fcf99a53a50e25dfd21b8cde1be5f10b7df6bacd3dfa6796932f516"
+    },
+    {
+      "path": ".agents/skills/composition-patterns/rules/_sections.md",
+      "upstream_git_blob": "f921dd41b53e4d847f25a6b3eca25a4e8857db44",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/composition-patterns/rules/_sections.md",
+      "sha256": "a174213b87e6911e2b766995a2cbaf8d1534057076e82fb79fe3f0ecb38047df"
+    },
+    {
+      "path": ".agents/skills/composition-patterns/metadata.json",
+      "upstream_git_blob": "3470b744190af044373abbfe80d94630c0cc6041",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/composition-patterns/metadata.json",
+      "sha256": "49262ed5cb4186f31ee980cf8d990be0170c51efed4908d0464a1cff9905bd05"
+    },
+    {
+      "path": ".agents/skills/composition-patterns/rules/architecture-avoid-boolean-props.md",
+      "upstream_git_blob": "ccee19ce495b9d7fdf08867db3c6b6282006312e",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/composition-patterns/rules/architecture-avoid-boolean-props.md",
+      "sha256": "007555ebb020f4d552582a2c4db194db71a1fd33094012e5187bcfa4f8c392d5"
+    },
+    {
+      "path": ".agents/skills/composition-patterns/rules/_template.md",
+      "upstream_git_blob": "119a30167f162c439f05e73c63044c590dff645c",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/composition-patterns/rules/_template.md",
+      "sha256": "587f7d16b0660eb61fee4a4d3d7df2b3077d6835de170602c7d6e60bee559131"
+    },
+    {
+      "path": ".agents/skills/composition-patterns/rules/architecture-compound-components.md",
+      "upstream_git_blob": "e5e3043cb5a81b83dce0389848b828455f00854f",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/composition-patterns/rules/architecture-compound-components.md",
+      "sha256": "f246af13dc269b521cf20eb8ad99a0cb645beac381c8c9b117262c34612c8457"
+    },
+    {
+      "path": ".agents/skills/composition-patterns/rules/patterns-children-over-render-props.md",
+      "upstream_git_blob": "d4345ee30aea5f1b11815251edca7ebd0aefe2e2",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/composition-patterns/rules/patterns-children-over-render-props.md",
+      "sha256": "7c45a0d21b3c4126a32cba916ee31adeae195386ad1dbbe6634aedb7457aa0ad"
+    },
+    {
+      "path": ".agents/skills/composition-patterns/rules/react19-no-forwardref.md",
+      "upstream_git_blob": "e0d8f8a76f14888f2fafc8cccd3d9395e4711d0d",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/composition-patterns/rules/react19-no-forwardref.md",
+      "sha256": "881830adb7534c4b2d70db426556646ad9837f5478f744f35641f635ada22227"
+    },
+    {
+      "path": ".agents/skills/composition-patterns/rules/patterns-explicit-variants.md",
+      "upstream_git_blob": "56e32e8bee5e5768f747db4e9718a6c2b54bfce5",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/composition-patterns/rules/patterns-explicit-variants.md",
+      "sha256": "8c19e596e61807549d01ce8c6954c6358199f97a8511c0c02c625ec0efda8c0e"
+    },
+    {
+      "path": ".agents/skills/composition-patterns/rules/state-context-interface.md",
+      "upstream_git_blob": "d961bede0c6c6e318f6ba3aca9b5dfcdb768d8f9",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/composition-patterns/rules/state-context-interface.md",
+      "sha256": "09e73afbf9285fa416679cc864a287b9e8b821d0969272ab784295386d8c9bc3"
+    },
+    {
+      "path": ".agents/skills/composition-patterns/rules/state-decouple-implementation.md",
+      "upstream_git_blob": "71a5afaa7d7078c262c92d32c3b97723de62f99f",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/composition-patterns/rules/state-decouple-implementation.md",
+      "sha256": "76a8c1eb29a70d8996ab3f71260345af2f7bc89deab815a421d6c87c6591a9c3"
+    },
+    {
+      "path": ".agents/skills/composition-patterns/rules/state-lift-state.md",
+      "upstream_git_blob": "d7fe27b54933135f9050365b6c2001c101029d51",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/composition-patterns/rules/state-lift-state.md",
+      "sha256": "74c54038a6c554c748fe31cec673b80861b5d920b7553cf78cdf10d18b4b759b"
+    },
+    {
+      "path": ".agents/skills/api-and-interface-design/SKILL.md",
+      "upstream_git_blob": "3e2e37f8f4fba2c66f9f1599eaf01a55ae3f3e33",
+      "repository": "addyosmani/agent-skills",
+      "commit": "aeac41d4d005999432bb7312f7ff06383a91d59d",
+      "source_path": "skills/api-and-interface-design/SKILL.md",
+      "sha256": "e83d34f52ff12dd8a7c5134cd7e8140ea4541ec65e204f8a1e4cd366e30c4192"
+    },
+    {
+      "path": ".agents/skills/frontend-ui-engineering/SKILL.md",
+      "upstream_git_blob": "3c77256874f2990612d0c980fa9b73cc3116152c",
+      "repository": "addyosmani/agent-skills",
+      "commit": "aeac41d4d005999432bb7312f7ff06383a91d59d",
+      "source_path": "skills/frontend-ui-engineering/SKILL.md",
+      "sha256": "29a3e53d57c0a128831a20730ae874a8c4fda40c001fcdc15f8e9ad4b5f72f1b"
+    },
+    {
+      "path": ".agents/skills/code-review-and-quality/SKILL.md",
+      "upstream_git_blob": "08209ff2208d2883d48d945f7754c428b77f8d87",
+      "repository": "addyosmani/agent-skills",
+      "commit": "aeac41d4d005999432bb7312f7ff06383a91d59d",
+      "source_path": "skills/code-review-and-quality/SKILL.md",
+      "sha256": "2db1e850379f255fd3091ef278cde24cd6c7d2ba23e360cc52ea522c40d4396e"
+    },
+    {
+      "path": ".agents/skills/debugging-and-error-recovery/SKILL.md",
+      "upstream_git_blob": "356da20365a7cd6825b4ffad14be39280c92cdfc",
+      "repository": "addyosmani/agent-skills",
+      "commit": "aeac41d4d005999432bb7312f7ff06383a91d59d",
+      "source_path": "skills/debugging-and-error-recovery/SKILL.md",
+      "sha256": "21f3960f5d7ae2cc95c40896545004dbbcbbd752ea65fc2d53962554d4174220"
+    },
+    {
+      "path": ".agents/skills/security-and-hardening/references/hardening-patterns.md",
+      "upstream_git_blob": "e5fba73c9fc029444d3c099d0a51538e90ed97c2",
+      "repository": "addyosmani/agent-skills",
+      "commit": "aeac41d4d005999432bb7312f7ff06383a91d59d",
+      "source_path": "skills/security-and-hardening/references/hardening-patterns.md",
+      "sha256": "2e1b93a502b4cdb0258404441f3aab029b0cce4003fbbcc61af9a2de18bab9ab"
+    },
+    {
+      "path": ".agents/skills/performance-optimization/SKILL.md",
+      "upstream_git_blob": "ff57eab055e7df4994aa9dcdcc3a6ff1d30411e0",
+      "repository": "addyosmani/agent-skills",
+      "commit": "aeac41d4d005999432bb7312f7ff06383a91d59d",
+      "source_path": "skills/performance-optimization/SKILL.md",
+      "sha256": "bd36a30e55a5f84329a6977eba5e1ab7654146e71eaba88e34337d4ee020460f"
+    },
+    {
+      "path": ".agents/skills/performance-optimization/references/optimization-patterns.md",
+      "upstream_git_blob": "63e27bcc7a051c3dc23c164f146f374e119874cc",
+      "repository": "addyosmani/agent-skills",
+      "commit": "aeac41d4d005999432bb7312f7ff06383a91d59d",
+      "source_path": "skills/performance-optimization/references/optimization-patterns.md",
+      "sha256": "fbf724076ffb8ac1a28e1a2773c0b550f5361090024b2dd32e5a682c69b7945f"
+    },
+    {
+      "path": ".agents/skills/codebase-design/DESIGN-IT-TWICE.md",
+      "upstream_git_blob": "d0990138c35c800bd821289a73115e52680c1620",
+      "repository": "mattpocock/skills",
+      "commit": "5beb35b040e3de97e54fa9e386d7e42d15c295c2",
+      "source_path": "skills/engineering/codebase-design/DESIGN-IT-TWICE.md",
+      "sha256": "52b52e75655a27aea59c6966b410bac82448968ad46ef1ebb9f07c274e3ae010"
+    },
+    {
+      "path": ".agents/skills/codebase-design/DEEPENING.md",
+      "upstream_git_blob": "cd94075cfd754d147555c5d747a16431ed4c7dd8",
+      "repository": "mattpocock/skills",
+      "commit": "5beb35b040e3de97e54fa9e386d7e42d15c295c2",
+      "source_path": "skills/engineering/codebase-design/DEEPENING.md",
+      "sha256": "f3dd099ce99289bd213914d8ee3e2429b78309c3957ca4583f7659551b1d53c1"
+    },
+    {
+      "path": ".agents/skills/codebase-design/SKILL.md",
+      "upstream_git_blob": "3f63c8146dd2604b419c929e9876b90c30d410e9",
+      "repository": "mattpocock/skills",
+      "commit": "5beb35b040e3de97e54fa9e386d7e42d15c295c2",
+      "source_path": "skills/engineering/codebase-design/SKILL.md",
+      "sha256": "2c20617f87ec8af6a434859f381b2f061a69b530444e74eb39e78bb016a6d1e2"
+    },
+    {
+      "path": ".agents/skills/web-design-guidelines/SKILL.md",
+      "upstream_git_blob": "ceae92ab319216a68274168fba9b63b998b65997",
+      "repository": "vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "source_path": "skills/web-design-guidelines/SKILL.md",
+      "sha256": "f4647ca866a3accf763777f83e7682954f0187cd6bea7eea0399796652414e8f"
+    },
+    {
+      "path": ".agents/skills/domain-modeling/ADR-FORMAT.md",
+      "upstream_git_blob": "d7e61f30a9fd8ca70d9ee68f019c2a9ebf2d13f7",
+      "repository": "mattpocock/skills",
+      "commit": "5beb35b040e3de97e54fa9e386d7e42d15c295c2",
+      "source_path": "skills/engineering/domain-modeling/ADR-FORMAT.md",
+      "sha256": "944c92aa790e8fbdc9199640b170979abb8a34ba8d0fe18c2a01a63bce140ca0"
+    },
+    {
+      "path": ".agents/skills/codebase-design/agents/openai.yaml",
+      "upstream_git_blob": "3180715edb37f6e96bec42f92f00169faa8886ef",
+      "repository": "mattpocock/skills",
+      "commit": "5beb35b040e3de97e54fa9e386d7e42d15c295c2",
+      "source_path": "skills/engineering/codebase-design/agents/openai.yaml",
+      "sha256": "edebc9e4fcfe102114012575eaa9600b9b5fd08c311664f389c36e7bc717740f"
+    },
+    {
+      "path": ".agents/skills/domain-modeling/GLOSSARY-FORMAT.md",
+      "upstream_git_blob": "9c0b4c7a2e8507c23cbb5e0baa66d81699321cc6",
+      "repository": "mattpocock/skills",
+      "commit": "5beb35b040e3de97e54fa9e386d7e42d15c295c2",
+      "source_path": "skills/engineering/domain-modeling/GLOSSARY-FORMAT.md",
+      "sha256": "21dcc40cdec8e151a829b98ab1517c1867bc444e3665134a98c6983411996801"
+    },
+    {
+      "path": ".agents/skills/tdd/agents/openai.yaml",
+      "upstream_git_blob": "651b838a7663e027b1b8884491e867f26bb9a021",
+      "repository": "mattpocock/skills",
+      "commit": "5beb35b040e3de97e54fa9e386d7e42d15c295c2",
+      "source_path": "skills/engineering/tdd/agents/openai.yaml",
+      "sha256": "ea6f01cf1b8c06a4b0f5b649d74b1b8ce8685e72af1b38d70d877693e092af0b"
+    },
+    {
+      "path": ".agents/skills/tdd/SKILL.md",
+      "upstream_git_blob": "01eadaa34e7c9a63a67d6dc3cce1cc81b0e49985",
+      "repository": "mattpocock/skills",
+      "commit": "5beb35b040e3de97e54fa9e386d7e42d15c295c2",
+      "source_path": "skills/engineering/tdd/SKILL.md",
+      "sha256": "5505d25bbaa8fc14a79e4d20163936958992a2995b7f1dd1d6197edc9ed722e0"
+    },
+    {
+      "path": ".agents/skills/domain-modeling/SKILL.md",
+      "upstream_git_blob": "a4438c6879c517d1a08e2b5fbca049b632688dfe",
+      "repository": "mattpocock/skills",
+      "commit": "5beb35b040e3de97e54fa9e386d7e42d15c295c2",
+      "source_path": "skills/engineering/domain-modeling/SKILL.md",
+      "sha256": "7b925d7b1e341a2eeae33ad68a8a8c0ab889a38ddd22a7598e4c240e5a7556a3"
+    },
+    {
+      "path": ".agents/skills/domain-modeling/agents/openai.yaml",
+      "upstream_git_blob": "7f1522d2f11506ee205275ab7c282aa52366ecf6",
+      "repository": "mattpocock/skills",
+      "commit": "5beb35b040e3de97e54fa9e386d7e42d15c295c2",
+      "source_path": "skills/engineering/domain-modeling/agents/openai.yaml",
+      "sha256": "f6bf2aa996c6e6f53fdd0708e18a0d16a56aed8322cca59fedbe3c0d2c75f06b"
+    },
+    {
+      "path": ".agents/skills/tdd/mocking.md",
+      "upstream_git_blob": "71cbfee674d93244ce81d1830b930ca9a69200bd",
+      "repository": "mattpocock/skills",
+      "commit": "5beb35b040e3de97e54fa9e386d7e42d15c295c2",
+      "source_path": "skills/engineering/tdd/mocking.md",
+      "sha256": "3ceb807fdf4a47d6a93d4d9a891e5ba6d362a6247bd08adc451feebfc17361ef"
+    },
+    {
+      "path": ".agents/skills/tdd/tests.md",
+      "upstream_git_blob": "7ab86479f925a1f9e8ba680af33cb3b12e015381",
+      "repository": "mattpocock/skills",
+      "commit": "5beb35b040e3de97e54fa9e386d7e42d15c295c2",
+      "source_path": "skills/engineering/tdd/tests.md",
+      "sha256": "859f9e592c188fda4fc7277dd180e4ce9c7a2e13f6efe1f6f29eccc9d28c106a"
+    },
+    {
+      "path": ".agents/skills/fastapi-patterns/SKILL.md",
+      "upstream_git_blob": "6cff4479d19d22d850ada13a3155cd2313358db8",
+      "repository": "affaan-m/ECC",
+      "commit": "07971588f8ac7a60080ba8c1b7920c9e8e733e7d",
+      "source_path": "skills/fastapi-patterns/SKILL.md",
+      "sha256": "f54c2bf5a61eeda47c939da265b1431d609c231611e71b688b0b734a064b18f3"
+    },
+    {
+      "path": ".agents/skills/postgres-patterns/SKILL.md",
+      "upstream_git_blob": "12a3a4a05c2278c7fe1316d9403b5ca037dadf69",
+      "repository": "affaan-m/ECC",
+      "commit": "07971588f8ac7a60080ba8c1b7920c9e8e733e7d",
+      "source_path": "skills/postgres-patterns/SKILL.md",
+      "sha256": "9c8c391ae9e9aa87faa7ca091e1d395c97766df14080d0bfbea8a97721776163"
+    },
+    {
+      "path": ".agents/skills/security-and-hardening/SKILL.md",
+      "upstream_git_blob": "e80e1e9a4f5b2989308c376d4ea0d333fe2c26ef",
+      "repository": "addyosmani/agent-skills",
+      "commit": "aeac41d4d005999432bb7312f7ff06383a91d59d",
+      "source_path": "skills/security-and-hardening/SKILL.md",
+      "sha256": "2e3fc60eed5aba97fe416f3f3c9317fdb014a682925ec70a733c3ff99e4b9858"
+    },
+    {
+      "path": ".agents/skills/agent-security-hardening/SKILL.md",
+      "upstream_git_blob": "726cd3e2e01e7b03103c98639585868dd3afc392",
+      "repository": "affaan-m/ECC",
+      "commit": "07971588f8ac7a60080ba8c1b7920c9e8e733e7d",
+      "source_path": "skills/agent-security-hardening/SKILL.md",
+      "sha256": "0e0895ada90aa8fa085e4257961ebe15f2dff43b843785b1533d4c731186ad81"
+    },
+    {
+      "path": ".agents/skills/database-migrations/SKILL.md",
+      "upstream_git_blob": "92d6d693066783cb00c225244a690e851fdab8c1",
+      "repository": "affaan-m/ECC",
+      "commit": "07971588f8ac7a60080ba8c1b7920c9e8e733e7d",
+      "source_path": "skills/database-migrations/SKILL.md",
+      "sha256": "dad2f1964295eee14a96e06213ce3f60992bbcdc1f37a50c828bbc2e1abd79dd"
+    },
+    {
+      "path": ".agents/skills/rust-patterns/SKILL.md",
+      "upstream_git_blob": "b87afe5eb81cff8c22e9c71cedc5f29688736c0d",
+      "repository": "affaan-m/ECC",
+      "commit": "07971588f8ac7a60080ba8c1b7920c9e8e733e7d",
+      "source_path": "skills/rust-patterns/SKILL.md",
+      "sha256": "51379df2bd92a482309e109e5a210210842594f660cceeb2d68d18e995108edf"
+    },
+    {
+      "path": ".agents/skills/rust-testing/SKILL.md",
+      "upstream_git_blob": "464555b45ce646ea9396f63277be08f40d2ce49b",
+      "repository": "affaan-m/ECC",
+      "commit": "07971588f8ac7a60080ba8c1b7920c9e8e733e7d",
+      "source_path": "skills/rust-testing/SKILL.md",
+      "sha256": "02a9a40dcc42dd21d14730d29b13ee0a8b274694360585dc0fadb2602eb56ddf"
+    },
+    {
+      "path": ".agents/skills/eval-harness/SKILL.md",
+      "upstream_git_blob": "133193446a3116e96648081aabcf4f2ea863b0e0",
+      "repository": "affaan-m/ECC",
+      "commit": "07971588f8ac7a60080ba8c1b7920c9e8e733e7d",
+      "source_path": "skills/eval-harness/SKILL.md",
+      "sha256": "3a5339a5a80099a5c9d55da9b6c8e05a690f5befc6f78d779c75dd79d818ca07"
+    },
+    {
+      "path": ".agents/skills/windows-desktop-e2e/SKILL.md",
+      "upstream_git_blob": "f965b043cee51ed1c464088c08b91cf05710d65f",
+      "repository": "affaan-m/ECC",
+      "commit": "07971588f8ac7a60080ba8c1b7920c9e8e733e7d",
+      "source_path": "skills/windows-desktop-e2e/SKILL.md",
+      "sha256": "cbc93a1e2514ecdcee30da744aa13eb6c0ebe4948ca3dfff52b287df4f9f0814"
+    },
+    {
+      "path": ".agents/skills/golang-patterns/SKILL.md",
+      "upstream_git_blob": "85e4b3f70bcf7186ab1070ca6108fdac6d7ee5a6",
+      "repository": "affaan-m/ECC",
+      "commit": "07971588f8ac7a60080ba8c1b7920c9e8e733e7d",
+      "source_path": "skills/golang-patterns/SKILL.md",
+      "sha256": "d643e354683167727cfeb76934855db988468cd15b3ca01db9a32db43902edf7"
+    },
+    {
+      "path": ".agents/skills/temporal-python-testing/SKILL.md",
+      "upstream_git_blob": "7be1f999c64e184a5786c50b8c2a643003e0fde3",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/backend-development/skills/temporal-python-testing/SKILL.md",
+      "sha256": "71810389b45511818642e75ae114f7cc4c9425920f2cdb67714a1137091f2267"
+    },
+    {
+      "path": ".agents/skills/golang-testing/SKILL.md",
+      "upstream_git_blob": "45ca4871b2e5c46891bead7f23efd094a66cb6b7",
+      "repository": "affaan-m/ECC",
+      "commit": "07971588f8ac7a60080ba8c1b7920c9e8e733e7d",
+      "source_path": "skills/golang-testing/SKILL.md",
+      "sha256": "e3399562c58590dfcbd09bfcbf8f401120a2ded0418eb33bbfca6c697ac485ad"
+    },
+    {
+      "path": ".agents/skills/architecture-patterns/references/details.md",
+      "upstream_git_blob": "7b98690c602ac710938c4f99f6c5fc612b3911ad",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/backend-development/skills/architecture-patterns/references/details.md",
+      "sha256": "a53411600b253b343247db9d86140f3136ee7bd26a67aa8411962bcc1f5ff981"
+    },
+    {
+      "path": ".agents/skills/architecture-patterns/references/advanced-patterns.md",
+      "upstream_git_blob": "a83dc097a6758fc849b6da3692be62a02812f437",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/backend-development/skills/architecture-patterns/references/advanced-patterns.md",
+      "sha256": "e1cb31c83b532e579991de277836a1ea5e3d88b2ca30fc8ac16f6047ceca439e"
+    },
+    {
+      "path": ".agents/skills/architecture-patterns/SKILL.md",
+      "upstream_git_blob": "d893cabeab6a84c17bd0dd4ea9f56b3c4d02c0f5",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/backend-development/skills/architecture-patterns/SKILL.md",
+      "sha256": "350caf22b856b7d2908a10a69a8cc13e743c757ba9838716051b4e29fc1d7595"
+    },
+    {
+      "path": ".agents/skills/temporal-python-testing/resources/integration-testing.md",
+      "upstream_git_blob": "a907a8dd381cc51b15d48cba84b0cd3acfeb541e",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/backend-development/skills/temporal-python-testing/resources/integration-testing.md",
+      "sha256": "9c5b5d1ed33b7c3e536c197824f7ac42ae647df7f7369182f66efbc58f9d7ae3"
+    },
+    {
+      "path": ".agents/skills/temporal-python-testing/resources/local-setup.md",
+      "upstream_git_blob": "3516ec5706983a4fde8e61c22d329e401522ef62",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/backend-development/skills/temporal-python-testing/resources/local-setup.md",
+      "sha256": "d407ca7c4a285d6f2c031b4740a4b8d5bf5840f656c6b68deb2877e00860cc97"
+    },
+    {
+      "path": ".agents/skills/deployment-pipeline-design/SKILL.md",
+      "upstream_git_blob": "af677b4ff576edd4bfc9db9d0b4326be3c81eeae",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/cicd-automation/skills/deployment-pipeline-design/SKILL.md",
+      "sha256": "9a56bd9401c1dc8ef5a15758d7234f211193097ddb3895d46d1ddcd730687b18"
+    },
+    {
+      "path": ".agents/skills/temporal-python-testing/resources/unit-testing.md",
+      "upstream_git_blob": "29dc99094737a158d25749da0bc43d8293d1d938",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/backend-development/skills/temporal-python-testing/resources/unit-testing.md",
+      "sha256": "4fe310c3fb54cc44ab0178983546daa4785f4023ea7f0b92e3418096ddf289a8"
+    },
+    {
+      "path": ".agents/skills/temporal-python-testing/resources/replay-testing.md",
+      "upstream_git_blob": "b78eceeb5276d6122e420f0ef4df54900f2ad696",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/backend-development/skills/temporal-python-testing/resources/replay-testing.md",
+      "sha256": "f7e2e3ae1f1f9d7fbb547bd5639e97cdd7d7ef4bbae9887897520182e4cad51e"
+    },
+    {
+      "path": ".agents/skills/deployment-pipeline-design/references/advanced-strategies.md",
+      "upstream_git_blob": "bca9d19e2a64408b207c302cf8728b901f5ffa7b",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/cicd-automation/skills/deployment-pipeline-design/references/advanced-strategies.md",
+      "sha256": "4f7dd0252f8a0d0c195e729500e4b1ae72c94157358faec5303e78d9b9c13a52"
+    },
+    {
+      "path": ".agents/skills/python-observability/SKILL.md",
+      "upstream_git_blob": "5d3b9c844469926164d349be4f91fa80d6e3d927",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/python-development/skills/python-observability/SKILL.md",
+      "sha256": "bf547d6ee0284ce20bbe521af3e40d53ca9481634dfeaaf16f25c88de6828f56"
+    },
+    {
+      "path": ".agents/skills/github-actions-templates/SKILL.md",
+      "upstream_git_blob": "d8a3d05497c3a46b2452d1f887895b5dc7bcab1d",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/cicd-automation/skills/github-actions-templates/SKILL.md",
+      "sha256": "fc3c06ddb2423804be275defbb8a2c35f1564ba28aaeb07dcf01ec9c4cc8f023"
+    },
+    {
+      "path": ".agents/skills/deployment-pipeline-design/references/details.md",
+      "upstream_git_blob": "f51448a2bcbbae0489a785f2f6937671607029c0",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/cicd-automation/skills/deployment-pipeline-design/references/details.md",
+      "sha256": "0de81a3e3d168fa301f9b49a6be321a247c3ef8be40c167a283df4a3ee0d5a3b"
+    },
+    {
+      "path": ".agents/skills/python-observability/references/details.md",
+      "upstream_git_blob": "b5aeff08aa698892e42a96dc2a61c2ccc0dac2ae",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/python-development/skills/python-observability/references/details.md",
+      "sha256": "38ec551a90f38896a24437e149bac7bc980234970821a505b3f80555d787fbfe"
+    },
+    {
+      "path": ".agents/skills/python-resilience/SKILL.md",
+      "upstream_git_blob": "89c1e9d9ba0134709f9b1ac876d0b401362afd4d",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/python-development/skills/python-resilience/SKILL.md",
+      "sha256": "ddf3a7dc5bd59dd228a65a3ee7ae60fe740e9dc6e98bfac0ce0be5330fcc5332"
+    },
+    {
+      "path": ".agents/skills/accessibility-compliance/SKILL.md",
+      "upstream_git_blob": "d77b1c59d48d18efcccaf921ee35ea55206c5f45",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/ui-design/skills/accessibility-compliance/SKILL.md",
+      "sha256": "3ad0fbcb0a69b69e70652641a8eeb59f168cceb4bc9d9b9c8b47154072b9e1a2"
+    },
+    {
+      "path": ".agents/skills/python-resilience/references/details.md",
+      "upstream_git_blob": "491f93480fed2f54856da04b581e5c6fdae87cbc",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/python-development/skills/python-resilience/references/details.md",
+      "sha256": "bacdee07c89f21324069904107b99224afd9b65415f56da8974b20aa03e4aff4"
+    },
+    {
+      "path": ".agents/skills/accessibility-compliance/references/wcag-guidelines.md",
+      "upstream_git_blob": "9f28f31d6af0d95a7aa9372a4d6cf8fd078292c7",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/ui-design/skills/accessibility-compliance/references/wcag-guidelines.md",
+      "sha256": "09bf683d0e15c7100bd9d1bc4a5e7bf019c580fd447bceccdd0ee30d4ccc01ce"
+    },
+    {
+      "path": ".agents/skills/accessibility-compliance/references/mobile-accessibility.md",
+      "upstream_git_blob": "de8f837cb1bcfe6d6df0453b420dc99f49f5838e",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/ui-design/skills/accessibility-compliance/references/mobile-accessibility.md",
+      "sha256": "b293d6c2b0a44c7f6ebb4848f7fe09d33713e91bbb1b97d88a561e7360b90201"
+    },
+    {
+      "path": ".agents/skills/accessibility-compliance/references/details.md",
+      "upstream_git_blob": "b8109d6deb00ff2159f5ca287662ae1309f21fa5",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/ui-design/skills/accessibility-compliance/references/details.md",
+      "sha256": "1789504a4268186e62126059da48d8deb95d36631fac6263b368e715df2ca2fb"
+    },
+    {
+      "path": ".agents/skills/accessibility-compliance/references/aria-patterns.md",
+      "upstream_git_blob": "6ccce17f24bfeae2c394fde23fd8b9afdf6f7f3a",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/ui-design/skills/accessibility-compliance/references/aria-patterns.md",
+      "sha256": "72e2f2cb2d168bb5d82260b703be863a6371284ba3cf4ac22da28a309728c14a"
+    },
+    {
+      "path": ".agents/skills/design-system-patterns/SKILL.md",
+      "upstream_git_blob": "6c1763c811e37a918938dbd6e18b7d5a38bcf46a",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/ui-design/skills/design-system-patterns/SKILL.md",
+      "sha256": "618355f0e6c6ba8ca5d231035c9da18302fe6894aedce565743e9181b6c928ee"
+    },
+    {
+      "path": ".agents/skills/design-system-patterns/references/design-tokens.md",
+      "upstream_git_blob": "0044dbf2fe21eef7355dda47ca5763359850074f",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/ui-design/skills/design-system-patterns/references/design-tokens.md",
+      "sha256": "44bd27e26f072a3facd6cd841140d403805106c9c5d5e39fc33bf6ffccf8af64"
+    },
+    {
+      "path": ".agents/skills/design-system-patterns/references/component-architecture.md",
+      "upstream_git_blob": "5a7deef7dd7f3df8ed22cf5d92ac63cd8c243c64",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/ui-design/skills/design-system-patterns/references/component-architecture.md",
+      "sha256": "84dc16ed581c1ad72e34b93ba84bcfa9223d30f9c42eb7e36654bbbe8daefc61"
+    },
+    {
+      "path": ".agents/skills/design-system-patterns/references/details.md",
+      "upstream_git_blob": "eb3387bd25c3e18d20a89e1d8fca3f12aca413a2",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/ui-design/skills/design-system-patterns/references/details.md",
+      "sha256": "1f1792e8b20c24c2be2acd46e7da85928578d108006594f3ae35d93f9108ff6d"
+    },
+    {
+      "path": ".agents/skills/design-system-patterns/references/theming-architecture.md",
+      "upstream_git_blob": "6614a6505b76a959f47c52b522cc535fe5109725",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/ui-design/skills/design-system-patterns/references/theming-architecture.md",
+      "sha256": "24c9efec7c809a4d6797e6a11bc66ce08c5d708211caac14266ce5754c83cc75"
+    },
+    {
+      "path": ".agents/skills/eval-harness-first/SKILL.md",
+      "upstream_git_blob": "4ac652f9c70a3ba42dd6394376e6f54db20ab553",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/llm-finetuning/skills/eval-harness-first/SKILL.md",
+      "sha256": "6bc3a9942e461ca8e400ccfc3e6962de07cd72c685768d630ab02ce3a0221f22"
+    },
+    {
+      "path": ".agents/skills/eval-harness-first/references/grader-templates.md",
+      "upstream_git_blob": "f0bcd5bccef18d6796b1d9c368d03ab9242efb40",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/llm-finetuning/skills/eval-harness-first/references/grader-templates.md",
+      "sha256": "6435cf01bc60d83db7a5aa895284d2407e12530b0ea3d55c9d99e2e4a7e33878"
+    },
+    {
+      "path": ".agents/skills/eval-harness-first/references/judge-calibration.md",
+      "upstream_git_blob": "ff7d7f5b47d16e7fafe3918d2cc1129e291fdd33",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/llm-finetuning/skills/eval-harness-first/references/judge-calibration.md",
+      "sha256": "a88c1cc519e7129e0aaff17856ba86d63f39a1a1e1641ee1b62dce834e1cc94b"
+    },
+    {
+      "path": ".agents/skills/dataset-curation/SKILL.md",
+      "upstream_git_blob": "96cc001a8bf6e7df68ac0c11033178ff213d973d",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/llm-finetuning/skills/dataset-curation/SKILL.md",
+      "sha256": "77dd076c9a44967d0d508106c68f3e068605a9fa45cb1279834fa5545d9329d6"
+    },
+    {
+      "path": ".agents/skills/dataset-curation/references/formats-and-templates.md",
+      "upstream_git_blob": "c1b96215d52d127462b202c7873e3afc07eacf3d",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/llm-finetuning/skills/dataset-curation/references/formats-and-templates.md",
+      "sha256": "37a324e7293b38746d246f6eabcecf1b610d022604cabe93396934b6d09e16f2"
+    },
+    {
+      "path": ".agents/skills/dataset-curation/references/synthetic-data.md",
+      "upstream_git_blob": "d9c1d544d1fd40592ac91768830656a123325cc6",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/llm-finetuning/skills/dataset-curation/references/synthetic-data.md",
+      "sha256": "3c6f7b42f1065c32ef14ed460a3c77f90b5cdb8d7f797e19336118f5f62d5571"
+    },
+    {
+      "path": ".agents/skills/preference-optimization/SKILL.md",
+      "upstream_git_blob": "aff13cb2851a7c727a9735a7d387d4f68e4b7719",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/llm-finetuning/skills/preference-optimization/SKILL.md",
+      "sha256": "c5756fa59c8c99475b6fee92199ea17f060ba3895d5ff5ab2b544ed4ac996fe8"
+    },
+    {
+      "path": ".agents/skills/lora-qlora-recipes/references/hyperparameters.md",
+      "upstream_git_blob": "1a175d0cf1bb964c62b3dd3c0a07b20f837bcc44",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/llm-finetuning/skills/lora-qlora-recipes/references/hyperparameters.md",
+      "sha256": "bf20a0427d4205e1a3f6cd2685c9bb05612ec43ed398bb4d17aadd7aa9427825"
+    },
+    {
+      "path": ".agents/skills/lora-qlora-recipes/SKILL.md",
+      "upstream_git_blob": "5d2c41aa1e1fc01919de908760a1ad71f8ca6ca4",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/llm-finetuning/skills/lora-qlora-recipes/SKILL.md",
+      "sha256": "83171f8287ee41c799bd6b1c8dd04695286599abc9f4a5d4175d3bcfed6ddf96"
+    },
+    {
+      "path": ".agents/skills/checkpoint-promotion/SKILL.md",
+      "upstream_git_blob": "22566d5595f2ed5574d16aec6b971924b57ee49d",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/llm-finetuning/skills/checkpoint-promotion/SKILL.md",
+      "sha256": "b0bd8202b84952e5e117a1c2efb44a85d0df9824ab0246247ab94d46e15545d9"
+    },
+    {
+      "path": ".agents/skills/lora-qlora-recipes/references/unsloth-trl-mapping.md",
+      "upstream_git_blob": "19093a461cfb9f4ff174feadbe33f6e199b7f7fe",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/llm-finetuning/skills/lora-qlora-recipes/references/unsloth-trl-mapping.md",
+      "sha256": "d702034241d6bc1b332b3ab72abbaf3b317993d0181c10f63d6910fea3fb0d22"
+    },
+    {
+      "path": ".agents/skills/preference-optimization/references/method-configs.md",
+      "upstream_git_blob": "1b6b5745d96a9ae943fc430e7ccbbcfb4725e63a",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/llm-finetuning/skills/preference-optimization/references/method-configs.md",
+      "sha256": "6fd776843c284175541fb6047bc958a0f5efb9edb86a47444039bf7ee39cba1b"
+    },
+    {
+      "path": ".agents/skills/checkpoint-promotion/references/gate-templates.md",
+      "upstream_git_blob": "4fd61ce04635e70e269d6312e153c99338c7f448",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "plugins/llm-finetuning/skills/checkpoint-promotion/references/gate-templates.md",
+      "sha256": "d60aebfeb32d16db02661679af1de24712f2181fd26b40e6c67cdbf25d6f278d"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/CONTRIBUTING.md",
+      "upstream_git_blob": "35672ff0476c24d41cca6db6b0bc17f18631b53a",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "CONTRIBUTING.md",
+      "sha256": "4a8e7789c225e401b0b88eadabec59ed70db0c42e11b7a71f1e8634008e47065"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/LICENSE",
+      "upstream_git_blob": "7092ef5b7509a89b861a4bda602424dfc19d2435",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "LICENSE",
+      "sha256": "9a7285d76bcfe865691b02e6a42deb9a6f86ce0a0d87a12b79fc6a996ba187a5"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/SKILL.md",
+      "upstream_git_blob": "d4e64dec0c8b27669c645137ee267b2b848202c3",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "SKILL.md",
+      "sha256": "e27ec87b19585ef66e9de61c80f7f3ac18b56b0f8d34526d7da3c851eb5faac8"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/README.md",
+      "upstream_git_blob": "8a46806f4dc9b744533700e58f9906c57cff0f24",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "README.md",
+      "sha256": "0a947eed31717a657388e8327acd11b99b872e8084c2d577c1a68e55d03fca1c"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/core/ai-patterns.md",
+      "upstream_git_blob": "c883e0d5ec3c40a01686a7f0e34af336ec32022a",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/core/ai-patterns.md",
+      "sha256": "3fb30501fa98dc3296fe2f312061863fee216e53de37f51a8f5cfb86495e3163"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/core/cli-workflow-commands.md",
+      "upstream_git_blob": "781cc5a12538aa4aa1e12bec3ee46d41f8b6eeaa",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/core/cli-workflow-commands.md",
+      "sha256": "ab81f97f6a88ac94981fd26d7dc481d1f43eab63cd0f879c6f9f8d5026655160"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/pyproject.toml",
+      "upstream_git_blob": "1c7491d11cd6e59b149cc50f6b16ca2fbe3aae99",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "pyproject.toml",
+      "sha256": "0efbe3a9c0c7fc98777e754df284d2582923916a926053ecacb09a3f3a329493"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/core/error-reference.md",
+      "upstream_git_blob": "99930aad7de1d9009f9dde0b1ab449cf065c6628",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/core/error-reference.md",
+      "sha256": "aeb2e29168e9e42901bd64b5971461e1b2b1232fbb257c63bc034cced3693355"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/core/dev-management.md",
+      "upstream_git_blob": "837267ea75cecd51ca4b31e90298d15e60181606",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/core/dev-management.md",
+      "sha256": "997a4fce20c377a52c5ac4526d945582e163dde7ac93175b96ccec1e2bdb5b2d"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/core/determinism.md",
+      "upstream_git_blob": "8b865ddce1655b36761a85f4b8b74af8b1859e2a",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/core/determinism.md",
+      "sha256": "058d0a829a76941b8f0f6e8d22b492d002e44ca7a6772088461c28a4444f556c"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/core/gotchas.md",
+      "upstream_git_blob": "ad18b97903c8fb383fde7267031fc377f62f7046",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/core/gotchas.md",
+      "sha256": "df859fd3660b4bc5194989b25299c10c97e22a8daad3b6a696355f4cbc8cd641"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/core/install_cli.md",
+      "upstream_git_blob": "02c3353db6c7641d1de359f8b8f2c241a83362e5",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/core/install_cli.md",
+      "sha256": "789c9a6cc48126c731d438af153cdb0a2ac8c636ade4419841ae01914ffa5ac7"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/core/job-queue.md",
+      "upstream_git_blob": "bf5ab293cac5e010b5aa4b9cf9631e003e3da8b6",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/core/job-queue.md",
+      "sha256": "e3e8d8b4696f61f9c96cdfd76f608260ee60f7fcae5042dae6b5adc1a4724b13"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/core/interactive-workflows.md",
+      "upstream_git_blob": "3b020283263c520266a4d5d573f715d47a1cad0d",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/core/interactive-workflows.md",
+      "sha256": "45990a019f108e8ae9539162f7245305a30b99fac9fcddff549a56f908997f80"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/core/priority-fairness.md",
+      "upstream_git_blob": "7f66103e1aac0cd787114f7c5cb312c6b7b4275a",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/core/priority-fairness.md",
+      "sha256": "ee23244d6f3e8ede5542564643842de4a4fb007a5205834ea4bb62858f785b42"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/core/patterns.md",
+      "upstream_git_blob": "c4401858ba450df5d14831d574d5e3b58d841742",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/core/patterns.md",
+      "sha256": "2783294436acc85608d62267d82429798f0598bebe67ac0b72c7b3dc43365b94"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/core/random-streams.md",
+      "upstream_git_blob": "bb259971e3efd4eab00fd2ea37301f7d76faf362",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/core/random-streams.md",
+      "sha256": "ecad2e178407e233bf20168f537c0e68cc5219cbe17e5d6aa49db8ec620a6e0f"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/dotnet/advanced-features.md",
+      "upstream_git_blob": "dd844d0585291e7e3497355813c9d0de830dea57",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/dotnet/advanced-features.md",
+      "sha256": "e10107b171410168c4357d0b3710dd03a295772841380fa3adbe2823245290e5"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/core/troubleshooting.md",
+      "upstream_git_blob": "174cac86670c17d2658469d00539b7ebb99daae7",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/core/troubleshooting.md",
+      "sha256": "4d71a1057c0d00385cad23ac9266b956434a35b1761180daa8d0effb4eff7da6"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/core/standalone-activities.md",
+      "upstream_git_blob": "71aa7f6eb63ca4045f0833ca8094277d8c61f5d4",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/core/standalone-activities.md",
+      "sha256": "e6467b792c96290602749fafa6418afbd8ea86f0061d2e74dcc0800fab20dc8a"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/core/versioning.md",
+      "upstream_git_blob": "193427967b78b4743b973b4112f034cd71024787",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/core/versioning.md",
+      "sha256": "ef8c2c2a4798622d896181b64deed55fe601393fc65a2d964eca5af78faf2baa"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/dotnet/data-handling.md",
+      "upstream_git_blob": "f399882cc09d8b95b7f199c0e5a1b5dbeea45d41",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/dotnet/data-handling.md",
+      "sha256": "f7b995cba53ad2ffbd68a13d95616a06946b8d21c1f168a9e32cecbe101baf31"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/dotnet/determinism-protection.md",
+      "upstream_git_blob": "2ebdcfb8e9cd3fd5b6bbf0c9387954203f10a7f0",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/dotnet/determinism-protection.md",
+      "sha256": "4230a991e2bbdcc2ddf9b5dfe6e26886ce7f234bf4c80804a4ffc67d46304119"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/dotnet/determinism.md",
+      "upstream_git_blob": "fbb07d1adedc899ed38e0109fb3e3e53a6807319",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/dotnet/determinism.md",
+      "sha256": "54068e257fc975fe85b2834c74154b92e781b6ef2567858520bea4650520799f"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/dotnet/dotnet.md",
+      "upstream_git_blob": "a0f0b589c15c6c167594470b184642f8d755a34f",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/dotnet/dotnet.md",
+      "sha256": "b2635103e46e919aa178698fab8d1d5df6d4d9eac02644eee8087214f9ea5751"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/dotnet/error-handling.md",
+      "upstream_git_blob": "d235574d15193ee904c408e9972d00613af8ee85",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/dotnet/error-handling.md",
+      "sha256": "f880c6c7ed1c8165082f0a3d1f7ae7b822b245d369642024ce405b1aab602109"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/dotnet/observability.md",
+      "upstream_git_blob": "d5e1f00e1b89b7dd28f7cd228a5ee96c4cf36fc2",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/dotnet/observability.md",
+      "sha256": "cface5413a26adcfe36598676e830a21addde8ee445681d0e9920da4b95bf56b"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/dotnet/patterns.md",
+      "upstream_git_blob": "586fab0a78d5cdca806030fed2941821a17abc90",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/dotnet/patterns.md",
+      "sha256": "ad417968530161dbf8020500ca86ed71befb86a548b8e45eb92ce4b4f0d86371"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/dotnet/gotchas.md",
+      "upstream_git_blob": "afefd0e3c9d9b8a7d3c6d4938946fd2c8b7489d0",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/dotnet/gotchas.md",
+      "sha256": "732e73acfaf92211128a22a33c63804ed6b5b4777bf2bee18880b14cdd03bb2b"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/dotnet/priority-fairness.md",
+      "upstream_git_blob": "d3b678c100504c4b332352c7152d0babfcf7dd6b",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/dotnet/priority-fairness.md",
+      "sha256": "269eee15de43e832712d6bee4df96a326c49dc8e6a584bd986200d5080713c02"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/dotnet/testing.md",
+      "upstream_git_blob": "d553c6bf0a29739f50643bcfa0b33ec4bb1bc09b",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/dotnet/testing.md",
+      "sha256": "7240aba51c91d50997e9e82dbb6d4769e5caf1e115cb523b1d5c29d43aa95b34"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/dotnet/standalone-activities.md",
+      "upstream_git_blob": "366ffffd4882a53f181dbaeb46c9cc838622b827",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/dotnet/standalone-activities.md",
+      "sha256": "2c9686e9a7d754a86e6f7e1e482eb8974fcbab24eb075eba64e941c430e1a81e"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/dotnet/versioning.md",
+      "upstream_git_blob": "695fe2e792fa8ab810625781e40f6e7ed44c5be4",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/dotnet/versioning.md",
+      "sha256": "80b31c5ae76ba4200ca0672e4daded7e0e69a2a23af535de3f9cea3f6a051ecb"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/go/advanced-features.md",
+      "upstream_git_blob": "b64ce9473446c2ff36bb66431806ec143dc59cb5",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/go/advanced-features.md",
+      "sha256": "25d2565ec2d14e54a83ff70c3c9509bcb5391baf4ef687099eb07df5d10feb54"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/go/determinism.md",
+      "upstream_git_blob": "e248835a1253823e4739243cbd95f54559084671",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/go/determinism.md",
+      "sha256": "907ba44cc566367b074021c41cb2486f49697306cd1dcbf10ca7484a936543d5"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/go/data-handling.md",
+      "upstream_git_blob": "9b1858deca459f973187b4bc71b0f5bbac17635b",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/go/data-handling.md",
+      "sha256": "4e4c3fdebcd01c3ba96a92f7211a8a1b1304aa6313f90283dacadf2c574cd88a"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/go/determinism-protection.md",
+      "upstream_git_blob": "5e8f46a8f75cd2f8baa65e95a354a5496b0828ac",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/go/determinism-protection.md",
+      "sha256": "85831f7bff3c5cdeef352521875f3819fad25f91394876439a60f2965092dcb2"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/go/error-handling.md",
+      "upstream_git_blob": "23a0bfe2ee4eee3bd5f095c1167ce9bf66e56cf2",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/go/error-handling.md",
+      "sha256": "1d535f0793bff787ff81a329c34dbbc9dc39cd54892f4e903a258a8c98d031aa"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/go/external-storage.md",
+      "upstream_git_blob": "cc0dd465b6ef1eccf88d99d5cd5a6d5f0d8581fa",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/go/external-storage.md",
+      "sha256": "5539369b566dc3a5f838f65002ac14858333beaf7f66fc59494605fb0b8b1112"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/go/go.md",
+      "upstream_git_blob": "66c9e0475f9344c7b84143c3a820846609fe2be7",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/go/go.md",
+      "sha256": "4ea0d733009d135b1b5b9a1cabb7b661bce8f5438a87ba76833be4e8b603c3e2"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/go/gotchas.md",
+      "upstream_git_blob": "df3c82e679e3227c08b162df0cf606f93d52fb0e",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/go/gotchas.md",
+      "sha256": "b4cff08dea61b4f9e129b0e54a3af11fd04dc03d99ab48c8ab428381cdcd6e76"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/go/priority-fairness.md",
+      "upstream_git_blob": "7372be737d995a739e8d0b89e098290e169d94b2",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/go/priority-fairness.md",
+      "sha256": "016fd05f25720658d7eac04a6c9d6ffbaf9f5d91fd61c3ffb6c4502830884284"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/go/random-streams.md",
+      "upstream_git_blob": "6eea77322eb777d9ca02d70f971cbdcc6c8e048b",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/go/random-streams.md",
+      "sha256": "78d40d1d8f4859ea20149257fc05c7809bf711f10bf855161c60351306c07c97"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/go/standalone-activities.md",
+      "upstream_git_blob": "c7a7bbe29a8495a94bff24f71bea5c699089bf3d",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/go/standalone-activities.md",
+      "sha256": "4ca13b5f019b10a4f9d668440f73aa2fa71326506b6d70c22c36e5cfeb29c51c"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/go/versioning.md",
+      "upstream_git_blob": "3b803df0fe4af8b453a0b5832483951ea8139a4d",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/go/versioning.md",
+      "sha256": "68881e0530c4e35d504c256dcb3bc2ce522ac23b60eb0a555c6a99fd70162ad7"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/go/testing.md",
+      "upstream_git_blob": "a5dba07256936f21f8698a9457433763bee3df2a",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/go/testing.md",
+      "sha256": "14b1c5b64f3ea81dee2a8858cebf64599a4caca1394b6b9d2200be3a7981b1fe"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/go/patterns.md",
+      "upstream_git_blob": "298cca45a7e30352f4ea7a84dd748942c4a7019b",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/go/patterns.md",
+      "sha256": "80a4a5b173ff4c728b36a0a4ab83b588271f16e8234ad00736ada349ef247504"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/go/observability.md",
+      "upstream_git_blob": "484d400fa4858bcb99ebc1844cdfccfc585d6d3a",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/go/observability.md",
+      "sha256": "23a5cbb5e647013ddbb5400047b9ed8f82e867eb48604dffcd1f38ca8def671c"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/integrations.md",
+      "upstream_git_blob": "d7e68014e1d79f210f88483c7c18e230d5aa58b1",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/integrations.md",
+      "sha256": "4c1008565d8b9b8bc17256ac435022ea3e9df4de831a663d94695c4cc6f8d22b"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/java/data-handling.md",
+      "upstream_git_blob": "a5b42e26c5f56bf66a36ddd29393e6c9295d7c76",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/java/data-handling.md",
+      "sha256": "d1517a4dc499d2f274be59c9239385c48cceac586675a4a2b127061ae7199c89"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/java/advanced-features.md",
+      "upstream_git_blob": "9db730c128c9df870dcf888af4d13b94d0c5d569",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/java/advanced-features.md",
+      "sha256": "0501137bb2f263d0ec0452c4e10417b9fb9e250eed4ee8bef58cfb8aa30ee57d"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/java/determinism-protection.md",
+      "upstream_git_blob": "18946443c6be0c7f373b9aa9ef746bc58fe2dea8",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/java/determinism-protection.md",
+      "sha256": "c7c1e42b68d2382e3ac3d3e9f5bdec11995a1f3e71dda63a50ab26df0f8a7291"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/java/error-handling.md",
+      "upstream_git_blob": "967377eaedbc79d043e40e3cbce6fadbf3495fa9",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/java/error-handling.md",
+      "sha256": "59a5cf28cc3dc2bf23bd863b649055453c5f4953d21b5cde3e8cb2181e4f86e0"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/java/gotchas.md",
+      "upstream_git_blob": "381ac347ab897c5a20bc8c2932911f99f1ac8a4b",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/java/gotchas.md",
+      "sha256": "df184ce20a400183cdb664f9f2afdf7345385aa385d86515a29d896447a2ea54"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/java/determinism.md",
+      "upstream_git_blob": "5f1561734940db0824ccff0ea7d3d74d8997ac05",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/java/determinism.md",
+      "sha256": "608357478ff95ac1ccdd66265069b99898ba8f4bb794e0866723a1367d9122db"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/java/integrations/spring-ai.md",
+      "upstream_git_blob": "1bf64c561616e04c860c205b022029eae78d523b",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/java/integrations/spring-ai.md",
+      "sha256": "650aeed84b61c43137b91388670d3c4856f4057411b10591dbc7388eb5598ac4"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/java/integrations/spring-boot.md",
+      "upstream_git_blob": "b52481b1a9c2939e96fd40eab377c5fc38bbccca",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/java/integrations/spring-boot.md",
+      "sha256": "da01dce2c2cce04ea0996b72d918ea29cb04d73dbdfe0347bde047b6a4df218e"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/java/java.md",
+      "upstream_git_blob": "8960a8129b8a5fc342e6cc4b5c723a2d971a9028",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/java/java.md",
+      "sha256": "5aa212854187844b6a5954e99f3d9c2aaeadcb7ba877328bce8e39ab077b089a"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/java/observability.md",
+      "upstream_git_blob": "8073c514e494fb1ef9aec15735af3cd36cc238e4",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/java/observability.md",
+      "sha256": "2313f3ae9e54e81c358f6ac99650a926473ffba93b571b85be1b075352dd83c5"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/java/patterns.md",
+      "upstream_git_blob": "e6428a9b3b2976c06bdc01983759f3fe3f7a77b1",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/java/patterns.md",
+      "sha256": "ed5a2f090fd1b0d655c8b20efe2b1700d7c86f4e38d4715607c3e438b6e9d238"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/java/testing.md",
+      "upstream_git_blob": "82d3550038d33cfc89d9d386df37d6f9103b1503",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/java/testing.md",
+      "sha256": "28920f256318cb48909974c5865cee4fe614834b1586534b7c574eaa0646e0ee"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/java/priority-fairness.md",
+      "upstream_git_blob": "30b97eda17060a460341177c7de5af6556f40151",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/java/priority-fairness.md",
+      "sha256": "0d3cb21923be327961d318cda8c5eff1515d0d21232de50f8c114f31b751845f"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/java/standalone-activities.md",
+      "upstream_git_blob": "66af92a645a5f5ff36b88cee0ec67f63589d4e1e",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/java/standalone-activities.md",
+      "sha256": "c05268377f279fd6672b73d621b51c025ebed52050adb9644bbd8020d16e9fe9"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/python/advanced-features.md",
+      "upstream_git_blob": "213c30e18ffe6cee5a46ce05ba66d6201ff134c9",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/python/advanced-features.md",
+      "sha256": "989b3d41f8c1d7ea6f2a4c2323a3191a1def6fe92a7a1aa87e1ac27b21ec3b1c"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/python/data-handling.md",
+      "upstream_git_blob": "e4ef537360fb82ead0bcf1aa5d0270381593d113",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/python/data-handling.md",
+      "sha256": "4cf1a0cae0e12c0734c99e9dcc6bb596ac999307972d4cb8faa357a23197e547"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/java/versioning.md",
+      "upstream_git_blob": "589c62ecd988d263e32244227f3eb862e07db267",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/java/versioning.md",
+      "sha256": "4b6bf814944a1707d2fecc73ee3cb910ce9c7c9e5fc1081060f550b5c90168a6"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/python/ai-patterns.md",
+      "upstream_git_blob": "6b789afc1f570e9def822aff732f6c8db04ba72b",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/python/ai-patterns.md",
+      "sha256": "fdb49deac2448cb43ded3c26da1faa6f1886dff3f1c1c18254ea8eca35c77ae5"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/python/external-storage.md",
+      "upstream_git_blob": "20866fb0e96dba89a09075cb349bffa37b7031ae",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/python/external-storage.md",
+      "sha256": "dc40c02b8892c21d453128e4f312decddb6daf4738af9e89406bcef0a586daab"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/python/error-handling.md",
+      "upstream_git_blob": "453123e9519a7b12802850b9410ab75c5ac329e4",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/python/error-handling.md",
+      "sha256": "1d0778c739e5aa494062b0ccc1014c4728724c09dc0b813e265056a753395e93"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/python/determinism.md",
+      "upstream_git_blob": "cc1acd3505a886cb24cc7653d8db369189a66342",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/python/determinism.md",
+      "sha256": "610c72482f1ba3178ff9612de97218a73bb231712305ec3cd7ecfc41578eb0ec"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/python/gotchas.md",
+      "upstream_git_blob": "798f00f8a4977197c1b6b7a1647b933dba3bcf47",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/python/gotchas.md",
+      "sha256": "84fabd27d30dc9865acc7bb3f547080c06828de9bd776a36e0745ae5a2e5fd84"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/python/determinism-protection.md",
+      "upstream_git_blob": "74749e96b355dca3ce864f45832dcd84739e057f",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/python/determinism-protection.md",
+      "sha256": "473d1d67d1022bdc1c9bca33be39baa5da74cc48eebcfb2c6ec41ec9f623ed3c"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/python/integrations/google-adk.md",
+      "upstream_git_blob": "2713a690ce244eb61e0677b518dc80964879a17f",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/python/integrations/google-adk.md",
+      "sha256": "df1f1f2ffa4d728058a93dc1052ad6eaefd9398e551b29e6a200cba2348a7376"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/python/integrations/braintrust.md",
+      "upstream_git_blob": "1bee8ad1846900d2f77bb575976844c7903ff003",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/python/integrations/braintrust.md",
+      "sha256": "85e65b768ebe79bdd690a07f7e8a97fee2e47105061ef6fa084ccf3ec559ab1c"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/python/integrations/langgraph.md",
+      "upstream_git_blob": "a0bae0452b33efa125251655595ac915d0a9cd97",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/python/integrations/langgraph.md",
+      "sha256": "9d4b2e776e38eae6c4a4a457fad17e357d1a8571794b00cd7634833f40a04ded"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/python/integrations/langsmith.md",
+      "upstream_git_blob": "7bff3d9b4172bd246397cc46d42de85951ed7474",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/python/integrations/langsmith.md",
+      "sha256": "794f4a6176f7e88a9b95d85d0a8c3fe63b8e3f43d0b6d2f6cccec5e0a9ec9d96"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/python/integrations/opentelemetry.md",
+      "upstream_git_blob": "97ffc8171a1fb0f4201feefde636c96a3a50d19d",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/python/integrations/opentelemetry.md",
+      "sha256": "273e4145d412c505616eda4a27dc04b346c56aa655e77abf28d7decb2f55cb14"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/python/observability.md",
+      "upstream_git_blob": "14dbd18d3c74ff0efefd721a57c7f6fc2fd45039",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/python/observability.md",
+      "sha256": "d76628d684f9f5cd229ddf453a313b139c75e7b284ad63e7304a840a38763ff2"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/python/integrations/openai-agents-sdk.md",
+      "upstream_git_blob": "fde26d494fbd37d6905a8ea1ad0939db6deaa74f",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/python/integrations/openai-agents-sdk.md",
+      "sha256": "d4b4990d75ca0e66d1618cb9d168495979abb17d3343c531456b6328028e42f9"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/python/integrations/pydantic-ai.md",
+      "upstream_git_blob": "e0ca657da71a50f116b96a63a4270d545e67d28f",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/python/integrations/pydantic-ai.md",
+      "sha256": "f9bad70b77a8d49835203ac33052cd145ee996ddb0779f41d5a9a25dff4058e8"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/python/patterns.md",
+      "upstream_git_blob": "249a7e7d6a024e085cfb0ec9e8ffd779de0df4b8",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/python/patterns.md",
+      "sha256": "be9b404e41d237fbd942f78a783fdea238969fc0d605be1d9a281b512436801a"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/python/standalone-activities.md",
+      "upstream_git_blob": "322b99a6d4a00d54bedbb21bb080b0f2589071f4",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/python/standalone-activities.md",
+      "sha256": "b05e29e82c719a5c6c8a04a15da30ffc655c0b10d6a728710047071f6785d5cf"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/python/sync-vs-async.md",
+      "upstream_git_blob": "d48cc6f7fd1316e2a7848fa3dc11e9d066f8e098",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/python/sync-vs-async.md",
+      "sha256": "816c6d21a8519c23b0dfb9539d0e2426101dac797314985526d6952917afdc14"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/python/priority-fairness.md",
+      "upstream_git_blob": "55a967ed54e8bc1dd028d24086b5b42c651cf822",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/python/priority-fairness.md",
+      "sha256": "9e04f64fec43885ff9efca28f83270818b5b188e770fae6f92de9c1b22ce0277"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/python/versioning.md",
+      "upstream_git_blob": "10b6fdbbade54b29830ca70b5b62a43bec3e4d0b",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/python/versioning.md",
+      "sha256": "0ef3676d236a1dc83baea4beb126ff02192062fe64aebf825efb816b259ea4b6"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/python/testing.md",
+      "upstream_git_blob": "69f39190a1e3c4ca5b5c8dc869d457df1f8ffba5",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/python/testing.md",
+      "sha256": "1746e02bb41ee567428af4b7a4c1bf11d2e3e1c6ff62c575f616977e813966f2"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/python/workflow-streams.md",
+      "upstream_git_blob": "02be4629daa3f6a2df2b89223646a96854f7cab9",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/python/workflow-streams.md",
+      "sha256": "1232f07aa59628360537c83dbc2e04720d7cc66a8807be4d9d6d6d32ae5a4e4c"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/python/python.md",
+      "upstream_git_blob": "cf67b01411e5ef3e22a848a40904081d56892f73",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/python/python.md",
+      "sha256": "a1a1cbec527372c84d8b37fb4dbdb3ce39006214e6c20b203dd11ccdea2fb7da"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/ruby/advanced-features.md",
+      "upstream_git_blob": "5c750eeff774ace6004326176c8105cd748fec08",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/ruby/advanced-features.md",
+      "sha256": "894b3e6b1097cf530025d802c10b45f7f056b651230c4e423450d3ef69c0ff68"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/ruby/data-handling.md",
+      "upstream_git_blob": "027e1d0b85697b180355a19d7a9b6c402f9c5241",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/ruby/data-handling.md",
+      "sha256": "9e7ad019604a707c5726d8b323ab0191056e171422f91f7d7a1c013577f010fc"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/ruby/determinism-protection.md",
+      "upstream_git_blob": "7cf5970dc869ead2ef11a82bcecb154a19456f30",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/ruby/determinism-protection.md",
+      "sha256": "8a4f15233f9d829171329d51dfc1ddeacd1021e5d8e577a3bd1faf771bf16fd9"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/ruby/gotchas.md",
+      "upstream_git_blob": "5854eff999b7b477dd433a18fd80cf33c54c8863",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/ruby/gotchas.md",
+      "sha256": "31525d56da0aa4ee1d30a7cba39d4d8e6cc1cb05519384ca9b7188ced7ca9ef3"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/ruby/observability.md",
+      "upstream_git_blob": "c6ac414ef97b20015413cf5682c987befa34d56d",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/ruby/observability.md",
+      "sha256": "f448d1adb52d5ea9ccf24c2344c2a3770443350a2799d2cfcf5167c453d46b1e"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/ruby/error-handling.md",
+      "upstream_git_blob": "a66f3504eb1f6cdc37fc185bab90de082ca9434f",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/ruby/error-handling.md",
+      "sha256": "cb2257485116550e6a1ba0e28ec9176f5282f18e39a6d83038645d2c8f991c05"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/ruby/determinism.md",
+      "upstream_git_blob": "f0c8211cc751828628f7809b450a5524c3a2839f",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/ruby/determinism.md",
+      "sha256": "51650e2d89441c12ca1fd2d11fcbc63122d655bcabc58009c20720d8d6e0fcc2"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/ruby/patterns.md",
+      "upstream_git_blob": "43b44c227ea75d9a63503cec5fe088be272e84e4",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/ruby/patterns.md",
+      "sha256": "6a95d9146ea9b3ae48b974e4f8e71cf2fe8cea178bb529461acde40d10af6887"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/ruby/priority-fairness.md",
+      "upstream_git_blob": "0f992e3fa19fe14d2ee496faa54dcf1fad70f8e2",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/ruby/priority-fairness.md",
+      "sha256": "c9d8b45f1e6b82ae9d20202e202cc24c98afe01901d64e74eb752ebe243c44a2"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/ruby/ruby.md",
+      "upstream_git_blob": "174f4aa457f23c3ba151e871aa89bd5a2a2b94f3",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/ruby/ruby.md",
+      "sha256": "f7ce5e6dcb6d3c56f203687658307877fdf2eb3b0f81b3a31039505fd5c7af59"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/ruby/standalone-activities.md",
+      "upstream_git_blob": "e0a008ed7f5b058278872203865b61eb2ab58ab9",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/ruby/standalone-activities.md",
+      "sha256": "faaa3841c4b432afaf5ca86005f7d3ba702185a2bf62cd87f732ab59b59e2a14"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/rust/rust.md",
+      "upstream_git_blob": "91503b9fe6cf020f547cbfb14eb8d1323d7467ff",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/rust/rust.md",
+      "sha256": "9593b13afb065aed5210288fe586ce96532ba0063ca19ed7753c7662d122f31c"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/typescript/advanced-features.md",
+      "upstream_git_blob": "f20e7227099e849998ee9f280348a3e07a28f588",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/typescript/advanced-features.md",
+      "sha256": "f24a3189f2794351920c8dd60aa64607e9f7f0b4e0ebae3f23d6387d065ef0ef"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/ruby/versioning.md",
+      "upstream_git_blob": "e816029dc7f130450bd71546fa5fa2d508c1494d",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/ruby/versioning.md",
+      "sha256": "f35f82af3517d74f989df65f820ac419618868cfb4ad1fc1d1ca3148b28e0efa"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/ruby/testing.md",
+      "upstream_git_blob": "4ff5e458e07cf119f6106931f13e525f016bfd74",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/ruby/testing.md",
+      "sha256": "637f6b2618205b5fab6072c394b7b43c7a5bc9a8f920399fcf23b563d0959ce5"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/typescript/data-handling.md",
+      "upstream_git_blob": "fd69f7e804b71fbdd0b56e712aefebe76fd5e110",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/typescript/data-handling.md",
+      "sha256": "de90ed51b23a4705f1c454f17fe3f50497290b6cf606146986616e32698dbbf7"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/typescript/determinism.md",
+      "upstream_git_blob": "b37a53d676a654d27866ee337f9729e198e361ad",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/typescript/determinism.md",
+      "sha256": "d7fcc053720ef339bcea82c9c37995749e6cac28e619d05e4ee2bae76d146603"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/typescript/determinism-protection.md",
+      "upstream_git_blob": "81c513a135ecf06cb1e154b23c94082d4a02488a",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/typescript/determinism-protection.md",
+      "sha256": "cc58d49c9716f9b28c7bdd36b3192df20c2c4909f5c4acc6f3ce6f9e56ec1c16"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/typescript/error-handling.md",
+      "upstream_git_blob": "39d5fe74e820fb5437e2a484e7c59d56262b7cde",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/typescript/error-handling.md",
+      "sha256": "9f9b9c9bfa2e89a41e2b218f66fce96f2007676f2a5ce3ba11f93d83f77d6e52"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/typescript/gotchas.md",
+      "upstream_git_blob": "6d7cffd517afd5f16b435a1a64caea086db88082",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/typescript/gotchas.md",
+      "sha256": "402cbfbd2f5ef31f8565c15a187571749de537aebfdfd42505669d4a8a441a1f"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/typescript/external-storage.md",
+      "upstream_git_blob": "52b8fe4c3fa7b91b1f91d7d775060f799b5b29d9",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/typescript/external-storage.md",
+      "sha256": "75b532b170014d587e5abaf0e3b633f36d3e45f7b3b6838e0ca842a59d95b10b"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/typescript/integrations/mastra.md",
+      "upstream_git_blob": "a51efa745a4b99355e6611b75349ad141fa64f10",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/typescript/integrations/mastra.md",
+      "sha256": "0ab8d488dd8bc8f82e897fd814bba3086bdf5b0b6981c5b076383b97ec176ad0"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/typescript/integrations/braintrust.md",
+      "upstream_git_blob": "585923192d3390124e0b5e5a20df083ad52f205a",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/typescript/integrations/braintrust.md",
+      "sha256": "4f83d2da603b4b1a9beedcbd375dace7cf0db4c8a274d657ab7a874bd387a2a0"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/typescript/integrations/opentelemetry.md",
+      "upstream_git_blob": "29efbfc0d40d552dbffccf30f0ab6fe2d35f9c9e",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/typescript/integrations/opentelemetry.md",
+      "sha256": "bf26757f1f81ac00d4970341769dd75c4da154b2786ae10227fbad38eb46a655"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/typescript/integrations/vercel-ai-sdk.md",
+      "upstream_git_blob": "fe68c33fd97e13d028eff41a1cca6b848ad6ab5f",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/typescript/integrations/vercel-ai-sdk.md",
+      "sha256": "e059e8f9f9257bf9db62248fc535e43822435c16d8da96879c29fb23832a54f5"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/typescript/observability.md",
+      "upstream_git_blob": "f07a26e67bbaaf7f554ee07dd1b607c06af6cde6",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/typescript/observability.md",
+      "sha256": "fa444b50a4d5db211c1807353e5efa0651f53422b85b3d68155cbd06b5bfe5ff"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/typescript/priority-fairness.md",
+      "upstream_git_blob": "4bb912dae2fa61ca254a72c37cf6f5d2459b0b78",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/typescript/priority-fairness.md",
+      "sha256": "4177e7d49360f5c502405d00b270df9d38eefb354d75e202a7c85f93307518b8"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/typescript/patterns.md",
+      "upstream_git_blob": "6dc2b3234eee73a06d39818bf2c3ace227e0c8e4",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/typescript/patterns.md",
+      "sha256": "8bc84381f9d6432301f3011b60a64f0170bc2584fca170cff9e55469cb958613"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/typescript/random-streams.md",
+      "upstream_git_blob": "73598b7848122526693ea74840169d00062a348f",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/typescript/random-streams.md",
+      "sha256": "43f6ad68c0eb4c8306dae99a227a34a97a7b4de5aa823b9744c91b90d345114a"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/typescript/standalone-activities.md",
+      "upstream_git_blob": "6123d5cdd40dd2fceae209519e7fdc410305e941",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/typescript/standalone-activities.md",
+      "sha256": "393d4f22f8638b62663cd244eaa74b060f802f223daec5ab93dc2ec14cb0be6e"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/typescript/versioning.md",
+      "upstream_git_blob": "a8018dbaec0e79b20c092664e2c4a3ed6117931e",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/typescript/versioning.md",
+      "sha256": "a07b1a93b60f227475efd4e29aa04e54b433a22930fc36bbe72da21dd4dcb7a2"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/typescript/testing.md",
+      "upstream_git_blob": "baf2ea48a884da69a09afcad4aa1cc45c673c933",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/typescript/testing.md",
+      "sha256": "d414b43d381b23de1cce26adfa8d70078e9195527d8a0a03ccb3c18cc9fc16c2"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/references/typescript/typescript.md",
+      "upstream_git_blob": "e181b4b9b0ca183a7e4c2b1a9df0525c697a795c",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "references/typescript/typescript.md",
+      "sha256": "7f80c46c2bba109fc4141da730ab661c9ac5cca1e0d646fa9e040419a60d89f2"
+    },
+    {
+      "path": ".agents/upstream-licenses/addyosmani--agent-skills/LICENSE",
+      "upstream_git_blob": "d67778ada6b9cda6227e9130da182c13e73c8b2e",
+      "repository": "addyosmani/agent-skills",
+      "commit": "aeac41d4d005999432bb7312f7ff06383a91d59d",
+      "source_path": "LICENSE",
+      "sha256": "6f202f8bd568cd730dbb2b0d1f8e243bc74c2fa1f64dbce9b2c7ea08bd5c9fd7"
+    },
+    {
+      "path": ".agents/upstream-licenses/mattpocock--skills/LICENSE",
+      "upstream_git_blob": "f1dd2c09108dde1a5f56097cee8461b3ea834499",
+      "repository": "mattpocock/skills",
+      "commit": "5beb35b040e3de97e54fa9e386d7e42d15c295c2",
+      "source_path": "LICENSE",
+      "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+    },
+    {
+      "path": ".agents/upstream-licenses/nextlevelbuilder--ui-ux-pro-max-skill/LICENSE",
+      "upstream_git_blob": "1e71cbf26660f31903807d099fe902c098fc7e4c",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "56ea9cf174ed86786187daa9de0e6247cb0747e4",
+      "source_path": "LICENSE",
+      "sha256": "738f69dfa83db5c347c678fb9d90e560877059f0de93a327c39001bff92dc014"
+    },
+    {
+      "path": ".agents/skills/temporal-developer/uv.lock",
+      "upstream_git_blob": "abc3858bf84e0fab89242789ba2ba6640ee29852",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "uv.lock",
+      "sha256": "a47ed8b03cc79d6f5e515fa32720aca9e1f55fb9163f51366a273ca7c950eef6"
+    },
+    {
+      "path": ".agents/upstream-licenses/affaan-m--ECC/LICENSE",
+      "upstream_git_blob": "b832b6f642312312367c07688dc7426db40a82ed",
+      "repository": "affaan-m/ECC",
+      "commit": "07971588f8ac7a60080ba8c1b7920c9e8e733e7d",
+      "source_path": "LICENSE",
+      "sha256": "326146379f01bb137c0a5d3c54770c1aa31076705c8b88a7f6b26a460f6221b2"
+    },
+    {
+      "path": ".agents/upstream-licenses/temporalio--skill-temporal-developer/LICENSE",
+      "upstream_git_blob": "7092ef5b7509a89b861a4bda602424dfc19d2435",
+      "repository": "temporalio/skill-temporal-developer",
+      "commit": "3041178b597dddb1b54f49e5e73fbae644fba283",
+      "source_path": "LICENSE",
+      "sha256": "9a7285d76bcfe865691b02e6a42deb9a6f86ce0a0d87a12b79fc6a996ba187a5"
+    },
+    {
+      "path": ".agents/upstream-licenses/wshobson--agents/LICENSE",
+      "upstream_git_blob": "326f0a55c96e672fedf9d807ca043c00df05ba0e",
+      "repository": "wshobson/agents",
+      "commit": "0874a27b17a22e2b7c2e2bcd725768e0803cad06",
+      "source_path": "LICENSE",
+      "sha256": "f89abb55d9f073f38f1703e4518f0613c788c6174be7f13b8dfe48a1c076c746"
+    }
+  ]
+}

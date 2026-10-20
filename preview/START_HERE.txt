@@ -1,0 +1,19 @@
+RELAY STUDIO — DESKTOP DESIGN PREVIEW
+
+1. Windows native preview: open native/Relay-Studio-Preview.exe from the project archive.
+   This is an unsigned debug build with embedded UI assets. Requires WebView2.
+   The executable was compiled but not launch-tested in this session.
+
+2. Portable design review: open Relay-Studio-Preview.html in your normal browser.
+   It is a self-contained review copy of the desktop frontend.
+
+Try this path:
+  Operations overview → select Meridian Supply → Evidence → Trace → Overview
+  → Approve resolution → add a review note → record approval.
+  Replay lab → change failure scenario → toggle candidate intervention → run fixture.
+  Evaluations → run fixture checks → Releases → simulate shadow rollout → roll back.
+
+All data is synthetic. No model, enterprise connector, training job, or payment is active.
+Run decisions persist locally in the preview. Settings → Reset demo runs restores them.
+
+Read README.md and docs/PRODUCT_PLAN.md for the project proposal, full stack and milestones.
