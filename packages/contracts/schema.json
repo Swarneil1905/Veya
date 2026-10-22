@@ -1,0 +1,268 @@
+{
+  "models": {
+    "Artifact": {
+      "$defs": {
+        "Reference": {
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "tenant_id": {
+              "title": "Tenant Id",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "tenant_id"
+          ],
+          "title": "Reference",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "created_at": {
+          "title": "Created At",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "mime_type": {
+          "title": "Mime Type",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "run": {
+          "$ref": "#/$defs/Reference"
+        },
+        "schema_version": {
+          "default": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "sha256": {
+          "title": "Sha256",
+          "type": "string"
+        },
+        "size": {
+          "title": "Size",
+          "type": "integer"
+        },
+        "tenant_id": {
+          "title": "Tenant Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "tenant_id",
+        "run",
+        "sha256",
+        "size",
+        "mime_type",
+        "name"
+      ],
+      "title": "Artifact",
+      "type": "object"
+    },
+    "Error": {
+      "properties": {
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "retryable": {
+          "default": false,
+          "title": "Retryable",
+          "type": "boolean"
+        },
+        "schema_version": {
+          "default": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "Error",
+      "type": "object"
+    },
+    "Run": {
+      "$defs": {
+        "Reference": {
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "tenant_id": {
+              "title": "Tenant Id",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "tenant_id"
+          ],
+          "title": "Reference",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "created_at": {
+          "title": "Created At",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "revision": {
+          "default": 0,
+          "title": "Revision",
+          "type": "integer"
+        },
+        "schema_version": {
+          "default": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "state": {
+          "default": "queued",
+          "title": "State",
+          "type": "string"
+        },
+        "task": {
+          "$ref": "#/$defs/Reference"
+        },
+        "tenant_id": {
+          "title": "Tenant Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "tenant_id",
+        "task"
+      ],
+      "title": "Run",
+      "type": "object"
+    },
+    "Step": {
+      "$defs": {
+        "Reference": {
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "tenant_id": {
+              "title": "Tenant Id",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "tenant_id"
+          ],
+          "title": "Reference",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "created_at": {
+          "title": "Created At",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "run": {
+          "$ref": "#/$defs/Reference"
+        },
+        "schema_version": {
+          "default": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "state": {
+          "default": "queued",
+          "title": "State",
+          "type": "string"
+        },
+        "tenant_id": {
+          "title": "Tenant Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "tenant_id",
+        "run",
+        "kind"
+      ],
+      "title": "Step",
+      "type": "object"
+    },
+    "Task": {
+      "properties": {
+        "created_at": {
+          "title": "Created At",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "instruction": {
+          "title": "Instruction",
+          "type": "string"
+        },
+        "schema_version": {
+          "default": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "state": {
+          "default": "queued",
+          "title": "State",
+          "type": "string"
+        },
+        "tenant_id": {
+          "title": "Tenant Id",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "tenant_id",
+        "title",
+        "instruction"
+      ],
+      "title": "Task",
+      "type": "object"
+    }
+  },
+  "version": 1
+}

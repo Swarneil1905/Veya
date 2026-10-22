@@ -2,15 +2,15 @@
 
 Canonical source: `planning/backlog.json`. This report is regenerated after every tracker update. Story counts reflect accepted implementation evidence, not planning effort.
 
-**Build progress: 2/240 stories done.** Ready to start: 3.
+**Build progress: 2/240 stories done.** Ready to start: 2.
 
 | Status | Stories |
 | --- | ---: |
-| backlog | 238 |
+| backlog | 237 |
 | blocked | 0 |
 | done | 2 |
 | in_progress | 0 |
-| in_review | 0 |
+| in_review | 1 |
 
 ## Release scope and effort
 
@@ -31,7 +31,6 @@ Release scopes are cumulative through dependencies where applicable; do not add 
 | --- | --- | ---: |
 | VEY-002 | Apply the Veya application identity | 3 |
 | VEY-003 | Lock supported toolchains | 3 |
-| VEY-031 | Define task and run domain contracts | 5 |
 
 ## Planning deliverables
 
@@ -56,3 +55,5 @@ See RISKS.md. The requested Project folder is not writable from this session; th
 - 2026-10-22T00:23:41+00:00: VEY-004 backlog -> in_progress
 - 2026-10-22T00:24:26+00:00: VEY-004 in_progress -> in_review
 - 2026-10-22T00:24:26+00:00: VEY-004 in_review -> done
+- 2026-10-22T00:24:27+00:00: VEY-031 backlog -> in_progress
+- 2026-10-22T00:25:21+00:00: VEY-031 in_progress -> in_review

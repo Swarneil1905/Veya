@@ -2546,14 +2546,14 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Codex",
       "actual_hours": null,
       "commit": null,
       "evidence": [],
       "acceptance_note": null,
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-22T00:25:21+00:00",
       "release_ids": [
         "R1",
         "R2",
@@ -11714,6 +11714,26 @@
         "planning/evidence/VEY-004/checks.txt"
       ],
       "acceptance_note": "Local, remote and test profiles validate explicit endpoints, absolute storage, tenant IDs and secret references; invalid, unknown, missing and blank fields are rejected without filesystem side effects."
+    },
+    {
+      "at": "2026-10-22T00:24:27+00:00",
+      "story_id": "VEY-031",
+      "from": "backlog",
+      "to": "in_progress",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-22T00:25:21+00:00",
+      "story_id": "VEY-031",
+      "from": "in_progress",
+      "to": "in_review",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
     }
   ],
   "planning_deliverables": [
