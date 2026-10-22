@@ -788,11 +788,11 @@ Every story requires a code/configuration/migration/test change. Documentation-o
 
 **Dependencies:** VEY-031, VEY-004.
 
-**Tracking:** in_review; P0; Core; M0; D04; owner: Codex.
+**Tracking:** done; P0; Core; M0; D04; owner: Codex.
 
 **Effort:** 6 base hours; planning range 4-9 hours, before shared integration allowance.
 
-**Completion evidence:** No implementation commit recorded; no test evidence recorded.
+**Completion evidence:** c43f320969b39af7af005b70ff4478c1be301ed9; planning/evidence/VEY-032/checks.txt.
 
 ## VEY-033: Create task submission endpoints
 
