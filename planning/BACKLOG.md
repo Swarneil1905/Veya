@@ -788,7 +788,7 @@ Every story requires a code/configuration/migration/test change. Documentation-o
 
 **Dependencies:** VEY-031, VEY-004.
 
-**Tracking:** backlog; P0; Core; M0; D04; owner: Unassigned.
+**Tracking:** in_review; P0; Core; M0; D04; owner: Codex.
 
 **Effort:** 6 base hours; planning range 4-9 hours, before shared integration allowance.
 

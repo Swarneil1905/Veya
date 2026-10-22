@@ -1,0 +1,5 @@
+$ "C:\Users\Swarneil Pradhan\AppData\Local\Programs\Python\Python310\python.exe" scripts/test_runtime.py services/runtime/tests/test_storage.py -q
+...                                                                      [100%]
+3 passed in 1.09s
+
+Exit: 0

@@ -15,6 +15,9 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = ["veya"]
 
+[tool.hatch.build.targets.wheel.force-include]
+"migrations" = "veya/migrations"
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-ra"

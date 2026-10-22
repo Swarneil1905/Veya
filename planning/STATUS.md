@@ -2,15 +2,15 @@
 
 Canonical source: `planning/backlog.json`. This report is regenerated after every tracker update. Story counts reflect accepted implementation evidence, not planning effort.
 
-**Build progress: 3/240 stories done.** Ready to start: 6.
+**Build progress: 3/240 stories done.** Ready to start: 5.
 
 | Status | Stories |
 | --- | ---: |
-| backlog | 237 |
+| backlog | 236 |
 | blocked | 0 |
 | done | 3 |
 | in_progress | 0 |
-| in_review | 0 |
+| in_review | 1 |
 
 ## Release scope and effort
 
@@ -31,7 +31,6 @@ Release scopes are cumulative through dependencies where applicable; do not add 
 | --- | --- | ---: |
 | VEY-002 | Apply the Veya application identity | 3 |
 | VEY-003 | Lock supported toolchains | 3 |
-| VEY-032 | Implement transactional local persistence | 6 |
 | VEY-041 | Define provider capabilities and configuration | 4 |
 | VEY-051 | Create the typed tool registry | 5 |
 | VEY-091 | Add the Temporal worker deployment | 6 |
@@ -53,7 +52,6 @@ See RISKS.md. The requested Project folder is not writable from this session; th
 
 ## Recent tracker events
 
-- 2026-10-22T00:19:20+00:00: VEY-001 backlog -> in_progress
 - 2026-10-22T00:23:40+00:00: VEY-001 in_progress -> in_review
 - 2026-10-22T00:23:41+00:00: VEY-001 in_review -> done
 - 2026-10-22T00:23:41+00:00: VEY-004 backlog -> in_progress
@@ -62,3 +60,5 @@ See RISKS.md. The requested Project folder is not writable from this session; th
 - 2026-10-22T00:24:27+00:00: VEY-031 backlog -> in_progress
 - 2026-10-22T00:25:21+00:00: VEY-031 in_progress -> in_review
 - 2026-10-22T00:25:21+00:00: VEY-031 in_review -> done
+- 2026-10-22T00:25:22+00:00: VEY-032 backlog -> in_progress
+- 2026-10-22T00:26:58+00:00: VEY-032 in_progress -> in_review
