@@ -2641,14 +2641,14 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "blocked",
+      "owner": "Codex",
       "actual_hours": null,
       "commit": null,
       "evidence": [],
       "acceptance_note": null,
-      "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "blocked_reason": "Paused for requested workspace handoff: this session cannot write C:\\Users\\Swarneil Pradhan\\Veya. Task API verification did not complete and was interrupted; do not mark this story done.",
+      "updated_at": "2026-10-22T00:30:22+00:00",
       "release_ids": [
         "R1",
         "R2",
@@ -11782,6 +11782,26 @@
         "planning/evidence/VEY-032/checks.txt"
       ],
       "acceptance_note": "A separate Python process recovers committed task/run/step relationships. Invalid multi-record writes roll back entirely, and repository reads are tenant-scoped; migrations are transactional and checksum-verified."
+    },
+    {
+      "at": "2026-10-22T00:26:59+00:00",
+      "story_id": "VEY-033",
+      "from": "backlog",
+      "to": "in_progress",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-22T00:30:22+00:00",
+      "story_id": "VEY-033",
+      "from": "in_progress",
+      "to": "blocked",
+      "reason": "Paused for requested workspace handoff: this session cannot write C:\\Users\\Swarneil Pradhan\\Veya. Task API verification did not complete and was interrupted; do not mark this story done.",
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
     }
   ],
   "planning_deliverables": [
