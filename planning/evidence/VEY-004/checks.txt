@@ -1,0 +1,5 @@
+$ "C:\Users\Swarneil Pradhan\AppData\Local\Programs\Python\Python310\python.exe" scripts/test_runtime.py services/runtime/tests/test_config.py -q
+..........                                                               [100%]
+10 passed in 0.06s
+
+Exit: 0

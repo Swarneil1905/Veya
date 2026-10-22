@@ -1344,14 +1344,14 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Codex",
       "actual_hours": null,
       "commit": null,
       "evidence": [],
       "acceptance_note": null,
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-22T00:24:26+00:00",
       "release_ids": [
         "R1",
         "R2",
@@ -11680,6 +11680,26 @@
         "planning/evidence/VEY-001/checks.txt"
       ],
       "acceptance_note": "Desktop typecheck, Vite build, fixture tests, DOM interactions and missing-runtime prerequisite checks passed from workspace root using installed dependencies. Fresh dependency installation remains unverified because registry DNS is unavailable."
+    },
+    {
+      "at": "2026-10-22T00:23:41+00:00",
+      "story_id": "VEY-004",
+      "from": "backlog",
+      "to": "in_progress",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-22T00:24:26+00:00",
+      "story_id": "VEY-004",
+      "from": "in_progress",
+      "to": "in_review",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
     }
   ],
   "planning_deliverables": [
