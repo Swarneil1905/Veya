@@ -54,11 +54,11 @@ Every story requires a code/configuration/migration/test change. Documentation-o
 
 **Dependencies:** None.
 
-**Tracking:** in_review; P0; Core; M0; D01; owner: Codex.
+**Tracking:** done; P0; Core; M0; D01; owner: Codex.
 
 **Effort:** 6 base hours; planning range 4-9 hours, before shared integration allowance.
 
-**Completion evidence:** No implementation commit recorded; no test evidence recorded.
+**Completion evidence:** 06d5e2dae05003188763eac78405672a6d082549; planning/evidence/VEY-001/checks.txt.
 
 ## VEY-002: Apply the Veya application identity
 
