@@ -765,11 +765,11 @@ Every story requires a code/configuration/migration/test change. Documentation-o
 
 **Dependencies:** VEY-001.
 
-**Tracking:** in_review; P0; Core; M0; D04; owner: Codex.
+**Tracking:** done; P0; Core; M0; D04; owner: Codex.
 
 **Effort:** 5 base hours; planning range 3-8 hours, before shared integration allowance.
 
-**Completion evidence:** No implementation commit recorded; no test evidence recorded.
+**Completion evidence:** 52a035506f39a56311e87fecdcbf91e820caa56d; planning/evidence/VEY-031/checks.txt.
 
 ## VEY-032: Implement transactional local persistence
 

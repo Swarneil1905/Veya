@@ -2546,12 +2546,14 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "in_review",
+      "status": "done",
       "owner": "Codex",
       "actual_hours": null,
-      "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "commit": "52a035506f39a56311e87fecdcbf91e820caa56d",
+      "evidence": [
+        "planning/evidence/VEY-031/checks.txt"
+      ],
+      "acceptance_note": "Frozen versioned Task, Run, Step, Artifact and Error contracts serialize through Pydantic adapters; tests reject cross-tenant references, invalid lifecycle states, unsupported versions and invalid artifact hashes.",
       "blocked_reason": null,
       "updated_at": "2026-10-22T00:25:21+00:00",
       "release_ids": [
@@ -11734,6 +11736,18 @@
       "commit": null,
       "evidence": [],
       "acceptance_note": null
+    },
+    {
+      "at": "2026-10-22T00:25:21+00:00",
+      "story_id": "VEY-031",
+      "from": "in_review",
+      "to": "done",
+      "reason": null,
+      "commit": "52a035506f39a56311e87fecdcbf91e820caa56d",
+      "evidence": [
+        "planning/evidence/VEY-031/checks.txt"
+      ],
+      "acceptance_note": "Frozen versioned Task, Run, Step, Artifact and Error contracts serialize through Pydantic adapters; tests reject cross-tenant references, invalid lifecycle states, unsupported versions and invalid artifact hashes."
     }
   ],
   "planning_deliverables": [
