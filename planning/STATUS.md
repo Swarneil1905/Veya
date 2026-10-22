@@ -2,15 +2,15 @@
 
 Canonical source: `planning/backlog.json`. This report is regenerated after every tracker update. Story counts reflect accepted implementation evidence, not planning effort.
 
-**Build progress: 1/240 stories done.** Ready to start: 3.
+**Build progress: 2/240 stories done.** Ready to start: 3.
 
 | Status | Stories |
 | --- | ---: |
 | backlog | 238 |
 | blocked | 0 |
-| done | 1 |
+| done | 2 |
 | in_progress | 0 |
-| in_review | 1 |
+| in_review | 0 |
 
 ## Release scope and effort
 
@@ -19,11 +19,11 @@ Release scopes are cumulative through dependencies where applicable; do not add 
 | Release | Stories | Done | Base hours | Range hours | Base with 25% integration allowance | Weeks at 15 h/week |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | R0: Native recovery checkpoint | 3 | 1 | 17 | 12-26 | 22 | 2 |
-| R1: First real delegated task | 35 | 1 | 211 | 143-321 | 264 | 18 |
-| R2: Invoice MVP | 63 | 1 | 392 | 269-596 | 490 | 33 |
-| R3: Evaluation and learning beta | 122 | 1 | 786 | 540-1197 | 983 | 66 |
-| R4: Operational desktop release | 220 | 1 | 1447 | 1005-2201 | 1809 | 121 |
-| R5: Full optional research roadmap | 240 | 1 | 1633 | 1139-2480 | 2042 | 137 |
+| R1: First real delegated task | 35 | 2 | 211 | 143-321 | 264 | 18 |
+| R2: Invoice MVP | 63 | 2 | 392 | 269-596 | 490 | 33 |
+| R3: Evaluation and learning beta | 122 | 2 | 786 | 540-1197 | 983 | 66 |
+| R4: Operational desktop release | 220 | 2 | 1447 | 1005-2201 | 1809 | 121 |
+| R5: Full optional research roadmap | 240 | 2 | 1633 | 1139-2480 | 2042 | 137 |
 
 ## Ready queue
 
@@ -55,3 +55,4 @@ See RISKS.md. The requested Project folder is not writable from this session; th
 - 2026-10-22T00:23:41+00:00: VEY-001 in_review -> done
 - 2026-10-22T00:23:41+00:00: VEY-004 backlog -> in_progress
 - 2026-10-22T00:24:26+00:00: VEY-004 in_progress -> in_review
+- 2026-10-22T00:24:26+00:00: VEY-004 in_review -> done

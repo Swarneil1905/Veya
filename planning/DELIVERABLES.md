@@ -4,7 +4,7 @@ A deliverable is accepted only after its stories are done and its integration ga
 
 | ID | Deliverable | Stories done | Status | Acceptance gate |
 | --- | --- | ---: | --- | --- |
-| D01 | A versioned monorepo with locked toolchains, generated contracts and enforced module boundaries | 1/10 | in progress | A clean supported machine can bootstrap and run the owned-code checks without relying on LocalMind dependencies. |
+| D01 | A versioned monorepo with locked toolchains, generated contracts and enforced module boundaries | 2/10 | in progress | A clean supported machine can bootstrap and run the owned-code checks without relying on LocalMind dependencies. |
 | D02 | A launchable Tauri host with a supervised Python runtime, scoped IPC and vaulted credentials | 0/10 | not started | The actual native app starts, remains responsive, handles sidecar failure and exits without orphaning owned processes. |
 | D03 | A task composer, activity view, approval review, results and settings with rendered accessibility evidence | 0/10 | not started | A user completes the core flow through the rendered desktop UI using mouse and keyboard at supported sizes. |
 | D04 | Typed contracts, transactional task storage, resumable events and verified artifact storage | 0/10 | not started | Restart, concurrency, backup and interrupted-write tests preserve consistent task and artifact state. |
