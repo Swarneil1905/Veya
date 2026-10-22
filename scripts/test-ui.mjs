@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {createRequire} from 'node:module';
 const require=createRequire(process.env.RELAY_TEST_DEPS || import.meta.url);
 const {JSDOM}=require('jsdom');
-const html=readFileSync('dist/index.html','utf8');
+const html=readFileSync('apps/desktop/dist/index.html','utf8');
 const script=html.match(/<script[^>]+src="([^"]+)"[^>]*><\/script>/);
 assert.ok(script,'Build the frontend before running UI tests.');
 const dom=new JSDOM(html.replace(script[0],''),{url:'https://relay-demo.invalid',runScripts:'outside-only',pretendToBeVisual:true});
@@ -12,7 +12,7 @@ const {window}=dom;
 // jsdom does not implement native dialog modal behavior. Stub only this platform seam.
 window.HTMLDialogElement.prototype.showModal=function(){this.setAttribute('open','');};
 window.HTMLDialogElement.prototype.close=function(){this.removeAttribute('open');};
-window.eval(readFileSync(`dist${script[1]}`,'utf8'));
+window.eval(readFileSync(`apps/desktop/dist${script[1]}`,'utf8'));
 const settle=()=>new Promise(resolve=>setTimeout(resolve,40));
 const text=()=>window.document.body.textContent;
 function button(label){const result=[...window.document.querySelectorAll('button')].find(b=>b.textContent.trim()===label);assert.ok(result,`Button not found: ${label}`);return result;}

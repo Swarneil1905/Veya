@@ -1,0 +1,107 @@
+$ "C:\Users\Swarneil Pradhan\AppData\Local\Programs\Python\Python310\python.exe" -m unittest discover -s tests -p test_workspace.py -v
+test_missing_runtime_names_the_prerequisite (test_workspace.WorkspaceTests) ... ok
+test_repository_has_required_packages (test_workspace.WorkspaceTests) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.004s
+
+OK
+
+Exit: 0
+
+$ node node_modules/typescript/bin/tsc --noEmit -p apps/desktop
+
+Exit: 0
+
+$ node "C:\Users\Swarneil Pradhan\LocalMind\apps\desktop\node_modules\vite\bin\vite.js" build apps/desktop --config apps/desktop/vite.config.ts
+vite v7.3.5 building client environment for production...
+transforming...
+✓ 1757 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.42 kB │ gzip:  0.30 kB
+dist/assets/index-q7q5v4r0.css   34.92 kB │ gzip:  8.23 kB
+dist/assets/index-B854qfrQ.js   249.06 kB │ gzip: 76.63 kB
+✓ built in 11.87s
+node_modules/lucide-react/dist/esm/context.mjs (2:0): Module level directives cause errors when bundled, "use client" in "node_modules/lucide-react/dist/esm/context.mjs" was ignored.
+node_modules/lucide-react/dist/esm/Icon.mjs (2:0): Module level directives cause errors when bundled, "use client" in "node_modules/lucide-react/dist/esm/Icon.mjs" was ignored.
+
+Exit: 0
+
+$ node --test apps/desktop/tests/domain.test.mjs
+TAP version 13
+# Subtest: an approval is recorded once and requires an audit note
+ok 1 - an approval is recorded once and requires an audit note
+  ---
+  duration_ms: 1.5557
+  type: 'test'
+  ...
+# Subtest: rejection stops the workflow and invalid decisions fail
+ok 2 - rejection stops the workflow and invalid decisions fail
+  ---
+  duration_ms: 0.7312
+  type: 'test'
+  ...
+# Subtest: stale-policy: baseline failure and candidate fixture stay isolated
+ok 3 - stale-policy: baseline failure and candidate fixture stay isolated
+  ---
+  duration_ms: 0.2008
+  type: 'test'
+  ...
+# Subtest: tool-timeout: baseline failure and candidate fixture stay isolated
+ok 4 - tool-timeout: baseline failure and candidate fixture stay isolated
+  ---
+  duration_ms: 0.1566
+  type: 'test'
+  ...
+# Subtest: injection: baseline failure and candidate fixture stay isolated
+ok 5 - injection: baseline failure and candidate fixture stay isolated
+  ---
+  duration_ms: 0.0692
+  type: 'test'
+  ...
+# Subtest: missing-receipt: baseline failure and candidate fixture stay isolated
+ok 6 - missing-receipt: baseline failure and candidate fixture stay isolated
+  ---
+  duration_ms: 0.0495
+  type: 'test'
+  ...
+# Subtest: synthetic reports cannot bypass release gates
+ok 7 - synthetic reports cannot bypass release gates
+  ---
+  duration_ms: 0.1861
+  type: 'test'
+  ...
+# Subtest: real release evidence must satisfy every gate
+ok 8 - real release evidence must satisfy every gate
+  ---
+  duration_ms: 0.1251
+  type: 'test'
+  ...
+# Subtest: queue totals follow decisions
+ok 9 - queue totals follow decisions
+  ---
+  duration_ms: 1.3883
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 112.2598
+
+Exit: 0
+
+$ node scripts/check-project.mjs
+Project contracts and demo labeling verified.
+
+Exit: 0
+
+$ node scripts/test-ui.mjs
+DOM integration passed: queue, evidence, required review note, persisted approval, replay, fixture checks, blocked promotion, shadow rollback, knowledge, data, connectors, and new run.
+
+Exit: 0

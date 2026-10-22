@@ -13,3 +13,9 @@ src-tauri/gen/
 planning/.tracker.lock
 planning/backlog-*.tmp
 repository.bundle
+
+.venv/
+.pytest_cache/
+.ruff_cache/
+apps/desktop/src-tauri/target/
+apps/desktop/src-tauri/gen/

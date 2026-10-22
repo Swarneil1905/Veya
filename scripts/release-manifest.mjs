@@ -3,8 +3,8 @@ import {readFileSync,writeFileSync,readdirSync,statSync,mkdirSync} from 'node:fs
 import {join} from 'node:path';
 const files=[];
 function walk(path){for(const entry of readdirSync(path)){const child=join(path,entry);if(statSync(child).isDirectory())walk(child);else files.push(child);}}
-walk('dist');
-if(process.argv.includes('--native'))walk('src-tauri/target/release/bundle');
+walk('apps/desktop/dist');
+if(process.argv.includes('--native'))walk('apps/desktop/src-tauri/target/release/bundle');
 mkdirSync('artifacts',{recursive:true});
 const hashes=files.sort().map(file=>`${createHash('sha256').update(readFileSync(file)).digest('hex')}  ${file.replaceAll('\\','/')}`);
 writeFileSync('artifacts/SHA256SUMS.txt',hashes.join('\n')+'\n');

@@ -2,15 +2,15 @@
 
 Canonical source: `planning/backlog.json`. This report is regenerated after every tracker update. Story counts reflect accepted implementation evidence, not planning effort.
 
-**Build progress: 0/240 stories done.** Ready to start: 1.
+**Build progress: 0/240 stories done.** Ready to start: 0.
 
 | Status | Stories |
 | --- | ---: |
-| backlog | 240 |
+| backlog | 239 |
 | blocked | 0 |
 | done | 0 |
 | in_progress | 0 |
-| in_review | 0 |
+| in_review | 1 |
 
 ## Release scope and effort
 
@@ -29,7 +29,6 @@ Release scopes are cumulative through dependencies where applicable; do not add 
 
 | Story | Code change | Base hours |
 | --- | --- | ---: |
-| VEY-001 | Create the Veya workspace layout | 6 |
 
 ## Planning deliverables
 
@@ -48,4 +47,5 @@ See RISKS.md. The requested Project folder is not writable from this session; th
 
 ## Recent tracker events
 
-No implementation transitions recorded.
+- 2026-10-22T00:19:20+00:00: VEY-001 backlog -> in_progress
+- 2026-10-22T00:23:40+00:00: VEY-001 in_progress -> in_review

@@ -1,19 +1,21 @@
 {
-  "name": "relay-studio",
-  "version": "0.1.0",
+  "name": "veya-workspace",
   "private": true,
   "type": "module",
-  "description": "Desktop agent operations and evaluation workbench \u00e2\u20ac\u201d interactive design prototype",
+  "packageManager": "pnpm@11.0.9",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
-    "dev": "vite --host 127.0.0.1 --port 4317",
-    "build": "tsc --noEmit && vite build",
-    "preview": "vite preview --host 127.0.0.1 --port 4317",
-    "test": "node --test tests/*.test.mjs",
+    "dev": "pnpm --dir apps/desktop dev",
+    "build": "pnpm --dir apps/desktop build",
+    "test": "pnpm --dir apps/desktop test",
     "check": "node scripts/check-project.mjs",
-    "tauri": "tauri",
-    "desktop:dev": "tauri dev",
-    "desktop:build": "tauri build",
-    "test:ui": "node scripts/test-ui.mjs"
+    "test:ui": "node scripts/test-ui.mjs",
+    "test:runtime": "python scripts/test_runtime.py",
+    "bootstrap:check": "python scripts/check_workspace.py",
+    "desktop:dev": "pnpm --dir apps/desktop desktop:dev",
+    "desktop:build": "pnpm --dir apps/desktop desktop:build"
   },
   "dependencies": {
     "lucide-react": "1.18.0",
@@ -27,9 +29,5 @@
     "typescript": "5.8.3",
     "vite": "7.3.5",
     "jsdom": "^29.1.1"
-  },
-  "packageManager": "pnpm@11.0.9",
-  "engines": {
-    "node": ">=22.12.0"
   }
 }
