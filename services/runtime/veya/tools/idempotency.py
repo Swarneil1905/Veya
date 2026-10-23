@@ -85,7 +85,7 @@ class IntentStore:
     def _complete(self, scope: ToolScope, operation_key: str, token: str,
                   proposal: Proposal, result: dict) -> IntentOutcome:
         tool = self.proposals.registry.resolve(scope, proposal.tool_name, proposal.tool_version)
-        normalized = ResultNormalizer(self.proposals.registry).normalize(
+        normalized = ResultNormalizer(self.proposals.registry).normalize_dispatch(
             scope, proposal.tool_name, proposal.tool_version, result,
             call_id=operation_key, preview_bytes=tool.max_output_bytes)
         payload = normalized.data_json
