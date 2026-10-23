@@ -19,3 +19,14 @@ repository.bundle
 .ruff_cache/
 apps/desktop/src-tauri/target/
 apps/desktop/src-tauri/gen/
+
+# Internal work notes stay local. Explicitly retain public product documentation.
+/*.md
+!/README.md
+/docs/*.md
+/docs/**/*.md
+!/docs/RUNTIME_API.md
+/planning/*.md
+/planning/**/*.md
+/internal/
+/.cursor/rules/
