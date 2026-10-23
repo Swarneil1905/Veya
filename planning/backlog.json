@@ -2827,14 +2827,16 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Codex",
       "actual_hours": null,
-      "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "commit": "fc6db5b1bf0ae8866ab497cc9ebea1bed91e2b43",
+      "evidence": [
+        "planning/evidence/VEY-037/checks.txt"
+      ],
+      "acceptance_note": "Enforce atomic run transitions with revision checks and matching events. Full transition matrix, terminal restart, cancellation races, tenant isolation and rollback pass.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-23T00:17:38+00:00",
       "release_ids": [
         "R1",
         "R2",
@@ -11938,6 +11940,38 @@
         "planning/evidence/VEY-036/checks.txt"
       ],
       "acceptance_note": "Store complete content-addressed artifacts with provenance and verified downloads. Actual process crashes, disk failures, concurrent publishers, corrupt content and cross-tenant access are tested."
+    },
+    {
+      "at": "2026-10-23T00:15:14+00:00",
+      "story_id": "VEY-037",
+      "from": "backlog",
+      "to": "in_progress",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-23T00:17:38+00:00",
+      "story_id": "VEY-037",
+      "from": "in_progress",
+      "to": "in_review",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-23T00:17:38+00:00",
+      "story_id": "VEY-037",
+      "from": "in_review",
+      "to": "done",
+      "reason": null,
+      "commit": "fc6db5b1bf0ae8866ab497cc9ebea1bed91e2b43",
+      "evidence": [
+        "planning/evidence/VEY-037/checks.txt"
+      ],
+      "acceptance_note": "Enforce atomic run transitions with revision checks and matching events. Full transition matrix, terminal restart, cancellation races, tenant isolation and rollback pass."
     }
   ],
   "planning_deliverables": [

@@ -903,11 +903,11 @@ Every story requires a code/configuration/migration/test change. Documentation-o
 
 **Dependencies:** VEY-031, VEY-034.
 
-**Tracking:** backlog; P0; Core; M0; D04; owner: Unassigned.
+**Tracking:** done; P0; Core; M0; D04; owner: Codex.
 
 **Effort:** 5 base hours; planning range 3-8 hours, before shared integration allowance.
 
-**Completion evidence:** No implementation commit recorded; no test evidence recorded.
+**Completion evidence:** fc6db5b1bf0ae8866ab497cc9ebea1bed91e2b43; planning/evidence/VEY-037/checks.txt.
 
 ## VEY-038: Add worker leases and recovery claims
 
