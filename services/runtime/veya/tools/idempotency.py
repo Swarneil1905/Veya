@@ -5,9 +5,10 @@ not exposed by HTTP: workspace visibility and a proposal are not write approval.
 A reservation is unresolved from before dispatch until a validated result commits.
 No expiry, crash recovery or exception path permits automatic redispatch.
 """
+import asyncio
 from dataclasses import dataclass
 import json
-from typing import Callable
+from typing import Awaitable, Callable
 from uuid import uuid4
 
 from veya.domain.models import DomainError, identifier, utc_now
@@ -87,3 +88,18 @@ class IntentStore:
         # durable reservation unresolved. No handler details are persisted.
         result = handler(proposal.arguments)
         return self._complete(scope, operation_key, token, proposal, result)
+
+    async def execute_async(self, scope: ToolScope, operation_key: str, proposal_id: str,
+                            handler: Callable[[dict], Awaitable[dict]]) -> IntentOutcome:
+        """Keep SQLite contention off the event loop.
+
+        Cancelling a claim wait may leave a reservation, but cannot dispatch a
+        handler. Cancelling completion may still persist its already known result.
+        Neither path permits a duplicate effect.
+        """
+        proposal = await asyncio.to_thread(self.proposals.validate_current, scope, proposal_id)
+        token, prior = await asyncio.to_thread(self._claim, scope, operation_key, proposal)
+        if prior is not None:
+            return prior
+        result = await handler(proposal.arguments)
+        return await asyncio.to_thread(self._complete, scope, operation_key, token, proposal, result)

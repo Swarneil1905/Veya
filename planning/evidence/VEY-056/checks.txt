@@ -1,0 +1,7 @@
+Command: python scripts/test_runtime.py services/runtime/tests/test_retries.py services/runtime/tests/test_idempotency.py -q
+...............................                                          [100%]
+31 passed in 2.31s
+
+Acceptance: Bound async read retries with capped jitter and time budgets; never retry auth or unknown writes; preserve unresolved intents across timeout and cancellation without blocking the event loop
+Skills applied: fastapi-patterns, database-migrations, python-resilience, tdd, code-review-and-quality; API and domain design guidance where applicable.
+Local Windows Python 3.10.11 verification; no GitHub CI or native UI claim.
