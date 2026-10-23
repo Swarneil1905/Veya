@@ -51,7 +51,7 @@ Release scopes are cumulative through dependencies where applicable; do not add 
 
 ## Active blockers
 
-See RISKS.md. The requested Project folder is not writable from this session; the existing native preview failed its launch attempt; live backend, credentials and GitHub execution remain unimplemented or unconfigured.
+See RISKS.md. Repository access and history reconciliation are resolved. Native startup and rendered UI remain unverified; desktop-to-runtime wiring, inference, live connectors and GitHub CI remain open.
 
 ## Recent tracker events
 

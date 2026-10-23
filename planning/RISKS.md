@@ -1,13 +1,13 @@
 # Risks, blockers and decisions
 
-As of 20 October 2026. Owner for project decisions: Swarneil. These are not claims that infrastructure or credentials already exist.
+Updated 22 October 2026. Owner for project decisions: Swarneil. These are not claims that infrastructure or credentials already exist.
 
 | ID | Risk or blocker | Impact | Treatment and observable resolution |
 | --- | --- | --- | --- |
-| B01 | Requested Project folder is denied to this session | Cannot place or edit the repository at the requested location | Deliver a complete archive and history bundle; extract and reopen Project/Veya as an authorized workspace |
+| B01 | Resolved: destination access and original Git history reconciled | Direct source editing is available | Active repository is C:\Users\Swarneil Pradhan\Veya; 434 baseline files matched, history fast-forwarded, extra files preserved |
 | B02 | Native preview exits or fails to remain visible | Desktop acceptance is blocked | VEY-011 reproduces the failure, captures logs and proves a stable native launch |
 | B03 | No rendered/native UI verification | Layout and interaction quality remain unknown | VEY-029, VEY-030 and VEY-214 collect actual interaction and rendering evidence |
-| B04 | No live backend or inference is implemented | Current prototype cannot perform real work | R1 adds the real runtime/provider/tool path and verifies an output |
+| B04 | Runtime persistence/API exists; native wiring and inference remain open | Desktop prototype still cannot perform real delegated work | R1 connects the native host, provider and tool execution path and verifies a real output |
 | B05 | No GitHub remote or pipeline runs | CI, protection and publication are unverified | Configure a chosen repository later; E22 requires actual run evidence |
 | B06 | GPU memory and training throughput are unmeasured | Model size, sequence length and training feasibility are uncertain | VEY-161 measures dedicated VRAM and supported runtime before selecting a training configuration |
 | B07 | Sandbox connector tenant and credentials are not selected | Live integration acceptance cannot run | Choose one test integration and restricted credentials before E11 live testing |

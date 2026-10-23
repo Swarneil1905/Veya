@@ -9,9 +9,9 @@ Veya is the new short working name for the desktop AI employee project. Start wi
 - [Tracking commands and folder setup](planning/TRACKING.md)
 - [Risks and unresolved decisions](planning/RISKS.md)
 
-The existing app below is the earlier Relay Studio prototype. Its source identity, layout and native startup repair are explicit backlog work. No product story is marked complete solely because the planning package exists.
+The existing app below is the earlier Relay Studio prototype. Its identity and native startup repair remain backlog work; the workspace layout has been migrated. No product story is marked complete solely because the planning package exists.
 
-The intended repository location is `C:\Users\Swarneil Pradhan\Project\Veya`. This session could not write there. Extract the delivered archive into `C:\Users\Swarneil Pradhan\Project` and follow TRACKING.md to restore the included Git history bundle.
+The active source repository is `C:\Users\Swarneil Pradhan\Veya`. Its original Git history has been reconciled, and the first ten-story runtime batch is accepted. See [runtime contracts](docs/RUNTIME_API.md) and [current handoff](CODEX_HANDOFF.md). Changes are committed locally; the user handles GitHub pushes.
 
 ## Prototype baseline
 
@@ -25,7 +25,7 @@ Known issue: the native preview did not remain running during the attempted laun
 
 Open `preview/Relay-Studio-Preview.html` in a normal browser. It is self-contained and uses fictional data. This is a review surface for the desktop frontend, not a hosted web product.
 
-Try: select a run → inspect Trace and Evidence → approve/reject with a note → open Replay lab → choose a failure and toggle the intervention → run the fixture → inspect Evaluations and Releases. Search/filter the queue, create another demo run, and export sample records. Approval state is stored locally; other screens use session state. Workspace settings can reset demo runs.
+Try: select a run â†’ inspect Trace and Evidence â†’ approve/reject with a note â†’ open Replay lab â†’ choose a failure and toggle the intervention â†’ run the fixture â†’ inspect Evaluations and Releases. Search/filter the queue, create another demo run, and export sample records. Approval state is stored locally; other screens use session state. Workspace settings can reset demo runs.
 
 ## Run as a desktop application
 
@@ -52,7 +52,8 @@ python scripts/verify-skills.py
 pnpm check
 pnpm build
 pnpm test:ui
-cargo check --manifest-path src-tauri/Cargo.toml --locked
+python scripts/test_runtime.py
+cargo check --manifest-path apps/desktop/src-tauri/Cargo.toml --locked
 node scripts/package-preview.mjs
 ```
 
@@ -67,6 +68,6 @@ node scripts/package-preview.mjs
 
 ## Source layout
 
-`src/` contains the React UI, demo records, and pure demo policy/replay functions. `src-tauri/` contains the native host and restricted content policy. `tests/` covers the domain invariants. `scripts/` contains validation and packaging tools. `.github/` contains CI and dependency update definitions. `docs/` contains the proposed full framework design.
+`apps/desktop/src/` contains the React UI and synthetic demo behavior. `apps/desktop/src-tauri/` contains the native host. `services/runtime/` contains the Python API, domain, SQLite migrations, event history, artifacts, lifecycle and worker leases. `apps/desktop/tests/` covers prototype invariants; `services/runtime/tests/` covers runtime behavior; `tests/` covers workspace and tracking. `scripts/` contains validation and packaging tools. `.github/` contains CI and dependency update definitions. `docs/` contains the proposed full framework design.
 
 No live ML benchmark or training result is claimed. Do not reuse illustrative UI scores in a resume or project report as measured achievements. See the evaluation protocol for the evidence required to make that claim.

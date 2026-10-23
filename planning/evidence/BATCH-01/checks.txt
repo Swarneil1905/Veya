@@ -1,0 +1,110 @@
+COMMAND: C:\Users\Swarneil Pradhan\AppData\Local\Programs\Python\Python310\python.exe -m unittest discover -s tests -v
+test_actual_hours_reject_nan (test_project_tracker.TrackerTests) ... ok
+test_atomic_save_and_generated_views_agree (test_project_tracker.TrackerTests) ... ok
+test_blocking_requires_reason_and_preserves_history (test_project_tracker.TrackerTests) ... ok
+test_completion_accepts_real_code_commit_and_rejects_fake_evidence (test_project_tracker.TrackerTests) ... ok
+test_concurrent_tracker_lock_is_rejected (test_project_tracker.TrackerTests) ... ok
+test_deliverable_cannot_be_accepted_with_unfinished_stories (test_project_tracker.TrackerTests) ... ok
+test_dependency_cycle_fails (test_project_tracker.TrackerTests) ... ok
+test_dependent_story_cannot_start_early (test_project_tracker.TrackerTests) ... ok
+test_documentation_only_story_fails (test_project_tracker.TrackerTests) ... ok
+test_done_cannot_skip_review (test_project_tracker.TrackerTests) ... ok
+test_done_requires_real_commit (test_project_tracker.TrackerTests) ... ok
+test_duplicate_ids_fail (test_project_tracker.TrackerTests) ... ok
+test_initial_backlog_is_complete_and_not_claimed_done (test_project_tracker.TrackerTests) ... ok
+test_only_dependency_free_first_story_is_ready (test_project_tracker.TrackerTests) ... ok
+test_release_missing_prerequisite_fails (test_project_tracker.TrackerTests) ... ok
+test_unknown_dependency_fails (test_project_tracker.TrackerTests) ... ok
+test_missing_runtime_names_the_prerequisite (test_workspace.WorkspaceTests) ... ok
+test_repository_has_required_packages (test_workspace.WorkspaceTests) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.800s
+
+OK
+
+COMMAND: C:\Users\Swarneil Pradhan\AppData\Local\Programs\Python\Python310\python.exe scripts/project.py validate
+PASS: 240 unique code-change stories; dependency DAG and release closures valid.
+
+COMMAND: C:\Users\Swarneil Pradhan\AppData\Local\Programs\Python\Python310\python.exe scripts/check_workspace.py
+Workspace prerequisites present.
+
+COMMAND: C:\Users\Swarneil Pradhan\AppData\Local\Programs\Python\Python310\python.exe scripts/verify-skills.py
+PASS: 39 skill entry points; 373 files match pinned upstream bytes.
+
+COMMAND: node --test apps/desktop/tests/domain.test.mjs
+TAP version 13
+# Subtest: an approval is recorded once and requires an audit note
+ok 1 - an approval is recorded once and requires an audit note
+  ---
+  duration_ms: 2.2168
+  type: 'test'
+  ...
+# Subtest: rejection stops the workflow and invalid decisions fail
+ok 2 - rejection stops the workflow and invalid decisions fail
+  ---
+  duration_ms: 0.1349
+  type: 'test'
+  ...
+# Subtest: stale-policy: baseline failure and candidate fixture stay isolated
+ok 3 - stale-policy: baseline failure and candidate fixture stay isolated
+  ---
+  duration_ms: 0.238
+  type: 'test'
+  ...
+# Subtest: tool-timeout: baseline failure and candidate fixture stay isolated
+ok 4 - tool-timeout: baseline failure and candidate fixture stay isolated
+  ---
+  duration_ms: 0.1648
+  type: 'test'
+  ...
+# Subtest: injection: baseline failure and candidate fixture stay isolated
+ok 5 - injection: baseline failure and candidate fixture stay isolated
+  ---
+  duration_ms: 0.0808
+  type: 'test'
+  ...
+# Subtest: missing-receipt: baseline failure and candidate fixture stay isolated
+ok 6 - missing-receipt: baseline failure and candidate fixture stay isolated
+  ---
+  duration_ms: 0.0526
+  type: 'test'
+  ...
+# Subtest: synthetic reports cannot bypass release gates
+ok 7 - synthetic reports cannot bypass release gates
+  ---
+  duration_ms: 0.1816
+  type: 'test'
+  ...
+# Subtest: real release evidence must satisfy every gate
+ok 8 - real release evidence must satisfy every gate
+  ---
+  duration_ms: 0.1335
+  type: 'test'
+  ...
+# Subtest: queue totals follow decisions
+ok 9 - queue totals follow decisions
+  ---
+  duration_ms: 2.727
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 118.6901
+
+COMMAND: node scripts/check-project.mjs
+Project contracts and demo labeling verified.
+
+COMMAND: git diff --check
+
+CLEAN TRACKED SOURCE: 6389bdc342e49a6506b2e2ffbec7e153c0a40688
+COMMAND: python scripts/test_runtime.py services/runtime/tests -q
+........................................................................ [ 66%]
+....................................                                     [100%]
+108 passed in 16.36s

@@ -27,7 +27,7 @@ python scripts/project.py transition VEY-001 blocked --reason 'Required clean-ma
 python scripts/project.py transition VEY-001 in_progress
 ```
 
-The examples are instructions, not transitions already performed. All 240 product stories currently remain in backlog.
+The examples are instructions, not transitions already performed. Current story state is recorded in backlog.json; these examples do not report progress.
 
 ## Record completion
 
@@ -74,17 +74,6 @@ A release can include only a dependency-complete subset of an epic. Acceptance o
 
 Until then, the local ledger is authoritative. If GitHub later becomes authoritative, implement reconciliation and conflict rules rather than maintaining two independent editable status sources.
 
-## Requested folder
+## Active source repository
 
-The session could not write to `C:\Users\Swarneil Pradhan\Project\Veya`. To place the deliverable there yourself, extract Veya-Project.zip into `C:\Users\Swarneil Pradhan\Project`, producing a `Veya` subfolder. The archive includes `repository.bundle` for preserving the local commit history.
-
-Inside the extracted Veya folder, run:
-
-```powershell
-git init --initial-branch=main
-git fetch repository.bundle main
-git reset --mixed FETCH_HEAD
-python scripts/project.py validate
-```
-
-Use these recovery commands only in the newly extracted directory, not in an existing repository with unrelated work. The mixed reset records the bundled commit without overwriting extracted files. No GitHub remote is created. Once placed there, open that folder as the coding workspace so future edits have the appropriate filesystem access.
+Work directly in `C:\Users\Swarneil Pradhan\Veya` on `main`. The original history was imported and the baseline was fast-forwarded after checking every destination file. The old bundle and ZIP are historical planning snapshots, not the active source. Preserve existing changes and use normal Git operations. Implementation and tracker commits are local; the user pushes them to GitHub.
