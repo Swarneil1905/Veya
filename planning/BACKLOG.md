@@ -811,11 +811,11 @@ Every story requires a code/configuration/migration/test change. Documentation-o
 
 **Dependencies:** VEY-031, VEY-032.
 
-**Tracking:** blocked; P0; Core; M0; D04; owner: Codex.
+**Tracking:** done; P0; Core; M0; D04; owner: Codex.
 
 **Effort:** 5 base hours; planning range 3-8 hours, before shared integration allowance.
 
-**Completion evidence:** No implementation commit recorded; no test evidence recorded.
+**Completion evidence:** 379cc0122dcb5c544345821d5b176ef22f3c7b7c; planning/evidence/VEY-033/checks.txt.
 
 ## VEY-034: Persist and stream run events
 

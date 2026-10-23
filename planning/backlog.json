@@ -2641,14 +2641,16 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "blocked",
+      "status": "done",
       "owner": "Codex",
       "actual_hours": null,
-      "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
-      "blocked_reason": "Paused for requested workspace handoff: this session cannot write C:\\Users\\Swarneil Pradhan\\Veya. Task API verification did not complete and was interrupted; do not mark this story done.",
-      "updated_at": "2026-10-22T00:30:22+00:00",
+      "commit": "379cc0122dcb5c544345821d5b176ef22f3c7b7c",
+      "evidence": [
+        "planning/evidence/VEY-033/checks.txt"
+      ],
+      "acceptance_note": "Make task submissions durable with typed errors, duplicate identity, input limits and tenant isolation. Verified storage faults and Python 3.10 compatibility through the API.",
+      "blocked_reason": null,
+      "updated_at": "2026-10-23T00:08:30+00:00",
       "release_ids": [
         "R1",
         "R2",
@@ -11802,6 +11804,38 @@
       "commit": null,
       "evidence": [],
       "acceptance_note": null
+    },
+    {
+      "at": "2026-10-23T00:05:53+00:00",
+      "story_id": "VEY-033",
+      "from": "blocked",
+      "to": "in_progress",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-23T00:08:29+00:00",
+      "story_id": "VEY-033",
+      "from": "in_progress",
+      "to": "in_review",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-23T00:08:30+00:00",
+      "story_id": "VEY-033",
+      "from": "in_review",
+      "to": "done",
+      "reason": null,
+      "commit": "379cc0122dcb5c544345821d5b176ef22f3c7b7c",
+      "evidence": [
+        "planning/evidence/VEY-033/checks.txt"
+      ],
+      "acceptance_note": "Make task submissions durable with typed errors, duplicate identity, input limits and tenant isolation. Verified storage faults and Python 3.10 compatibility through the API."
     }
   ],
   "planning_deliverables": [
