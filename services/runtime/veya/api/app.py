@@ -9,6 +9,7 @@ from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException
 from starlette.types import ASGIApp, Receive, Scope, Send
 
+from veya.api.artifacts import router as artifact_router
 from veya.api.events import router as event_router
 from veya.api.task_list import router as task_list_router
 from veya.api.tasks import router as task_router
@@ -74,7 +75,7 @@ def create_app(settings: Settings, session_token: str) -> FastAPI:
     async def domain_error(request: Request, error: DomainError) -> JSONResponse:
         status = {'not_found': 404, 'conflict': 409, 'invalid_input': 422,
                   'unauthenticated': 401, 'forbidden': 403, 'too_large': 413,
-                  'corrupt': 409}.get(error.code, 400)
+                  'corrupt': 409, 'storage_error': 500}.get(error.code, 400)
         return error_response(error.code, str(error), status)
 
     @app.exception_handler(RequestValidationError)
@@ -101,4 +102,5 @@ def create_app(settings: Settings, session_token: str) -> FastAPI:
     app.include_router(task_list_router(db, settings.tenant_id, expected))
     app.include_router(task_router(db, settings.tenant_id))
     app.include_router(event_router(db, settings.tenant_id))
+    app.include_router(artifact_router(db, settings.tenant_id))
     return app
