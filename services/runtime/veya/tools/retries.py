@@ -8,8 +8,10 @@ from dataclasses import dataclass
 from enum import Enum
 import math
 import random
+from uuid import uuid4
 from typing import Awaitable, Callable
 
+from veya.tools.results import NormalizedResult, ResultNormalizer
 from veya.tools.registry import Effect, ToolRegistry, ToolScope
 
 
@@ -73,7 +75,7 @@ class ToolRunner:
     def __init__(self, registry: ToolRegistry, policy: RetryPolicy, *, jitter: Callable[[], float] = random.random):
         self.registry, self.policy, self.jitter = registry, policy, jitter
 
-    async def run(self, scope: ToolScope, name: str, version: str, arguments: dict,
+    async def _run(self, scope: ToolScope, name: str, version: str, arguments: dict,
                   handler: Callable[[dict], Awaitable[dict]]) -> dict:
         tool = self.registry.resolve(scope, name, version)
         payload = self.registry.arguments(scope, name, version, arguments)
@@ -107,5 +109,19 @@ class ToolRunner:
                 kind = FailureKind.PERMANENT if tool.effect == Effect.READ_ONLY else FailureKind.UNKNOWN_OUTCOME
                 raise ToolFailure(kind) from error
             else:
-                return self.registry.output(scope, name, version, result)
+                return result
         raise AssertionError('Validated attempt count must produce a result or failure')
+
+    async def run_result(self, scope: ToolScope, name: str, version: str, arguments: dict,
+                         handler: Callable[[dict], Awaitable[dict]], *,
+                         call_id: str, preview_bytes: int) -> NormalizedResult:
+        ResultNormalizer.validate_options(call_id, preview_bytes)
+        result = await self._run(scope, name, version, arguments, handler)
+        return ResultNormalizer(self.registry).normalize(scope, name, version, result,
+                                                         call_id=call_id, preview_bytes=preview_bytes)
+
+    async def run(self, scope: ToolScope, name: str, version: str, arguments: dict,
+                  handler: Callable[[dict], Awaitable[dict]]) -> dict:
+        tool = self.registry.resolve(scope, name, version)
+        return (await self.run_result(scope, name, version, arguments, handler,
+                                      call_id=uuid4().hex, preview_bytes=tool.max_output_bytes)).data
