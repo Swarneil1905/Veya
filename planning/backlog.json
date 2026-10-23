@@ -2736,14 +2736,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Codex",
       "actual_hours": null,
-      "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "commit": "d3692aa87b5178d2a2352d3dbf90dd43e566c7d1",
+      "evidence": [
+        "planning/evidence/VEY-035/checks.txt"
+      ],
+      "acceptance_note": "Paginate tasks through concurrent inserts with signed scoped cursors. Status filters, literal bounded search, Unicode queries and invalid cursors pass through the HTTP API.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-23T00:12:45+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -11870,6 +11872,38 @@
         "planning/evidence/VEY-034/checks.txt"
       ],
       "acceptance_note": "Persist ordered run events and resume authenticated SSE after disconnect. Concurrent writers, rollback, cursor validation and append-only history pass; cursor mutation is detected."
+    },
+    {
+      "at": "2026-10-23T00:10:35+00:00",
+      "story_id": "VEY-035",
+      "from": "backlog",
+      "to": "in_progress",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-23T00:12:45+00:00",
+      "story_id": "VEY-035",
+      "from": "in_progress",
+      "to": "in_review",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-23T00:12:45+00:00",
+      "story_id": "VEY-035",
+      "from": "in_review",
+      "to": "done",
+      "reason": null,
+      "commit": "d3692aa87b5178d2a2352d3dbf90dd43e566c7d1",
+      "evidence": [
+        "planning/evidence/VEY-035/checks.txt"
+      ],
+      "acceptance_note": "Paginate tasks through concurrent inserts with signed scoped cursors. Status filters, literal bounded search, Unicode queries and invalid cursors pass through the HTTP API."
     }
   ],
   "planning_deliverables": [

@@ -857,11 +857,11 @@ Every story requires a code/configuration/migration/test change. Documentation-o
 
 **Dependencies:** VEY-033.
 
-**Tracking:** backlog; P1; Core; M1; D04; owner: Unassigned.
+**Tracking:** done; P1; Core; M1; D04; owner: Codex.
 
 **Effort:** 4 base hours; planning range 3-6 hours, before shared integration allowance.
 
-**Completion evidence:** No implementation commit recorded; no test evidence recorded.
+**Completion evidence:** d3692aa87b5178d2a2352d3dbf90dd43e566c7d1; planning/evidence/VEY-035/checks.txt.
 
 ## VEY-036: Implement the artifact repository
 
