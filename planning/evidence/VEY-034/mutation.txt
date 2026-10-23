@@ -1,0 +1,202 @@
+Mutation: invert cursor upper bound; expected failing suite.
+F.FFFFFFF.                                                               [100%]
+================================== FAILURES ===================================
+______________ test_reconnect_replays_committed_events_in_order _______________
+
+client = <starlette.testclient.TestClient object at 0x0000027997792AD0>
+settings = Settings(profile='test', endpoint='http://127.0.0.1:4318', storage_root=WindowsPath('C:/Users/Swarneil Pradhan/Veya/ar...ntime-tests-2dvmqa8v/test_reconnect_replays_committ0'), tenant_id='fixture_acme', credential_ref='env:VEYA_TEST_TOKEN')
+
+    def test_reconnect_replays_committed_events_in_order(client, settings):
+        run_id = client.post('/v1/tasks', json=PAYLOAD).json()['run']['id']
+        store = EventStore(Database(settings.storage_root))
+        first = store.append(settings.tenant_id, run_id, 'progress', {'message': 'one'})
+        store.append(settings.tenant_id, run_id, 'progress', {'message': 'two'})
+        response = client.get(f'/v1/runs/{run_id}/events?once=true',
+                              headers={'Last-Event-ID': first.cursor})
+>       assert response.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+services\runtime\tests\test_events.py:20: AssertionError
+_______________ test_invalid_cursors_do_not_change_log[wrong:1] _______________
+
+client = <starlette.testclient.TestClient object at 0x00000279977BF310>
+settings = Settings(profile='test', endpoint='http://127.0.0.1:4318', storage_root=WindowsPath('C:/Users/Swarneil Pradhan/Veya/ar...ntime-tests-2dvmqa8v/test_invalid_cursors_do_not_ch0'), tenant_id='fixture_acme', credential_ref='env:VEYA_TEST_TOKEN')
+cursor = 'wrong:1'
+
+    @pytest.mark.parametrize('cursor', ['wrong:1', 'bad', '-1', 'run:999', '', '0' * 101])
+    def test_invalid_cursors_do_not_change_log(client, settings, cursor):
+        run_id = client.post('/v1/tasks', json=PAYLOAD).json()['run']['id']
+        store = EventStore(Database(settings.storage_root))
+        store.append(settings.tenant_id, run_id, 'progress', {'message': 'retained'})
+        response = client.get(f'/v1/runs/{run_id}/events', params={'after': cursor, 'once': True})
+        assert response.status_code in {400, 422}
+        assert response.json()['error']['code'] in {'invalid_cursor', 'invalid_input'}
+        assert len(store.read(settings.tenant_id, run_id)) == 1
+>       assert client.get(f'/v1/runs/{run_id}/events?after={run_id}:2&once=true').status_code == 400
+E       AssertionError: assert 200 == 400
+E        +  where 200 = <Response [200 OK]>.status_code
+E        +    where <Response [200 OK]> = <bound method TestClient.get of <starlette.testclient.TestClient object at 0x00000279977BF310>>('/v1/runs/run_d7c3224c44564237920497677bac970c/events?after=run_d7c3224c44564237920497677bac970c:2&once=true')
+E        +      where <bound method TestClient.get of <starlette.testclient.TestClient object at 0x00000279977BF310>> = <starlette.testclient.TestClient object at 0x00000279977BF310>.get
+
+services\runtime\tests\test_events.py:58: AssertionError
+_________________ test_invalid_cursors_do_not_change_log[bad] _________________
+
+client = <starlette.testclient.TestClient object at 0x00000279978D92D0>
+settings = Settings(profile='test', endpoint='http://127.0.0.1:4318', storage_root=WindowsPath('C:/Users/Swarneil Pradhan/Veya/ar...ntime-tests-2dvmqa8v/test_invalid_cursors_do_not_ch1'), tenant_id='fixture_acme', credential_ref='env:VEYA_TEST_TOKEN')
+cursor = 'bad'
+
+    @pytest.mark.parametrize('cursor', ['wrong:1', 'bad', '-1', 'run:999', '', '0' * 101])
+    def test_invalid_cursors_do_not_change_log(client, settings, cursor):
+        run_id = client.post('/v1/tasks', json=PAYLOAD).json()['run']['id']
+        store = EventStore(Database(settings.storage_root))
+        store.append(settings.tenant_id, run_id, 'progress', {'message': 'retained'})
+        response = client.get(f'/v1/runs/{run_id}/events', params={'after': cursor, 'once': True})
+        assert response.status_code in {400, 422}
+        assert response.json()['error']['code'] in {'invalid_cursor', 'invalid_input'}
+        assert len(store.read(settings.tenant_id, run_id)) == 1
+>       assert client.get(f'/v1/runs/{run_id}/events?after={run_id}:2&once=true').status_code == 400
+E       AssertionError: assert 200 == 400
+E        +  where 200 = <Response [200 OK]>.status_code
+E        +    where <Response [200 OK]> = <bound method TestClient.get of <starlette.testclient.TestClient object at 0x00000279978D92D0>>('/v1/runs/run_f0e35478845a4846b99268800293d872/events?after=run_f0e35478845a4846b99268800293d872:2&once=true')
+E        +      where <bound method TestClient.get of <starlette.testclient.TestClient object at 0x00000279978D92D0>> = <starlette.testclient.TestClient object at 0x00000279978D92D0>.get
+
+services\runtime\tests\test_events.py:58: AssertionError
+_________________ test_invalid_cursors_do_not_change_log[-1] __________________
+
+client = <starlette.testclient.TestClient object at 0x00000279979336A0>
+settings = Settings(profile='test', endpoint='http://127.0.0.1:4318', storage_root=WindowsPath('C:/Users/Swarneil Pradhan/Veya/ar...ntime-tests-2dvmqa8v/test_invalid_cursors_do_not_ch2'), tenant_id='fixture_acme', credential_ref='env:VEYA_TEST_TOKEN')
+cursor = '-1'
+
+    @pytest.mark.parametrize('cursor', ['wrong:1', 'bad', '-1', 'run:999', '', '0' * 101])
+    def test_invalid_cursors_do_not_change_log(client, settings, cursor):
+        run_id = client.post('/v1/tasks', json=PAYLOAD).json()['run']['id']
+        store = EventStore(Database(settings.storage_root))
+        store.append(settings.tenant_id, run_id, 'progress', {'message': 'retained'})
+        response = client.get(f'/v1/runs/{run_id}/events', params={'after': cursor, 'once': True})
+        assert response.status_code in {400, 422}
+        assert response.json()['error']['code'] in {'invalid_cursor', 'invalid_input'}
+        assert len(store.read(settings.tenant_id, run_id)) == 1
+>       assert client.get(f'/v1/runs/{run_id}/events?after={run_id}:2&once=true').status_code == 400
+E       AssertionError: assert 200 == 400
+E        +  where 200 = <Response [200 OK]>.status_code
+E        +    where <Response [200 OK]> = <bound method TestClient.get of <starlette.testclient.TestClient object at 0x00000279979336A0>>('/v1/runs/run_22b8c30f3b51411c97fee98d88fba40d/events?after=run_22b8c30f3b51411c97fee98d88fba40d:2&once=true')
+E        +      where <bound method TestClient.get of <starlette.testclient.TestClient object at 0x00000279979336A0>> = <starlette.testclient.TestClient object at 0x00000279979336A0>.get
+
+services\runtime\tests\test_events.py:58: AssertionError
+_______________ test_invalid_cursors_do_not_change_log[run:999] _______________
+
+client = <starlette.testclient.TestClient object at 0x00000279978C2EF0>
+settings = Settings(profile='test', endpoint='http://127.0.0.1:4318', storage_root=WindowsPath('C:/Users/Swarneil Pradhan/Veya/ar...ntime-tests-2dvmqa8v/test_invalid_cursors_do_not_ch3'), tenant_id='fixture_acme', credential_ref='env:VEYA_TEST_TOKEN')
+cursor = 'run:999'
+
+    @pytest.mark.parametrize('cursor', ['wrong:1', 'bad', '-1', 'run:999', '', '0' * 101])
+    def test_invalid_cursors_do_not_change_log(client, settings, cursor):
+        run_id = client.post('/v1/tasks', json=PAYLOAD).json()['run']['id']
+        store = EventStore(Database(settings.storage_root))
+        store.append(settings.tenant_id, run_id, 'progress', {'message': 'retained'})
+        response = client.get(f'/v1/runs/{run_id}/events', params={'after': cursor, 'once': True})
+        assert response.status_code in {400, 422}
+        assert response.json()['error']['code'] in {'invalid_cursor', 'invalid_input'}
+        assert len(store.read(settings.tenant_id, run_id)) == 1
+>       assert client.get(f'/v1/runs/{run_id}/events?after={run_id}:2&once=true').status_code == 400
+E       AssertionError: assert 200 == 400
+E        +  where 200 = <Response [200 OK]>.status_code
+E        +    where <Response [200 OK]> = <bound method TestClient.get of <starlette.testclient.TestClient object at 0x00000279978C2EF0>>('/v1/runs/run_99eaf9a619fa43c5990bb6ea504b7916/events?after=run_99eaf9a619fa43c5990bb6ea504b7916:2&once=true')
+E        +      where <bound method TestClient.get of <starlette.testclient.TestClient object at 0x00000279978C2EF0>> = <starlette.testclient.TestClient object at 0x00000279978C2EF0>.get
+
+services\runtime\tests\test_events.py:58: AssertionError
+__________________ test_invalid_cursors_do_not_change_log[] ___________________
+
+client = <starlette.testclient.TestClient object at 0x00000279977BF520>
+settings = Settings(profile='test', endpoint='http://127.0.0.1:4318', storage_root=WindowsPath('C:/Users/Swarneil Pradhan/Veya/ar...ntime-tests-2dvmqa8v/test_invalid_cursors_do_not_ch4'), tenant_id='fixture_acme', credential_ref='env:VEYA_TEST_TOKEN')
+cursor = ''
+
+    @pytest.mark.parametrize('cursor', ['wrong:1', 'bad', '-1', 'run:999', '', '0' * 101])
+    def test_invalid_cursors_do_not_change_log(client, settings, cursor):
+        run_id = client.post('/v1/tasks', json=PAYLOAD).json()['run']['id']
+        store = EventStore(Database(settings.storage_root))
+        store.append(settings.tenant_id, run_id, 'progress', {'message': 'retained'})
+        response = client.get(f'/v1/runs/{run_id}/events', params={'after': cursor, 'once': True})
+        assert response.status_code in {400, 422}
+        assert response.json()['error']['code'] in {'invalid_cursor', 'invalid_input'}
+        assert len(store.read(settings.tenant_id, run_id)) == 1
+>       assert client.get(f'/v1/runs/{run_id}/events?after={run_id}:2&once=true').status_code == 400
+E       AssertionError: assert 200 == 400
+E        +  where 200 = <Response [200 OK]>.status_code
+E        +    where <Response [200 OK]> = <bound method TestClient.get of <starlette.testclient.TestClient object at 0x00000279977BF520>>('/v1/runs/run_4a8a8d7dcbfc4454a778439624d09cdd/events?after=run_4a8a8d7dcbfc4454a778439624d09cdd:2&once=true')
+E        +      where <bound method TestClient.get of <starlette.testclient.TestClient object at 0x00000279977BF520>> = <starlette.testclient.TestClient object at 0x00000279977BF520>.get
+
+services\runtime\tests\test_events.py:58: AssertionError
+_ test_invalid_cursors_do_not_change_log[00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000] _
+
+client = <starlette.testclient.TestClient object at 0x0000027995E7D9C0>
+settings = Settings(profile='test', endpoint='http://127.0.0.1:4318', storage_root=WindowsPath('C:/Users/Swarneil Pradhan/Veya/ar...ntime-tests-2dvmqa8v/test_invalid_cursors_do_not_ch5'), tenant_id='fixture_acme', credential_ref='env:VEYA_TEST_TOKEN')
+cursor = '00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'
+
+    @pytest.mark.parametrize('cursor', ['wrong:1', 'bad', '-1', 'run:999', '', '0' * 101])
+    def test_invalid_cursors_do_not_change_log(client, settings, cursor):
+        run_id = client.post('/v1/tasks', json=PAYLOAD).json()['run']['id']
+        store = EventStore(Database(settings.storage_root))
+        store.append(settings.tenant_id, run_id, 'progress', {'message': 'retained'})
+        response = client.get(f'/v1/runs/{run_id}/events', params={'after': cursor, 'once': True})
+        assert response.status_code in {400, 422}
+        assert response.json()['error']['code'] in {'invalid_cursor', 'invalid_input'}
+        assert len(store.read(settings.tenant_id, run_id)) == 1
+>       assert client.get(f'/v1/runs/{run_id}/events?after={run_id}:2&once=true').status_code == 400
+E       AssertionError: assert 200 == 400
+E        +  where 200 = <Response [200 OK]>.status_code
+E        +    where <Response [200 OK]> = <bound method TestClient.get of <starlette.testclient.TestClient object at 0x0000027995E7D9C0>>('/v1/runs/run_b33ea0d6a72c4e01b54b29657ad44402/events?after=run_b33ea0d6a72c4e01b54b29657ad44402:2&once=true')
+E        +      where <bound method TestClient.get of <starlette.testclient.TestClient object at 0x0000027995E7D9C0>> = <starlette.testclient.TestClient object at 0x0000027995E7D9C0>.get
+
+services\runtime\tests\test_events.py:58: AssertionError
+__________ test_live_disconnect_and_resume_deliver_all_later_events ___________
+
+client = <starlette.testclient.TestClient object at 0x0000027995E82E00>
+settings = Settings(profile='test', endpoint='http://127.0.0.1:4318', storage_root=WindowsPath('C:/Users/Swarneil Pradhan/Veya/ar...ntime-tests-2dvmqa8v/test_live_disconnect_and_resum0'), tenant_id='fixture_acme', credential_ref='env:VEYA_TEST_TOKEN')
+
+    def test_live_disconnect_and_resume_deliver_all_later_events(client, settings):
+        import asyncio
+        from conftest import TOKEN
+        from veya.api.app import create_app
+        run_id = client.post('/v1/tasks', json=PAYLOAD).json()['run']['id']
+        store = EventStore(Database(settings.storage_root))
+        store.append(settings.tenant_id, run_id, 'progress', {'message': 'first'})
+        app = create_app(settings, TOKEN)
+    
+        async def disconnected_session():
+            incoming = asyncio.Queue()
+            await incoming.put({'type': 'http.request', 'body': b'', 'more_body': False})
+            frames = []
+            async def send(message):
+                if message['type'] == 'http.response.body' and message.get('body'):
+                    frames.append(message['body'].decode())
+                    # New work commits while this client disconnects.
+                    await asyncio.to_thread(store.append, settings.tenant_id, run_id,
+                                            'progress', {'message': 'later'})
+                    await incoming.put({'type': 'http.disconnect'})
+            scope = {'type': 'http', 'asgi': {'version': '3.0'}, 'http_version': '1.1',
+                     'method': 'GET', 'scheme': 'http', 'path': f'/v1/runs/{run_id}/events',
+                     'query_string': b'', 'headers': [(b'authorization', ('Bearer ' + TOKEN).encode())]}
+            await asyncio.wait_for(app(scope, incoming.get, send), timeout=3)
+            return frames
+    
+        frames = asyncio.run(disconnected_session())
+        assert len(frames) == 1 and f'id: {run_id}:1' in frames[0]
+        response = client.get(f'/v1/runs/{run_id}/events?once=true',
+                              headers={'Last-Event-ID': f'{run_id}:1'})
+>       assert f'id: {run_id}:2' in response.text and '"later"' in response.text
+E       assert ('id: run_8a66b76444d94ff0a4e2eeb7b848508c:2' in '{"error":{"code":"invalid_cursor","message":"Cursor is ahead of the event log","schema_version":1,"retryable":false}}')
+E        +  where '{"error":{"code":"invalid_cursor","message":"Cursor is ahead of the event log","schema_version":1,"retryable":false}}' = <Response [400 Bad Request]>.text
+
+services\runtime\tests\test_events.py:93: AssertionError
+=========================== short test summary info ===========================
+FAILED services\runtime\tests\test_events.py::test_reconnect_replays_committed_events_in_order
+FAILED services\runtime\tests\test_events.py::test_invalid_cursors_do_not_change_log[wrong:1]
+FAILED services\runtime\tests\test_events.py::test_invalid_cursors_do_not_change_log[bad]
+FAILED services\runtime\tests\test_events.py::test_invalid_cursors_do_not_change_log[-1]
+FAILED services\runtime\tests\test_events.py::test_invalid_cursors_do_not_change_log[run:999]
+FAILED services\runtime\tests\test_events.py::test_invalid_cursors_do_not_change_log[]
+FAILED services\runtime\tests\test_events.py::test_invalid_cursors_do_not_change_log[00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000]
+FAILED services\runtime\tests\test_events.py::test_live_disconnect_and_resume_deliver_all_later_events
+8 failed, 2 passed in 2.08s

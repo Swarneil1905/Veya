@@ -2689,14 +2689,16 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Codex",
       "actual_hours": null,
-      "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "commit": "b3c00983eeb6f06899fbafd755d375e4a57789cc",
+      "evidence": [
+        "planning/evidence/VEY-034/checks.txt"
+      ],
+      "acceptance_note": "Persist ordered run events and resume authenticated SSE after disconnect. Concurrent writers, rollback, cursor validation and append-only history pass; cursor mutation is detected.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-23T00:10:34+00:00",
       "release_ids": [
         "R1",
         "R2",
@@ -11836,6 +11838,38 @@
         "planning/evidence/VEY-033/checks.txt"
       ],
       "acceptance_note": "Make task submissions durable with typed errors, duplicate identity, input limits and tenant isolation. Verified storage faults and Python 3.10 compatibility through the API."
+    },
+    {
+      "at": "2026-10-23T00:08:30+00:00",
+      "story_id": "VEY-034",
+      "from": "backlog",
+      "to": "in_progress",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-23T00:10:34+00:00",
+      "story_id": "VEY-034",
+      "from": "in_progress",
+      "to": "in_review",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-23T00:10:34+00:00",
+      "story_id": "VEY-034",
+      "from": "in_review",
+      "to": "done",
+      "reason": null,
+      "commit": "b3c00983eeb6f06899fbafd755d375e4a57789cc",
+      "evidence": [
+        "planning/evidence/VEY-034/checks.txt"
+      ],
+      "acceptance_note": "Persist ordered run events and resume authenticated SSE after disconnect. Concurrent writers, rollback, cursor validation and append-only history pass; cursor mutation is detected."
     }
   ],
   "planning_deliverables": [

@@ -834,11 +834,11 @@ Every story requires a code/configuration/migration/test change. Documentation-o
 
 **Dependencies:** VEY-032, VEY-033.
 
-**Tracking:** backlog; P0; Core; M0; D04; owner: Unassigned.
+**Tracking:** done; P0; Core; M0; D04; owner: Codex.
 
 **Effort:** 6 base hours; planning range 4-9 hours, before shared integration allowance.
 
-**Completion evidence:** No implementation commit recorded; no test evidence recorded.
+**Completion evidence:** b3c00983eeb6f06899fbafd755d375e4a57789cc; planning/evidence/VEY-034/checks.txt.
 
 ## VEY-035: Add stable task-list pagination
 
