@@ -3445,14 +3445,16 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Swarneil1905",
       "actual_hours": null,
-      "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "commit": "fef7b35c596fbb6d1eb6c4fc1189321b22bf9627",
+      "evidence": [
+        "planning/evidence/VEY-051/checks.txt"
+      ],
+      "acceptance_note": "Declare scoped typed tools with strict bounded inputs and outputs; validate defaults and hide ungranted tools",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-23T00:51:36+00:00",
       "release_ids": [
         "R1",
         "R2",
@@ -12006,6 +12008,38 @@
         "planning/evidence/VEY-038/checks.txt"
       ],
       "acceptance_note": "Fence local worker completion with durable leases and owner epochs. Process races, restart recovery, expiry, renewal, cancellation, revision fencing and transactional rollback pass; epoch mutation is detected."
+    },
+    {
+      "at": "2026-10-23T00:46:36+00:00",
+      "story_id": "VEY-051",
+      "from": "backlog",
+      "to": "in_progress",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-23T00:51:36+00:00",
+      "story_id": "VEY-051",
+      "from": "in_progress",
+      "to": "in_review",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-23T00:51:36+00:00",
+      "story_id": "VEY-051",
+      "from": "in_review",
+      "to": "done",
+      "reason": null,
+      "commit": "fef7b35c596fbb6d1eb6c4fc1189321b22bf9627",
+      "evidence": [
+        "planning/evidence/VEY-051/checks.txt"
+      ],
+      "acceptance_note": "Declare scoped typed tools with strict bounded inputs and outputs; validate defaults and hide ungranted tools"
     }
   ],
   "planning_deliverables": [
