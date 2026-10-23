@@ -3676,14 +3676,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Swarneil1905",
       "actual_hours": null,
-      "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "commit": "e0e31fac1f99388cf07ee8293f22e4d69d770a9b",
+      "evidence": [
+        "planning/evidence/VEY-056/checks.txt"
+      ],
+      "acceptance_note": "Bound async read retries with capped jitter and time budgets; never retry auth or unknown writes; preserve unresolved intents across timeout and cancellation without blocking the event loop",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-23T00:59:57+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -12108,6 +12110,38 @@
         "planning/evidence/VEY-057/checks.txt"
       ],
       "acceptance_note": "Reserve durable operation intent before dispatch and replay validated outcomes; concurrent and crash-after-effect fixtures preserve unresolved state; request identity mutation detected; use migration 007 without changing applied history"
+    },
+    {
+      "at": "2026-10-23T00:56:03+00:00",
+      "story_id": "VEY-056",
+      "from": "backlog",
+      "to": "in_progress",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-23T00:59:57+00:00",
+      "story_id": "VEY-056",
+      "from": "in_progress",
+      "to": "in_review",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-23T00:59:57+00:00",
+      "story_id": "VEY-056",
+      "from": "in_review",
+      "to": "done",
+      "reason": null,
+      "commit": "e0e31fac1f99388cf07ee8293f22e4d69d770a9b",
+      "evidence": [
+        "planning/evidence/VEY-056/checks.txt"
+      ],
+      "acceptance_note": "Bound async read retries with capped jitter and time budgets; never retry auth or unknown writes; preserve unresolved intents across timeout and cancellation without blocking the event loop"
     }
   ],
   "planning_deliverables": [
