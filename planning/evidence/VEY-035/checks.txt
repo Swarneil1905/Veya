@@ -1,0 +1,7 @@
+Command: python scripts/test_runtime.py services/runtime/tests/test_task_list.py -q
+............                                                             [100%]
+12 passed in 0.81s
+
+Acceptance: Paginate tasks through concurrent inserts with signed scoped cursors. Status filters, literal bounded search, Unicode queries and invalid cursors pass through the HTTP API.
+Skills applied: fastapi-patterns, database-migrations, python-resilience, tdd, code-review-and-quality; API and domain design guidance where applicable.
+Local Windows Python 3.10.11 verification; no GitHub CI or native UI claim.
