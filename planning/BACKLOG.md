@@ -926,11 +926,11 @@ Every story requires a code/configuration/migration/test change. Documentation-o
 
 **Dependencies:** VEY-032, VEY-037.
 
-**Tracking:** backlog; P0; Core; M0; D04; owner: Unassigned.
+**Tracking:** done; P0; Core; M0; D04; owner: Codex.
 
 **Effort:** 8 base hours; planning range 6-12 hours, before shared integration allowance.
 
-**Completion evidence:** No implementation commit recorded; no test evidence recorded.
+**Completion evidence:** df76d66ece125cf040da243284403c86a0833448; planning/evidence/VEY-038/checks.txt.
 
 ## VEY-039: Implement retention and safe deletion
 

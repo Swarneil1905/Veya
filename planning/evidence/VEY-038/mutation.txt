@@ -1,0 +1,33 @@
+Mutation: remove worker epoch guard; expected failing stale same-owner test.
+F                                                                        [100%]
+================================== FAILURES ===================================
+____________ test_renewal_expiry_and_same_owner_epoch_are_enforced ____________
+
+client = <starlette.testclient.TestClient object at 0x000001AD98034A00>
+settings = Settings(profile='test', endpoint='http://127.0.0.1:4318', storage_root=WindowsPath('C:/Users/Swarneil Pradhan/Veya/ar...ntime-tests-te50qrh0/test_renewal_expiry_and_same_o0'), tenant_id='fixture_acme', credential_ref='env:VEYA_TEST_TOKEN')
+
+    def test_renewal_expiry_and_same_owner_epoch_are_enforced(client, settings):
+        run = client.post('/v1/tasks', json=PAYLOAD).json()['run']
+        now = [1000.0]
+        leases = LeaseStore(Database(settings.storage_root), clock=lambda: now[0])
+        leases.enqueue(settings.tenant_id, run['id'], 'step_one', 'model')
+        old = leases.claim(settings.tenant_id, 'worker', ttl=10)
+        now[0] = 1008
+        renewed = leases.renew(old, ttl=10)
+        assert renewed.expires_at == 1018
+        now[0] = 1010
+        assert leases.claim(settings.tenant_id, 'other') is None
+        now[0] = 1018
+        with pytest.raises(DomainError):
+            leases.renew(renewed)
+        with pytest.raises(DomainError):
+            leases.complete(renewed, 'succeeded')
+        new = leases.claim(settings.tenant_id, 'worker')
+        assert new.epoch == 2
+>       with pytest.raises(DomainError):
+E       Failed: DID NOT RAISE <class 'veya.domain.models.DomainError'>
+
+services\runtime\tests\test_leases.py:52: Failed
+=========================== short test summary info ===========================
+FAILED services\runtime\tests\test_leases.py::test_renewal_expiry_and_same_owner_epoch_are_enforced
+1 failed in 0.34s
