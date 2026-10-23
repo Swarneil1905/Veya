@@ -3809,14 +3809,14 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
       "evidence": [],
       "acceptance_note": null,
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-23T01:29:06+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -3896,14 +3896,14 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
       "evidence": [],
       "acceptance_note": null,
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-23T01:29:06+00:00",
       "release_ids": [
         "R1",
         "R2",
@@ -12142,6 +12142,36 @@
         "planning/evidence/VEY-056/checks.txt"
       ],
       "acceptance_note": "Bound async read retries with capped jitter and time budgets; never retry auth or unknown writes; preserve unresolved intents across timeout and cancellation without blocking the event loop"
+    },
+    {
+      "at": "2026-10-23T01:25:33+00:00",
+      "story_id": "VEY-061",
+      "from": "backlog",
+      "to": "in_progress",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-23T01:29:06+00:00",
+      "story_id": "VEY-061",
+      "from": "in_progress",
+      "to": "in_review",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-23T01:29:06+00:00",
+      "story_id": "VEY-059",
+      "from": "backlog",
+      "to": "in_progress",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
     }
   ],
   "planning_deliverables": [
