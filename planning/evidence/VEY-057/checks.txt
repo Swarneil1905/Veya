@@ -1,0 +1,7 @@
+Command: python scripts/test_runtime.py services/runtime/tests/test_idempotency.py services/runtime/tests/test_upgrade.py -q
+..........                                                               [100%]
+10 passed in 2.04s
+
+Acceptance: Reserve durable operation intent before dispatch and replay validated outcomes; concurrent and crash-after-effect fixtures preserve unresolved state; request identity mutation detected; use migration 007 without changing applied history
+Skills applied: fastapi-patterns, database-migrations, python-resilience, tdd, code-review-and-quality; API and domain design guidance where applicable.
+Local Windows Python 3.10.11 verification; no GitHub CI or native UI claim.

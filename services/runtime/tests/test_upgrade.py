@@ -36,4 +36,4 @@ def test_pre_events_database_upgrades_with_existing_work_intact(tmp_path):
     assert ArtifactStore(reopened).get(task.tenant_id, artifact.id)[1] == b'upgraded'
     assert [e.sequence for e in EventStore(reopened).read(task.tenant_id, run.id)] == [1, 2, 3, 4]
     with reopened.connection() as connection:
-        assert connection.execute('SELECT count(*) FROM schema_migrations').fetchone()[0] == 6
+        assert connection.execute('SELECT count(*) FROM schema_migrations').fetchone()[0] == 7
