@@ -6,7 +6,7 @@ A reservation is unresolved from before dispatch until a validated result commit
 No expiry, crash recovery or exception path permits automatic redispatch.
 """
 import asyncio
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 import json
 from typing import Awaitable, Callable
 from uuid import uuid4
@@ -16,12 +16,18 @@ from veya.events.store import append_event
 from veya.tools.contracts import canonical_json
 from veya.tools.proposals import Proposal, ProposalStore, digest
 from veya.tools.registry import ToolScope
+from veya.tools.results import ResultNormalizer
 
 
 @dataclass(frozen=True)
 class IntentOutcome:
     state: str
     result_json: str | None
+    metadata_json: str | None = None
+
+    @property
+    def metadata(self) -> dict | None:
+        return json.loads(self.metadata_json) if self.metadata_json is not None else None
 
     @property
     def result(self) -> dict | None:
@@ -34,23 +40,36 @@ class IntentStore:
         self.db = proposals.db
 
     @staticmethod
-    def _identity(proposal: Proposal) -> str:
+    def _context(context: dict | None) -> str | None:
+        if context is None:
+            return None
+        if type(context) is not dict:
+            raise DomainError('invalid_input', 'Execution context must be a JSON object')
+        return canonical_json(context, 1_048_576)
+
+    @staticmethod
+    def _identity(proposal: Proposal, context_json: str | None = None) -> str:
         # Equivalent proposals within a run share business intent; different
         # arguments, declarations or runs cannot silently reuse the same key.
-        return digest(canonical_json({'run_id': proposal.run_id,
+        identity = {'run_id': proposal.run_id,
                                       'arguments_hash': proposal.arguments_hash,
-                                      'manifest_hash': proposal.manifest_hash}, 4096))
+                                      'manifest_hash': proposal.manifest_hash}
+        if context_json is not None:
+            identity['execution_context_hash'] = digest(context_json)
+        return digest(canonical_json(identity, 4096))
 
-    def _claim(self, scope: ToolScope, operation_key: str, proposal: Proposal):
+    def _claim(self, scope: ToolScope, operation_key: str, proposal: Proposal, context_json: str | None = None):
         identifier(operation_key)
-        request_hash = self._identity(proposal)
+        request_hash = self._identity(proposal, context_json)
         with self.db.transaction() as conn:
             row = conn.execute('SELECT * FROM intents WHERE tenant_id=? AND operation_key=?',
                                (scope.tenant_id, operation_key)).fetchone()
             if row:
                 if row['request_hash'] != request_hash:
                     raise DomainError('conflict', 'Operation key is bound to a different request')
-                return None, IntentOutcome(row['state'], row['result_json'])
+                metadata = conn.execute('SELECT metadata_json FROM intent_results WHERE tenant_id=? AND operation_key=?',
+                                        (scope.tenant_id, operation_key)).fetchone()
+                return None, IntentOutcome(row['state'], row['result_json'], metadata['metadata_json'] if metadata else None)
             run = conn.execute('SELECT state FROM runs WHERE tenant_id=? AND id=?',
                                (scope.tenant_id, proposal.run_id)).fetchone()
             if run is None or run['state'] in {'succeeded', 'failed', 'cancelled'}:
@@ -66,22 +85,32 @@ class IntentStore:
     def _complete(self, scope: ToolScope, operation_key: str, token: str,
                   proposal: Proposal, result: dict) -> IntentOutcome:
         tool = self.proposals.registry.resolve(scope, proposal.tool_name, proposal.tool_version)
-        validated = self.proposals.registry.output(scope, proposal.tool_name, proposal.tool_version, result)
-        payload = canonical_json(validated, tool.max_output_bytes)
+        normalized = ResultNormalizer(self.proposals.registry).normalize(
+            scope, proposal.tool_name, proposal.tool_version, result,
+            call_id=operation_key, preview_bytes=tool.max_output_bytes)
+        payload = normalized.data_json
+        metadata = asdict(normalized)
+        metadata.pop('data_json')
+        metadata.pop('preview')  # Result data is stored once; previews are consumer-specific.
+        metadata['trust'] = normalized.trust
+        metadata_json = canonical_json(metadata, 4096)
         with self.db.transaction() as conn:
             updated = conn.execute("UPDATE intents SET state='succeeded',result_json=? "
                                    "WHERE tenant_id=? AND operation_key=? AND claim_token=? AND state='unresolved'",
                                    (payload, scope.tenant_id, operation_key, token)).rowcount
             if updated != 1:
                 raise DomainError('conflict', 'Intent completion is not owned by this dispatch')
+            conn.execute('INSERT INTO intent_results VALUES (?,?,?)',
+                         (scope.tenant_id, operation_key, metadata_json))
             append_event(conn, scope.tenant_id, proposal.run_id, 'action.completed',
                          {'operation_key': operation_key, 'proposal_id': proposal.id})
-        return IntentOutcome('succeeded', payload)
+        return IntentOutcome('succeeded', payload, metadata_json)
 
     def execute(self, scope: ToolScope, operation_key: str, proposal_id: str,
-                handler: Callable[[dict], dict]) -> IntentOutcome:
+                handler: Callable[[dict], dict], *, execution_context: dict | None = None) -> IntentOutcome:
+        context_json = self._context(execution_context)
         proposal = self.proposals.validate_current(scope, proposal_id)
-        token, prior = self._claim(scope, operation_key, proposal)
+        token, prior = self._claim(scope, operation_key, proposal, context_json)
         if prior is not None:
             return prior
         # Exceptions, cancellation and process death intentionally leave the
@@ -90,15 +119,16 @@ class IntentStore:
         return self._complete(scope, operation_key, token, proposal, result)
 
     async def execute_async(self, scope: ToolScope, operation_key: str, proposal_id: str,
-                            handler: Callable[[dict], Awaitable[dict]]) -> IntentOutcome:
+                            handler: Callable[[dict], Awaitable[dict]], *, execution_context: dict | None = None) -> IntentOutcome:
         """Keep SQLite contention off the event loop.
 
         Cancelling a claim wait may leave a reservation, but cannot dispatch a
         handler. Cancelling completion may still persist its already known result.
         Neither path permits a duplicate effect.
         """
+        context_json = self._context(execution_context)
         proposal = await asyncio.to_thread(self.proposals.validate_current, scope, proposal_id)
-        token, prior = await asyncio.to_thread(self._claim, scope, operation_key, proposal)
+        token, prior = await asyncio.to_thread(self._claim, scope, operation_key, proposal, context_json)
         if prior is not None:
             return prior
         result = await handler(proposal.arguments)
