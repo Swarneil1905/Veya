@@ -14,6 +14,7 @@ from veya.api.events import router as event_router
 from veya.api.task_list import router as task_list_router
 from veya.api.runs import router as run_router
 from veya.api.tasks import router as task_router
+from veya.api.proposals import router as proposal_router
 from veya.api.tools import router as tool_router
 from veya.tools.registry import ToolRegistry, ToolScope
 from veya.config import Settings
@@ -113,4 +114,5 @@ def create_app(settings: Settings, session_token: str, *, tool_registry: ToolReg
     app.include_router(artifact_router(db, settings.tenant_id))
     app.include_router(run_router(db, settings.tenant_id))
     app.include_router(tool_router(registry, scope))
+    app.include_router(proposal_router(db, registry, scope))
     return app

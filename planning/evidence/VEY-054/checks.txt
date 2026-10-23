@@ -1,0 +1,7 @@
+Command: python scripts/test_runtime.py services/runtime/tests/test_proposals.py services/runtime/tests/test_upgrade.py -q
+......                                                                   [100%]
+6 passed in 0.38s
+
+Acceptance: Persist immutable reviewable action proposals with canonical argument and declaration hashes; changed arguments require a new proposal
+Skills applied: fastapi-patterns, database-migrations, python-resilience, tdd, code-review-and-quality; API and domain design guidance where applicable.
+Local Windows Python 3.10.11 verification; no GitHub CI or native UI claim.
