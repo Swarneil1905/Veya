@@ -2780,14 +2780,16 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Codex",
       "actual_hours": null,
-      "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "commit": "aea113f73adec185807021bddc3283580c7a535a",
+      "evidence": [
+        "planning/evidence/VEY-036/checks.txt"
+      ],
+      "acceptance_note": "Store complete content-addressed artifacts with provenance and verified downloads. Actual process crashes, disk failures, concurrent publishers, corrupt content and cross-tenant access are tested.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-23T00:15:14+00:00",
       "release_ids": [
         "R1",
         "R2",
@@ -11904,6 +11906,38 @@
         "planning/evidence/VEY-035/checks.txt"
       ],
       "acceptance_note": "Paginate tasks through concurrent inserts with signed scoped cursors. Status filters, literal bounded search, Unicode queries and invalid cursors pass through the HTTP API."
+    },
+    {
+      "at": "2026-10-23T00:12:46+00:00",
+      "story_id": "VEY-036",
+      "from": "backlog",
+      "to": "in_progress",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-23T00:15:13+00:00",
+      "story_id": "VEY-036",
+      "from": "in_progress",
+      "to": "in_review",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-23T00:15:14+00:00",
+      "story_id": "VEY-036",
+      "from": "in_review",
+      "to": "done",
+      "reason": null,
+      "commit": "aea113f73adec185807021bddc3283580c7a535a",
+      "evidence": [
+        "planning/evidence/VEY-036/checks.txt"
+      ],
+      "acceptance_note": "Store complete content-addressed artifacts with provenance and verified downloads. Actual process crashes, disk failures, concurrent publishers, corrupt content and cross-tenant access are tested."
     }
   ],
   "planning_deliverables": [

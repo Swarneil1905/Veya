@@ -880,11 +880,11 @@ Every story requires a code/configuration/migration/test change. Documentation-o
 
 **Dependencies:** VEY-032.
 
-**Tracking:** backlog; P0; Core; M1; D04; owner: Unassigned.
+**Tracking:** done; P0; Core; M1; D04; owner: Codex.
 
 **Effort:** 6 base hours; planning range 4-9 hours, before shared integration allowance.
 
-**Completion evidence:** No implementation commit recorded; no test evidence recorded.
+**Completion evidence:** aea113f73adec185807021bddc3283580c7a535a; planning/evidence/VEY-036/checks.txt.
 
 ## VEY-037: Enforce the run lifecycle
 
