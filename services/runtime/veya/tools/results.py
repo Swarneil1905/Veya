@@ -27,6 +27,7 @@ class ResultSource:
     tool_name: str
     tool_version: str
     call_id: str
+    manifest_hash: str
 
 
 @dataclass(frozen=True)
@@ -43,6 +44,10 @@ class NormalizedResult:
     def data(self) -> dict:
         return json.loads(self.data_json)
 
+    def for_dispatch(self) -> dict:
+        """Carry host-produced provenance through the dict-compatible runner API."""
+        return ResultData(self, _CARRIER_TOKEN)
+
     @property
     def trust(self) -> str:
         return 'untrusted'
@@ -50,6 +55,27 @@ class NormalizedResult:
     @property
     def truncation_notice(self) -> str | None:
         return f'Preview truncated; original result was {self.original_bytes} bytes.' if self.truncated else None
+
+
+_CARRIER_TOKEN = object()
+
+
+class ResultData(dict):
+    """In-process carrier, never a wire format or a deserialization target.
+
+    JSON objects cannot supply this provenance. Trusted Python code owns this
+    boundary; this is not a sandbox against arbitrary Python execution.
+    """
+    __slots__ = ('_normalized',)
+
+    def __init__(self, result: NormalizedResult, token):
+        if token is not _CARRIER_TOKEN:
+            raise ValueError('Result carriers must come from the normalizer')
+        super().__init__(result.data)
+        object.__setattr__(self, '_normalized', result)
+
+    def __setattr__(self, name, value):
+        raise AttributeError('Result provenance is immutable')
 
 
 def _clean_text(value: str) -> str:
@@ -93,10 +119,13 @@ class ResultNormalizer:
         self.validate_options(call_id, preview_bytes)
         tool = self.registry.resolve(scope, name, version)
         try:
+            original_controls = _clean(payload, tool.name) != payload
             validated = self.registry.output(scope, name, version, payload)
             cleaned = _clean(validated, tool.name)
             # Sanitization must not manufacture data that violates field constraints.
             checked = self.registry.output(scope, name, version, cleaned)
+            if _clean(checked, tool.name) != checked:
+                raise ResultFailure(tool.name, 'unsafe_schema_output')
             encoded = canonical_json(checked, tool.max_output_bytes)
         except ResultFailure:
             raise
@@ -105,8 +134,9 @@ class ResultNormalizer:
             raise ResultFailure(tool.name, reason) from None
         output = encoded.encode('utf-8')
         preview = output[:preview_bytes].decode('utf-8', errors='ignore')
-        return NormalizedResult(ResultSource(scope.tenant_id, tool.name, tool.version, call_id), encoded,
-                                len(original), hashlib.sha256(original).hexdigest(), cleaned != validated,
+        return NormalizedResult(ResultSource(scope.tenant_id, tool.name, tool.version, call_id,
+                                              hashlib.sha256(canonical_json(tool.manifest(), 1_048_576).encode()).hexdigest()), encoded,
+                                len(original), hashlib.sha256(original).hexdigest(), original_controls or cleaned != validated,
                                 preview, len(output) > preview_bytes)
 
     def normalize(self, scope: ToolScope, name: str, version: str, payload: object,
@@ -118,6 +148,26 @@ class ResultNormalizer:
         except DomainError as error:
             raise ResultFailure(tool.name, 'too_large' if error.code == 'too_large' else 'invalid_json') from None
         return self._finish(scope, name, version, payload, original, call_id, preview_bytes)
+
+    def normalize_dispatch(self, scope: ToolScope, name: str, version: str, payload: object,
+                           *, call_id: str, preview_bytes: int) -> NormalizedResult:
+        if type(payload) is not ResultData:
+            return self.normalize(scope, name, version, payload, call_id=call_id, preview_bytes=preview_bytes)
+        tool = self.registry.resolve(scope, name, version)
+        normalized = payload._normalized
+        source = normalized.source
+        if (source.tenant_id, source.tool_name, source.tool_version) != (scope.tenant_id, name, version):
+            raise ResultFailure(name, 'provenance_scope')
+        if source.manifest_hash != hashlib.sha256(canonical_json(tool.manifest(), 1_048_576).encode()).hexdigest():
+            raise ResultFailure(name, 'provenance_schema')
+        # A caller may mutate its dict copy; it cannot retain stale provenance.
+        try:
+            current = canonical_json(dict(payload), self.registry.resolve(scope, name, version).max_output_bytes)
+        except DomainError:
+            raise ResultFailure(name, 'changed_result') from None
+        if current != normalized.data_json:
+            raise ResultFailure(name, 'changed_result')
+        return normalized
 
     def decode(self, scope: ToolScope, name: str, version: str, data: bytes,
                *, call_id: str, preview_bytes: int) -> NormalizedResult:
@@ -144,10 +194,15 @@ class ResultNormalizer:
         self.validate_options(call_id, preview_bytes)
         tool = self.registry.resolve(scope, name, version)
         buffer = bytearray()
-        async for chunk in chunks:
-            if type(chunk) is not bytes:
-                raise ResultFailure(tool.name, 'invalid_encoding')
-            if len(chunk) > tool.max_output_bytes - len(buffer):
-                raise ResultFailure(tool.name, 'too_large')
-            buffer.extend(chunk)
+        try:
+            async for chunk in chunks:
+                if type(chunk) is not bytes:
+                    raise ResultFailure(tool.name, 'invalid_encoding')
+                if len(chunk) > tool.max_output_bytes - len(buffer):
+                    raise ResultFailure(tool.name, 'too_large')
+                buffer.extend(chunk)
+        except ResultFailure:
+            raise
+        except Exception:
+            raise ResultFailure(tool.name, 'read_failure') from None
         return self.decode(scope, name, version, bytes(buffer), call_id=call_id, preview_bytes=preview_bytes)

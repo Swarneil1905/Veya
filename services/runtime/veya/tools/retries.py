@@ -124,4 +124,4 @@ class ToolRunner:
                   handler: Callable[[dict], Awaitable[dict]]) -> dict:
         tool = self.registry.resolve(scope, name, version)
         return (await self.run_result(scope, name, version, arguments, handler,
-                                      call_id=uuid4().hex, preview_bytes=tool.max_output_bytes)).data
+                                      call_id=uuid4().hex, preview_bytes=tool.max_output_bytes)).for_dispatch()
