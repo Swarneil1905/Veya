@@ -13,5 +13,5 @@ environment['PYTHONPATH'] = str(root / 'services/runtime')
 with tempfile.TemporaryDirectory(prefix='runtime-tests-', dir=artifacts) as temporary:
     arguments = sys.argv[1:] or ['services/runtime/tests']
     result = subprocess.run([sys.executable, '-m', 'pytest', *arguments, '--basetemp', temporary],
-                            cwd=root, env=environment, check=False)
+                            cwd=root, env=environment, check=False, timeout=120)
     sys.exit(result.returncode)

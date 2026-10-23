@@ -1,3 +1,4 @@
+"""Durable submission and tenant-scoped reads; submission never starts execution."""
 from fastapi import APIRouter, Response
 from pydantic import BaseModel, ConfigDict, Field
 

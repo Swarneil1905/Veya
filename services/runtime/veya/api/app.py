@@ -87,7 +87,11 @@ def create_app(settings: Settings, session_token: str) -> FastAPI:
 
     @app.exception_handler(sqlite3.OperationalError)
     async def database_error(request: Request, error: sqlite3.OperationalError) -> JSONResponse:
-        if getattr(error, 'sqlite_errorcode', None) in {sqlite3.SQLITE_BUSY, sqlite3.SQLITE_LOCKED}:
+        # Python 3.10 lacks sqlite_errorcode and the exported SQLite constants.
+        code = getattr(error, 'sqlite_errorcode', None)
+        busy = (code is not None and code & 0xff in {5, 6}) or (
+            code is None and str(error) in {'database is locked', 'database table is locked'})
+        if busy:
             return error_response('busy', 'Storage is busy; retry with the same request ID', 503)
         return error_response('storage_error', 'Storage operation failed', 500)
 
