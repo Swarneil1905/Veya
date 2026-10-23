@@ -12,6 +12,7 @@ from starlette.types import ASGIApp, Receive, Scope, Send
 from veya.api.artifacts import router as artifact_router
 from veya.api.events import router as event_router
 from veya.api.task_list import router as task_list_router
+from veya.api.runs import router as run_router
 from veya.api.tasks import router as task_router
 from veya.config import Settings
 from veya.domain.models import DomainError
@@ -103,4 +104,5 @@ def create_app(settings: Settings, session_token: str) -> FastAPI:
     app.include_router(task_router(db, settings.tenant_id))
     app.include_router(event_router(db, settings.tenant_id))
     app.include_router(artifact_router(db, settings.tenant_id))
+    app.include_router(run_router(db, settings.tenant_id))
     return app

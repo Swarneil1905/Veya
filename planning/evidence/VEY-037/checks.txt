@@ -1,0 +1,7 @@
+Command: python scripts/test_runtime.py services/runtime/tests/test_lifecycle.py -q
+...........................................                              [100%]
+43 passed in 1.07s
+
+Acceptance: Enforce atomic run transitions with revision checks and matching events. Full transition matrix, terminal restart, cancellation races, tenant isolation and rollback pass.
+Skills applied: fastapi-patterns, database-migrations, python-resilience, tdd, code-review-and-quality; API and domain design guidance where applicable.
+Local Windows Python 3.10.11 verification; no GitHub CI or native UI claim.
