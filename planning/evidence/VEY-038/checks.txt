@@ -1,0 +1,7 @@
+Command: python scripts/test_runtime.py services/runtime/tests/test_leases.py -q
+.............                                                            [100%]
+13 passed in 1.39s
+
+Acceptance: Fence local worker completion with durable leases and owner epochs. Process races, restart recovery, expiry, renewal, cancellation, revision fencing and transactional rollback pass; epoch mutation is detected.
+Skills applied: fastapi-patterns, database-migrations, python-resilience, tdd, code-review-and-quality; API and domain design guidance where applicable.
+Local Windows Python 3.10.11 verification; no GitHub CI or native UI claim.
