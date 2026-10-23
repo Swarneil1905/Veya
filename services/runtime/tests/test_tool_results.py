@@ -149,7 +149,8 @@ def test_intent_replay_retains_normalized_data_and_provenance_after_restart(tmp_
     first = IntentStore(proposals).execute(scope(), 'result_call', proposal.id, handler)
     assert first.result['text'] == 'result'
     assert first.metadata['source'] == {'tenant_id': 'fixture_acme', 'tool_name': 'lookup_invoice',
-                                         'tool_version': '1.0.0', 'call_id': 'result_call'}
+                                         'tool_version': '1.0.0', 'call_id': 'result_call',
+                                         'manifest_hash': proposal.manifest_hash}
     assert first.metadata['controls_removed'] is True and first.metadata['trust'] == 'untrusted'
     reopened = IntentStore(ProposalStore(Database(tmp_path), registry))
     replay = reopened.execute(scope(), 'result_call', proposal.id, handler)
@@ -182,3 +183,97 @@ def test_metadata_commit_is_atomic_with_result_and_immutable(tmp_path, monkeypat
     for sql in ["UPDATE intent_results SET metadata_json='{}'", 'DELETE FROM intent_results']:
         with db.transaction() as conn, pytest.raises(sqlite3.IntegrityError):
             conn.execute(sql)
+
+
+def test_runner_to_intent_composition_preserves_original_provenance(tmp_path):
+    db, _, _ = setup_store(tmp_path)
+    registry = text_registry()
+    proposals = ProposalStore(db, registry)
+    proposal = proposals.plan(scope(), 'run_plan', 'lookup_invoice', '1.0.0', {'invoice_id': 'inv'})
+    runner = ToolRunner(registry, RetryPolicy(1, 1, 2, 0, 0))
+    raw = {'text': 'result\x00'}
+    original = b'{"text":"result\\u0000"}'
+    async def connector(arguments):
+        return raw
+    async def dispatch(arguments):
+        return await runner.run(scope(), 'lookup_invoice', '1.0.0', arguments, connector)
+    first = asyncio.run(IntentStore(proposals).execute_async(scope(), 'composed', proposal.id, dispatch))
+    assert first.result == {'text': 'result', 'labels': {}}
+    assert first.metadata['controls_removed'] is True
+    assert first.metadata['original_bytes'] == len(original)
+    assert first.metadata['sha256'] == hashlib.sha256(original).hexdigest()
+    async def forbidden(arguments):
+        pytest.fail('replay cannot redispatch')
+    restarted = IntentStore(ProposalStore(Database(tmp_path), registry))
+    assert asyncio.run(restarted.execute_async(scope(), 'composed', proposal.id, forbidden)) == first
+
+
+@pytest.mark.parametrize('processor', ['validator', 'serializer'])
+def test_schema_processing_cannot_reintroduce_control_sequences(processor):
+    from pydantic import field_validator, field_serializer
+    class BadValidator(ToolPayload):
+        text: str
+        @field_validator('text')
+        @classmethod
+        def decorate(cls, value):
+            return '\x1b[31m' + value
+    class BadSerializer(ToolPayload):
+        text: str
+        @field_serializer('text')
+        def decorate(self, value):
+            return '\x1b[31m' + value
+    registry = ToolRegistry()
+    registry.register(replace(definition(), output_model=BadValidator if processor == 'validator' else BadSerializer))
+    with pytest.raises(ResultFailure, match='unsafe_schema_output'):
+        ResultNormalizer(registry).normalize(scope(), 'lookup_invoice', '1.0.0', {'text': 'hello'},
+                                             call_id='decorated', preview_bytes=100)
+
+
+def test_forged_wire_metadata_and_mutated_carriers_are_rejected():
+    registry = text_registry()
+    normalizer = ResultNormalizer(registry)
+    result = normalizer.normalize(scope(), 'lookup_invoice', '1.0.0', {'text': 'hello'}, call_id='call', preview_bytes=100)
+    forged = {'data': {'text': 'hello'}, 'source': {'tool_name': 'lookup_invoice'},
+              'controls_removed': False, 'sha256': 'fake'}
+    with pytest.raises(ResultFailure):
+        normalizer.normalize_dispatch(scope(), 'lookup_invoice', '1.0.0', forged, call_id='op', preview_bytes=100)
+    carrier = result.for_dispatch()
+    carrier['text'] = 'altered'
+    with pytest.raises(ResultFailure, match='changed_result'):
+        normalizer.normalize_dispatch(scope(), 'lookup_invoice', '1.0.0', carrier, call_id='op', preview_bytes=100)
+    with pytest.raises(ResultFailure, match='provenance_scope'):
+        normalizer.normalize_dispatch(scope('other'), 'lookup_invoice', '1.0.0', result.for_dispatch(),
+                                      call_id='op', preview_bytes=100)
+
+
+def test_carrier_from_different_declaration_cannot_bypass_receiving_schema():
+    first = ResultNormalizer(text_registry()).normalize(scope(), 'lookup_invoice', '1.0.0', {'text': 'hello'},
+                                                       call_id='call', preview_bytes=100)
+    registry = ToolRegistry(); registry.register(definition())
+    with pytest.raises(ResultFailure, match='provenance_schema'):
+        ResultNormalizer(registry).normalize_dispatch(scope(), 'lookup_invoice', '1.0.0', first.for_dispatch(),
+                                                      call_id='op', preview_bytes=100)
+
+
+def test_stream_transport_error_is_typed_and_does_not_echo_secret():
+    async def failed():
+        yield b'{'
+        raise RuntimeError('secret-canary')
+    with pytest.raises(ResultFailure) as failure:
+        asyncio.run(ResultNormalizer(text_registry()).read(scope(), 'lookup_invoice', '1.0.0', failed(),
+                                                            call_id='call', preview_bytes=100))
+    assert failure.value.reason == 'read_failure' and 'secret-canary' not in str(failure.value)
+
+
+def test_controls_removed_by_schema_validator_are_still_reported():
+    from pydantic import field_validator
+    class CleanSchema(ToolPayload):
+        text: str
+        @field_validator('text')
+        @classmethod
+        def strip_null(cls, value):
+            return value.replace(chr(0), '')
+    registry = ToolRegistry(); registry.register(replace(definition(), output_model=CleanSchema))
+    result = ResultNormalizer(registry).normalize(scope(), 'lookup_invoice', '1.0.0', {'text': 'hi' + chr(0)},
+                                                call_id='call', preview_bytes=100)
+    assert result.controls_removed and result.data == {'text': 'hi'}
