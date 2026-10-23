@@ -1,0 +1,7 @@
+Command: python scripts/test_runtime.py services/runtime/tests/test_events.py -q
+..........                                                               [100%]
+10 passed in 1.52s
+
+Acceptance: Persist ordered run events and resume authenticated SSE after disconnect. Concurrent writers, rollback, cursor validation and append-only history pass; cursor mutation is detected.
+Skills applied: fastapi-patterns, database-migrations, python-resilience, tdd, code-review-and-quality; API and domain design guidance where applicable.
+Local Windows Python 3.10.11 verification; no GitHub CI or native UI claim.

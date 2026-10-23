@@ -9,6 +9,7 @@ from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException
 from starlette.types import ASGIApp, Receive, Scope, Send
 
+from veya.api.events import router as event_router
 from veya.api.tasks import router as task_router
 from veya.config import Settings
 from veya.domain.models import DomainError
@@ -97,4 +98,5 @@ def create_app(settings: Settings, session_token: str) -> FastAPI:
 
     db = Database(settings.storage_root)
     app.include_router(task_router(db, settings.tenant_id))
+    app.include_router(event_router(db, settings.tenant_id))
     return app
