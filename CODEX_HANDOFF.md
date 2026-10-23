@@ -21,7 +21,7 @@ Ten total accepted stories: VEY-001, VEY-004 and VEY-031 through VEY-038. Four w
 
 The initial API stall did not reproduce in the authorized destination. A hard 120-second subprocess timeout now bounds the runtime harness. Runtime verification uses installed Python 3.10.11 and existing dependencies; dependency/toolchain locking remains VEY-003, not a completed claim.
 
-Combined runtime suite: 108 tests passed. Further batch evidence in planning/evidence/BATCH-01/checks.txt records clean tracked-source verification, tracker/workspace tests, frontend domain fixtures and skill integrity. The new artifact package is tracked despite the generated root artifacts/ directory being ignored. Review findings were fixed; intentional event-cursor and worker-epoch mutations were detected by regression tests and restored.
+Combined runtime suite: 109 tests passed, including populated database upgrade coverage. Further batch evidence in planning/evidence/BATCH-01/checks.txt records clean tracked-source verification, tracker/workspace tests, frontend domain fixtures and skill integrity. The new artifact package is tracked despite the generated root artifacts/ directory being ignored. Review findings were fixed; intentional event-cursor and worker-epoch mutations were detected by regression tests and restored.
 
 ## Continue from here
 
