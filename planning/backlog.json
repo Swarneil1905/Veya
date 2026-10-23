@@ -3587,14 +3587,16 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Swarneil1905",
       "actual_hours": null,
-      "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "commit": "14ac7e3f1cc325c50e4f3334753dc39bfac1aae1",
+      "evidence": [
+        "planning/evidence/VEY-054/checks.txt"
+      ],
+      "acceptance_note": "Persist immutable reviewable action proposals with canonical argument and declaration hashes; changed arguments require a new proposal",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-23T00:54:13+00:00",
       "release_ids": [
         "R2",
         "R3",
@@ -12040,6 +12042,38 @@
         "planning/evidence/VEY-051/checks.txt"
       ],
       "acceptance_note": "Declare scoped typed tools with strict bounded inputs and outputs; validate defaults and hide ungranted tools"
+    },
+    {
+      "at": "2026-10-23T00:52:09+00:00",
+      "story_id": "VEY-054",
+      "from": "backlog",
+      "to": "in_progress",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-23T00:54:13+00:00",
+      "story_id": "VEY-054",
+      "from": "in_progress",
+      "to": "in_review",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-23T00:54:13+00:00",
+      "story_id": "VEY-054",
+      "from": "in_review",
+      "to": "done",
+      "reason": null,
+      "commit": "14ac7e3f1cc325c50e4f3334753dc39bfac1aae1",
+      "evidence": [
+        "planning/evidence/VEY-054/checks.txt"
+      ],
+      "acceptance_note": "Persist immutable reviewable action proposals with canonical argument and declaration hashes; changed arguments require a new proposal"
     }
   ],
   "planning_deliverables": [
