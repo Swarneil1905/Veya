@@ -1,0 +1,129 @@
+"""Host-issued approval receipts. Only an authenticated reviewer host may issue.
+
+Signing keys are explicit host secrets, never persisted here. Review data binds
+one idempotency key as well as the proposal and authorization context. There is
+no model-callable issuance API. Key rotation fails closed for older receipts.
+"""
+from dataclasses import asdict, dataclass
+import hashlib
+import hmac
+import json
+import math
+import re
+import time
+from typing import Callable
+from uuid import uuid4
+
+from veya.audit.ledger import AuditField, Sensitivity, append_in_transaction
+from veya.domain.models import identifier
+from veya.policy.engine import PolicyDenied
+from veya.storage.sqlite import Database
+from veya.tools.contracts import canonical_json
+
+
+@dataclass(frozen=True)
+class ApprovalReview:
+    tenant_id: str
+    actor_id: str
+    workspace_id: str
+    operation_key: str
+    proposal_id: str
+    run_id: str
+    arguments_hash: str
+    manifest_hash: str
+    policy_version: str
+    context_hash: str
+
+    def __post_init__(self):
+        for name, value in asdict(self).items():
+            if name.endswith('_hash'):
+                if type(value) is not str or not re.fullmatch('[0-9a-f]{64}', value):
+                    raise ValueError('Invalid review digest')
+            else:
+                identifier(value)
+
+
+@dataclass(frozen=True)
+class ApprovalReceipt:
+    id: str
+    body_json: str
+    signature: str
+
+
+def finite_time(value: object) -> bool:
+    return type(value) in {int, float} and math.isfinite(value)
+
+
+class ApprovalStore:
+    def __init__(self, db: Database, signing_key: bytes, key_id: str, *,
+                 max_ttl: float = 86_400, clock: Callable[[], float] = time.time):
+        identifier(key_id)
+        if type(signing_key) is not bytes or len(signing_key) < 32:
+            raise ValueError('An explicit approval signing key of at least 32 bytes is required')
+        if not finite_time(max_ttl) or not 0 < max_ttl <= 86_400 or not callable(clock):
+            raise ValueError('Approval lifetime must be positive and at most one day')
+        self.db, self._key, self.key_id = db, signing_key, key_id
+        self.max_ttl, self.clock = max_ttl, clock
+
+    def _sign(self, body: str) -> str:
+        return hmac.new(self._key, body.encode('utf-8'), hashlib.sha256).hexdigest()
+
+    def issue(self, review: ApprovalReview, *, expires_at: float) -> ApprovalReceipt:
+        if type(review) is not ApprovalReview:
+            raise ValueError('An exact reviewed action is required')
+        now = self.clock()
+        if not finite_time(now) or not finite_time(expires_at) or not now < expires_at <= now + self.max_ttl:
+            raise ValueError('Approval expiry must be within the configured lifetime')
+        receipt_id = uuid4().hex
+        body = canonical_json(dict(asdict(review), id=receipt_id, key_id=self.key_id,
+                                   issued_at=now, expires_at=expires_at), 16_384)
+        receipt = ApprovalReceipt(receipt_id, body, self._sign(body))
+        with self.db.transaction() as conn:
+            proposal = conn.execute('SELECT p.*,r.state FROM proposals p JOIN runs r '
+                'ON r.tenant_id=p.tenant_id AND r.id=p.run_id WHERE p.tenant_id=? AND p.id=?',
+                (review.tenant_id, review.proposal_id)).fetchone()
+            if (proposal is None or proposal['state'] in {'succeeded', 'failed', 'cancelled'} or
+                any(proposal[name] != getattr(review, name) for name in ('run_id', 'arguments_hash', 'manifest_hash'))):
+                raise PolicyDenied('invalid_approval_proposal')
+            conn.execute('INSERT INTO approvals VALUES (?,?,?,?,?)',
+                         (review.tenant_id, receipt.id, review.proposal_id, receipt.body_json, receipt.signature))
+            append_in_transaction(conn, review.tenant_id, 'approval.issued', {
+                'approval_id': AuditField(receipt.id, Sensitivity.INTERNAL),
+                'proposal_id': AuditField(review.proposal_id, Sensitivity.INTERNAL),
+                'actor_id': AuditField(review.actor_id, Sensitivity.INTERNAL),
+                'policy_version': AuditField(review.policy_version, Sensitivity.INTERNAL),
+            })
+        return receipt
+
+    def get(self, tenant: str, receipt_id: str) -> ApprovalReceipt:
+        identifier(tenant)
+        identifier(receipt_id)
+        with self.db.connection() as conn:
+            row = conn.execute('SELECT id,body_json,signature FROM approvals WHERE tenant_id=? AND id=?',
+                               (tenant, receipt_id)).fetchone()
+        if row is None:
+            raise PolicyDenied('missing_approval')
+        return ApprovalReceipt(**dict(row))
+
+    def verify(self, receipt: ApprovalReceipt, review: ApprovalReview) -> None:
+        """Pure signature/binding/clock check; safe immediately before dispatch."""
+        try:
+            if type(receipt) is not ApprovalReceipt or type(review) is not ApprovalReview:
+                raise ValueError()
+            if type(receipt.body_json) is not str or len(receipt.body_json.encode('utf-8')) > 16_384:
+                raise ValueError()
+            if type(receipt.signature) is not str or not re.fullmatch('[0-9a-f]{64}', receipt.signature):
+                raise ValueError()
+            if not hmac.compare_digest(self._sign(receipt.body_json), receipt.signature):
+                raise ValueError()
+            body = json.loads(receipt.body_json)
+            now = self.clock()
+            issued, expires = body['issued_at'], body['expires_at']
+            if (not all(finite_time(value) for value in (now, issued, expires)) or
+                    not issued <= now < expires or not 0 < expires - issued <= self.max_ttl):
+                raise ValueError()
+            expected = dict(asdict(review), id=receipt.id, key_id=self.key_id, issued_at=issued, expires_at=expires)
+            if canonical_json(expected, 16_384) != receipt.body_json:
+                raise ValueError()
+        except (ValueError, TypeError, KeyError, UnicodeError, OverflowError):
+            raise PolicyDenied('invalid_or_expired_approval') from None
