@@ -97,7 +97,11 @@ def test_writes_require_grant_bound_to_exact_immutable_proposal(tmp_path, effect
         asyncio.run(executor.execute(actor, scope(), 'write', proposal.id))
     assert not (tmp_path / 'fixture_effect.txt').exists()
     policies[0] = exact
-    assert asyncio.run(executor.execute(actor, scope(), 'write', proposal.id)).result == {'total': 42}
+    from veya.policy.approvals import ApprovalStore
+    executor.approvals = ApprovalStore(executor.intents.db, b'fixture-only-approval-key-32-bytes', 'key_1', clock=lambda: 1000)
+    receipt = executor.approvals.issue(executor.review(actor, scope(), 'write', proposal.id), expires_at=1100)
+    assert asyncio.run(executor.execute(actor, scope(), 'write', proposal.id,
+                                       approval_id=receipt.id)).result == {'total': 42}
     changed = executor.intents.proposals.plan(scope(), 'run_plan', 'lookup_invoice', '1.0.0', {'invoice_id': 'another'})
     with pytest.raises(PolicyDenied):
         asyncio.run(executor.execute(actor, scope(), 'different', changed.id))
@@ -215,3 +219,26 @@ def test_revocation_during_replay_lookup_blocks_result_delivery(tmp_path):
     with pytest.raises(PolicyDenied):
         asyncio.run(executor.execute(actor, scope(), 'cached', proposal.id))
     assert len(calls) == 1
+
+
+@pytest.mark.parametrize('cancel_stage', ['audit', 'admission'])
+def test_cancellation_is_ordered_against_durable_dispatch_admission(tmp_path, cancel_stage):
+    from veya.storage.run_state import transition_run
+    executor, actor, proposal, _, _, calls = fixture_gateway(tmp_path)
+    name = '_audit' if cancel_stage == 'audit' else '_admit_dispatch'
+    original = getattr(executor, name)
+    def cancel(*args, **kwargs):
+        original(*args, **kwargs)
+        run = executor.intents.db.get_run(actor.tenant_id, proposal.run_id)
+        transition_run(executor.intents.db, actor.tenant_id, run.id, 'cancelled', run.revision)
+    setattr(executor, name, cancel)
+    if cancel_stage == 'audit':
+        with pytest.raises(DomainError, match='cannot dispatch'):
+            asyncio.run(executor.execute(actor, scope(), 'cancel_race', proposal.id))
+        assert calls == []
+    else:
+        # Admission already committed: cancellation cannot retract the in-flight action.
+        assert asyncio.run(executor.execute(actor, scope(), 'cancel_race', proposal.id)).state == 'succeeded'
+        assert len(calls) == 1
+    events = EventStore(executor.intents.db).read(actor.tenant_id, proposal.run_id)
+    assert sum(e.kind == 'action.dispatch_admitted' for e in events) == (cancel_stage == 'admission')
