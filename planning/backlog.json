@@ -3005,14 +3005,16 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/VEY-041/checks.txt"
+      ],
+      "acceptance_note": "Locally implemented and independently reviewed. Clean source export: 277 runtime tests and 18 tracker/workspace tests passed; 39 skills/373 pinned files verified. Acceptance criteria and limitations recorded in evidence. Awaiting user implementation commit; no staging or push.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-24T20:05:29+00:00",
       "release_ids": [
         "R1",
         "R2",
@@ -3809,14 +3811,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "in_review",
+      "status": "done",
       "owner": "Swarneil1905",
       "actual_hours": null,
-      "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "commit": "da7c657235188c574f30047ae61f7c022e07e72f",
+      "evidence": [
+        "planning/evidence/VEY-059/checks.txt"
+      ],
+      "acceptance_note": "User committed the reviewed implementation; current runtime matches the verified 213-test source snapshot.",
       "blocked_reason": null,
-      "updated_at": "2026-10-23T01:41:45+00:00",
+      "updated_at": "2026-10-24T19:53:23+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -3896,14 +3900,16 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "in_review",
+      "status": "done",
       "owner": "Swarneil1905",
       "actual_hours": null,
-      "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "commit": "f70604cb12d0a69b79bd6dce5c8c3bfb9fa310d1",
+      "evidence": [
+        "planning/evidence/VEY-061/checks.txt"
+      ],
+      "acceptance_note": "User committed the reviewed implementation; current runtime matches the verified 213-test source snapshot.",
       "blocked_reason": null,
-      "updated_at": "2026-10-23T01:29:06+00:00",
+      "updated_at": "2026-10-24T19:53:22+00:00",
       "release_ids": [
         "R1",
         "R2",
@@ -3941,14 +3947,16 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/VEY-062/checks.txt"
+      ],
+      "acceptance_note": "Locally implemented and independently reviewed. Clean source export: 277 runtime tests and 18 tracker/workspace tests passed; 39 skills/373 pinned files verified. Acceptance criteria and limitations recorded in evidence. Awaiting user implementation commit; no staging or push.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-24T20:05:29+00:00",
       "release_ids": [
         "R2",
         "R3",
@@ -4028,14 +4036,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/VEY-064/checks.txt"
+      ],
+      "acceptance_note": "Locally implemented and independently reviewed. Clean source export: 277 runtime tests and 18 tracker/workspace tests passed; 39 skills/373 pinned files verified. Acceptance criteria and limitations recorded in evidence. Awaiting user implementation commit; no staging or push.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-24T20:05:29+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -12182,6 +12192,126 @@
       "commit": null,
       "evidence": [],
       "acceptance_note": null
+    },
+    {
+      "at": "2026-10-24T19:53:22+00:00",
+      "story_id": "VEY-061",
+      "from": "in_review",
+      "to": "done",
+      "reason": null,
+      "commit": "f70604cb12d0a69b79bd6dce5c8c3bfb9fa310d1",
+      "evidence": [
+        "planning/evidence/VEY-061/checks.txt"
+      ],
+      "acceptance_note": "User committed the reviewed implementation; current runtime matches the verified 213-test source snapshot."
+    },
+    {
+      "at": "2026-10-24T19:53:23+00:00",
+      "story_id": "VEY-059",
+      "from": "in_review",
+      "to": "done",
+      "reason": null,
+      "commit": "da7c657235188c574f30047ae61f7c022e07e72f",
+      "evidence": [
+        "planning/evidence/VEY-059/checks.txt"
+      ],
+      "acceptance_note": "User committed the reviewed implementation; current runtime matches the verified 213-test source snapshot."
+    },
+    {
+      "at": "2026-10-24T19:53:23+00:00",
+      "story_id": "VEY-064",
+      "from": "backlog",
+      "to": "in_progress",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-24T19:55:37+00:00",
+      "story_id": "VEY-064",
+      "from": "in_progress",
+      "to": "in_review",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-24T19:55:37+00:00",
+      "story_id": "VEY-062",
+      "from": "backlog",
+      "to": "in_progress",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-24T19:58:10+00:00",
+      "story_id": "VEY-062",
+      "from": "in_progress",
+      "to": "in_review",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-24T19:58:10+00:00",
+      "story_id": "VEY-041",
+      "from": "backlog",
+      "to": "in_progress",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-24T20:03:26+00:00",
+      "story_id": "VEY-041",
+      "from": "in_progress",
+      "to": "in_review",
+      "reason": null,
+      "commit": null,
+      "evidence": [],
+      "acceptance_note": null
+    },
+    {
+      "at": "2026-10-24T20:05:29+00:00",
+      "story_id": "VEY-041",
+      "from": "in_review",
+      "to": "in_review",
+      "reason": "Attach local verification evidence without changing acceptance status",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/VEY-041/checks.txt"
+      ],
+      "acceptance_note": "Locally implemented and independently reviewed. Clean source export: 277 runtime tests and 18 tracker/workspace tests passed; 39 skills/373 pinned files verified. Acceptance criteria and limitations recorded in evidence. Awaiting user implementation commit; no staging or push."
+    },
+    {
+      "at": "2026-10-24T20:05:29+00:00",
+      "story_id": "VEY-062",
+      "from": "in_review",
+      "to": "in_review",
+      "reason": "Attach local verification evidence without changing acceptance status",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/VEY-062/checks.txt"
+      ],
+      "acceptance_note": "Locally implemented and independently reviewed. Clean source export: 277 runtime tests and 18 tracker/workspace tests passed; 39 skills/373 pinned files verified. Acceptance criteria and limitations recorded in evidence. Awaiting user implementation commit; no staging or push."
+    },
+    {
+      "at": "2026-10-24T20:05:29+00:00",
+      "story_id": "VEY-064",
+      "from": "in_review",
+      "to": "in_review",
+      "reason": "Attach local verification evidence without changing acceptance status",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/VEY-064/checks.txt"
+      ],
+      "acceptance_note": "Locally implemented and independently reviewed. Clean source export: 277 runtime tests and 18 tracker/workspace tests passed; 39 skills/373 pinned files verified. Acceptance criteria and limitations recorded in evidence. Awaiting user implementation commit; no staging or push."
     }
   ],
   "planning_deliverables": [

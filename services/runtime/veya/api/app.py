@@ -9,6 +9,8 @@ from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException
 from starlette.types import ASGIApp, Receive, Scope, Send
 
+from veya.api.providers import router as provider_router
+from veya.providers.models import ModelCatalog
 from veya.api.artifacts import router as artifact_router
 from veya.api.events import router as event_router
 from veya.api.task_list import router as task_list_router
@@ -60,13 +62,16 @@ class BodyLimit:
 
 
 def create_app(settings: Settings, session_token: str, *, tool_registry: ToolRegistry | None = None,
-               tool_scope: ToolScope | None = None) -> FastAPI:
+               tool_scope: ToolScope | None = None, model_catalog: ModelCatalog | None = None) -> FastAPI:
     if not isinstance(session_token, str) or len(session_token) < 32:
         raise ValueError('An explicit session credential of at least 32 characters is required')
     registry = tool_registry if tool_registry is not None else ToolRegistry()
     scope = tool_scope if tool_scope is not None else ToolScope(settings.tenant_id, frozenset(), frozenset())
     if scope.tenant_id != settings.tenant_id:
         raise ValueError('Tool scope must match the configured tenant')
+    catalog = model_catalog if model_catalog is not None else ModelCatalog(settings.tenant_id, ())
+    if catalog.tenant_id != settings.tenant_id:
+        raise ValueError('Model catalog must match the configured tenant')
     expected = hashlib.sha256(('Bearer ' + session_token).encode()).digest()
 
     def authenticate(request: Request) -> None:
@@ -84,7 +89,7 @@ def create_app(settings: Settings, session_token: str, *, tool_registry: ToolReg
     async def domain_error(request: Request, error: DomainError) -> JSONResponse:
         status = {'not_found': 404, 'conflict': 409, 'invalid_input': 422,
                   'unauthenticated': 401, 'forbidden': 403, 'too_large': 413,
-                  'corrupt': 409, 'storage_error': 500}.get(error.code, 400)
+                  'corrupt': 409, 'storage_error': 500, 'model_unsupported': 422, 'model_unknown': 422}.get(error.code, 400)
         return error_response(error.code, str(error), status)
 
     @app.exception_handler(RequestValidationError)
@@ -109,7 +114,8 @@ def create_app(settings: Settings, session_token: str, *, tool_registry: ToolReg
 
     db = Database(settings.storage_root)
     app.include_router(task_list_router(db, settings.tenant_id, expected))
-    app.include_router(task_router(db, settings.tenant_id))
+    app.include_router(task_router(db, settings.tenant_id, catalog))
+    app.include_router(provider_router(db, catalog))
     app.include_router(event_router(db, settings.tenant_id))
     app.include_router(artifact_router(db, settings.tenant_id))
     app.include_router(run_router(db, settings.tenant_id))

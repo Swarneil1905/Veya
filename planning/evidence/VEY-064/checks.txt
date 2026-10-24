@@ -1,0 +1,27 @@
+Date: 2026-10-24. Local-only implementation; no stage, commit, push or upload.
+Baseline user HEAD: 13323e2c64cc70d1760b187d009dfa30ef40988f
+Clean working-source export includes tracked files and nonignored new files, without Git/index mutations.
+Command: python scripts/test_runtime.py services/runtime/tests -q
+........................................................................ [ 25%]
+........................................................................ [ 51%]
+........................................................................ [ 77%]
+.............................................................            [100%]
+277 passed in 23.10s
+
+Command: python scripts/test_runtime.py tests -q
+..................                                                       [100%]
+18 passed in 0.86s
+
+Command: python scripts/verify-skills.py
+PASS: 39 skill entry points; 373 files match pinned upstream bytes.
+
+Tracker validation, git diff --check, unchanged HEAD/empty index, ignored internal Markdown checks passed.
+Existing migrations001-008 unchanged; forward migrations009-011 and populated upgrade tested.
+Independent read-only review: cancellation admission and duplicate-model-submission issues fixed and verified; no remaining important findings.
+Approval expiry guard mutation detected by the exact-expiry regression test; original source restored before this clean export.
+Skills applied: domain-modeling, codebase-design, api-and-interface-design, database-migrations, fastapi-patterns, agent-security-hardening, security-and-hardening, tdd, code-review-and-quality.
+Scope: 18 estimated base hours (2-3 planned workdays); actual engineering hours not claimed.
+Limits: synthetic local fixtures; no live inference/tokenizer, native UI, reviewer authentication UI, external anchor-retention service or external-effect exactly-once claim.
+Tracker: 16 prior accepted stories; VEY-041/062/064 in_review pending user implementation commits.
+
+Acceptance assessment: Accepted locally: captured segment verification detects modified, reordered or removed records including tail removal. Explicit classification/redaction runs before persistence and fails closed; concurrent append, tenant isolation, restart and shared transaction rollback tested.

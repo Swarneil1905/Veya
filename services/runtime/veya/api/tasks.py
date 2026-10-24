@@ -3,6 +3,7 @@ from fastapi import APIRouter, Response
 from pydantic import BaseModel, ConfigDict, Field
 
 from veya.domain.models import Run, Task
+from veya.providers.models import ModelCatalog, ModelRequest
 from veya.storage.sqlite import Database
 from veya.storage.submission import submit
 
@@ -12,6 +13,7 @@ class TaskInput(BaseModel):
     client_request_id: str = Field(min_length=1, max_length=64, pattern=r'^[a-zA-Z0-9_-]+$')
     title: str = Field(min_length=1, max_length=200)
     instruction: str = Field(min_length=1, max_length=20_000)
+    model: ModelRequest | None = None
 
 
 class Submission(BaseModel):
@@ -19,13 +21,15 @@ class Submission(BaseModel):
     run: Run
 
 
-def router(db: Database, tenant: str) -> APIRouter:
+def router(db: Database, tenant: str, catalog: ModelCatalog) -> APIRouter:
     routes = APIRouter(prefix='/v1')
 
     @routes.post('/tasks', response_model=Submission, status_code=201)
     def create_task(payload: TaskInput, response: Response) -> Submission:
+        model_request = payload.model.model_dump(mode="json") if payload.model is not None else None
         task, run, created = submit(db, tenant, payload.client_request_id,
-                                    payload.title, payload.instruction)
+                                    payload.title, payload.instruction, model_request=model_request,
+                                    select_model=lambda: catalog.select(payload.model))
         response.status_code = 201 if created else 200
         return Submission(task=task, run=run)
 
