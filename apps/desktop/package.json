@@ -5,16 +5,16 @@
   "type": "module",
   "description": "Veya local task workspace",
   "scripts": {
-    "dev": "vite --host 127.0.0.1 --port 4317",
-    "build": "tsc --noEmit && vite build",
-    "preview": "vite preview --host 127.0.0.1 --port 4317",
+    "dev": "ng serve --host 127.0.0.1 --port 4317",
+    "build": "ng build",
+    "preview": "python ../../scripts/run_web.py",
     "test": "node --test tests/*.test.mjs",
     "tauri": "tauri",
-    "desktop:dev": "tauri dev",
-    "desktop:build": "tauri build"
+    "desktop:dev": "python ../../scripts/build_platform.py && tauri dev",
+    "desktop:build": "python ../../scripts/build_platform.py && tauri build"
   },
   "packageManager": "pnpm@11.0.9",
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=22.22.3 <23"
   }
 }

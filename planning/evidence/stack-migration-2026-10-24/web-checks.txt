@@ -1,0 +1,1 @@
+PASS: real Angular/Go/Python task creation, honest empty activity, HttpOnly session, fragment removal, CSRF rejection, parent EOF shutdown, closed listener, stable origin, unsent draft and ambiguous submission identity across two restarts, no duplicate after retry; no browser errors.

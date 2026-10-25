@@ -1,0 +1,52 @@
+package workspace
+
+import (
+	"encoding/json"
+	"strings"
+	"testing"
+)
+
+func command(op, args string) Command {
+	var c Command
+	_ = json.Unmarshal([]byte(`{"operation":"`+op+`","args":`+args+`}`), &c)
+	return c
+}
+func TestCommandCapabilities(t *testing.T) {
+	for _, tc := range []struct{ op, args, path string }{
+		{"list_tasks", `{}`, "/v1/tasks?limit=10"},
+		{"recovery", `{}`, "/v1/workspace/recovery"},
+		{"latest_run", `{"task_id":"task_a"}`, "/v1/tasks/task_a/latest-run"},
+		{"events", `{"run_id":"run_a","after":"run_a:2"}`, "/v1/runs/run_a/event-page?after=run_a%3A2"},
+		{"submit_task", `{"client_request_id":"r_1","title":"Title","instruction":"Do work"}`, "/v1/tasks"},
+	} {
+		t.Run(tc.op, func(t *testing.T) {
+			_, path, _, err := Route(command(tc.op, tc.args))
+			if err != nil || path != tc.path {
+				t.Fatalf("route: %s %v", path, err)
+			}
+		})
+	}
+	for _, tc := range []struct{ op, args string }{
+		{"approve", `{}`}, {"execute", `{}`}, {"list_tasks", `{"tenant_id":"other"}`}, {"list_tasks", `null`},
+		{"latest_run", `{"task_id":"../../secrets"}`}, {"latest_run", `{}`},
+		{"events", `{"run_id":"run_a","after":"run_b:1"}`}, {"events", `{"run_id":"run_a","after":3}`},
+		{"events", `{"run_id":"run_a","after":"run_a:1\r\nX: y"}`},
+		{"submit_task", `{"client_request_id":"r_1","title":"  ","instruction":"Do work"}`},
+		{"submit_task", `{"client_request_id":"r_1","title":"x","instruction":false}`},
+	} {
+		if _, _, _, err := Route(command(tc.op, tc.args)); err == nil {
+			t.Errorf("accepted %s %s", tc.op, tc.args)
+		}
+	}
+}
+func TestUnicodeAndRequestLimits(t *testing.T) {
+	c := command("submit_task", `{"client_request_id":"r_1","title":"x","instruction":"x"}`)
+	c.Args["title"], _ = json.Marshal(strings.Repeat("界", 200))
+	if _, _, _, err := Route(c); err != nil {
+		t.Fatal(err)
+	}
+	c.Args["title"], _ = json.Marshal(strings.Repeat("界", 201))
+	if _, _, _, err := Route(c); err == nil {
+		t.Fatal("accepted oversized title")
+	}
+}

@@ -1,6 +1,18 @@
-# Local runtime contracts
+# Platform and private runtime contracts
 
-The native desktop host starts the local runtime and provisions its session token. Tests and other trusted hosts can construct `create_app(settings, session_token)` explicitly. No inference or external business effect runs on task submission.
+## Go application boundary
+
+Both clients use the Go platform. The desktop host provisions a platform token over an inherited pipe; the web launcher provisions the same protocol and serves the Angular build on loopback. Go starts Python with a separate private token. Python owns the existing durable execution/storage invariants; no inference or external business effect runs on task submission.
+
+`POST /api/workspace` accepts exactly `{operation, args}`. Supported operations are `list_tasks` (latest ten), `submit_task` (client_request_id/title/instruction), `recovery`, `latest_run` (task_id), and `events` (run_id/after). Unknown operations, extra arguments, invalid identifiers and cross-run cursors are rejected before contacting Python. The request limit is 128 KiB. Clients cannot supply a tenant, worker URL, reviewer identity or arbitrary execution operation. The current local workspace retains its `desktop` tenant identity and on-disk schema; cloud tenant provisioning is not implemented.
+
+`GET /api/health` and desktop-compatible `GET /v1/health` return the private runtime's protocol health after authentication. Native calls use the platform Bearer token. The browser exchanges its launch fragment at `POST /api/session` for an HttpOnly SameSite=Strict cookie and removes the fragment. Cookie writes require the exact same Origin; all requests require the bound loopback Host. Cross-site requests and arbitrary proxy routes are rejected. Tokens rotate per process. Web workspaces persist their bound port in `platform-http-port` to retain the browser origin and local drafts across restarts; a busy/invalid saved port fails closed. No worker credential or upstream header is forwarded to the browser.
+
+Closing the parent's stdin pipe requests bounded Go shutdown, which closes the worker's pipe and reaps it. Unexpected worker exit stops the platform. Native restart creates a new pair of credentials while preserving the storage root and request IDs. Go transport calls are bounded and do not follow redirects. Platform errors use `{error:{code}}`; private runtime errors carry the richer schema below.
+
+## Private Python execution API
+
+The following `/v1` routes are internal worker contracts, **not browser-accessible platform endpoints**. Tests and trusted runtime integrations can construct `create_app(settings, session_token)` explicitly. Adding a new user capability requires an explicit authorized Go command; the worker is not a general-purpose proxy.
 
 All HTTP routes use `/v1`, a configured tenant, and `Authorization: Bearer <session_token>`. Tokens must have at least 32 characters; there is no default token. Browser Origin headers are rejected. Request bodies are limited to 1 MiB including chunked input. Errors have `{error: {code, message, schema_version, retryable}}`; input is never echoed. SQLite contention returns retryable 503; retry submissions using their original request ID.
 

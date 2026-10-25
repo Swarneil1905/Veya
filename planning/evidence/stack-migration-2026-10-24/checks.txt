@@ -1,0 +1,40 @@
+Veya Angular / Go / Python migration — local verification, 2026-10-24 America/Chicago
+
+Scope
+- Angular 22.2.3 strict TypeScript 6.0.3/AOT replaces the active React entry point and dependencies.
+- Public Sans + licensed Phosphor web icons preserve the approved Ramp-led workspace. Superhuman, Basecamp and Linear remain supporting story acceptance references.
+- Go 1.27.3 owns application command validation, authenticated web/native boundary, same-origin browser sessions, stable per-workspace web origin, private-worker transport and lifetime.
+- Python retains tested execution, durable persistence, policy, approval/recovery and model interfaces. FastAPI routes are private worker contracts, not a public bypass. This is not a full rewrite of Python's safety/storage machinery into Go.
+- Rust/Tauri launches Go. Existing native application identifier, storage root, database schema and retry IDs remain intact.
+- Old synthetic React UI preserved locally under ignored internal/pre-angular-source; fixture domain tests remain source-controlled.
+
+Passed checks
+1. pnpm install --frozen-lockfile and pnpm build (Angular AOT/strict templates).
+2. Fresh source-only copy: 625 files excluding ignored SDKs/node_modules/internal notes/artifacts; frozen installation and Angular production build pass. Initial JS+CSS 234.54 kB raw, 58.35 kB estimated compressed transfer; fonts are separate assets.
+3. pnpm test: 9 deterministic fixture contract tests.
+4. pnpm check: Angular/Go structure, retained product limitation and CSP checks.
+5. pnpm test:workspace: Chromium IPC contracts, duplicate-submit guard, immutable ambiguous retry, validation correction, escaping, cursor resume, drafts, live state and reconnect recovery gating.
+6. pnpm test:workspace:browser: navigation persistence, search/status filters, detail tabs/keyboard, modal focus containment/restoration, draft close/reopen, submission activity, 1440x1000/800x640/375px layouts and long content. Axe WCAG A/AA rules pass for list, overview, activity, editor and disconnected workspace. Rendered screenshots reviewed locally.
+7. pnpm test:platform:browser: real Angular -> Go -> Python -> SQLite -> Angular, task creation, honest empty activity, HttpOnly/SameSite session, fragment removal, CSRF rejection, parent EOF shutdown and closed listener. Stable origin preserves an unsent draft across restart and the same immutable request ID after a real successful server write with a deliberately dropped response. A second restart/retry creates no duplicate. No page errors.
+8. python scripts/build_platform.py --test: Go vet and all command/server/listener/private-worker tests pass. Includes authentication separation, malformed requests, invalid startup, busy/invalid port fail-closed behavior, persistence and replay. Windows build succeeds; Linux race gate authored but not executed locally.
+9. Python locked 3.13 runtime: 394 tests pass, one existing Starlette/httpx deprecation warning. Previous CI repair's Python3.10 394-pass evidence retained separately.
+10. Rust cargo fmt --check, cargo clippy --locked -- -D warnings, cargo test --locked: all five tests pass with locked Python on PATH.
+11. pnpm --dir apps/desktop tauri build --debug --no-bundle succeeds. Standalone Windows process remains alive with one Go platform and one Python worker; graceful app close reaps both. Fixed runtime log records ready then stopped. This smoke check does not claim installed/native visual acceptance.
+12. python -m unittest discover -s tests: 21 tracker/toolchain/manifest/workspace tests pass. python scripts/verify-skills.py: 39 skill entry points, 373 pinned files unchanged.
+13. actionlint: all revised workflows pass, including reusable Go matrix, required gate, real browser integration and sidecar build before native/package checks.
+14. Dependency audit: zero known vulnerabilities after reviewed compatible build-only postcss8.5.23/nanoid3.3.18/source-map-js1.2.2/vite8.3.3 overrides; generated pnpm lockfile retained. Exact esbuild0.28.2 script approval; optional native accelerator scripts explicitly disabled.
+15. Self-contained Angular preview (including licensed fonts/icons) and release manifest generation pass.
+16. Authorization mutation in an isolated Go source copy: replacing cookie origin authorization with unconditional acceptance makes TestSessionAndCapabilityIsolation fail. Working source was not mutated.
+
+Review
+Project code-review-and-quality independent review covered Go/Rust boundary and then Angular/CI. Required finding: ephemeral web origins strand local drafts. Fixed with an atomically published stable per-workspace port, fail-closed collision handling and restart/dropped-response regressions. Reopening a connection fragment in an already-running tab now reboots the session safely. Re-review reports no remaining actionable findings; test execution was performed by the implementing session.
+Skills applied: golang-patterns/testing, architecture-patterns/domain-modeling/API design, frontend-design/UI-engineering/design-system/accessibility guidance, Rust patterns/testing, TDD/code-review-and-quality, deployment-pipeline-design/github-actions-templates. Imported skill sources unchanged.
+
+Limitations and publication
+No live model inference, shared cloud tenancy, production identity/TLS hosting, self-contained Python installer, signed installer or installed-app visual QA is claimed. GitHub workflows have not run for these local changes. Go race testing is configured for Linux CI and not executed on this Windows host. Stories without implementation commits remain in_review. No staging, commits, pushes, release publication or repository uploads performed.
+
+Evidence assets (ignored local artifacts)
+artifacts/workspace-design/*.png and browser-checks.txt
+artifacts/stack-migration/live-web-task.png, live-web-restarted.png, web-checks.txt, mutation.txt
+artifacts/stack-migration/clean-source (fresh install/build)
+Go SDK download verified against official go.dev sha256 f26081f438319757f8a1b46d7d0b2c5ec7583d4038e485e0aa725cfde7885fff; portable local SDK under ignored .tools/go1.27.3.

@@ -22,6 +22,16 @@ jobs:
         with:
           node-version-file: .node-version
           cache: pnpm
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version-file: .python-version
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        with:
+          go-version-file: .go-version
+          cache: false
+      - run: python -m pip install uv==0.11.23
+      - run: uv sync --project services/runtime --locked
+      - run: python scripts/build_platform.py
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - name: Install browser on Linux
@@ -31,11 +41,16 @@ jobs:
         run: pnpm test:workspace
       - name: Rendered keyboard and accessibility checks
         run: pnpm test:workspace:browser
+      - name: Angular to Go to Python persistence and session contracts
+        run: node scripts/test-platform-browser.mjs
       - name: Retain screenshots and diagnostics even on failure
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: workspace-rendered-${{ matrix.os }}
-          path: artifacts/workspace-design/
+          path: |
+            artifacts/workspace-design/
+            artifacts/stack-migration/*.png
+            artifacts/stack-migration/web-checks.txt
           if-no-files-found: warn
           retention-days: 14

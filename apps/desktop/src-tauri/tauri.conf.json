@@ -35,7 +35,8 @@
     "category": "Productivity",
     "resources": {
       "../../../services/runtime/veya/": "runtime/veya/",
-      "../../../services/runtime/migrations/": "runtime/migrations/"
+      "../../../services/runtime/migrations/": "runtime/migrations/",
+      "binaries/veya-platform.exe": "platform/veya-platform.exe"
     }
   }
 }

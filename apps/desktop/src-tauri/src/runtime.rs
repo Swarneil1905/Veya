@@ -1,4 +1,4 @@
-//! One owned child, serialized lifecycle changes, no credentials exposed to React.
+//! One owned child, serialized lifecycle changes, no credentials exposed to the Angular renderer.
 use serde::Serialize;
 use serde_json::{json, Value};
 use std::io::{BufRead, BufReader, Read, Write};
@@ -93,9 +93,12 @@ impl Runtime {
             return self.report("failed", "Session credential could not be created.");
         }
         self.token = random.iter().map(|b| format!("{b:02x}")).collect();
-        let mut command = Command::new(&self.python);
+        let mut command = Command::new(platform_binary());
         command
-            .args(["-u", "-m", "veya.desktop"])
+            .arg("--python")
+            .arg(&self.python)
+            .arg("--runtime")
+            .arg(&self.source)
             .current_dir(&self.source)
             .env("PYTHONPATH", &self.source)
             .env("PYTHONUTF8", "1")
@@ -107,7 +110,14 @@ impl Runtime {
             use std::os::windows::process::CommandExt;
             command.creation_flags(0x08000000); // CREATE_NO_WINDOW for the owned helper only.
         }
-        let mut child = match command.spawn() { Ok(child) => child, Err(_) => return self.report("failed", "Python could not start. Configure VEYA_PYTHON with a supported Python environment.") };
+        let mut child =
+            match command.spawn() {
+                Ok(child) => child,
+                Err(_) => return self.report(
+                    "failed",
+                    "Platform could not start. Build the Go platform and configure VEYA_PYTHON.",
+                ),
+            };
         let input =
             json!({"protocol": 1, "storage_root": self.workspace, "session_token": self.token});
         let sent = child
@@ -135,7 +145,7 @@ impl Runtime {
         });
         self.child = Some(child);
         let ready = receive
-            .recv_timeout(Duration::from_secs(12))
+            .recv_timeout(Duration::from_secs(16))
             .ok()
             .and_then(|s| serde_json::from_str::<Value>(&s).ok());
         let port = ready
@@ -170,7 +180,7 @@ impl Runtime {
     pub fn stop(&mut self) {
         if let Some(mut child) = self.child.take() {
             drop(child.stdin.take()); // EOF requests bounded graceful shutdown.
-            let deadline = Instant::now() + Duration::from_secs(4);
+            let deadline = Instant::now() + Duration::from_secs(7);
             loop {
                 match child.try_wait() {
                     Ok(Some(_)) => {
@@ -192,11 +202,17 @@ impl Runtime {
     }
 
     pub fn call(&mut self, operation: &str, args: Value) -> Result<Value, String> {
-        let (method, path, body) = route(operation, args)?;
+        let _ = route(operation, args.clone())?;
         if self.health().state != "ready" {
             return Err("runtime_unavailable".into());
         }
-        transport::request(self.port, &self.token, method, &path, &body)
+        transport::request(
+            self.port,
+            &self.token,
+            "POST",
+            "/api/workspace",
+            &json!({"operation": operation, "args": args}),
+        )
     }
 }
 impl Drop for Runtime {
@@ -264,6 +280,32 @@ fn route(operation: &str, args: Value) -> Result<(&'static str, String, Value), 
         _ => return Err("forbidden".into()),
     };
     Ok(("GET", path, Value::Null))
+}
+
+pub fn platform_binary() -> PathBuf {
+    if let Some(path) = std::env::var_os("VEYA_PLATFORM") {
+        return path.into();
+    }
+    let name = if cfg!(windows) {
+        "veya-platform.exe"
+    } else {
+        "veya-platform"
+    };
+    #[cfg(debug_assertions)]
+    {
+        PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("binaries")
+            .join(name)
+    }
+    #[cfg(not(debug_assertions))]
+    {
+        std::env::current_exe()
+            .unwrap_or_default()
+            .parent()
+            .unwrap_or(Path::new("."))
+            .join("platform")
+            .join(name)
+    }
 }
 
 pub fn runtime_source(resource_dir: &Path) -> PathBuf {
@@ -349,11 +391,11 @@ mod tests {
         );
         let started = Instant::now();
         assert_eq!(host.start().state, "failed");
-        assert!(started.elapsed() < Duration::from_secs(10));
+        assert!(started.elapsed() < Duration::from_secs(16));
         assert!(host.child.is_none());
         assert!(std::fs::read_to_string(root.join("runtime.log"))
             .unwrap()
-            .contains("owned process terminated"));
+            .contains("readiness failed"));
         drop(host);
         std::fs::remove_dir_all(root).unwrap();
     }

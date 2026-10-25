@@ -1,0 +1,5 @@
+--- FAIL: TestSessionAndCapabilityIsolation (0.00s)
+    server_test.go:60: cookie write without origin 200
+FAIL
+FAIL	veya/platform/internal/server	2.014s
+FAIL

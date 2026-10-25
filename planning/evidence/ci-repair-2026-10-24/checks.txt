@@ -1,0 +1,39 @@
+CI repair following the user's push, 24 October 2026 (25 October UTC).
+Source commit: 0ff00896279e7c334c7f54fe4d5829e9a2f8e264.
+Failed run: https://github.com/Swarneil1905/Veya/actions/runs/40146006466
+
+Observed GitHub failures
+Frontend Windows job 121027407843 and Linux job 121027408002, browser Windows job 121027408104 and Linux job 121027408036: pnpm install --frozen-lockfile exited 1 with ERR_PNPM_IGNORED_BUILDS for esbuild@0.27.7. Lockfile resolution itself succeeded.
+Windows Python 3.10 job 121027408080: test_failed_capture_is_invisible_and_size_count_time_limits_are_enforced expected DomainError but did not raise. The test combined byte/count limits with a one-nanosecond wall-clock budget. Its job finished with 388 passed and 1 failed.
+The other three runtime matrix jobs and actionlint passed on GitHub. Native was skipped because frontend failed; the required aggregate gate correctly failed.
+The earlier run 40128803333 also stopped both frontend jobs at dependency installation. Newer intervening pushes cancelled prior runs through the existing concurrency policy.
+
+Changes
+pnpm-workspace.yaml: explicitly approve the reviewed esbuild@0.27.7 installation script. All other dependency scripts retain pnpm's default approval restrictions; frozen lockfile checks remain enabled. No dependency version/lockfile changes. Reference: https://pnpm.io/settings/build#allowbuilds
+services/runtime/tests/test_backup.py: separate byte/count cases and assert too_large. Replace timing-resolution-dependent timeout assertion with a module-scoped deterministic clock at/past the deadline for create and restore. Assert backup_timeout, no published destination, staging cleanup and preserved source artifact. Production backup timeout enforcement was not weakened or changed.
+.github/workflows/quality.yml: supply the pinned Python/uv environment to the previously skipped native job, sync locked runtime dependencies, and run cargo test through uv so its plain-python child resolves that environment. Previously this job depended on host-installed Python packages.
+
+Red/green verification
+Clean git archive of the failed commit, CI=true, pnpm 11.0.9 and a separate dependency store reproduced ERR_PNPM_IGNORED_BUILDS. Applying only the workspace allowBuilds fix made the same frozen install execute esbuild's installer and succeed.
+Original timeout test reproduced DID NOT RAISE with a coarse clock that remains on the same tick during the short operation. New tests explicitly advance time and do not depend on machine speed, sleep accuracy or Windows timer resolution.
+Native integration test failed with state failed instead of ready in an isolated Python environment lacking FastAPI, reproducing the missing dependency. The corrected uv run command then passed all five native tests.
+
+Executed local checks
+Clean-source dependency installation: pnpm install --frozen-lockfile --store-dir ../ci-repair-store passed after reproducing the original failure. Windows link creation required running the install outside the restricted sandbox.
+Clean-source pnpm build passed TypeScript and production Vite compilation; only existing legacy lucide use-client warnings.
+Clean-source pnpm test: 9 passed. pnpm check and pnpm test:ui passed.
+Clean-source pnpm test:workspace passed IPC/draft/retry/recovery/navigation contracts.
+Clean-source pnpm test:workspace:browser passed real Chrome keyboard, focus, responsive, draft and disconnected-view checks; no page errors; all five axe WCAG A/AA view checks passed.
+Clean-source package-preview and release-manifest commands passed; verify_manifest.py verified all six payload hashes and local-uncommitted identity.
+Python 3.10.11 with locked dependencies: full runtime suite 394 passed (artifacts/ci-repair-runtime-py310.xml).
+Python 3.13.14 with locked dependencies: backup suite 26 passed. Independent reviewer also ran these 26 tests successfully.
+uv sync --project services/runtime --locked passed; uv run --project services/runtime --locked cargo test --manifest-path apps/desktop/src-tauri/Cargo.toml --locked --offline: 5 passed.
+python -m unittest discover -s tests -v: 21 passed. Delivery ledger validation passed.
+actionlint v1.7.7 passed the changed workflow and all six workflow files.
+Mutation experiment in a disposable runtime copy changed the deadline >= check to >. Both at-deadline regressions failed, while both past-deadline cases passed. Real source was never mutated. Diagnostic output: artifacts/ci-repair-deadline-mutation.txt.
+Independent read-only review of the complete three-file repair found no required correctness, security or downstream workflow changes.
+
+Limits and handoff
+Local verification ran on Windows; a usable local Linux environment was unavailable. The fixed GitHub matrix must run after the user pushes. No failed check was disabled, skipped or allowed to fail. Existing dependency versions, application behavior and story counts are unchanged. Runtime tests retain the existing Starlette/httpx deprecation warning.
+Applied skills: deployment-pipeline-design, github-actions-templates, TDD and code-review-and-quality.
+Changes remain local and uncommitted. No staging, commit, push, release, remote rerun or upload was performed. Stories retain their existing review status; this is a repair, not an additional completed story.

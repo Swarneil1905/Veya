@@ -4,37 +4,43 @@
   "type": "module",
   "packageManager": "pnpm@11.0.9",
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=22.22.3 <23"
   },
   "scripts": {
     "dev": "pnpm --dir apps/desktop dev",
     "build": "pnpm --dir apps/desktop build",
     "test": "pnpm --dir apps/desktop test",
     "check": "node scripts/check-project.mjs",
-    "test:ui": "node scripts/test-ui.mjs",
+    "test:ui": "node scripts/test-workspace-browser.mjs",
     "test:workspace": "node scripts/test-workspace-ui.mjs",
     "test:workspace:browser": "node scripts/test-workspace-browser.mjs",
     "preview:workspace": "node scripts/test-workspace-browser.mjs --serve",
     "test:runtime": "python scripts/test_runtime.py",
     "bootstrap:check": "python scripts/check_workspace.py",
     "desktop:dev": "pnpm --dir apps/desktop desktop:dev",
-    "desktop:build": "pnpm --dir apps/desktop desktop:build"
+    "desktop:build": "pnpm --dir apps/desktop desktop:build",
+    "build:platform": "python scripts/build_platform.py",
+    "web": "python scripts/run_web.py",
+    "test:platform": "python scripts/build_platform.py --test",
+    "test:platform:browser": "node scripts/test-platform-browser.mjs"
   },
   "dependencies": {
+    "@angular/common": "22.2.3",
+    "@angular/compiler": "22.2.3",
+    "@angular/core": "22.2.3",
+    "@angular/platform-browser": "22.2.3",
     "@fontsource-variable/public-sans": "5.3.0",
-    "@phosphor-icons/react": "2.1.10",
-    "lucide-react": "1.18.0",
-    "react": "19.2.7",
-    "react-dom": "19.2.7"
+    "@phosphor-icons/web": "2.1.2",
+    "rxjs": "7.8.2",
+    "tslib": "2.8.1"
   },
   "devDependencies": {
     "@tauri-apps/cli": "2.11.2",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
     "axe-core": "4.14.0",
-    "jsdom": "^29.1.1",
     "playwright-core": "1.64.1",
-    "typescript": "5.8.3",
-    "vite": "7.3.5"
+    "typescript": "6.0.3",
+    "@angular/build": "22.2.4",
+    "@angular/cli": "22.2.4",
+    "@angular/compiler-cli": "22.2.3"
   }
 }

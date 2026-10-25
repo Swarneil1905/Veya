@@ -5,6 +5,7 @@ import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { chromium } from 'playwright-core';
 import axe from 'axe-core';
+import {asset} from './browser-harness.mjs';
 
 const output = path.resolve('artifacts/workspace-design');
 await mkdir(output, {recursive:true});
@@ -39,11 +40,7 @@ const server = http.createServer(async(req,res)=>{
     const url=new URL(req.url,'http://localhost');
     if(url.pathname==='/fixture.js'){res.setHeader('Content-Type','text/javascript');res.end(fixture);return;}
     if(url.pathname==='/'||url.pathname==='/fixture'){res.setHeader('Content-Type','text/html');res.end(url.pathname==='/fixture'?fixtureHtml:html);return;}
-    const name=path.basename(url.pathname);
-    if(url.pathname!==`/assets/${name}`){res.writeHead(404).end();return;}
-    const types={'.css':'text/css','.js':'text/javascript','.woff2':'font/woff2'};
-    res.setHeader('Content-Type',types[path.extname(name)]||'application/octet-stream');
-    res.end(await readFile(path.join('apps/desktop/dist/assets',name)));
+    await asset(req,res);
   } catch {res.writeHead(404).end();}
 });
 await new Promise(resolve=>server.listen(Number(process.env.VEYA_PREVIEW_PORT||0),'127.0.0.1',resolve));
@@ -76,6 +73,7 @@ if(process.argv.includes('--serve')){
     await page.waitForFunction(()=>document.querySelectorAll('.work-table tbody tr').length===1);
     await page.getByRole('searchbox',{name:'Search recent work'}).fill('');
     await page.getByRole('button',{name:/Needs attention/}).click();
+    await page.waitForFunction(()=>document.querySelectorAll('.work-table tbody tr').length===2);
     assert.equal(await page.locator('.work-table tbody tr').count(),2);
     const opener=page.getByRole('button',{name:'Open task: Reconcile Northstar supplier invoice',exact:true});
     await opener.click();await page.getByRole('dialog',{name:'Task details'}).waitFor();
@@ -104,6 +102,7 @@ if(process.argv.includes('--serve')){
       assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'no horizontal overflow at '+width);
       await screenshot('work-'+width);
       await page.getByRole('button',{name:'New task',exact:true}).click();
+      await page.getByRole('button',{name:'Save task',exact:true}).waitFor();
       assert.ok(await page.getByRole('button',{name:'Save task',exact:true}).isVisible());
       await page.getByRole('button',{name:'Save task',exact:true}).scrollIntoViewIfNeeded();
       assert.ok(await page.evaluate(()=>document.querySelector('dialog[open]').scrollWidth<=document.querySelector('dialog[open]').clientWidth),'editor has no horizontal overflow');

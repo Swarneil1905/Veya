@@ -4,7 +4,10 @@ const config=JSON.parse(readFileSync('apps/desktop/src-tauri/tauri.conf.json','u
 assert.ok(config.app.security.csp.includes("default-src 'self'"));
 assert.ok(!config.app.security.csp.includes('unsafe-eval'));
 for(const p of ['README.md','docs/RUNTIME_API.md','pnpm-lock.yaml'])assert.ok(existsSync(p),`Missing ${p}`);
-const source=readFileSync('apps/desktop/src/App.tsx','utf8');
-assert.ok(source.includes('Synthetic demo data'));
-assert.ok(source.includes('No live model benchmark has been run'));
-console.log('Project contracts and demo labeling verified.');
+const manifest=JSON.parse(readFileSync('package.json','utf8'));
+assert.ok(manifest.dependencies['@angular/core']);
+assert.ok(!manifest.dependencies.react && !manifest.dependencies['react-dom']);
+assert.ok(existsSync('services/platform/go.mod'));
+const source=readFileSync('apps/desktop/src/workspace/activity.ts','utf8');
+assert.ok(source.includes('AI execution is not connected yet.'));
+console.log('Angular, Go and private Python workspace contracts verified.');

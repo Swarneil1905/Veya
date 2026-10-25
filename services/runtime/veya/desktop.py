@@ -1,6 +1,6 @@
-"""Native-owned loopback server. Bootstrap secrets travel over an inherited pipe.
+"""Go-owned private execution/storage server. Bootstrap secrets travel over an inherited pipe.
 
-Closing the host pipe requests graceful shutdown, including when the parent dies.
+Closing the platform pipe requests graceful shutdown, including when the parent dies.
 No model worker is started: submitted tasks remain durably queued.
 """
 import json

@@ -30,3 +30,10 @@ apps/desktop/src-tauri/gen/
 /planning/**/*.md
 /internal/
 /.cursor/rules/
+
+# Local Angular cache and generated Go sidecar
+.angular/
+out-tsc/
+apps/desktop/src-tauri/binaries/
+
+.tools/

@@ -120,16 +120,44 @@ def test_snapshot_is_consistent_with_concurrent_artifact_writer(tmp_path):
     assert ArtifactStore(db).get(late.tenant_id, late.id)[1] == b'late evidence'
 
 
-def test_failed_capture_is_invisible_and_size_count_time_limits_are_enforced(tmp_path):
+@pytest.mark.parametrize('changes', [{'max_bytes': 100}, {'max_artifacts': 1}], ids=['bytes', 'artifacts'])
+def test_failed_capture_is_invisible_and_size_count_limits_are_enforced(tmp_path, changes):
     db, artifact, _, _ = prepared(tmp_path)
     ArtifactStore(db).put(artifact.tenant_id, 'run_plan', b'second', 'second.txt', 'text/plain')
-    limits = [{'max_bytes': 100}, {'max_artifacts': 1}, {'timeout': 1e-9}]
-    for i, changes in enumerate(limits):
-        options = {'max_bytes': 10_000_000, 'max_artifacts': 100, 'timeout': 10} | changes
-        with pytest.raises(DomainError):
-            WorkspaceBackups(db, **options).create(tmp_path / ('limited_' + str(i)))
-        assert not (tmp_path / ('limited_' + str(i))).exists()
+    options = {'max_bytes': 10_000_000, 'max_artifacts': 100, 'timeout': 10} | changes
+    destination = tmp_path / 'limited'
+    with pytest.raises(DomainError) as failure:
+        WorkspaceBackups(db, **options).create(destination)
+    assert failure.value.code == 'too_large'
+    assert not destination.exists()
     assert not list(tmp_path.glob('.veya-backup-*'))
+
+
+@pytest.mark.parametrize('operation', ['create', 'restore'])
+@pytest.mark.parametrize('elapsed', [1.0, 1.5], ids=['at-deadline', 'past-deadline'])
+def test_expired_snapshot_is_not_published_and_staging_is_cleaned(tmp_path, monkeypatch, operation, elapsed):
+    from types import SimpleNamespace
+    import veya.storage.backup as backup
+
+    db, artifact, _, snapshot = prepared(tmp_path)
+    backups = WorkspaceBackups(db, max_bytes=10_000_000, max_artifacts=100, timeout=1)
+    # Model elapsed time explicitly: Windows/Python 3.10's clock can return
+    # the same value throughout a small snapshot. A nanosecond sleep/budget
+    # cannot reliably prove that the deadline was reached.
+    readings = iter([100.0])
+    clock = SimpleNamespace(monotonic=lambda: next(readings, 100.0 + elapsed), sleep=backup.time.sleep)
+    monkeypatch.setattr(backup, 'time', clock)
+    destination = tmp_path / 'expired'
+    with pytest.raises(DomainError) as failure:
+        if operation == 'create':
+            backups.create(destination)
+        else:
+            backups.restore(snapshot, destination)
+    assert failure.value.code == 'backup_timeout'
+    assert not destination.exists()
+    assert not list(tmp_path.glob('.veya-backup-*'))
+    assert not list(tmp_path.glob('.veya-restore-*'))
+    assert ArtifactStore(db).get(artifact.tenant_id, artifact.id)[1] == b'original evidence'
 
 
 def test_destination_race_and_existing_empty_folder_are_not_overwritten(tmp_path):

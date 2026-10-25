@@ -9,6 +9,8 @@ def check(root: Path) -> None:
         ('services/runtime/pyproject.toml', 'Python sidecar package'),
         ('services/runtime/veya/__init__.py', 'Python sidecar module'),
         ('pnpm-workspace.yaml', 'pnpm workspace'),
+        ('services/platform/go.mod', 'Go platform module'),
+        ('apps/desktop/angular.json', 'Angular application'),
     ]:
         if not (root / relative).is_file():
             raise ValueError(f'Missing prerequisite: {label} ({relative})')

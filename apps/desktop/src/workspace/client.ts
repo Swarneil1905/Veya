@@ -7,6 +7,16 @@ export type Draft = { client_request_id: string; title: string; instruction: str
 
 declare global { interface Window { __TAURI__?: { core: { invoke: (command: string, args?: Record<string, unknown>) => Promise<unknown> } } } }
 export const isNative = () => Boolean(window.__TAURI__?.core);
+export const isWeb = () => document.querySelector('meta[name="veya-platform"]')?.getAttribute('content') === 'local';
+export async function connectWeb() {
+  const token = new URLSearchParams(location.hash.slice(1)).get('session');
+  if (!token) return;
+  // Remove the bootstrap credential before loading any task content. The cookie
+  // is HttpOnly; neither the worker credential nor a bearer is stored by the UI.
+  history.replaceState(null, '', location.pathname);
+  try { await fetch('/api/session', {method:'POST',headers:{Authorization:`Bearer ${token}`},credentials:'same-origin'}); }
+  catch { /* Health polling presents the reconnect state. */ }
+}
 function object(value: unknown): Record<string, unknown> {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('invalid_response');
   return value as Record<string, unknown>;
@@ -23,8 +33,21 @@ function task(value: unknown): Task {
 }
 function run(value: unknown): Run { const v = object(value); return { id: string(v.id), state: state(v.state) }; }
 async function invoke(command: string, args?: Record<string, unknown>) {
-  if (!window.__TAURI__?.core) throw new Error('desktop_required');
-  return window.__TAURI__.core.invoke(command, args);
+  if (window.__TAURI__?.core) return window.__TAURI__.core.invoke(command, args);
+  if (!isWeb()) throw new Error('desktop_required');
+  if (command === 'runtime_restart') throw new Error('forbidden');
+  const response = await fetch(command === 'runtime_health' ? '/api/health' : '/api/workspace', {
+    method: command === 'runtime_health' ? 'GET' : 'POST', credentials:'same-origin',
+    headers: {'Content-Type':'application/json'}, body: command === 'runtime_health' ? undefined : JSON.stringify(args),
+    signal: AbortSignal.timeout(12000),
+  });
+  const value = object(await response.json());
+  if (!response.ok) throw new Error(string(object(value['error'])['code']));
+  if (command === 'runtime_health') {
+    if (value['protocol'] !== 1) throw new Error('invalid_response');
+    return {state:'ready',message:'Connected to your local workspace.'};
+  }
+  return value;
 }
 async function call(operation: string, args: Record<string, unknown> = {}) { return invoke('workspace_call', { operation, args }); }
 export async function health(restart = false): Promise<Health> {

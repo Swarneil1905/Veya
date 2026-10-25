@@ -1,0 +1,118 @@
+<div class="veya-workspace" [attr.data-navigation]="expanded()?'expanded':'collapsed'">
+  <a class="work-skip" href="#work-main">Skip to workspace</a>
+  <aside class="work-sidebar" aria-label="Workspace navigation">
+    <button
+      class="work-nav-toggle"
+      (click)="toggleNavigation()"
+      [attr.aria-expanded]="expanded()"
+      aria-controls="work-navigation"
+      [attr.aria-label]="expanded()?'Collapse navigation':'Expand navigation'"
+      [title]="expanded()?'Collapse navigation':'Expand navigation'"
+    >
+      <i class="ph ph-sidebar-simple" aria-hidden="true"></i><span>Workspace</span>
+    </button>
+    <nav id="work-navigation" aria-label="Workspace">
+      <button
+        class="work-nav-item"
+        aria-current="page"
+        aria-label="Work"
+        title="Work"
+        (click)="work()"
+      >
+        <i class="ph ph-tray" aria-hidden="true"></i><span>Work</span>
+      </button>
+    </nav>
+    <button
+      class="work-nav-item work-nav-bottom"
+      (click)="connectionOpen.set(true)"
+      aria-label="Connection details"
+      title="Connection details"
+    >
+      <i class="ph ph-plugs-connected" aria-hidden="true"></i><span>Connection</span>
+    </button>
+  </aside>
+  <div class="work-body">
+    <header class="work-topbar">
+      <div class="work-brand">Veya<span>Personal workspace</span></div>
+      <button class="work-connection-button" (click)="connectionOpen.set(true)">
+        <span class="work-connection-dot" [attr.data-ready]="ready()" aria-hidden="true"></span
+        >{{connectionLabel()}}
+      </button>
+    </header>
+    <main id="work-main" class="work-main">
+      <div class="work-page-heading">
+        <div>
+          <h1 id="work-heading" tabindex="-1">Work</h1>
+          <p>Your briefs, progress, and next steps.</p>
+        </div>
+        <button class="work-primary" (click)="newTask()">
+          <i class="ph ph-plus" aria-hidden="true"></i>New task
+        </button>
+      </div>
+      @if(!ready()){
+      <div class="work-connection-notice" role="status">
+        <span>{{connection().message}}</span>@if(native||web){<button
+          class="work-link"
+          (click)="connectionOpen.set(true)"
+        >
+          Connection details</button
+        >}
+      </div>
+      } @if(ready() && readOnly() && !error()){
+      <p class="work-notice" role="status">
+        {{loading()?'Checking saved work before enabling task saving…':'This workspace is read-only
+        pending recovery review.'}}
+      </p>
+      }
+      <veya-task-list
+        [tasks]="tasks()"
+        [loading]="loading()"
+        [connected]="ready()"
+        [error]="error()"
+        (refresh)="refresh()"
+        (newTask)="newTask()"
+        (selected)="openTask($event)"
+      />
+    </main>
+  </div>
+  @if(composing()){
+  <veya-panel title="New task" (closed)="composing.set(false)"
+    ><div class="work-panel-content">
+      <h2>A clear brief. A place to start.</h2>
+      <p class="work-intro">Describe the work and what a useful result should include.</p>
+      <veya-composer [enabled]="ready() && !readOnly()" (created)="created($event)" /></div
+  ></veya-panel>
+  } @if(selected();as task){
+  <veya-panel title="Task details" (closed)="selected.set(null)"
+    ><veya-activity
+      [task]="task"
+      [connected]="ready()"
+      [initialTab]="initialTab"
+      (stateChange)="updateState($event)"
+  /></veya-panel>
+  } @if(connectionOpen()){
+  <veya-panel title="Connection" kind="connection" (closed)="connectionOpen.set(false)"
+    ><div class="work-panel-content">
+      <h2 data-autofocus tabindex="-1">{{connectionLabel()}}</h2>
+      <p role="status">{{connection().message}}</p>
+      <dl class="work-properties">
+        <div>
+          <dt>Workspace</dt>
+          <dd>Personal</dd>
+        </div>
+        <div>
+          <dt>Storage</dt>
+          <dd>On this device</dd>
+        </div>
+      </dl>
+      @if(native){<button class="work-primary" [disabled]="restarting()" (click)="restart()">
+        {{restarting()?'Restarting…':'Restart runtime'}}</button
+      >}
+      <p class="work-muted">
+        Task saving and recorded activity are available through the local platform. AI execution and
+        document attachments are not connected yet.
+      </p>
+    </div></veya-panel
+  >
+  }
+</div>
