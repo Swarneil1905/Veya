@@ -12,9 +12,11 @@ from starlette.types import ASGIApp, Receive, Scope, Send
 
 from veya.api.approvals import router as approval_router
 from veya.api.artifacts import router as artifact_router
+from veya.api.documents import router as document_router
 from veya.api.events import router as event_router
 from veya.api.proposals import router as proposal_router
 from veya.api.providers import router as provider_router
+from veya.api.results import router as result_router
 from veya.api.runs import router as run_router
 from veya.api.task_list import router as task_list_router
 from veya.api.tasks import router as task_router
@@ -191,6 +193,8 @@ def create_app(
     app.include_router(task_list_router(db, settings.tenant_id, expected))
     app.include_router(approval_router(approval_inbox, reviewer_token))
     app.include_router(usage_router(db, settings.tenant_id))
+    app.include_router(document_router(db, settings.tenant_id))
+    app.include_router(result_router(db, settings.tenant_id))
     app.include_router(task_router(db, settings.tenant_id, catalog))
     app.include_router(provider_router(db, catalog))
     app.include_router(event_router(db, settings.tenant_id))

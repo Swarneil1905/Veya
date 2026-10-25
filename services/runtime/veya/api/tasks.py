@@ -14,6 +14,7 @@ class TaskInput(BaseModel):
     client_request_id: str = Field(min_length=1, max_length=64, pattern=r'^[a-zA-Z0-9_-]+$')
     title: str = Field(min_length=1, max_length=200)
     instruction: str = Field(min_length=1, max_length=20_000)
+    document_ids: list[str] = Field(default_factory=list, max_length=10)
     model: ModelRequest | None = None
 
 
@@ -39,6 +40,7 @@ def router(db: Database, tenant: str, catalog: ModelCatalog) -> APIRouter:
             payload.client_request_id,
             payload.title,
             payload.instruction,
+            document_ids=payload.document_ids,
             model_request=model_request,
             select_model=select_model,
         )

@@ -4,6 +4,7 @@
 package workspace
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"net/url"
@@ -27,9 +28,13 @@ type Command struct {
 func Route(c Command) (method, path string, body []byte, err error) {
 	allowed, ok := map[string][]string{
 		"list_tasks": {"status", "search", "sort", "cursor"}, "recovery": {},
-		"get_task":       {"task_id"},
+		"get_task":        {"task_id"},
+		"import_document": {"request_id", "name", "content"},
+		"get_document":    {"id"}, "process_document": {"id"}, "retry_document": {"id"}, "revoke_document": {"id"}, "document_versions": {"id"},
+		"task_documents": {"task_id"}, "resolve_citation": {"citation"},
+		"list_results": {"run_id", "after"}, "download_artifact": {"id"},
 		"list_approvals": {"after"}, "get_approval": {"id"}, "decide_approval": {"id", "revision", "decision", "note"},
-		"submit_task": {"client_request_id", "title", "instruction"},
+		"submit_task": {"client_request_id", "title", "instruction", "document_ids"},
 		"latest_run":  {"task_id"}, "events": {"run_id", "after"},
 	}[c.Operation]
 	if !ok {
@@ -51,6 +56,55 @@ func Route(c Command) (method, path string, body []byte, err error) {
 	}
 	text := func(key string) string { var s string; _ = json.Unmarshal(c.Args[key], &s); return s }
 	switch c.Operation {
+	case "import_document":
+		name, content := text("name"), text("content")
+		if !identifier.MatchString(text("request_id")) || name == "" || utf8.RuneCountInString(name) > 200 || strings.ContainsAny(name, "/\\:") || len(content) > 699052 {
+			return "", "", nil, ErrInput
+		}
+		raw, decodeErr := base64.StdEncoding.Strict().DecodeString(content)
+		if decodeErr != nil || len(raw) == 0 || len(raw) > 524288 {
+			return "", "", nil, ErrInput
+		}
+		body, err = json.Marshal(c.Args)
+		return "POST", "/v1/documents", body, err
+	case "get_document", "process_document", "retry_document", "revoke_document", "document_versions", "download_artifact":
+		if !identifier.MatchString(text("id")) {
+			return "", "", nil, ErrInput
+		}
+		path = "/v1/documents/" + text("id")
+		switch c.Operation {
+		case "process_document":
+			return "POST", path + "/process", []byte(`{}`), nil
+		case "retry_document":
+			return "POST", path + "/retry", []byte(`{}`), nil
+		case "revoke_document":
+			return "POST", path + "/revoke", []byte(`{}`), nil
+		case "document_versions":
+			return "GET", path + "/versions", nil, nil
+		case "download_artifact":
+			return "GET", "/v1/artifacts/" + text("id") + "/download", nil, nil
+		}
+		return "GET", path, nil, nil
+	case "task_documents":
+		if !identifier.MatchString(text("task_id")) {
+			return "", "", nil, ErrInput
+		}
+		return "GET", "/v1/tasks/" + text("task_id") + "/documents", nil, nil
+	case "resolve_citation":
+		id, index, found := strings.Cut(text("citation"), ":")
+		if !found || !identifier.MatchString(id) || !cursorNumber.MatchString(index) || len(index) > 6 {
+			return "", "", nil, ErrInput
+		}
+		return "GET", "/v1/citations/" + id + ":" + index, nil, nil
+	case "list_results":
+		if !identifier.MatchString(text("run_id")) {
+			return "", "", nil, ErrInput
+		}
+		var after int64
+		if raw, exists := c.Args["after"]; exists && (json.Unmarshal(raw, &after) != nil || after < 0) {
+			return "", "", nil, ErrInput
+		}
+		return "GET", "/v1/runs/" + text("run_id") + "/results?after=" + strconv.FormatInt(after, 10), nil, nil
 	case "list_approvals":
 		path = "/v1/approvals?limit=25"
 		if raw, exists := c.Args["after"]; exists && string(raw) != "null" {
@@ -107,6 +161,19 @@ func Route(c Command) (method, path string, body []byte, err error) {
 	case "recovery":
 		return "GET", "/v1/workspace/recovery", nil, nil
 	case "submit_task":
+		if raw, exists := c.Args["document_ids"]; exists {
+			var ids []string
+			if string(raw) == "null" || json.Unmarshal(raw, &ids) != nil || len(ids) > 10 {
+				return "", "", nil, ErrInput
+			}
+			seen := map[string]bool{}
+			for _, id := range ids {
+				if !identifier.MatchString(id) || seen[id] {
+					return "", "", nil, ErrInput
+				}
+				seen[id] = true
+			}
+		}
 		if !identifier.MatchString(text("client_request_id")) {
 			return "", "", nil, ErrInput
 		}

@@ -17,6 +17,7 @@ def submit(
     title: str,
     instruction: str,
     *,
+    document_ids: list[str] | None = None,
     model_request: dict | None = None,
     select_model: Callable[[], dict] | None = None,
 ) -> tuple[Task, Run, bool]:
@@ -27,7 +28,13 @@ def submit(
         raise ValueError('Model submissions require a local capability resolver')
     request_json = canonical_json(model_request, 16_384) if model_request is not None else None
     # Preserve existing request fingerprints for submissions without a model.
-    identity = [title, instruction] if request_json is None else [title, instruction, request_json]
+    identity: list = (
+        [title, instruction] if request_json is None else [title, instruction, request_json]
+    )
+    if document_ids:
+        if len(document_ids) > 10 or len(set(document_ids)) != len(document_ids):
+            raise DomainError('invalid_input', 'Choose up to 10 distinct documents')
+        identity.append(sorted(document_ids))
     fingerprint = hashlib.sha256(json.dumps(identity, ensure_ascii=False).encode()).hexdigest()
     with db.transaction() as connection:
         existing = connection.execute(
@@ -54,8 +61,22 @@ def submit(
             id='task_' + uuid4().hex, tenant_id=tenant, title=title, instruction=instruction
         )
         run = Run(id='run_' + uuid4().hex, tenant_id=tenant, task=task.ref)
+        from veya.files.grants import permitted
+
+        for document_id in document_ids or []:
+            row = permitted(connection, tenant, document_id)
+            job = connection.execute(
+                'SELECT state FROM document_extractions WHERE tenant_id=? AND digest=? AND kind=?',
+                (tenant, row['digest'], row['kind']),
+            ).fetchone()
+            if job['state'] != 'ready':
+                raise DomainError('conflict', 'Wait for document extraction before saving')
         db.insert_task(connection, task)
         db.insert_run(connection, run)
+        for document_id in document_ids or []:
+            connection.execute(
+                'INSERT INTO task_documents VALUES (?,?,?)', (tenant, task.id, document_id)
+            )
         if route_json is not None:
             connection.execute(
                 'INSERT INTO model_routes VALUES (?,?,?)', (tenant, run.id, route_json)

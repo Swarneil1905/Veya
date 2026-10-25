@@ -60,3 +60,29 @@ func TestUnicodeAndRequestLimits(t *testing.T) {
 		t.Fatal("accepted oversized title")
 	}
 }
+
+func TestDocumentCommands(t *testing.T) {
+	for _, tc := range []struct{ op, args, path string }{
+		{"import_document", `{"request_id":"r","name":"a.csv","content":"YQ=="}`, "/v1/documents"},
+		{"process_document", `{"id":"doc_a"}`, "/v1/documents/doc_a/process"},
+		{"task_documents", `{"task_id":"task_a"}`, "/v1/tasks/task_a/documents"},
+		{"resolve_citation", `{"citation":"doc_a:0"}`, "/v1/citations/doc_a:0"},
+		{"list_results", `{"run_id":"run_a","after":0}`, "/v1/runs/run_a/results?after=0"},
+	} {
+		_, path, _, err := Route(command(tc.op, tc.args))
+		if err != nil || path != tc.path {
+			t.Fatalf("%s: %s %v", tc.op, path, err)
+		}
+	}
+	for _, tc := range []struct{ op, args string }{
+		{"import_document", `{"request_id":"r","name":"../a.csv","content":"YQ=="}`},
+		{"import_document", `{"request_id":"r","name":"a.csv","content":"not base64"}`},
+		{"get_document", `{"id":"../secret"}`},
+		{"resolve_citation", `{"citation":"doc_a:../path"}`},
+		{"submit_task", `{"client_request_id":"r","title":"t","instruction":"i","document_ids":["a","a"]}`},
+	} {
+		if _, _, _, err := Route(command(tc.op, tc.args)); err == nil {
+			t.Fatalf("accepted %s", tc.op)
+		}
+	}
+}

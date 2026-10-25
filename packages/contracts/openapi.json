@@ -1,5 +1,5 @@
 {
-  "contract_version": 3,
+  "contract_version": 4,
   "openapi": {
     "components": {
       "schemas": {
@@ -54,6 +54,147 @@
           "title": "Artifact",
           "type": "object"
         },
+        "Block": {
+          "properties": {
+            "citation": {
+              "title": "Citation",
+              "type": "string"
+            },
+            "end": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "End"
+            },
+            "field": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Field"
+            },
+            "locator": {
+              "title": "Locator",
+              "type": "string"
+            },
+            "start": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Start"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string"
+            },
+            "value": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Value"
+            },
+            "value_type": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Value Type"
+            }
+          },
+          "required": [
+            "locator",
+            "text",
+            "citation"
+          ],
+          "title": "Block",
+          "type": "object"
+        },
+        "Citation": {
+          "properties": {
+            "available": {
+              "title": "Available",
+              "type": "boolean"
+            },
+            "citation": {
+              "title": "Citation",
+              "type": "string"
+            },
+            "locator": {
+              "default": "",
+              "title": "Locator",
+              "type": "string"
+            },
+            "reason": {
+              "default": "",
+              "title": "Reason",
+              "type": "string"
+            },
+            "source": {
+              "default": "",
+              "title": "Source",
+              "type": "string"
+            },
+            "text": {
+              "default": "",
+              "title": "Text",
+              "type": "string"
+            },
+            "version": {
+              "default": 0,
+              "title": "Version",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "available",
+            "citation"
+          ],
+          "title": "Citation",
+          "type": "object"
+        },
+        "Claim": {
+          "properties": {
+            "citations": {
+              "items": {
+                "$ref": "#/components/schemas/Citation"
+              },
+              "title": "Citations",
+              "type": "array"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string"
+            }
+          },
+          "required": [
+            "text"
+          ],
+          "title": "Claim",
+          "type": "object"
+        },
         "DecisionRequest": {
           "additionalProperties": false,
           "properties": {
@@ -85,6 +226,182 @@
           "title": "DecisionRequest",
           "type": "object"
         },
+        "Document": {
+          "properties": {
+            "blocks": {
+              "items": {
+                "$ref": "#/components/schemas/Block"
+              },
+              "title": "Blocks",
+              "type": "array"
+            },
+            "effective_at": {
+              "default": "",
+              "title": "Effective At",
+              "type": "string"
+            },
+            "error": {
+              "default": "",
+              "title": "Error",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "issues": {
+              "items": {
+                "$ref": "#/components/schemas/Issue"
+              },
+              "title": "Issues",
+              "type": "array"
+            },
+            "kind": {
+              "title": "Kind",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            },
+            "size": {
+              "default": 0,
+              "title": "Size",
+              "type": "integer"
+            },
+            "state": {
+              "title": "State",
+              "type": "string"
+            },
+            "version": {
+              "title": "Version",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "kind",
+            "version",
+            "state"
+          ],
+          "title": "Document",
+          "type": "object"
+        },
+        "DocumentInput": {
+          "additionalProperties": false,
+          "properties": {
+            "content": {
+              "maxLength": 699052,
+              "minLength": 1,
+              "title": "Content",
+              "type": "string"
+            },
+            "name": {
+              "maxLength": 200,
+              "minLength": 1,
+              "title": "Name",
+              "type": "string"
+            },
+            "request_id": {
+              "maxLength": 64,
+              "minLength": 1,
+              "pattern": "^[a-zA-Z0-9_-]+$",
+              "title": "Request Id",
+              "type": "string"
+            }
+          },
+          "required": [
+            "request_id",
+            "name",
+            "content"
+          ],
+          "title": "DocumentInput",
+          "type": "object"
+        },
+        "DocumentList": {
+          "properties": {
+            "items": {
+              "items": {
+                "$ref": "#/components/schemas/Document"
+              },
+              "title": "Items",
+              "type": "array"
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "title": "DocumentList",
+          "type": "object"
+        },
+        "DocumentVersion": {
+          "properties": {
+            "effective_at": {
+              "title": "Effective At",
+              "type": "string"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            },
+            "revoked": {
+              "title": "Revoked",
+              "type": "boolean"
+            },
+            "version": {
+              "title": "Version",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "version",
+            "effective_at",
+            "revoked"
+          ],
+          "title": "DocumentVersion",
+          "type": "object"
+        },
+        "DocumentVersions": {
+          "properties": {
+            "items": {
+              "items": {
+                "$ref": "#/components/schemas/DocumentVersion"
+              },
+              "title": "Items",
+              "type": "array"
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "title": "DocumentVersions",
+          "type": "object"
+        },
+        "Download": {
+          "properties": {
+            "content": {
+              "title": "Content",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "content"
+          ],
+          "title": "Download",
+          "type": "object"
+        },
         "Effect": {
           "enum": [
             "read_only",
@@ -105,6 +422,24 @@
             }
           },
           "title": "HTTPValidationError",
+          "type": "object"
+        },
+        "Issue": {
+          "properties": {
+            "code": {
+              "title": "Code",
+              "type": "string"
+            },
+            "locator": {
+              "title": "Locator",
+              "type": "string"
+            }
+          },
+          "required": [
+            "code",
+            "locator"
+          ],
+          "title": "Issue",
           "type": "object"
         },
         "ModelRequest": {
@@ -269,6 +604,79 @@
             "tenant_id"
           ],
           "title": "Reference",
+          "type": "object"
+        },
+        "ResultItem": {
+          "properties": {
+            "available": {
+              "title": "Available",
+              "type": "boolean"
+            },
+            "claims": {
+              "items": {
+                "$ref": "#/components/schemas/Claim"
+              },
+              "title": "Claims",
+              "type": "array"
+            },
+            "exceptions": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Exceptions",
+              "type": "array"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "mime_type": {
+              "title": "Mime Type",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            },
+            "preview": {
+              "default": "",
+              "title": "Preview",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "mime_type",
+            "available"
+          ],
+          "title": "ResultItem",
+          "type": "object"
+        },
+        "ResultPage": {
+          "properties": {
+            "has_more": {
+              "title": "Has More",
+              "type": "boolean"
+            },
+            "items": {
+              "items": {
+                "$ref": "#/components/schemas/ResultItem"
+              },
+              "title": "Items",
+              "type": "array"
+            },
+            "next_cursor": {
+              "title": "Next Cursor",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "items",
+            "has_more",
+            "next_cursor"
+          ],
+          "title": "ResultPage",
           "type": "object"
         },
         "ReviewDetail": {
@@ -637,6 +1045,14 @@
               "pattern": "^[a-zA-Z0-9_-]+$",
               "title": "Client Request Id",
               "type": "string"
+            },
+            "document_ids": {
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 10,
+              "title": "Document Ids",
+              "type": "array"
             },
             "instruction": {
               "maxLength": 20000,
@@ -1237,6 +1653,321 @@
           "summary": "Download"
         }
       },
+      "/v1/artifacts/{artifact_id}/download": {
+        "get": {
+          "operationId": "download_v1_artifacts__artifact_id__download_get",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "artifact_id",
+              "required": true,
+              "schema": {
+                "title": "Artifact Id",
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Download"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Download"
+        }
+      },
+      "/v1/citations/{citation}": {
+        "get": {
+          "operationId": "citation_v1_citations__citation__get",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "citation",
+              "required": true,
+              "schema": {
+                "title": "Citation",
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Citation"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Citation"
+        }
+      },
+      "/v1/documents": {
+        "post": {
+          "operationId": "intake_v1_documents_post",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentInput"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Document"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Intake"
+        }
+      },
+      "/v1/documents/{document_id}": {
+        "get": {
+          "operationId": "detail_v1_documents__document_id__get",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "document_id",
+              "required": true,
+              "schema": {
+                "title": "Document Id",
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Document"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Detail"
+        }
+      },
+      "/v1/documents/{document_id}/process": {
+        "post": {
+          "operationId": "process_v1_documents__document_id__process_post",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "document_id",
+              "required": true,
+              "schema": {
+                "title": "Document Id",
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Document"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Process"
+        }
+      },
+      "/v1/documents/{document_id}/retry": {
+        "post": {
+          "operationId": "retry_v1_documents__document_id__retry_post",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "document_id",
+              "required": true,
+              "schema": {
+                "title": "Document Id",
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Document"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Retry"
+        }
+      },
+      "/v1/documents/{document_id}/revoke": {
+        "post": {
+          "operationId": "revoke_v1_documents__document_id__revoke_post",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "document_id",
+              "required": true,
+              "schema": {
+                "title": "Document Id",
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "additionalProperties": {
+                      "type": "boolean"
+                    },
+                    "title": "Response Revoke V1 Documents  Document Id  Revoke Post",
+                    "type": "object"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Revoke"
+        }
+      },
+      "/v1/documents/{document_id}/versions": {
+        "get": {
+          "operationId": "versions_v1_documents__document_id__versions_get",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "document_id",
+              "required": true,
+              "schema": {
+                "title": "Document Id",
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/DocumentVersions"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Versions"
+        }
+      },
       "/v1/health": {
         "get": {
           "operationId": "health_v1_health_get",
@@ -1729,6 +2460,56 @@
           "summary": "Plan"
         }
       },
+      "/v1/runs/{run_id}/results": {
+        "get": {
+          "operationId": "results_v1_runs__run_id__results_get",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "run_id",
+              "required": true,
+              "schema": {
+                "title": "Run Id",
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "after",
+              "required": false,
+              "schema": {
+                "default": 0,
+                "minimum": 0,
+                "title": "After",
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ResultPage"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Results"
+        }
+      },
       "/v1/runs/{run_id}/usage": {
         "get": {
           "operationId": "summary_v1_runs__run_id__usage_get",
@@ -2002,6 +2783,45 @@
             }
           },
           "summary": "Get Task"
+        }
+      },
+      "/v1/tasks/{task_id}/documents": {
+        "get": {
+          "operationId": "attached_v1_tasks__task_id__documents_get",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "task_id",
+              "required": true,
+              "schema": {
+                "title": "Task Id",
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/DocumentList"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Attached"
         }
       },
       "/v1/tasks/{task_id}/latest-run": {

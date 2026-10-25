@@ -103,7 +103,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				failure(w, 415, "invalid_input")
 				return
 			}
-			data, err := io.ReadAll(http.MaxBytesReader(w, r.Body, 131072))
+			data, err := io.ReadAll(http.MaxBytesReader(w, r.Body, 786432))
 			if err != nil {
 				failure(w, 413, "too_large")
 				return
