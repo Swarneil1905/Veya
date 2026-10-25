@@ -5,7 +5,7 @@ import json
 from uuid import uuid4
 
 from veya.domain.models import DomainError, identifier, utc_now
-from veya.events.store import append_event
+from veya.tools.tracing import append_span, internal
 from veya.storage.sqlite import Database
 from veya.tools.contracts import canonical_json
 from veya.tools.registry import ToolRegistry, ToolScope
@@ -53,9 +53,9 @@ class ProposalStore:
                 raise DomainError('conflict', 'Cannot plan actions for a terminal run')
             connection.execute('INSERT INTO proposals VALUES (?,?,?,?,?,?,?,?,?,?)',
                                tuple(vars(proposal).values()))
-            append_event(connection, scope.tenant_id, run_id, 'action.proposed',
-                         {'proposal_id': proposal.id, 'arguments_hash': proposal.arguments_hash,
-                          'manifest_hash': proposal.manifest_hash})
+            append_span(connection, scope.tenant_id, run_id, 'action.proposed', 'proposed', proposal.id,
+                        fields={'arguments_hash': internal(proposal.arguments_hash),
+                                'manifest_hash': internal(proposal.manifest_hash)})
         return proposal
 
     def get(self, tenant: str, proposal_id: str) -> Proposal:

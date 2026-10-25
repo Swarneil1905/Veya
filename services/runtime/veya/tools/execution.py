@@ -11,6 +11,8 @@ from typing import Awaitable, Callable
 
 from veya.audit.ledger import AuditField, Sensitivity, append_in_transaction
 from veya.domain.models import DomainError, identifier
+from veya.execution.budgets import BudgetStore, ActionEstimate, Reservation
+from veya.tools.retries import _bounded
 from veya.events.store import append_event
 from veya.policy.approvals import ApprovalReview, ApprovalStore
 from veya.tools.contracts import canonical_json
@@ -18,6 +20,7 @@ from veya.policy.engine import Actor, Decision, PolicyDenied, PolicyEngine, Reso
 from veya.tools.idempotency import IntentOutcome, IntentStore
 from veya.tools.proposals import Proposal
 from veya.tools.registry import Effect, ToolDefinition, ToolScope
+from veya.tools.tracing import append_span
 
 
 @dataclass(frozen=True)
@@ -27,12 +30,15 @@ class ToolBinding:
     operation: str
     resources: Callable[[dict], tuple[Resource, ...]]
     handler: Callable[[dict], Awaitable[dict]]
+    budget: Callable[[dict], ActionEstimate] | None = None
 
     def __post_init__(self):
         identifier(self.name)
         identifier(self.operation)
         if not callable(self.resources) or not callable(self.handler):
             raise ValueError('Bindings require a resource resolver and async handler')
+        if self.budget is not None and not callable(self.budget):
+            raise ValueError('Budget estimates require a trusted synchronous resolver')
 
 
 @dataclass(frozen=True)
@@ -47,11 +53,12 @@ class AuthorizedAction:
 class ToolExecutor:
     def __init__(self, intents: IntentStore, workspace_id: str,
                  policy: Callable[[], PolicyEngine], bindings: tuple[ToolBinding, ...],
-                 *, approvals: ApprovalStore | None = None):
+                 *, approvals: ApprovalStore | None = None, budgets: BudgetStore | None = None):
         identifier(workspace_id)
         if not callable(policy) or type(bindings) is not tuple:
             raise ValueError('Explicit policy provider and immutable bindings are required')
         self.approvals = approvals
+        self.budgets = budgets
         self.intents, self.workspace_id, self.policy = intents, workspace_id, policy
         self.bindings = {(binding.name, binding.version): binding for binding in bindings}
         if len(self.bindings) != len(bindings):
@@ -94,7 +101,14 @@ class ToolExecutor:
                 'policy_version': AuditField(action.decision.policy_version, Sensitivity.INTERNAL),
             })
 
-    def _admit_dispatch(self, actor: Actor, action: AuthorizedAction, operation_key: str) -> None:
+    @staticmethod
+    def _estimate(action: AuthorizedAction) -> ActionEstimate:
+        estimate = action.binding.budget(action.proposal.arguments) if action.binding.budget else ActionEstimate(0, 1, None, None)
+        if type(estimate) is not ActionEstimate or estimate.tool_steps < 1:
+            raise ValueError('Tool budget estimates must include at least one step')
+        return estimate
+
+    def _admit_dispatch(self, actor: Actor, action: AuthorizedAction, operation_key: str) -> Reservation | None:
         # This commit orders admission against cancellation. A cancellation that
         # commits first blocks dispatch; after admission the action is in flight.
         # External effects cannot be atomically cancelled with a SQLite write.
@@ -103,12 +117,20 @@ class ToolExecutor:
                                (actor.tenant_id, action.proposal.run_id)).fetchone()
             if run is None or run['state'] in {'cancelled', 'failed', 'succeeded'}:
                 raise DomainError('conflict', 'Run cannot dispatch a tool')
-            append_event(conn, actor.tenant_id, action.proposal.run_id, 'action.dispatch_admitted',
-                         {'proposal_id': action.proposal.id, 'operation_key': operation_key})
+            reservation = None
+            if self.budgets is not None:
+                budget_key = 'tool_' + hashlib.sha256(operation_key.encode()).hexdigest()[:56]
+                reservation = self.budgets.reserve_in_transaction(conn, actor.tenant_id, action.proposal.run_id,
+                                                                   budget_key, self._estimate(action))
+            claim = conn.execute('SELECT claim_token FROM intents WHERE tenant_id=? AND operation_key=?',
+                                 (actor.tenant_id,operation_key)).fetchone()
+            append_span(conn, actor.tenant_id, action.proposal.run_id, 'action.dispatch_admitted', 'started',
+                        action.proposal.id, operation_key, claim['claim_token'])
             append_in_transaction(conn, actor.tenant_id, 'action.dispatch_admitted', {
                 'proposal_id': AuditField(action.proposal.id, Sensitivity.INTERNAL),
                 'operation_key': AuditField(operation_key, Sensitivity.INTERNAL),
             })
+        return reservation
 
     def _check_current(self, actor: Actor, scope: ToolScope, action: AuthorizedAction) -> None:
         # Resolvers must be synchronous, nonblocking reads of authoritative host
@@ -167,10 +189,18 @@ class ToolExecutor:
             if self._context(actor, action) != context:
                 raise PolicyDenied('resource_changed')
             await asyncio.to_thread(self._audit, actor, action, receipt.id if receipt else None)
-            await asyncio.to_thread(self._admit_dispatch, actor, action, operation_key)
-            self._check_current(actor, scope, action)
-            self._check_approval(receipt, actor, action, operation_key)
-            return await action.binding.handler(arguments)
+            reservation = await asyncio.to_thread(self._admit_dispatch, actor, action, operation_key)
+            async def invoke():
+                # _bounded schedules a task: authority must be rechecked INSIDE
+                # that task, after its scheduling yield, immediately at invocation.
+                self._check_current(actor, scope, action)
+                self._check_approval(receipt, actor, action, operation_key)
+                if self.budgets is not None:
+                    self.budgets.remaining(reservation)
+                return await action.binding.handler(arguments)
+            if self.budgets is not None:
+                return await _bounded(invoke, self.budgets.remaining(reservation))
+            return await invoke()
 
         outcome = await self.intents.execute_async(scope, operation_key, proposal_id, dispatch,
                                                   execution_context=context)
