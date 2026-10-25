@@ -68,7 +68,7 @@
       "desktop": "Rust/Tauri: native capabilities and owned Go process",
       "deployment_boundary": "Local single-user web and desktop; production SaaS identity/tenancy/hosting remain backlog"
     },
-    "delivery_notes": "Local Angular/Go/Python integration, rendered browser checks and native process recovery are verified. Live inference/connectors, hosted SaaS identity/tenancy, installed multi-monitor visual QA, packaging/signing and remote CI for unpushed changes remain open. See planning/evidence/batch15-2026-10-24/checks.txt."
+    "delivery_notes": "66 stories locally implemented: 19 accepted and 47 in review. Document ingestion, immutable evidence, attachment/result UI and keyboard commands are verified locally. Native picker click-through, screen-reader listening, live inference/connectors, production SaaS identity/tenancy, packaging/signing and remote CI remain open. See planning/evidence/documents10-2026-10-25/checks.txt. User handles commits and pushes."
   },
   "capacity": {
     "hours_per_week_scenarios": [
@@ -2116,14 +2116,18 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/documents10-2026-10-25/checks.txt",
+        "planning/evidence/documents10-2026-10-25/quality-experiments.txt",
+        "planning/evidence/documents10-2026-10-25/browser-checks.txt"
+      ],
+      "acceptance_note": "Windows file/folder picker passes only selected byte snapshots; exact ephemeral grants deny siblings, reparse paths and revoked reads. Document-version access is revocable. Native compilation and access-control tests pass; OS dialog manual QA remains. Local implementation verified; formal prerequisite acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-25T15:16:16+00:00",
       "release_ids": [
         "R1",
         "R2",
@@ -2425,7 +2429,9 @@
       ],
       "code_paths": [
         "apps/desktop/src/features/work/attachment-list.ts",
-        "services/platform/internal/workspace"
+        "apps/desktop/src/features/documents/task-documents.ts",
+        "apps/desktop/src/features/documents/document-inspector.ts",
+        "services/platform/internal/workspace/commands.go"
       ],
       "verification": "Exercise the changed entry point and assert: A selected document can be inspected before submission. Negative case: Unsupported or failed documents display a reason and remain removable. Retain the test command, result and evidence artifact. Design gate: apply the project design_direction references during implementation and retain rendered/keyboard evidence; do not defer visual integration to a later redesign.",
       "depends_on": [
@@ -2440,14 +2446,18 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/documents10-2026-10-25/checks.txt",
+        "planning/evidence/documents10-2026-10-25/quality-experiments.txt",
+        "planning/evidence/documents10-2026-10-25/browser-checks.txt"
+      ],
+      "acceptance_note": "Angular attachment type/state, pre-submit source inspection, failed-file removal/retry, deduplication and saved-task documents are wired through explicit Go commands. Interrupted hydration and ambiguous submission recovery are tested. Local implementation verified; formal prerequisite acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-24T22:26:50+00:00",
+      "updated_at": "2026-10-25T15:16:16+00:00",
       "release_ids": [
         "R2",
         "R4",
@@ -2544,7 +2554,8 @@
       ],
       "code_paths": [
         "apps/desktop/src/features/results/result-panel.ts",
-        "services/platform/internal/workspace"
+        "services/runtime/veya/api/results.py",
+        "services/platform/internal/workspace/commands.go"
       ],
       "verification": "Exercise the changed entry point and assert: User can open each result and trace a claim to its source excerpt. Negative case: Missing evidence is labeled unavailable rather than rendered as a valid citation. Retain the test command, result and evidence artifact. Design gate: apply the project design_direction references during implementation and retain rendered/keyboard evidence; do not defer visual integration to a later redesign.",
       "depends_on": [
@@ -2559,14 +2570,18 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/documents10-2026-10-25/checks.txt",
+        "planning/evidence/documents10-2026-10-25/quality-experiments.txt",
+        "planning/evidence/documents10-2026-10-25/browser-checks.txt"
+      ],
+      "acceptance_note": "Result panel opens verified stored artifacts, previews/downloads output, resolves source excerpts and displays missing evidence and unresolved exceptions. Real browser integration uses explicitly synthetic completed results; live inference remains backlog. Local implementation verified; formal prerequisite acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-24T22:26:50+00:00",
+      "updated_at": "2026-10-25T15:16:16+00:00",
       "release_ids": [
         "R1",
         "R2",
@@ -2717,9 +2732,10 @@
         "Expose user operations through explicit authenticated Go commands; retain model/tool execution and durable safety invariants in the private Python runtime."
       ],
       "code_paths": [
-        "apps/desktop/src/features/accessibility/focus.ts",
-        "apps/desktop/tests/accessibility.spec.ts",
-        "services/platform/internal/workspace"
+        "apps/desktop/src/features/accessibility/commands.ts",
+        "apps/desktop/src/workspace/activity.ts",
+        "apps/desktop/src/workspace/panel.ts",
+        "scripts/test-document-browser.mjs"
       ],
       "verification": "Exercise the changed entry point and assert: Core delegate-review-result flow is operable using only the keyboard. Negative case: Escape, focus return and long-content scrolling work in modal dialogs. Retain the test command, result and evidence artifact. Design gate: apply the project design_direction references during implementation and retain rendered/keyboard evidence; do not defer visual integration to a later redesign.",
       "depends_on": [
@@ -2734,14 +2750,18 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/documents10-2026-10-25/checks.txt",
+        "planning/evidence/documents10-2026-10-25/quality-experiments.txt",
+        "planning/evidence/documents10-2026-10-25/browser-checks.txt"
+      ],
+      "acceptance_note": "Discoverable Ctrl/Cmd+K commands, accessible status labels, keyboard tabs, nested dialog focus return and long-result scrolling use existing design tokens. Axe and keyboard flows pass at desktop and narrow widths; screen-reader listening remains manual QA. Local implementation verified; formal prerequisite acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-24T22:26:50+00:00",
+      "updated_at": "2026-10-25T15:16:16+00:00",
       "release_ids": [
         "R2",
         "R4",
@@ -4704,14 +4724,18 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/documents10-2026-10-25/checks.txt",
+        "planning/evidence/documents10-2026-10-25/quality-experiments.txt",
+        "planning/evidence/documents10-2026-10-25/browser-checks.txt"
+      ],
+      "acceptance_note": "PDF/CSV/XLSX validation rejects executable disguises, bad encodings, oversized inputs and archive hazards before durable admission. Parser expansion/work/output limits and deadlines bound extraction. Local implementation verified; formal prerequisite acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-25T15:16:16+00:00",
       "release_ids": [
         "R1",
         "R2",
@@ -4748,14 +4772,18 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/documents10-2026-10-25/checks.txt",
+        "planning/evidence/documents10-2026-10-25/quality-experiments.txt",
+        "planning/evidence/documents10-2026-10-25/browser-checks.txt"
+      ],
+      "acceptance_note": "Text PDF extraction retains page/block locators and exact extracted-text offsets. Encrypted, scanned, malformed and expansion-bomb inputs fail clearly. Valid text and RunLength/Flate/array limit regressions pass; OCR remains separate. Local implementation verified; formal prerequisite acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-25T15:16:16+00:00",
       "release_ids": [
         "R1",
         "R2",
@@ -4836,14 +4864,18 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/documents10-2026-10-25/checks.txt",
+        "planning/evidence/documents10-2026-10-25/quality-experiments.txt",
+        "planning/evidence/documents10-2026-10-25/browser-checks.txt"
+      ],
+      "acceptance_note": "CSV and read-only XLSX extraction retain sheet/cell references, exact decimal strings, dates and currency types. Ambiguous headers, row width, invalid typed values and formulas are visible issues; formulas are never executed. Local implementation verified; formal prerequisite acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-25T15:16:16+00:00",
       "release_ids": [
         "R1",
         "R2",
@@ -4923,14 +4955,18 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/documents10-2026-10-25/checks.txt",
+        "planning/evidence/documents10-2026-10-25/quality-experiments.txt",
+        "planning/evidence/documents10-2026-10-25/browser-checks.txt"
+      ],
+      "acceptance_note": "Durable intake/request identity, content-hash extraction reuse and lease-generation fencing permit restart/retry without exposing partial chunks or duplicate records. Revocation during extraction and stale publication are tested. Local implementation verified; formal prerequisite acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-25T15:16:16+00:00",
       "release_ids": [
         "R2",
         "R3",
@@ -4966,14 +5002,18 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/documents10-2026-10-25/checks.txt",
+        "planning/evidence/documents10-2026-10-25/quality-experiments.txt",
+        "planning/evidence/documents10-2026-10-25/browser-checks.txt"
+      ],
+      "acceptance_note": "Distinct same-name content creates immutable version history with effective timestamps; original evidence remains bound to its prior bytes. Explicit regrant creates a new document identity while old citations stay revoked. Local implementation verified; formal prerequisite acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-25T15:16:16+00:00",
       "release_ids": [
         "R2",
         "R3",
@@ -5011,14 +5051,18 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/documents10-2026-10-25/checks.txt",
+        "planning/evidence/documents10-2026-10-25/quality-experiments.txt",
+        "planning/evidence/documents10-2026-10-25/browser-checks.txt"
+      ],
+      "acceptance_note": "Stable document/block citation IDs resolve page/cell excerpts after tenant, grant, extraction state and original digest checks. Missing, revoked, cross-tenant and corrupted sources are unavailable; real UI opens source evidence. Local implementation verified; formal prerequisite acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-25T15:16:16+00:00",
       "release_ids": [
         "R1",
         "R2",
@@ -13712,6 +13756,146 @@
         "planning/evidence/batch15-2026-10-24/browser-checks.txt"
       ],
       "acceptance_note": "Frozen memory contracts require explicit owner, tenant/workspace scope, source-run provenance and bounded aware validity intervals. Activation requires review; retracted, cross-scope, expired, future-reviewed or invalid-provenance records cannot be used. Tests pass. Persistence/retrieval and learned-memory workflows remain separate stories. Local implementation only; formal dependency acceptance and user commit remain outstanding."
+    },
+    {
+      "at": "2026-10-25T15:16:16+00:00",
+      "story_id": "VEY-018",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/documents10-2026-10-25/checks.txt",
+        "planning/evidence/documents10-2026-10-25/quality-experiments.txt",
+        "planning/evidence/documents10-2026-10-25/browser-checks.txt"
+      ],
+      "acceptance_note": "Windows file/folder picker passes only selected byte snapshots; exact ephemeral grants deny siblings, reparse paths and revoked reads. Document-version access is revocable. Native compilation and access-control tests pass; OS dialog manual QA remains. Local implementation verified; formal prerequisite acceptance and user commit remain outstanding.",
+      "from": "backlog"
+    },
+    {
+      "at": "2026-10-25T15:16:16+00:00",
+      "story_id": "VEY-024",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/documents10-2026-10-25/checks.txt",
+        "planning/evidence/documents10-2026-10-25/quality-experiments.txt",
+        "planning/evidence/documents10-2026-10-25/browser-checks.txt"
+      ],
+      "acceptance_note": "Angular attachment type/state, pre-submit source inspection, failed-file removal/retry, deduplication and saved-task documents are wired through explicit Go commands. Interrupted hydration and ambiguous submission recovery are tested. Local implementation verified; formal prerequisite acceptance and user commit remain outstanding.",
+      "from": "backlog"
+    },
+    {
+      "at": "2026-10-25T15:16:16+00:00",
+      "story_id": "VEY-026",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/documents10-2026-10-25/checks.txt",
+        "planning/evidence/documents10-2026-10-25/quality-experiments.txt",
+        "planning/evidence/documents10-2026-10-25/browser-checks.txt"
+      ],
+      "acceptance_note": "Result panel opens verified stored artifacts, previews/downloads output, resolves source excerpts and displays missing evidence and unresolved exceptions. Real browser integration uses explicitly synthetic completed results; live inference remains backlog. Local implementation verified; formal prerequisite acceptance and user commit remain outstanding.",
+      "from": "backlog"
+    },
+    {
+      "at": "2026-10-25T15:16:16+00:00",
+      "story_id": "VEY-029",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/documents10-2026-10-25/checks.txt",
+        "planning/evidence/documents10-2026-10-25/quality-experiments.txt",
+        "planning/evidence/documents10-2026-10-25/browser-checks.txt"
+      ],
+      "acceptance_note": "Discoverable Ctrl/Cmd+K commands, accessible status labels, keyboard tabs, nested dialog focus return and long-result scrolling use existing design tokens. Axe and keyboard flows pass at desktop and narrow widths; screen-reader listening remains manual QA. Local implementation verified; formal prerequisite acceptance and user commit remain outstanding.",
+      "from": "backlog"
+    },
+    {
+      "at": "2026-10-25T15:16:16+00:00",
+      "story_id": "VEY-071",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/documents10-2026-10-25/checks.txt",
+        "planning/evidence/documents10-2026-10-25/quality-experiments.txt",
+        "planning/evidence/documents10-2026-10-25/browser-checks.txt"
+      ],
+      "acceptance_note": "PDF/CSV/XLSX validation rejects executable disguises, bad encodings, oversized inputs and archive hazards before durable admission. Parser expansion/work/output limits and deadlines bound extraction. Local implementation verified; formal prerequisite acceptance and user commit remain outstanding.",
+      "from": "backlog"
+    },
+    {
+      "at": "2026-10-25T15:16:16+00:00",
+      "story_id": "VEY-072",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/documents10-2026-10-25/checks.txt",
+        "planning/evidence/documents10-2026-10-25/quality-experiments.txt",
+        "planning/evidence/documents10-2026-10-25/browser-checks.txt"
+      ],
+      "acceptance_note": "Text PDF extraction retains page/block locators and exact extracted-text offsets. Encrypted, scanned, malformed and expansion-bomb inputs fail clearly. Valid text and RunLength/Flate/array limit regressions pass; OCR remains separate. Local implementation verified; formal prerequisite acceptance and user commit remain outstanding.",
+      "from": "backlog"
+    },
+    {
+      "at": "2026-10-25T15:16:16+00:00",
+      "story_id": "VEY-074",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/documents10-2026-10-25/checks.txt",
+        "planning/evidence/documents10-2026-10-25/quality-experiments.txt",
+        "planning/evidence/documents10-2026-10-25/browser-checks.txt"
+      ],
+      "acceptance_note": "CSV and read-only XLSX extraction retain sheet/cell references, exact decimal strings, dates and currency types. Ambiguous headers, row width, invalid typed values and formulas are visible issues; formulas are never executed. Local implementation verified; formal prerequisite acceptance and user commit remain outstanding.",
+      "from": "backlog"
+    },
+    {
+      "at": "2026-10-25T15:16:16+00:00",
+      "story_id": "VEY-076",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/documents10-2026-10-25/checks.txt",
+        "planning/evidence/documents10-2026-10-25/quality-experiments.txt",
+        "planning/evidence/documents10-2026-10-25/browser-checks.txt"
+      ],
+      "acceptance_note": "Durable intake/request identity, content-hash extraction reuse and lease-generation fencing permit restart/retry without exposing partial chunks or duplicate records. Revocation during extraction and stale publication are tested. Local implementation verified; formal prerequisite acceptance and user commit remain outstanding.",
+      "from": "backlog"
+    },
+    {
+      "at": "2026-10-25T15:16:16+00:00",
+      "story_id": "VEY-077",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/documents10-2026-10-25/checks.txt",
+        "planning/evidence/documents10-2026-10-25/quality-experiments.txt",
+        "planning/evidence/documents10-2026-10-25/browser-checks.txt"
+      ],
+      "acceptance_note": "Distinct same-name content creates immutable version history with effective timestamps; original evidence remains bound to its prior bytes. Explicit regrant creates a new document identity while old citations stay revoked. Local implementation verified; formal prerequisite acceptance and user commit remain outstanding.",
+      "from": "backlog"
+    },
+    {
+      "at": "2026-10-25T15:16:16+00:00",
+      "story_id": "VEY-078",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/documents10-2026-10-25/checks.txt",
+        "planning/evidence/documents10-2026-10-25/quality-experiments.txt",
+        "planning/evidence/documents10-2026-10-25/browser-checks.txt"
+      ],
+      "acceptance_note": "Stable document/block citation IDs resolve page/cell excerpts after tenant, grant, extraction state and original digest checks. Missing, revoked, cross-tenant and corrupted sources are unavailable; real UI opens source evidence. Local implementation verified; formal prerequisite acceptance and user commit remain outstanding.",
+      "from": "backlog"
     }
   ],
   "planning_deliverables": [

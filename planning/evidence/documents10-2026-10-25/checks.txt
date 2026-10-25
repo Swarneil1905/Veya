@@ -1,0 +1,31 @@
+Veya document and evidence batch - local verification 2026-10-25
+Scope: VEY-018, VEY-024, VEY-026, VEY-029, VEY-071, VEY-072, VEY-074, VEY-076, VEY-077, VEY-078.
+Baseline: 3a2a714. Changes remain uncommitted; user owns commit/push. No staging, commit, push, publication or uploaded evidence by this batch.
+
+PASS Python 3.13: services/runtime/.venv/Scripts/python.exe scripts/test_runtime.py services/runtime/tests -q - 450 tests.
+PASS Python 3.10: artifacts/document-python310/Scripts/python.exe scripts/test_runtime.py services/runtime/tests -q - 450 tests; separate uv locked environment.
+PASS Go: uv run --project services/runtime --locked python scripts/build_platform.py --test - all packages; platform built.
+PASS Rust: uv run --project services/runtime --locked cargo test --manifest-path apps/desktop/src-tauri/Cargo.toml --locked - 12 tests.
+PASS Rust formatting: cargo fmt --manifest-path apps/desktop/src-tauri/Cargo.toml --check.
+PASS Rust: cargo clippy --manifest-path apps/desktop/src-tauri/Cargo.toml --locked -- -D warnings.
+PASS Python gates: node scripts/check.mjs python - Ruff lint/format, mypy 73 modules, generated OpenAPI/TypeScript v4 contract match.
+PASS frontend: node scripts/check.mjs frontend - ESLint, strict TypeScript, project structure.
+PASS Angular production build: pnpm build.
+PASS boundaries: python scripts/check_boundaries.py.
+PASS workspace tooling: python -m unittest discover -s tests -v - 26 tests.
+PASS fixtures: python -m unittest discover -s packages/fixtures/tests -v - 2 tests.
+PASS frontend fixtures: pnpm test - 9 tests.
+PASS browser: node scripts/test-workspace-ui.mjs; node scripts/test-workspace-browser.mjs; node scripts/test-story-batch-browser.mjs; node scripts/test-platform-browser.mjs.
+PASS document browser: node scripts/test-document-browser.mjs - real Angular/Go/Python/SQLite and synthetic completed-result fixture. Details in browser-checks.txt.
+PASS actionlint across workflows; document browser step added to existing Linux/Windows matrix and bounded screenshot/log retention.
+PASS skills provenance: python scripts/verify-skills.py - 39 entries / 373 files unchanged.
+PASS git diff --check; core.autocrlf informational warnings only.
+
+Architecture decision: exact immutable selected-byte snapshots are the document boundary. No parent-directory or arbitrary-path grant reaches the renderer/runtime API. Source authorization is document-version scoped and checked again on citation lookup. Original bytes and old evidence remain retained locally after access revocation. Native folder selection includes supported immediate files only, max 10; directories beyond 1000 entries fail explicitly.
+Imports are durable before extraction; lease generation fences late results; bounded parser subprocess publishes all blocks atomically. Explicit retry reuses unchanged bytes; an unresolved save uses its original request identity even when source access changes. This parser subprocess is isolation/deadline enforcement, not an OS security sandbox.
+
+Design applied during stories: Ramp contextual drawers and concise document controls; Basecamp task/source/result grouping; Superhuman discoverable keyboard commands; Linear state density and existing 14px rows. Existing Public Sans/Phosphor tokens retained. Rendered 1440/800/375/320 widths, axe checks, tab keyboard control and dialog focus return pass. Narrow results are scrollable to exceptions.
+
+Limitations: native Windows file/folder dialog needs manual click-through QA; source/grant tests and build pass. Screen-reader listening not performed. OCR, live inference, business connectors, production hosted SaaS auth/tenancy, packaging/signing and installed multi-monitor QA remain separate backlog. Queued tasks do not invent completed outputs; completed browser result is explicitly seeded synthetic data. Remote CI has not run on these unpushed changes. FastAPI test client emits an upstream httpx deprecation warning; tests pass.
+
+Acceptance: implementation and local automated evidence only. All ten remain in_review; formal prerequisite acceptance and a user implementation commit are not fabricated.

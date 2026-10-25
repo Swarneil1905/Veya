@@ -253,7 +253,13 @@ fn route(operation: &str, args: Value) -> Result<(&'static str, String, Value), 
         "list_approvals" => &["after"],
         "get_approval" => &["id"],
         "decide_approval" => &["id", "revision", "decision", "note"],
-        "submit_task" => &["client_request_id", "title", "instruction"],
+        "submit_task" => &["client_request_id", "title", "instruction", "document_ids"],
+        "import_document" => &["request_id", "name", "content"],
+        "get_document" | "process_document" | "retry_document" | "revoke_document"
+        | "document_versions" | "download_artifact" => &["id"],
+        "task_documents" => &["task_id"],
+        "resolve_citation" => &["citation"],
+        "list_results" => &["run_id", "after"],
         "latest_run" => &["task_id"],
         "events" => &["run_id", "after"],
         _ => return Err("forbidden".into()),
@@ -263,7 +269,20 @@ fn route(operation: &str, args: Value) -> Result<(&'static str, String, Value), 
     }
     if matches!(
         operation,
-        "get_task" | "list_approvals" | "get_approval" | "decide_approval"
+        "get_task"
+            | "list_approvals"
+            | "get_approval"
+            | "decide_approval"
+            | "import_document"
+            | "get_document"
+            | "process_document"
+            | "retry_document"
+            | "revoke_document"
+            | "document_versions"
+            | "download_artifact"
+            | "task_documents"
+            | "resolve_citation"
+            | "list_results"
     ) {
         // No arbitrary path is forwarded: Go owns the shared command validation.
         return Ok(("POST", "/api/workspace".into(), args));

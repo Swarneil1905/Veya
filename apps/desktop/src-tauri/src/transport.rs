@@ -16,21 +16,21 @@ pub fn request(
     } else {
         Vec::new()
     };
-    if bytes.len() > 131_072 {
+    if bytes.len() > 786_432 {
         return Err("too_large".into());
     }
     let address = SocketAddr::from((Ipv4Addr::LOCALHOST, port));
     let mut socket = TcpStream::connect_timeout(&address, Duration::from_secs(2))
         .map_err(|_| "runtime_unreachable")?;
     socket
-        .set_read_timeout(Some(Duration::from_secs(5)))
+        .set_read_timeout(Some(Duration::from_secs(10)))
         .map_err(|_| "transport_failed")?;
     socket
-        .set_write_timeout(Some(Duration::from_secs(5)))
+        .set_write_timeout(Some(Duration::from_secs(10)))
         .map_err(|_| "transport_failed")?;
     write!(socket, "{method} {path} HTTP/1.1\r\nHost: 127.0.0.1:{port}\r\nAuthorization: Bearer {token}\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n", bytes.len()).map_err(|_| "transport_failed")?;
     socket.write_all(&bytes).map_err(|_| "transport_failed")?;
-    let deadline = Instant::now() + Duration::from_secs(8);
+    let deadline = Instant::now() + Duration::from_secs(12);
     let mut response = Vec::new();
     let mut chunk = [0; 8192];
     loop {

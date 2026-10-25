@@ -1,0 +1,4 @@
+Independent read-only GPT-6-astra review: initial findings were attachment hydration dropping saved IDs; ambiguous saved submissions blocked by later revocation; incomplete PDF decompression limits. All fixed and re-reviewed; no further high-confidence implementation blockers. Folder enumeration also fails explicitly beyond 1000 entries.
+Regression evidence: close/reopen during delayed document hydration retains IDs; actual persisted submission with dropped response replays after revocation without duplicate; PDF RunLength/Flate/array samples contain valid text/font and assert LimitReachedError, excluding a false pass from blank PDFs.
+revocation: KILLED. Isolated guard removal caused the relevant regression to fail; production source untouched.
+pdf-ceilings: KILLED. Isolated guard removal caused the relevant regression to fail; production source untouched.

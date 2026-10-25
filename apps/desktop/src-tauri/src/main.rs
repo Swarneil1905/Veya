@@ -1,5 +1,6 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+mod files;
 mod recovery;
 mod runtime;
 mod transport;
@@ -82,6 +83,17 @@ async fn workspace_call(
     .map_err(|_| "host_failed".to_string())?
 }
 
+#[tauri::command]
+async fn select_documents(
+    window: tauri::WebviewWindow,
+    folder: bool,
+) -> Result<Vec<files::SelectedFile>, String> {
+    main_window(&window)?;
+    tauri::async_runtime::spawn_blocking(move || files::pick(folder))
+        .await
+        .map_err(|_| "File selection could not finish".to_string())?
+}
+
 fn diagnostic(message: &str) {
     if let Some(local) = std::env::var_os("LOCALAPPDATA") {
         let folder = std::path::PathBuf::from(local).join("dev.swarneil.relaystudio");
@@ -107,7 +119,8 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             runtime_health,
             runtime_restart,
-            workspace_call
+            workspace_call,
+            select_documents
         ])
         .setup(|app| {
             let folder = app.path().app_local_data_dir()?;
