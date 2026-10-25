@@ -14,6 +14,11 @@ func command(op, args string) Command {
 func TestCommandCapabilities(t *testing.T) {
 	for _, tc := range []struct{ op, args, path string }{
 		{"list_tasks", `{}`, "/v1/tasks?limit=10"},
+		{"get_task", `{"task_id":"task_a"}`, "/v1/tasks/task_a"},
+		{"list_tasks", `{"status":"attention","sort":"oldest","search":"a&b"}`, "/v1/tasks?limit=10&search=a%26b&sort=oldest&status=attention"},
+		{"list_approvals", `{"after":2}`, "/v1/approvals?limit=25&after=2"},
+		{"get_approval", `{"id":"review_1"}`, "/v1/approvals/review_1"},
+		{"decide_approval", `{"id":"review_1","revision":1,"decision":"reject","note":"Reviewed"}`, "/v1/approvals/review_1/decision"},
 		{"recovery", `{}`, "/v1/workspace/recovery"},
 		{"latest_run", `{"task_id":"task_a"}`, "/v1/tasks/task_a/latest-run"},
 		{"events", `{"run_id":"run_a","after":"run_a:2"}`, "/v1/runs/run_a/event-page?after=run_a%3A2"},
@@ -27,6 +32,11 @@ func TestCommandCapabilities(t *testing.T) {
 		})
 	}
 	for _, tc := range []struct{ op, args string }{
+		{"list_tasks", `{"status":""}`}, {"list_tasks", `{"sort":"random"}`}, {"list_tasks", `{"search":2}`},
+		{"get_task", `{"task_id":"../vault"}`}, {"list_approvals", `{"after":-1}`},
+		{"decide_approval", `{"id":"r","revision":0,"decision":"approve","note":"ok"}`},
+		{"decide_approval", `{"id":"r","revision":1,"decision":"approve","note":"  "}`},
+		{"decide_approval", `{"id":"r","revision":1,"decision":"approve","note":"ok","actor_id":"other"}`},
 		{"approve", `{}`}, {"execute", `{}`}, {"list_tasks", `{"tenant_id":"other"}`}, {"list_tasks", `null`},
 		{"latest_run", `{"task_id":"../../secrets"}`}, {"latest_run", `{}`},
 		{"events", `{"run_id":"run_a","after":"run_b:1"}`}, {"events", `{"run_id":"run_a","after":3}`},
