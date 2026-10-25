@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
+import {QueueQuery} from '../features/work/work-queue';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Task } from './client';
 export const stateLabel: Record<string, string> = {
   queued: 'Queued',
@@ -9,18 +10,8 @@ export const stateLabel: Record<string, string> = {
   cancelled: 'Cancelled',
 };
 const filters = [
-  { id: 'all', label: 'All work', matches: (_task: Task) => true },
-  {
-    id: 'active',
-    label: 'Active',
-    matches: (task: Task) => ['queued', 'running'].includes(task.state),
-  },
-  {
-    id: 'attention',
-    label: 'Needs attention',
-    matches: (task: Task) => ['waiting', 'failed'].includes(task.state),
-  },
-  { id: 'completed', label: 'Completed', matches: (task: Task) => task.state === 'succeeded' },
+  {id:'all',label:'All work'}, {id:'active',label:'Active'},
+  {id:'attention',label:'Needs attention'}, {id:'completed',label:'Completed'},
 ];
 @Component({
   selector: 'veya-task-list',
@@ -29,10 +20,10 @@ const filters = [
       @for (item of filters; track item.id) {
         <button
           type="button"
-          [attr.aria-pressed]="filter() === item.id"
-          (click)="filter.set(item.id)"
+          [attr.aria-pressed]="query.status === item.id"
+          (click)="change({status:item.id})"
         >
-          {{ item.label }}<span>{{ count(item.id) }}</span>
+          {{ item.label }}
         </button>
       }
     </div>
@@ -45,9 +36,15 @@ const filters = [
           type="search"
           autocomplete="off"
           placeholder="Search recent work…"
-          [value]="query()"
-          (input)="query.set(search.value)"
+          [value]="query.search"
+          (input)="change({search:search.value})"
+          maxlength="200"
       /></label>
+      <label class="work-sort">Sort
+        <select #sort [value]="query.sort" (change)="change({sort:sort.value === 'oldest' ? 'oldest' : 'newest'})">
+          <option value="newest">Newest first</option><option value="oldest">Oldest first</option>
+        </select>
+      </label>
       <button
         type="button"
         class="work-secondary"
@@ -67,7 +64,7 @@ const filters = [
       <div class="work-table-wrap">
         <table class="work-table">
           <caption class="work-sr-only">
-            Saved tasks, newest first
+            Saved tasks, {{query.sort === 'oldest' ? 'oldest' : 'newest'}} first
           </caption>
           <thead>
             <tr>
@@ -113,7 +110,7 @@ const filters = [
           }}
         </p>
         @if (hasFilter()) {
-          <button class="work-secondary" (click)="query.set(''); filter.set('all'); search.focus()">
+          <button class="work-secondary" (click)="change({search:'',status:'all'}); search.focus()">
             Clear filters
           </button>
         } @else {
@@ -124,8 +121,8 @@ const filters = [
     <footer class="work-list-footer">
       <span aria-live="polite"
         >{{ visible().length }} {{ visible().length === 1 ? 'task' : 'tasks'
-        }}{{ tasks.length === 10 ? ' · Latest 10 saved tasks' : '' }}</span
-      ><span>Saved on this device</span>
+        }}</span
+      ><div class="work-pagination"><button class="work-secondary" [disabled]="!hasPrevious || loading" (click)="page.emit('previous')">Previous</button><button class="work-secondary" [disabled]="!hasNext || loading" (click)="page.emit('next')">Next</button></div><span>Saved on this device</span>
     </footer>
   </section>`,
 })
@@ -137,22 +134,17 @@ export class TaskList {
   @Output() refresh = new EventEmitter<void>();
   @Output() selected = new EventEmitter<Task>();
   @Output() newTask = new EventEmitter<void>();
-  readonly filter = signal('all');
-  readonly query = signal('');
+  @Input() query: QueueQuery = {search:'',status:'all',sort:'newest'};
+  @Input() hasPrevious = false;
+  @Input() hasNext = false;
+  @Output() queryChange = new EventEmitter<QueueQuery>();
+  @Output() page = new EventEmitter<'next' | 'previous'>();
+  change(value: Partial<QueueQuery>) {this.queryChange.emit({...this.query,...value});}
   readonly filters = filters;
   readonly labels = stateLabel;
-  count(id: string) {
-    return this.tasks.filter(filters.find((f) => f.id === id)!.matches).length;
-  }
-  visible() {
-    const f = filters.find((f) => f.id === this.filter()) ?? filters[0];
-    const q = this.query().trim().toLocaleLowerCase();
-    return this.tasks.filter(
-      (t) => f.matches(t) && `${t.title} ${t.instruction}`.toLocaleLowerCase().includes(q),
-    );
-  }
+  visible() { return this.tasks; }
   hasFilter() {
-    return this.tasks.length > 0 || Boolean(this.query().trim()) || this.filter() !== 'all';
+    return this.tasks.length > 0 || Boolean(this.query.search.trim()) || this.query.status !== 'all';
   }
   date(value: string) {
     const d = new Date(value);

@@ -1,3 +1,5 @@
+import {ApprovalReview} from '../features/approvals/approval-review';
+import {loadQueue, saveQueue, QueueQuery} from '../features/work/work-queue';
 import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { Activity } from './activity';
 import { Composer } from './composer';
@@ -11,6 +13,7 @@ import {
   isNative,
   isWeb,
   listTasks,
+  getTask,
   recovery,
   Task,
 } from './client';
@@ -25,10 +28,11 @@ function savedNavigation() {
 
 @Component({
   selector: 'veya-workspace',
-  imports: [Activity, Composer, Panel, TaskList],
+  imports: [Activity, Composer, Panel, TaskList, ApprovalReview],
   templateUrl: './workspace.html',
 })
 export class Workspace implements OnInit, OnDestroy {
+  readonly view = signal<'work'|'approvals'>('work');
   readonly native = isNative();
   readonly web = isWeb();
   readonly connection = signal<Health>({
@@ -47,8 +51,22 @@ export class Workspace implements OnInit, OnDestroy {
   readonly readOnly = signal(true);
   readonly loading = signal(this.native || this.web);
   readonly error = signal('');
+  readonly recoveryMessage = signal('');
   readonly restarting = signal(false);
+  readonly query = signal<QueueQuery>(loadQueue().query);
+  readonly nextCursor = signal<string | null>(null);
+  readonly cursors = signal<(string | null)[]>([null]);
+  private restoreSelection = loadQueue().selected;
   private refreshVersion = 0;
+  changeQuery(query: QueueQuery) { this.query.set(query); this.cursors.set([null]); this.persistQueue(); void this.refresh(); }
+  page(direction: 'next' | 'previous') {
+    if (direction === 'next' && this.nextCursor()) this.cursors.update(v=>[...v,this.nextCursor()]);
+    if (direction === 'previous' && this.cursors().length > 1) this.cursors.update(v=>v.slice(0,-1));
+    void this.refresh();
+  }
+  private persistQueue() { saveQueue(this.query(), this.selected()?.id ?? null); }
+  closeTask() {this.selected.set(null); this.restoreSelection=null; this.persistQueue();}
+
   private destroyed = false;
   private timer: ReturnType<typeof setTimeout> | undefined;
   // Reopening a launcher link in this same tab is a fragment navigation, not a
@@ -109,15 +127,30 @@ export class Workspace implements OnInit, OnDestroy {
     this.loading.set(true);
     this.readOnly.set(true);
     try {
-      const [items, locked] = await Promise.all([listTasks(), recovery()]);
+      const [firstPage, locked] = await Promise.all([listTasks(this.query(), this.cursors().at(-1) ?? null), recovery()]);
+      let page = firstPage;
+      if (version !== this.refreshVersion) return;
+      if (!page.items.length && this.cursors().length > 1) {
+        this.cursors.set([null]);
+        page = await listTasks(this.query(), null);
+      }
+      const items = page.items;
       if (version !== this.refreshVersion) return;
       this.tasks.set(items);
-      this.readOnly.set(locked);
+      this.nextCursor.set(page.next_cursor);
+      this.readOnly.set(locked.required);
+      this.recoveryMessage.set(locked.message);
       this.error.set('');
+      const restore = this.restoreSelection;
+      this.restoreSelection = null;
+      if (restore) {
+        try { const restored = items.find(t=>t.id===restore) ?? await getTask(restore); if (version === this.refreshVersion) this.selected.set(restored); } catch { /* Deleted selections stay closed. */ }
+      }
       const selected = this.selected();
       if (selected) this.selected.set(items.find((item) => item.id === selected.id) ?? selected);
     } catch (cause) {
       if (version === this.refreshVersion) {
+        if (cause instanceof Error && cause.message === 'invalid_cursor' && this.cursors().length > 1) {this.cursors.set([null]); void this.refresh(); return;}
         this.error.set(errorText(cause));
         this.readOnly.set(true);
       }
@@ -138,28 +171,33 @@ export class Workspace implements OnInit, OnDestroy {
     }
   }
   updateState({ id, state }: { id: string; state: string }) {
+    const changed = this.tasks().some(t=>t.id===id && t.state!==state);
     this.tasks.update((items) =>
       items.map((t) => (t.id === id && t.state !== state ? { ...t, state } : t)),
     );
     this.selected.update((t) => (t?.id === id && t.state !== state ? { ...t, state } : t));
+    if(changed) void this.refresh();
   }
   newTask() {
-    this.selected.set(null);
+    this.closeTask();
     this.composing.set(true);
   }
   openTask(task: Task) {
     this.initialTab = 'overview';
     this.selected.set(task);
+    this.persistQueue();
   }
   created(task: Task) {
     this.composing.set(false);
     this.initialTab = 'activity';
     this.selected.set(task);
+    this.persistQueue();
     this.tasks.update((items) => [task, ...items.filter((t) => t.id !== task.id)].slice(0, 10));
     void this.refresh();
   }
   work() {
-    this.selected.set(null);
+    this.view.set('work');
+    this.closeTask();
     this.composing.set(false);
     document.getElementById('work-heading')?.focus();
   }

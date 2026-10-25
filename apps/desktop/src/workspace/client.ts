@@ -1,5 +1,7 @@
+import type { Task as ContractTask } from '../../../../packages/contracts/src/index';
+import type { QueueQuery } from '../features/work/work-queue';
 export type Health = { state: string; message: string };
-export type Task = { id: string; title: string; instruction: string; state: string; created_at: string };
+export type Task = Required<Pick<ContractTask, 'id' | 'title' | 'instruction' | 'state' | 'created_at'>>;
 export type Run = { id: string; state: string };
 export type ActivityEvent = { run_id: string; sequence: number; kind: string; data: Record<string, unknown>; created_at: string };
 export type EventPage = { items: ActivityEvent[]; next_cursor: string | null; has_more: boolean };
@@ -49,20 +51,21 @@ async function invoke(command: string, args?: Record<string, unknown>) {
   }
   return value;
 }
-async function call(operation: string, args: Record<string, unknown> = {}) { return invoke('workspace_call', { operation, args }); }
+export async function call(operation: string, args: Record<string, unknown> = {}) { return invoke('workspace_call', { operation, args }); }
 export async function health(restart = false): Promise<Health> {
   const v = object(await invoke(restart ? 'runtime_restart' : 'runtime_health'));
   return { state: string(v.state), message: string(v.message) };
 }
-export async function listTasks(): Promise<Task[]> {
-  const v = object(await call('list_tasks'));
-  if (!Array.isArray(v.items)) throw new Error('invalid_response');
-  return v.items.map(task);
+export async function listTasks(query: QueueQuery, cursor: string | null): Promise<{items: Task[]; next_cursor: string | null}> {
+  const v = object(await call('list_tasks', {search:query.search, sort:query.sort, ...(query.status === 'all' ? {} : {status:query.status}), cursor}));
+  if (!Array.isArray(v.items) || !(v.next_cursor === null || typeof v.next_cursor === 'string')) throw new Error('invalid_response');
+  return {items:v.items.map(task),next_cursor:v.next_cursor};
 }
-export async function recovery(): Promise<boolean> {
+export async function getTask(id: string): Promise<Task> { return task(await call('get_task', {task_id:id})); }
+export async function recovery(): Promise<{required:boolean; message:string}> {
   const v = object(await call('recovery'));
   if (typeof v.required !== 'boolean') throw new Error('invalid_response');
-  return v.required;
+  return {required:v.required, message:typeof v['message']==='string'?v['message']:''};
 }
 export async function submit(draft: Draft): Promise<{ task: Task; run: Run }> {
   const { client_request_id, title, instruction } = draft;

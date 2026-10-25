@@ -14,13 +14,14 @@
     <nav id="work-navigation" aria-label="Workspace">
       <button
         class="work-nav-item"
-        aria-current="page"
+        [attr.aria-current]="view() === 'work' ? 'page' : null"
         aria-label="Work"
         title="Work"
         (click)="work()"
       >
         <i class="ph ph-tray" aria-hidden="true"></i><span>Work</span>
       </button>
+      <button class="work-nav-item" [attr.aria-current]="view() === 'approvals' ? 'page' : null" aria-label="Approvals" title="Approvals" (click)="view.set('approvals');closeTask();composing.set(false)"><i class="ph ph-check-square" aria-hidden="true"></i><span>Approvals</span></button>
     </nav>
     <button
       class="work-nav-item work-nav-bottom"
@@ -42,8 +43,8 @@
     <main id="work-main" class="work-main">
       <div class="work-page-heading">
         <div>
-          <h1 id="work-heading" tabindex="-1">Work</h1>
-          <p>Your briefs, progress, and next steps.</p>
+          <h1 id="work-heading" tabindex="-1">{{view()==='work'?'Work':'Approvals'}}</h1>
+          <p>{{view()==='work'?'Your briefs, progress, and next steps.':'Decisions that need your attention.'}}</p>
         </div>
         <button class="work-primary" (click)="newTask()">
           <i class="ph ph-plus" aria-hidden="true"></i>New task
@@ -64,8 +65,15 @@
         pending recovery review.'}}
       </p>
       }
+      @if(recoveryMessage()){<p class="work-notice" role="status">{{recoveryMessage()}}</p>}
+      @if(view()==='work'){
       <veya-task-list
         [tasks]="tasks()"
+        [query]="query()"
+        [hasPrevious]="cursors().length > 1"
+        [hasNext]="nextCursor() !== null"
+        (queryChange)="changeQuery($event)"
+        (page)="page($event)"
         [loading]="loading()"
         [connected]="ready()"
         [error]="error()"
@@ -73,6 +81,7 @@
         (newTask)="newTask()"
         (selected)="openTask($event)"
       />
+      } @else {<veya-approvals [connected]="ready()" [readOnly]="readOnly()" />}
     </main>
   </div>
   @if(composing()){
@@ -83,7 +92,7 @@
       <veya-composer [enabled]="ready() && !readOnly()" (created)="created($event)" /></div
   ></veya-panel>
   } @if(selected();as task){
-  <veya-panel title="Task details" (closed)="selected.set(null)"
+  <veya-panel title="Task details" (closed)="closeTask()"
     ><veya-activity
       [task]="task"
       [connected]="ready()"
