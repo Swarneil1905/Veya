@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "main-workspace",
+  "description": "Only the local main window can inspect runtime health and call bounded workspace operations.",
+  "windows": ["main"],
+  "permissions": ["allow-runtime-health", "allow-runtime-restart", "allow-workspace-call"]
+}

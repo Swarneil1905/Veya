@@ -1,12 +1,41 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Relay Studio",
+  "productName": "Veya",
   "version": "0.1.0",
   "identifier": "dev.swarneil.relaystudio",
-  "build": {"beforeDevCommand":"pnpm dev","beforeBuildCommand":"pnpm build","devUrl":"http://localhost:4317","frontendDist":"../dist"},
-  "app": {
-    "windows": [{"title":"Relay Studio — Design preview","width":1440,"height":1000,"minWidth":800,"minHeight":640}],
-    "security": {"csp":"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' ipc: http://ipc.localhost; object-src 'none'; base-uri 'self'"}
+  "build": {
+    "beforeDevCommand": "pnpm dev",
+    "beforeBuildCommand": "pnpm build",
+    "devUrl": "http://127.0.0.1:4317",
+    "frontendDist": "../dist"
   },
-  "bundle": {"active":true,"targets":["nsis"],"shortDescription":"Agent operations desktop prototype","category":"DeveloperTool"}
+  "app": {
+    "windows": [
+      {
+        "title": "Veya",
+        "width": 1440,
+        "height": 1000,
+        "minWidth": 800,
+        "minHeight": 640,
+        "label": "main",
+        "visible": true
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' ipc: http://ipc.localhost; object-src 'none'; base-uri 'self'"
+    },
+    "withGlobalTauri": true
+  },
+  "bundle": {
+    "active": true,
+    "targets": [
+      "nsis"
+    ],
+    "shortDescription": "Local task workspace",
+    "category": "Productivity",
+    "resources": {
+      "../../../services/runtime/veya/": "runtime/veya/",
+      "../../../services/runtime/migrations/": "runtime/migrations/"
+    }
+  }
 }

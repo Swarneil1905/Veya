@@ -1,7 +1,7 @@
 [package]
-name = "relay-studio"
+name = "veya-desktop"
 version = "0.1.0"
-description = "Relay Studio desktop design prototype"
+description = "Veya local task workspace"
 edition = "2021"
 license = "MIT"
 
@@ -10,6 +10,9 @@ tauri-build = { version = "2", features = [] }
 
 [dependencies]
 tauri = { version = "2", features = [] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+getrandom = "0.2.17"
 
 [features]
 custom-protocol = ["tauri/custom-protocol"]
