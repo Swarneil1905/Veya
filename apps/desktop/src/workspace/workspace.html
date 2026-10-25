@@ -1,4 +1,7 @@
-<div class="veya-workspace" [attr.data-navigation]="expanded()?'expanded':'collapsed'">
+<div
+  class="veya-workspace"
+  [attr.data-navigation]="expanded()?'expanded':'collapsed'"
+>
   <a class="work-skip" href="#work-main">Skip to workspace</a>
   <aside class="work-sidebar" aria-label="Workspace navigation">
     <button
@@ -9,7 +12,8 @@
       [attr.aria-label]="expanded()?'Collapse navigation':'Expand navigation'"
       [title]="expanded()?'Collapse navigation':'Expand navigation'"
     >
-      <i class="ph ph-sidebar-simple" aria-hidden="true"></i><span>Workspace</span>
+      <i class="ph ph-sidebar-simple" aria-hidden="true"></i
+      ><span>Workspace</span>
     </button>
     <nav id="work-navigation" aria-label="Workspace">
       <button
@@ -21,7 +25,16 @@
       >
         <i class="ph ph-tray" aria-hidden="true"></i><span>Work</span>
       </button>
-      <button class="work-nav-item" [attr.aria-current]="view() === 'approvals' ? 'page' : null" aria-label="Approvals" title="Approvals" (click)="view.set('approvals');closeTask();composing.set(false)"><i class="ph ph-check-square" aria-hidden="true"></i><span>Approvals</span></button>
+      <button
+        class="work-nav-item"
+        [attr.aria-current]="view() === 'approvals' ? 'page' : null"
+        aria-label="Approvals"
+        title="Approvals"
+        (click)="view.set('approvals');closeTask();composing.set(false)"
+      >
+        <i class="ph ph-check-square" aria-hidden="true"></i
+        ><span>Approvals</span>
+      </button>
     </nav>
     <button
       class="work-nav-item work-nav-bottom"
@@ -29,22 +42,40 @@
       aria-label="Connection details"
       title="Connection details"
     >
-      <i class="ph ph-plugs-connected" aria-hidden="true"></i><span>Connection</span>
+      <i class="ph ph-plugs-connected" aria-hidden="true"></i
+      ><span>Connection</span>
     </button>
   </aside>
   <div class="work-body">
     <header class="work-topbar">
       <div class="work-brand">Veya<span>Personal workspace</span></div>
+      <button
+        class="work-command-trigger work-secondary"
+        (click)="commandsOpen.set(true)"
+        aria-keyshortcuts="Control+K Meta+K"
+      >
+        <i class="ph ph-command" aria-hidden="true"></i>Commands
+        <kbd>Ctrl K</kbd>
+      </button>
       <button class="work-connection-button" (click)="connectionOpen.set(true)">
-        <span class="work-connection-dot" [attr.data-ready]="ready()" aria-hidden="true"></span
+        <span
+          class="work-connection-dot"
+          [attr.data-ready]="ready()"
+          aria-hidden="true"
+        ></span
         >{{connectionLabel()}}
       </button>
     </header>
     <main id="work-main" class="work-main">
       <div class="work-page-heading">
         <div>
-          <h1 id="work-heading" tabindex="-1">{{view()==='work'?'Work':'Approvals'}}</h1>
-          <p>{{view()==='work'?'Your briefs, progress, and next steps.':'Decisions that need your attention.'}}</p>
+          <h1 id="work-heading" tabindex="-1">
+            {{view()==='work'?'Work':'Approvals'}}
+          </h1>
+          <p>
+            {{view()==='work'?'Your briefs, progress, and next
+            steps.':'Decisions that need your attention.'}}
+          </p>
         </div>
         <button class="work-primary" (click)="newTask()">
           <i class="ph ph-plus" aria-hidden="true"></i>New task
@@ -61,12 +92,12 @@
       </div>
       } @if(ready() && readOnly() && !error()){
       <p class="work-notice" role="status">
-        {{loading()?'Checking saved work before enabling task saving…':'This workspace is read-only
-        pending recovery review.'}}
+        {{loading()?'Checking saved work before enabling task saving…':'This
+        workspace is read-only pending recovery review.'}}
       </p>
-      }
-      @if(recoveryMessage()){<p class="work-notice" role="status">{{recoveryMessage()}}</p>}
-      @if(view()==='work'){
+      } @if(recoveryMessage()){
+      <p class="work-notice" role="status">{{recoveryMessage()}}</p>
+      } @if(view()==='work'){
       <veya-task-list
         [tasks]="tasks()"
         [query]="query()"
@@ -88,19 +119,28 @@
   <veya-panel title="New task" (closed)="composing.set(false)"
     ><div class="work-panel-content">
       <h2>A clear brief. A place to start.</h2>
-      <p class="work-intro">Describe the work and what a useful result should include.</p>
-      <veya-composer [enabled]="ready() && !readOnly()" (created)="created($event)" /></div
+      <p class="work-intro">
+        Describe the work and what a useful result should include.
+      </p>
+      <veya-composer
+        [enabled]="ready() && !readOnly()"
+        (created)="created($event)"
+      /></div
   ></veya-panel>
   } @if(selected();as task){
   <veya-panel title="Task details" (closed)="closeTask()"
     ><veya-activity
       [task]="task"
       [connected]="ready()"
+      [readOnly]="readOnly()"
       [initialTab]="initialTab"
       (stateChange)="updateState($event)"
   /></veya-panel>
   } @if(connectionOpen()){
-  <veya-panel title="Connection" kind="connection" (closed)="connectionOpen.set(false)"
+  <veya-panel
+    title="Connection"
+    kind="connection"
+    (closed)="connectionOpen.set(false)"
     ><div class="work-panel-content">
       <h2 data-autofocus tabindex="-1">{{connectionLabel()}}</h2>
       <p role="status">{{connection().message}}</p>
@@ -114,14 +154,22 @@
           <dd>On this device</dd>
         </div>
       </dl>
-      @if(native){<button class="work-primary" [disabled]="restarting()" (click)="restart()">
+      @if(native){<button
+        class="work-primary"
+        [disabled]="restarting()"
+        (click)="restart()"
+      >
         {{restarting()?'Restarting…':'Restart runtime'}}</button
       >}
       <p class="work-muted">
-        Task saving and recorded activity are available through the local platform. AI execution and
-        document attachments are not connected yet.
+        Task saving and recorded activity are available through the local
+        platform. Document imports and source inspection are available. AI
+        execution is not connected yet.
       </p>
     </div></veya-panel
   >
-  }
+  } @if(commandsOpen()){<veya-commands
+    (closed)="commandsOpen.set(false)"
+    (chosen)="command($event)"
+  />}
 </div>

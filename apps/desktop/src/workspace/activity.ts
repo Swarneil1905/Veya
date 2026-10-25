@@ -7,15 +7,20 @@ import {
   Output,
   SimpleChanges,
   signal,
-} from '@angular/core';
-import { ActivityEvent, errorText, events, latestRun, Task } from './client';
-import { stateLabel } from './task-list';
+} from "@angular/core";
+import { ActivityEvent, errorText, events, latestRun, Task } from "./client";
+import { ResultPanel } from "../features/results/result-panel";
+import { TaskDocuments } from "../features/documents/task-documents";
+import { stateLabel } from "./task-list";
 
 @Component({
-  selector: 'veya-activity',
+  selector: "veya-activity",
+  imports: [ResultPanel, TaskDocuments],
   template: ` <section class="work-activity" aria-labelledby="activity-title">
     <div class="work-detail-heading">
-      <span class="work-task-state" [attr.data-state]="status()">{{ labels[status()] }}</span>
+      <span class="work-task-state" [attr.data-state]="status()">{{
+        labels[status()]
+      }}</span>
       <h2 id="activity-title" data-autofocus tabindex="-1">{{ task.title }}</h2>
     </div>
     <div class="work-detail-tabs" role="tablist" aria-label="Task information">
@@ -29,19 +34,31 @@ import { stateLabel } from './task-list';
           (click)="tab.set(item)"
           (keydown)="moveTab($event)"
         >
-          {{ item === 'overview' ? 'Overview' : 'Activity' }}
+          {{
+            item === "overview"
+              ? "Overview"
+              : item === "activity"
+                ? "Activity"
+                : "Results"
+          }}
         </button>
       }
     </div>
     <div class="work-panel-content">
-      @if (status() === 'queued') {
-        <p class="work-notice">Saved and queued. AI execution is not connected yet.</p>
+      @if (status() === "queued") {
+        <p class="work-notice">
+          Saved and queued. AI execution is not connected yet.
+        </p>
       }
       @if (!connected) {
-        <p role="status">Disconnected. Saved activity will resume when the runtime reconnects.</p>
+        <p role="status">
+          Disconnected. Saved activity will resume when the runtime reconnects.
+        </p>
       }
       @if (error()) {
-        <p class="work-error" role="alert">{{ error() }} Activity will reconnect automatically.</p>
+        <p class="work-error" role="alert">
+          {{ error() }} Activity will reconnect automatically.
+        </p>
       }
       <div
         id="task-panel-overview"
@@ -56,7 +73,9 @@ import { stateLabel } from './task-list';
           <div>
             <dt>Created</dt>
             <dd>
-              <time [attr.datetime]="task.created_at">{{ date(task.created_at) }}</time>
+              <time [attr.datetime]="task.created_at">{{
+                date(task.created_at)
+              }}</time>
             </dd>
           </div>
           <div>
@@ -64,11 +83,15 @@ import { stateLabel } from './task-list';
             <dd>Personal</dd>
           </div>
         </dl>
+        <veya-task-documents
+          [taskId]="task.id"
+          [readOnly]="readOnly || !connected"
+        />
         <div class="work-detail-note">
           <h3>What happens next</h3>
           <p>
-            Your brief is saved. Recorded progress appears in Activity. AI execution and document
-            attachments are not connected yet.
+            Your brief is saved. Recorded progress appears in Activity. AI
+            execution is not connected yet.
           </p>
         </div>
       </div>
@@ -87,50 +110,67 @@ import { stateLabel } from './task-list';
           <p class="work-muted">No execution activity has been recorded.</p>
         }
         <ol class="work-events" aria-label="Recorded activity">
-          @for (row of rows(); track row.run_id + ':' + row.sequence) {
+          @for (row of rows(); track row.run_id + ":" + row.sequence) {
             <li>
               <span class="work-event-marker" aria-hidden="true"></span>
               <div>
                 <span>{{ eventText(row) }}</span
-                ><time [attr.datetime]="row.created_at">{{ date(row.created_at) }}</time>
+                ><time [attr.datetime]="row.created_at">{{
+                  date(row.created_at)
+                }}</time>
               </div>
             </li>
           }
         </ol>
         @if (rows().length === 500) {
-          <p>Showing the latest 500 events. The complete history remains saved.</p>
+          <p>
+            Showing the latest 500 events. The complete history remains saved.
+          </p>
         }
         <p class="work-muted">Partial activity is not a completed result.</p>
       </div>
+      @if (tab() === "results") {
+        <div
+          id="task-panel-results"
+          role="tabpanel"
+          aria-labelledby="task-tab-results"
+          tabindex="0"
+        >
+          <veya-results [runId]="runId()" />
+        </div>
+      }
     </div>
   </section>`,
 })
 export class Activity implements OnChanges, OnDestroy {
   @Input({ required: true }) task!: Task;
   @Input() connected = false;
-  @Input() initialTab: 'overview' | 'activity' = 'overview';
+  @Input() readOnly = true;
+  readonly runId = signal("");
+  @Input() initialTab: "overview" | "activity" = "overview";
   @Output() stateChange = new EventEmitter<{ id: string; state: string }>();
-  readonly tabs = ['overview', 'activity'] as const;
+  readonly tabs = ["overview", "activity", "results"] as const;
   readonly labels = stateLabel;
-  readonly tab = signal<'overview' | 'activity'>('overview');
+  readonly tab = signal<"overview" | "activity" | "results">("overview");
   readonly rows = signal<ActivityEvent[]>([]);
-  readonly status = signal('queued');
-  readonly error = signal('');
+  readonly status = signal("queued");
+  readonly error = signal("");
   readonly loading = signal(true);
-  private position = { run: '', cursor: null as string | null };
+  private position = { run: "", cursor: null as string | null };
   private version = 0;
   private timer: ReturnType<typeof setTimeout> | undefined;
   ngOnChanges(changes: SimpleChanges) {
-    const previous = changes['task']?.previousValue as Task | undefined;
-    const changed = Boolean(changes['task']) && previous?.id !== this.task.id;
+    const previous = changes["task"]?.previousValue as Task | undefined;
+    const changed = Boolean(changes["task"]) && previous?.id !== this.task.id;
     if (changed) {
       this.rows.set([]);
-      this.position = { run: '', cursor: null };
+      this.position = { run: "", cursor: null };
+      this.runId.set("");
       this.tab.set(this.initialTab);
       this.status.set(this.task.state);
-      this.error.set('');
+      this.error.set("");
     }
-    if (changed || changes['connected']) {
+    if (changed || changes["connected"]) {
       const version = ++this.version;
       clearTimeout(this.timer);
       this.loading.set(this.connected);
@@ -151,6 +191,7 @@ export class Activity implements OnChanges, OnDestroy {
         this.position = { run: run.id, cursor: null };
         this.rows.set([]);
       }
+      this.runId.set(run.id);
       const page = await events(run.id, this.position.cursor);
       if (version !== this.version) return;
       this.position.cursor = page.next_cursor;
@@ -159,7 +200,7 @@ export class Activity implements OnChanges, OnDestroy {
       this.rows.set([...merged.values()].slice(-500));
       this.status.set(run.state);
       this.stateChange.emit({ id, state: run.state });
-      this.error.set('');
+      this.error.set("");
       if (page.has_more) delay = 50;
     } catch (cause) {
       if (version === this.version) this.error.set(errorText(cause));
@@ -171,26 +212,34 @@ export class Activity implements OnChanges, OnDestroy {
     }
   }
   moveTab(event: KeyboardEvent) {
-    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
     event.preventDefault();
+    const index = this.tabs.indexOf(this.tab());
     const next =
-      event.key === 'Home'
-        ? 'overview'
-        : event.key === 'End'
-          ? 'activity'
-          : this.tab() === 'overview'
-            ? 'activity'
-            : 'overview';
+      this.tabs[
+        event.key === "Home"
+          ? 0
+          : event.key === "End"
+            ? this.tabs.length - 1
+            : (index +
+                (event.key === "ArrowRight" ? 1 : -1) +
+                this.tabs.length) %
+              this.tabs.length
+      ];
     this.tab.set(next);
-    document.getElementById('task-tab-' + next)?.focus();
+    document.getElementById("task-tab-" + next)?.focus();
   }
   date(value: string) {
     return new Date(value).toLocaleString();
   }
   eventText(event: ActivityEvent) {
-    if (event.kind === 'run.state_changed' && typeof event.data['to'] === 'string')
-      return stateLabel[event.data['to']] ?? 'State updated';
-    if (typeof event.data['message'] === 'string') return event.data['message'].slice(0, 4000);
-    return event.kind.replaceAll('.', ' ').replaceAll('_', ' ');
+    if (
+      event.kind === "run.state_changed" &&
+      typeof event.data["to"] === "string"
+    )
+      return stateLabel[event.data["to"]] ?? "State updated";
+    if (typeof event.data["message"] === "string")
+      return event.data["message"].slice(0, 4000);
+    return event.kind.replaceAll(".", " ").replaceAll("_", " ");
   }
 }

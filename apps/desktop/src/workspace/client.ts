@@ -5,7 +5,7 @@ export type Task = Required<Pick<ContractTask, 'id' | 'title' | 'instruction' | 
 export type Run = { id: string; state: string };
 export type ActivityEvent = { run_id: string; sequence: number; kind: string; data: Record<string, unknown>; created_at: string };
 export type EventPage = { items: ActivityEvent[]; next_cursor: string | null; has_more: boolean };
-export type Draft = { client_request_id: string; title: string; instruction: string; attempted: boolean };
+export type Draft = { client_request_id: string; title: string; instruction: string; attempted: boolean; document_ids?: string[] };
 
 declare global { interface Window { __TAURI__?: { core: { invoke: (command: string, args?: Record<string, unknown>) => Promise<unknown> } } } }
 export const isNative = () => Boolean(window.__TAURI__?.core);
@@ -68,8 +68,8 @@ export async function recovery(): Promise<{required:boolean; message:string}> {
   return {required:v.required, message:typeof v['message']==='string'?v['message']:''};
 }
 export async function submit(draft: Draft): Promise<{ task: Task; run: Run }> {
-  const { client_request_id, title, instruction } = draft;
-  const v = object(await call('submit_task', { client_request_id, title, instruction }));
+  const { client_request_id, title, instruction, document_ids } = draft;
+  const v = object(await call('submit_task', { client_request_id, title, instruction, ...(document_ids?.length?{document_ids}:{}) }));
   return { task: task(v.task), run: run(v.run) };
 }
 export async function latestRun(taskId: string): Promise<Run> { return run(await call('latest_run', { task_id: taskId })); }
