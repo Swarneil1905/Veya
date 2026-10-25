@@ -10,7 +10,7 @@
     "dev": "pnpm --dir apps/desktop dev",
     "build": "pnpm --dir apps/desktop build",
     "test": "pnpm --dir apps/desktop test",
-    "check": "node scripts/check-project.mjs",
+    "check": "node scripts/check.mjs frontend",
     "test:ui": "node scripts/test-workspace-browser.mjs",
     "test:workspace": "node scripts/test-workspace-ui.mjs",
     "test:workspace:browser": "node scripts/test-workspace-browser.mjs",
@@ -22,7 +22,13 @@
     "build:platform": "python scripts/build_platform.py",
     "web": "python scripts/run_web.py",
     "test:platform": "python scripts/build_platform.py --test",
-    "test:platform:browser": "node scripts/test-platform-browser.mjs"
+    "test:platform:browser": "node scripts/test-platform-browser.mjs",
+    "check:all": "node scripts/check.mjs",
+    "check:python": "node scripts/check.mjs python",
+    "check:boundaries": "python scripts/check_boundaries.py",
+    "contracts:check": "python packages/contracts/generate.py --check",
+    "test:fixtures": "python -m unittest discover -s packages/fixtures/tests -v",
+    "test:batch:browser": "node scripts/test-story-batch-browser.mjs"
   },
   "dependencies": {
     "@angular/common": "22.2.3",
@@ -35,12 +41,14 @@
     "tslib": "2.8.1"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "2.11.2",
-    "axe-core": "4.14.0",
-    "playwright-core": "1.64.1",
-    "typescript": "6.0.3",
     "@angular/build": "22.2.4",
     "@angular/cli": "22.2.4",
-    "@angular/compiler-cli": "22.2.3"
+    "@angular/compiler-cli": "22.2.3",
+    "@tauri-apps/cli": "2.11.2",
+    "axe-core": "4.14.0",
+    "eslint": "10.13.0",
+    "playwright-core": "1.64.1",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.0"
   }
 }

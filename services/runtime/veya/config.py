@@ -1,8 +1,9 @@
 """Explicit profiles; secret material is supplied separately by the native host."""
-from dataclasses import dataclass, fields
+
 import json
-from pathlib import Path
 import re
+from dataclasses import dataclass, fields
+from pathlib import Path
 from typing import Mapping
 from urllib.parse import urlsplit
 
@@ -22,10 +23,13 @@ class Settings:
             raise ValueError('storage_root must be an absolute path')
         if not re.fullmatch(r'[a-zA-Z0-9_-]{1,64}', self.tenant_id):
             raise ValueError('Invalid tenant_id')
+        if self.profile != 'test' and self.tenant_id.startswith('fixture_'):
+            raise ValueError('fixture_ tenants are reserved for test profiles')
         if self.profile == 'test' and not self.tenant_id.startswith('fixture_'):
             raise ValueError('Test profiles require a fixture_ tenant')
-        if not re.fullmatch(r'(env:[A-Z][A-Z0-9_]{0,100}|vault:[a-zA-Z0-9/_-]{1,100})',
-                            self.credential_ref):
+        if not re.fullmatch(
+            r'(env:[A-Z][A-Z0-9_]{0,100}|vault:[a-zA-Z0-9/_-]{1,100})', self.credential_ref
+        ):
             raise ValueError('credential_ref must name an environment or vault reference')
         endpoint = urlsplit(self.endpoint)
         if endpoint.username or endpoint.password or endpoint.query or endpoint.fragment:
@@ -46,9 +50,13 @@ class Settings:
             raise ValueError('Profile fields must exactly match: ' + ', '.join(sorted(expected)))
         if any(not isinstance(value, str) or not value.strip() for value in payload.values()):
             raise ValueError('Profile values must be nonblank strings')
-        return cls(profile=str(payload['profile']), endpoint=str(payload['endpoint']),
-                   storage_root=Path(str(payload['storage_root'])),
-                   tenant_id=str(payload['tenant_id']), credential_ref=str(payload['credential_ref']))
+        return cls(
+            profile=str(payload['profile']),
+            endpoint=str(payload['endpoint']),
+            storage_root=Path(str(payload['storage_root'])),
+            tenant_id=str(payload['tenant_id']),
+            credential_ref=str(payload['credential_ref']),
+        )
 
     @classmethod
     def load(cls, path: Path) -> 'Settings':

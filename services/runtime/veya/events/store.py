@@ -1,8 +1,9 @@
 """Durable, per-run ordered history. Writers share the state transaction."""
-from dataclasses import dataclass
+
 import json
 import re
 import sqlite3
+from dataclasses import dataclass
 
 from veya.domain.models import DomainError, utc_now
 from veya.storage.sqlite import Database
@@ -21,8 +22,9 @@ class Event:
         return f'{self.run_id}:{self.sequence}'
 
 
-def append_event(connection: sqlite3.Connection, tenant: str, run_id: str,
-                 kind: str, data: dict) -> Event:
+def append_event(
+    connection: sqlite3.Connection, tenant: str, run_id: str, kind: str, data: dict
+) -> Event:
     """Caller must hold Database.transaction; event commits with its state change."""
     if not connection.in_transaction:
         raise ValueError('Event writes require a transaction')
@@ -34,14 +36,19 @@ def append_event(connection: sqlite3.Connection, tenant: str, run_id: str,
         raise DomainError('invalid_input', 'Event data must be JSON') from error
     if len(payload.encode()) > 65536:
         raise DomainError('too_large', 'Event data exceeds 64 KiB')
-    if not connection.execute('SELECT 1 FROM runs WHERE tenant_id=? AND id=?',
-                              (tenant, run_id)).fetchone():
+    if not connection.execute(
+        'SELECT 1 FROM runs WHERE tenant_id=? AND id=?', (tenant, run_id)
+    ).fetchone():
         raise DomainError('not_found', 'Run not found')
-    sequence = connection.execute('SELECT COALESCE(MAX(sequence),0)+1 FROM events '
-                                  'WHERE tenant_id=? AND run_id=?', (tenant, run_id)).fetchone()[0]
+    sequence = connection.execute(
+        'SELECT COALESCE(MAX(sequence),0)+1 FROM events WHERE tenant_id=? AND run_id=?',
+        (tenant, run_id),
+    ).fetchone()[0]
     created_at = utc_now()
-    connection.execute('INSERT INTO events VALUES (?,?,?,?,?,?)',
-                       (tenant, run_id, sequence, kind, payload, created_at))
+    connection.execute(
+        'INSERT INTO events VALUES (?,?,?,?,?,?)',
+        (tenant, run_id, sequence, kind, payload, created_at),
+    )
     return Event(run_id, sequence, kind, json.loads(payload), created_at)
 
 
@@ -62,8 +69,10 @@ class EventStore:
             raise DomainError('invalid_cursor', 'Cursor does not name this run')
         position = int(match[1])
         with self.db.connection() as connection:
-            maximum = connection.execute('SELECT COALESCE(MAX(sequence),0) FROM events '
-                                         'WHERE tenant_id=? AND run_id=?', (tenant, run_id)).fetchone()[0]
+            maximum = connection.execute(
+                'SELECT COALESCE(MAX(sequence),0) FROM events WHERE tenant_id=? AND run_id=?',
+                (tenant, run_id),
+            ).fetchone()[0]
         if position > maximum:
             raise DomainError('invalid_cursor', 'Cursor is ahead of the event log')
         return position
@@ -73,8 +82,12 @@ class EventStore:
             raise DomainError('invalid_input', 'Invalid event page')
         self.db.get_run(tenant, run_id)
         with self.db.connection() as connection:
-            rows = connection.execute('SELECT * FROM events WHERE tenant_id=? AND run_id=? '
-                                      'AND sequence>? ORDER BY sequence LIMIT ?',
-                                      (tenant, run_id, after, limit)).fetchall()
-        return [Event(run_id, row['sequence'], row['kind'], json.loads(row['data']),
-                      row['created_at']) for row in rows]
+            rows = connection.execute(
+                'SELECT * FROM events WHERE tenant_id=? AND run_id=? '
+                'AND sequence>? ORDER BY sequence LIMIT ?',
+                (tenant, run_id, after, limit),
+            ).fetchall()
+        return [
+            Event(run_id, row['sequence'], row['kind'], json.loads(row['data']), row['created_at'])
+            for row in rows
+        ]

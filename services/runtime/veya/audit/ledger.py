@@ -5,11 +5,12 @@ Confidential/secret values are replaced before serialization (without inspecting
 or stringifying them). A database attacker can rewrite a chain and its anchor;
 the verifier therefore accepts a previously captured, externally retained anchor.
 """
-from dataclasses import dataclass
-from enum import Enum
+
 import hashlib
 import re
 import sqlite3
+from dataclasses import dataclass
+from enum import Enum
 
 from veya.domain.models import DomainError, identifier, utc_now
 from veya.storage.sqlite import Database
@@ -42,7 +43,11 @@ class Anchor:
 
     def __post_init__(self):
         identifier(self.tenant_id)
-        if type(self.start) is not int or type(self.end) is not int or not 1 <= self.start <= self.end + 1:
+        if (
+            type(self.start) is not int
+            or type(self.end) is not int
+            or not 1 <= self.start <= self.end + 1
+        ):
             raise ValueError('Invalid audit segment')
         for value in (self.previous_hash, self.head_hash):
             if type(value) is not str or not re.fullmatch('[0-9a-f]{64}', value):
@@ -57,8 +62,12 @@ def redact(fields: dict[str, AuditField]) -> dict:
         identifier(name)
         if type(field) is not AuditField or not isinstance(field.classification, Sensitivity):
             raise DomainError('invalid_input', 'Audit fields require explicit classifications')
-        sensitive_name = re.search(r'(password|credential|secret|token|authorization|api_?key)', name, re.I)
-        sensitive = field.classification in {Sensitivity.CONFIDENTIAL, Sensitivity.SECRET} or sensitive_name
+        sensitive_name = re.search(
+            r'(password|credential|secret|token|authorization|api_?key)', name, re.I
+        )
+        sensitive = (
+            field.classification in {Sensitivity.CONFIDENTIAL, Sensitivity.SECRET} or sensitive_name
+        )
         value = '[REDACTED]' if sensitive else field.value
         if type(value) not in {str, int, bool, type(None)}:
             raise DomainError('invalid_input', 'Audit fields must be classified scalar values')
@@ -71,20 +80,29 @@ def entry_hash(tenant: str, sequence: int, previous: str, payload: str) -> str:
     return hashlib.sha256(envelope.encode('utf-8')).hexdigest()
 
 
-def append_in_transaction(conn: sqlite3.Connection, tenant: str, kind: str,
-                          fields: dict[str, AuditField]) -> str:
+def append_in_transaction(
+    conn: sqlite3.Connection, tenant: str, kind: str, fields: dict[str, AuditField]
+) -> str:
     """Caller owns an immediate transaction, shared with the associated state write."""
     if not conn.in_transaction:
         raise ValueError('Audit append requires an active write transaction')
     identifier(tenant)
     if type(kind) is not str or not re.fullmatch(r'[a-z][a-z0-9_.]{0,63}', kind):
         raise ValueError('Invalid audit event kind')
-    payload = canonical_json({'kind': kind, 'created_at': utc_now(), 'fields': redact(fields)}, MAX_ENTRY_BYTES)
-    prior = conn.execute('SELECT sequence,entry_hash FROM audit_entries WHERE tenant_id=? '
-                         'ORDER BY sequence DESC LIMIT 1', (tenant,)).fetchone()
+    payload = canonical_json(
+        {'kind': kind, 'created_at': utc_now(), 'fields': redact(fields)}, MAX_ENTRY_BYTES
+    )
+    prior = conn.execute(
+        'SELECT sequence,entry_hash FROM audit_entries WHERE tenant_id=? '
+        'ORDER BY sequence DESC LIMIT 1',
+        (tenant,),
+    ).fetchone()
     sequence, previous = (prior['sequence'] + 1, prior['entry_hash']) if prior else (1, ZERO)
     digest = entry_hash(tenant, sequence, previous, payload)
-    conn.execute('INSERT INTO audit_entries VALUES (?,?,?,?,?)', (tenant, sequence, previous, digest, payload))
+    conn.execute(
+        'INSERT INTO audit_entries VALUES (?,?,?,?,?)',
+        (tenant, sequence, previous, digest, payload),
+    )
     return digest
 
 
@@ -102,13 +120,22 @@ class AuditLedger:
             raise ValueError('Invalid segment start')
         with self.db.connection() as conn:
             conn.execute('BEGIN')
-            tail = conn.execute('SELECT sequence,entry_hash FROM audit_entries WHERE tenant_id=? '
-                                'ORDER BY sequence DESC LIMIT 1', (tenant,)).fetchone()
+            tail = conn.execute(
+                'SELECT sequence,entry_hash FROM audit_entries WHERE tenant_id=? '
+                'ORDER BY sequence DESC LIMIT 1',
+                (tenant,),
+            ).fetchone()
             end, head = (tail['sequence'], tail['entry_hash']) if tail else (0, ZERO)
             if start > end + 1:
                 raise ValueError('Segment starts beyond the ledger')
-            prior = conn.execute('SELECT entry_hash FROM audit_entries WHERE tenant_id=? AND sequence=?',
-                                 (tenant, start - 1)).fetchone() if start > 1 else None
+            prior = (
+                conn.execute(
+                    'SELECT entry_hash FROM audit_entries WHERE tenant_id=? AND sequence=?',
+                    (tenant, start - 1),
+                ).fetchone()
+                if start > 1
+                else None
+            )
             if start > 1 and prior is None:
                 raise DomainError('corrupt', 'Audit segment boundary is missing')
             return Anchor(tenant, start, end, prior['entry_hash'] if prior else ZERO, head)
@@ -119,8 +146,11 @@ class AuditLedger:
         previous, expected = anchor.previous_hash, anchor.start
         with self.db.connection() as conn:
             conn.execute('BEGIN')
-            rows = conn.execute('SELECT * FROM audit_entries WHERE tenant_id=? AND sequence BETWEEN ? AND ? '
-                                'ORDER BY sequence', (anchor.tenant_id, anchor.start, anchor.end))
+            rows = conn.execute(
+                'SELECT * FROM audit_entries WHERE tenant_id=? AND sequence BETWEEN ? AND ? '
+                'ORDER BY sequence',
+                (anchor.tenant_id, anchor.start, anchor.end),
+            )
             for row in rows:
                 if row['sequence'] != expected or row['previous_hash'] != previous:
                     return False

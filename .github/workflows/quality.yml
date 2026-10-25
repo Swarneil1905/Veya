@@ -42,6 +42,10 @@ jobs:
         run: python scripts/project.py validate
       - name: Verify delivery tracker controls
         run: python -m unittest discover -s tests -v
+      - name: Deterministic fixture contracts
+        run: python -m unittest discover -s packages/fixtures/tests -v
+      - name: Module boundaries
+        run: python scripts/check_boundaries.py
       - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:

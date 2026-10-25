@@ -41,6 +41,8 @@ jobs:
         run: pnpm test:workspace
       - name: Rendered keyboard and accessibility checks
         run: pnpm test:workspace:browser
+      - name: Queue, approval and recovery interface contracts
+        run: pnpm test:batch:browser
       - name: Angular to Go to Python persistence and session contracts
         run: node scripts/test-platform-browser.mjs
       - name: Retain screenshots and diagnostics even on failure

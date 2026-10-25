@@ -4,9 +4,10 @@ Token counts are caller-provided upper bounds. An inference adapter must compute
 the full prompt/tool token budget before dispatch; this module does not tokenize
 or contact providers. Prices are dated metadata, not live quotes or billing.
 """
+
+import hashlib
 from dataclasses import dataclass
 from datetime import date
-import hashlib
 from typing import Literal
 from urllib.parse import urlsplit
 
@@ -17,7 +18,12 @@ from veya.tools.contracts import canonical_json
 
 
 class Contract(BaseModel):
-    model_config = ConfigDict(extra='forbid', strict=True, frozen=True, protected_namespaces=('model_validate', 'model_dump'))
+    model_config = ConfigDict(
+        extra='forbid',
+        strict=True,
+        frozen=True,
+        protected_namespaces=('model_validate', 'model_dump'),
+    )
 
 
 class ModelCapabilities(Contract):
@@ -28,8 +34,11 @@ class ModelCapabilities(Contract):
 
     @model_validator(mode='after')
     def consistent_limits(self):
-        if (self.context_tokens is not None and self.max_output_tokens is not None and
-                self.max_output_tokens > self.context_tokens):
+        if (
+            self.context_tokens is not None
+            and self.max_output_tokens is not None
+            and self.max_output_tokens > self.context_tokens
+        ):
             raise ValueError('Output limit exceeds the context window')
         return self
 
@@ -53,7 +62,9 @@ class ModelConfig(Contract):
     model_name: str = Field(min_length=1, max_length=200, pattern=r'^[a-zA-Z0-9_./:-]+$')
     profile: Literal['local', 'remote']
     endpoint: str = Field(min_length=1, max_length=2048)
-    credential_ref: str | None = Field(default=None, pattern=r'^(env:[A-Z][A-Z0-9_]{0,100}|vault:[a-zA-Z0-9/_-]{1,100})$')
+    credential_ref: str | None = Field(
+        default=None, pattern=r'^(env:[A-Z][A-Z0-9_]{0,100}|vault:[a-zA-Z0-9/_-]{1,100})$'
+    )
     capabilities: ModelCapabilities
     price: PriceMetadata | None = None
 
@@ -75,7 +86,9 @@ class ModelConfig(Contract):
 
     @property
     def fingerprint(self) -> str:
-        return hashlib.sha256(canonical_json(self.model_dump(mode='json'), 16_384).encode()).hexdigest()
+        return hashlib.sha256(
+            canonical_json(self.model_dump(mode='json'), 16_384).encode()
+        ).hexdigest()
 
     def metadata(self) -> dict:
         return self.model_dump(mode='json', exclude={'endpoint', 'credential_ref'})
@@ -102,7 +115,11 @@ class ModelCatalog:
 
     def __post_init__(self):
         identifier(self.tenant_id)
-        if type(self.models) is not tuple or len(self.models) > 512 or any(type(m) is not ModelConfig for m in self.models):
+        if (
+            type(self.models) is not tuple
+            or len(self.models) > 512
+            or any(type(m) is not ModelConfig for m in self.models)
+        ):
             raise ValueError('An immutable catalog of at most 512 models is required')
         if len({m.id for m in self.models}) != len(self.models):
             raise ValueError('Duplicate model configuration')
@@ -132,15 +149,28 @@ class ModelCatalog:
             unknown.append('context_limit_unknown')
         if request.input_tokens is None:
             unknown.append('input_budget_unknown')
-        elif caps.context_tokens is not None and request.input_tokens + request.output_tokens > caps.context_tokens:
+        elif (
+            caps.context_tokens is not None
+            and request.input_tokens + request.output_tokens > caps.context_tokens
+        ):
             unsupported.append('context_limit_exceeded')
-        return Preflight(status='unsupported' if unsupported else 'unknown' if unknown else 'ready',
-                         reasons=tuple(unsupported + unknown), config_hash=model.fingerprint)
+        return Preflight(
+            status='unsupported' if unsupported else 'unknown' if unknown else 'ready',
+            reasons=tuple(unsupported + unknown),
+            config_hash=model.fingerprint,
+        )
 
     def select(self, request: ModelRequest) -> dict:
         result = self.preflight(request)
         if result.status != 'ready':
-            raise DomainError('model_' + result.status, 'Model request is ' + result.status + ': ' + ', '.join(result.reasons))
+            raise DomainError(
+                'model_' + result.status,
+                'Model request is ' + result.status + ': ' + ', '.join(result.reasons),
+            )
         model = self.get(request.config_id)
-        return {'config_id': model.id, 'config_hash': result.config_hash,
-                'model': model.metadata(), 'requirements': request.model_dump(mode='json')}
+        return {
+            'config_id': model.id,
+            'config_hash': result.config_hash,
+            'model': model.metadata(),
+            'requirements': request.model_dump(mode='json'),
+        }

@@ -1,10 +1,11 @@
 """SQLite unit of work. All connections enforce tenant-scoped foreign keys."""
-from contextlib import contextmanager
-from dataclasses import asdict
+
 import hashlib
 import json
-from pathlib import Path
 import sqlite3
+from contextlib import contextmanager
+from dataclasses import asdict
+from pathlib import Path
 from typing import Iterator, TypeVar
 
 from pydantic import TypeAdapter
@@ -56,7 +57,10 @@ class Database:
             connection.execute('BEGIN IMMEDIATE')
             try:
                 if not allow_recovery and self.recovery_status(connection)['required']:
-                    raise DomainError('recovery_required', 'Restored workspace is read-only pending reconciliation')
+                    raise DomainError(
+                        'recovery_required',
+                        'Restored workspace is read-only pending reconciliation',
+                    )
                 yield connection
                 connection.commit()
             except BaseException:
@@ -67,7 +71,9 @@ class Database:
         if connection is None:
             with self.connection() as conn:
                 return self.recovery_status(conn)
-        row = connection.execute('SELECT required,reason FROM workspace_recovery WHERE id=1').fetchone()
+        row = connection.execute(
+            'SELECT required,reason FROM workspace_recovery WHERE id=1'
+        ).fetchone()
         if row is None:
             raise DomainError('corrupt', 'Workspace recovery state is missing')
         return {'required': bool(row['required']), 'reason': row['reason']}
@@ -79,8 +85,10 @@ class Database:
             raise RuntimeError('Runtime migrations are missing')
         # Migration and restore administration are trusted host operations.
         with self.transaction(allow_recovery=True) as connection:
-            connection.execute('CREATE TABLE IF NOT EXISTS schema_migrations '
-                               '(name TEXT PRIMARY KEY, sha256 TEXT NOT NULL)')
+            connection.execute(
+                'CREATE TABLE IF NOT EXISTS schema_migrations '
+                '(name TEXT PRIMARY KEY, sha256 TEXT NOT NULL)'
+            )
             applied = dict(connection.execute('SELECT name,sha256 FROM schema_migrations'))
             if set(applied) - {path.name for path in migrations}:
                 raise RuntimeError('Database requires unsupported migrations')
@@ -99,43 +107,57 @@ class Database:
                         statement = ''
                 if statement.strip():
                     raise RuntimeError('Incomplete SQL migration: ' + path.name)
-                connection.execute('INSERT INTO schema_migrations VALUES (?,?)',
-                                   (path.name, digest))
+                connection.execute(
+                    'INSERT INTO schema_migrations VALUES (?,?)', (path.name, digest)
+                )
 
     @staticmethod
     def insert_task(connection: sqlite3.Connection, task: Task) -> None:
-        connection.execute('INSERT INTO tasks(tenant_id,id,title,state,payload) VALUES (?,?,?,?,?)',
-                           (task.tenant_id, task.id, task.title, task.state, encode(task)))
+        connection.execute(
+            'INSERT INTO tasks(tenant_id,id,title,state,payload) VALUES (?,?,?,?,?)',
+            (task.tenant_id, task.id, task.title, task.state, encode(task)),
+        )
 
     @staticmethod
     def insert_run(connection: sqlite3.Connection, run: Run) -> None:
-        connection.execute('INSERT INTO runs VALUES (?,?,?,?,?,?)',
-                           (run.tenant_id, run.id, run.task.id, run.state, run.revision, encode(run)))
+        connection.execute(
+            'INSERT INTO runs VALUES (?,?,?,?,?,?)',
+            (run.tenant_id, run.id, run.task.id, run.state, run.revision, encode(run)),
+        )
 
     @staticmethod
     def insert_artifact(connection: sqlite3.Connection, artifact: Artifact) -> None:
-        connection.execute('INSERT INTO artifacts VALUES (?,?,?,?,?)',
-                           (artifact.tenant_id, artifact.id, artifact.run.id,
-                            artifact.sha256, encode(artifact)))
+        connection.execute(
+            'INSERT INTO artifacts VALUES (?,?,?,?,?)',
+            (artifact.tenant_id, artifact.id, artifact.run.id, artifact.sha256, encode(artifact)),
+        )
 
-    def save_graph(self, task: Task, run: Run, steps: list[Step] | None = None,
-                   artifacts: list[Artifact] | None = None) -> None:
+    def save_graph(
+        self,
+        task: Task,
+        run: Run,
+        steps: list[Step] | None = None,
+        artifacts: list[Artifact] | None = None,
+    ) -> None:
         if run.task != task.ref:
             raise ValueError('Run does not reference the supplied task')
         with self.transaction() as connection:
             self.insert_task(connection, task)
             self.insert_run(connection, run)
             for step in steps or []:
-                connection.execute('INSERT INTO steps VALUES (?,?,?,?,?)',
-                                   (step.tenant_id, step.id, step.run.id, step.state, encode(step)))
+                connection.execute(
+                    'INSERT INTO steps VALUES (?,?,?,?,?)',
+                    (step.tenant_id, step.id, step.run.id, step.state, encode(step)),
+                )
             for artifact in artifacts or []:
                 self.insert_artifact(connection, artifact)
 
     def _get(self, table: str, model: type[T], tenant: str, record_id: str) -> T:
         # Table identifiers come only from the fixed public methods below.
         with self.connection() as connection:
-            row = connection.execute(f'SELECT payload FROM {table} WHERE tenant_id=? AND id=?',
-                                     (tenant, record_id)).fetchone()
+            row = connection.execute(
+                f'SELECT payload FROM {table} WHERE tenant_id=? AND id=?', (tenant, record_id)
+            ).fetchone()
         if row is None:
             raise DomainError('not_found', 'Record not found')
         return decode(model, row['payload'])
@@ -154,6 +176,8 @@ class Database:
 
     def list_steps(self, tenant: str, run_id: str) -> list[Step]:
         with self.connection() as connection:
-            rows = connection.execute('SELECT payload FROM steps WHERE tenant_id=? AND run_id=? '
-                                      'ORDER BY id', (tenant, run_id)).fetchall()
+            rows = connection.execute(
+                'SELECT payload FROM steps WHERE tenant_id=? AND run_id=? ORDER BY id',
+                (tenant, run_id),
+            ).fetchall()
         return [decode(Step, row['payload']) for row in rows]
