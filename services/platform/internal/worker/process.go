@@ -15,29 +15,31 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 )
 
 type Process struct {
-	cmd    *exec.Cmd
-	input  io.WriteCloser
-	done   chan struct{}
-	once   sync.Once
-	port   int
-	token  string
-	client *http.Client
+	cmd           *exec.Cmd
+	input         io.WriteCloser
+	done          chan struct{}
+	once          sync.Once
+	port          int
+	token         string
+	reviewerToken string
+	client        *http.Client
 }
 
 func Start(ctx context.Context, python, source, storage string) (*Process, error) {
 	if !filepath.IsAbs(storage) {
 		return nil, errors.New("storage must be absolute")
 	}
-	secret := make([]byte, 32)
+	secret := make([]byte, 64)
 	if _, err := rand.Read(secret); err != nil {
 		return nil, err
 	}
-	p := &Process{token: hex.EncodeToString(secret), done: make(chan struct{}), client: &http.Client{Timeout: 10 * time.Second, Transport: &http.Transport{Proxy: nil}, CheckRedirect: func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }}}
+	p := &Process{token: hex.EncodeToString(secret[:32]), reviewerToken: hex.EncodeToString(secret[32:]), done: make(chan struct{}), client: &http.Client{Timeout: 10 * time.Second, Transport: &http.Transport{Proxy: nil}, CheckRedirect: func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }}}
 	p.cmd = exec.Command(python, "-u", "-m", "veya.desktop")
 	hideWindow(p.cmd)
 	p.cmd.Dir = source
@@ -64,7 +66,7 @@ func Start(ctx context.Context, python, source, storage string) (*Process, error
 			p.Close()
 		}
 	}()
-	err = json.NewEncoder(p.input).Encode(map[string]any{"protocol": 1, "storage_root": storage, "session_token": p.token})
+	err = json.NewEncoder(p.input).Encode(map[string]any{"protocol": 1, "storage_root": storage, "session_token": p.token, "reviewer_token": p.reviewerToken})
 	if err != nil {
 		return nil, err
 	}
@@ -115,6 +117,9 @@ func (p *Process) Request(ctx context.Context, method, path string, body []byte)
 		return 0, nil, err
 	}
 	req.Header.Set("Authorization", "Bearer "+p.token)
+	if path == "/v1/approvals" || strings.HasPrefix(path, "/v1/approvals/") || strings.HasPrefix(path, "/v1/approvals?") {
+		req.Header.Set("X-Veya-Reviewer-Token", p.reviewerToken)
+	}
 	if body != nil {
 		req.Header.Set("Content-Type", "application/json")
 	}

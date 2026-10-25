@@ -52,6 +52,21 @@ func TestPrivateWorkerDurabilityAndIsolation(t *testing.T) {
 	if resp.StatusCode != 401 {
 		t.Fatal("worker accepted public credential")
 	}
+	// Review credentials are injected only by the private Go worker boundary.
+	status, _, err = p.Request(ctx, "GET", "/v1/approvals?limit=25", nil)
+	if err != nil || status != 200 {
+		t.Fatalf("review inbox %d %v", status, err)
+	}
+	req, _ = http.NewRequestWithContext(ctx, "GET", "http://127.0.0.1:"+strconv.Itoa(p.port)+"/v1/approvals", nil)
+	req.Header.Set("Authorization", "Bearer "+p.token)
+	resp, err = http.DefaultClient.Do(req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	resp.Body.Close()
+	if resp.StatusCode != 403 {
+		t.Fatal("ordinary worker credential authorized review")
+	}
 	oldToken := p.token
 	p.Close()
 	select {
