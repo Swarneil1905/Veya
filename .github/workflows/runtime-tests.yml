@@ -1,0 +1,42 @@
+name: Runtime contracts
+on:
+  workflow_call:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  runtime:
+    name: Runtime (${{ matrix.os }}, Python ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, windows-latest]
+        python: ['3.10.11', '3.13.14']
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version-file: .node-version
+      - name: Reject unsupported tools before dependency installation
+        run: python scripts/check_toolchains.py --bootstrap
+      - name: Install pinned dependency manager
+        run: python -m pip install uv==0.11.23
+      - name: Resolve only the reviewed lockfile
+        run: uv sync --project services/runtime --locked --python ${{ matrix.python }}
+      - name: API, policy, migration, restart and fault contracts
+        run: uv run --project services/runtime --locked --python ${{ matrix.python }} python scripts/test_runtime.py services/runtime/tests -q --junitxml=artifacts/runtime-results.xml
+      - name: Retain test results
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: runtime-${{ matrix.os }}-${{ matrix.python }}
+          path: artifacts/runtime-results.xml
+          if-no-files-found: warn
+          retention-days: 14

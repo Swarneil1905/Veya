@@ -5,12 +5,20 @@ on:
   pull_request:
   workflow_call:
   workflow_dispatch:
+  schedule:
+    - cron: '31 7 * * 1'
 permissions:
   contents: read
 concurrency:
   group: quality-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
+  runtime:
+    uses: ./.github/workflows/runtime-tests.yml
+  browser:
+    uses: ./.github/workflows/workspace-browser.yml
+  workflows:
+    uses: ./.github/workflows/workflow-checks.yml
   frontend:
     name: Frontend and fixture contracts (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
@@ -25,18 +33,19 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
-          python-version: '3.12'
+          python-version-file: .python-version
       - name: Verify pinned engineering skills
         run: python scripts/verify-skills.py
       - name: Validate delivery ledger
         run: python scripts/project.py validate
       - name: Verify delivery tracker controls
-        run: python -m unittest discover -s tests -p test_project_tracker.py -v
+        run: python -m unittest discover -s tests -v
       - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: '22'
+          node-version-file: .node-version
           cache: pnpm
+      - run: python scripts/check_toolchains.py --bootstrap
       - run: pnpm install --frozen-lockfile
       - run: pnpm test
       - run: pnpm check
@@ -64,10 +73,11 @@ jobs:
       - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: '22'
+          node-version-file: .node-version
           cache: pnpm
       - uses: dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec
         with:
+          toolchain: 1.96.0
           components: rustfmt, clippy
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
@@ -76,12 +86,19 @@ jobs:
       - run: cargo test --manifest-path apps/desktop/src-tauri/Cargo.toml --locked
   required:
     name: Required quality gate
+    timeout-minutes: 5
     if: always()
-    needs: [frontend, native-check]
+    needs: [frontend, native-check, runtime, browser, workflows]
     runs-on: ubuntu-latest
     steps:
       - name: Reject any unsuccessful prerequisite
         env:
           FRONTEND_RESULT: ${{ needs.frontend.result }}
           NATIVE_RESULT: ${{ needs.native-check.result }}
-        run: test "$FRONTEND_RESULT" = success && test "$NATIVE_RESULT" = success
+          RUNTIME_RESULT: ${{ needs.runtime.result }}
+          BROWSER_RESULT: ${{ needs.browser.result }}
+          WORKFLOWS_RESULT: ${{ needs.workflows.result }}
+        run: |
+          for result in "$FRONTEND_RESULT" "$NATIVE_RESULT" "$RUNTIME_RESULT" "$BROWSER_RESULT" "$WORKFLOWS_RESULT"; do
+            test "$result" = success || exit 1
+          done
