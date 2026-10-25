@@ -45,6 +45,8 @@ jobs:
         run: pnpm test:batch:browser
       - name: Angular to Go to Python persistence and session contracts
         run: node scripts/test-platform-browser.mjs
+      - name: Document intake, evidence and keyboard regressions
+        run: pnpm test:documents:browser
       - name: Retain screenshots and diagnostics even on failure
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -54,5 +56,7 @@ jobs:
             artifacts/workspace-design/
             artifacts/stack-migration/*.png
             artifacts/stack-migration/web-checks.txt
+            artifacts/document-batch/*.png
+            artifacts/document-batch/browser-checks.txt
           if-no-files-found: warn
           retention-days: 14
