@@ -14,7 +14,8 @@
     "isolatedModules": true,
     "useDefineForClassFields": false,
     "outDir": "./out-tsc",
-    "types": []
+    "types": [],
+    "rootDir": "../.."
   },
   "angularCompilerOptions": {
     "strictTemplates": true,
