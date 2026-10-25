@@ -2,9 +2,9 @@
 from fastapi import APIRouter, Response
 from pydantic import BaseModel, ConfigDict, Field
 
-from veya.domain.models import Run, Task
+from veya.domain.models import DomainError, Run, Task
 from veya.providers.models import ModelCatalog, ModelRequest
-from veya.storage.sqlite import Database
+from veya.storage.sqlite import Database, decode
 from veya.storage.submission import submit
 
 
@@ -40,5 +40,15 @@ def router(db: Database, tenant: str, catalog: ModelCatalog) -> APIRouter:
     @routes.get('/runs/{run_id}', response_model=Run)
     def get_run(run_id: str) -> Run:
         return db.get_run(tenant, run_id)
+
+    @routes.get('/tasks/{task_id}/latest-run', response_model=Run)
+    def latest_run(task_id: str) -> Run:
+        db.get_task(tenant, task_id)
+        with db.connection() as connection:
+            row = connection.execute('SELECT payload FROM runs WHERE tenant_id=? AND task_id=? '
+                                     'ORDER BY rowid DESC LIMIT 1', (tenant, task_id)).fetchone()
+        if row is None:
+            raise DomainError('not_found', 'Task has no run')
+        return decode(Run, row['payload'])
 
     return routes

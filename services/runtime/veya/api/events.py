@@ -17,6 +17,15 @@ def router(db: Database, tenant: str) -> APIRouter:
     routes = APIRouter(prefix='/v1')
     store = EventStore(db)
 
+    @routes.get('/runs/{run_id}/event-page')
+    def event_page(run_id: str, after: str | None = Query(None, max_length=100)) -> dict:
+        position = store.position(tenant, run_id, after)
+        # One bounded JSON page works over native IPC without an open browser socket.
+        batch = store.read(tenant, run_id, position, limit=25)
+        return {'items': [asdict(event) for event in batch],
+                'next_cursor': batch[-1].cursor if batch else after,
+                'has_more': len(batch) == 25}
+
     @routes.get('/runs/{run_id}/events')
     def events(request: Request, run_id: str, after: str | None = Query(None, max_length=100),
                last_event_id: str | None = Header(None, max_length=100),
