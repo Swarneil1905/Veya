@@ -22,6 +22,14 @@ def decode(model: type[T], payload: str) -> T:
     return TypeAdapter(model).validate_json(payload)
 
 
+def migration_directory() -> Path:
+    """Share migration discovery between source checkouts and installed wheels."""
+    directory = Path(__file__).resolve().parents[1] / 'migrations'
+    if not directory.exists():
+        directory = Path(__file__).resolve().parents[2] / 'migrations'
+    return directory
+
+
 class Database:
     def __init__(self, root: Path):
         self.root = root.resolve()
@@ -43,24 +51,34 @@ class Database:
             connection.close()
 
     @contextmanager
-    def transaction(self) -> Iterator[sqlite3.Connection]:
+    def transaction(self, *, allow_recovery: bool = False) -> Iterator[sqlite3.Connection]:
         with self.connection() as connection:
             connection.execute('BEGIN IMMEDIATE')
             try:
+                if not allow_recovery and self.recovery_status(connection)['required']:
+                    raise DomainError('recovery_required', 'Restored workspace is read-only pending reconciliation')
                 yield connection
                 connection.commit()
             except BaseException:
                 connection.rollback()
                 raise
 
+    def recovery_status(self, connection=None) -> dict:
+        if connection is None:
+            with self.connection() as conn:
+                return self.recovery_status(conn)
+        row = connection.execute('SELECT required,reason FROM workspace_recovery WHERE id=1').fetchone()
+        if row is None:
+            raise DomainError('corrupt', 'Workspace recovery state is missing')
+        return {'required': bool(row['required']), 'reason': row['reason']}
+
     def _migrate(self) -> None:
-        directory = Path(__file__).resolve().parents[1] / 'migrations'
-        if not directory.exists():
-            directory = Path(__file__).resolve().parents[2] / 'migrations'
+        directory = migration_directory()
         migrations = sorted(directory.glob('*.sql'))
         if not migrations:
             raise RuntimeError('Runtime migrations are missing')
-        with self.transaction() as connection:
+        # Migration and restore administration are trusted host operations.
+        with self.transaction(allow_recovery=True) as connection:
             connection.execute('CREATE TABLE IF NOT EXISTS schema_migrations '
                                '(name TEXT PRIMARY KEY, sha256 TEXT NOT NULL)')
             applied = dict(connection.execute('SELECT name,sha256 FROM schema_migrations'))
