@@ -1,0 +1,29 @@
+Date: 2026-10-24. Local implementation only; no stage, commit, push or upload.
+Baseline user HEAD: c6fb10e420df6ca3ac020a7da8d3375b7be7fb3c
+Clean source export includes tracked and nonignored new files.
+Command: python scripts/test_runtime.py services/runtime/tests -q
+........................................................................ [ 19%]
+........................................................................ [ 39%]
+........................................................................ [ 59%]
+........................................................................ [ 78%]
+........................................................................ [ 98%]
+......                                                                   [100%]
+366 passed in 24.03s
+
+Command: python scripts/test_runtime.py tests -q
+..................                                                       [100%]
+18 passed in 0.90s
+
+Command: python scripts/verify-skills.py
+PASS: 39 skill entry points; 373 files match pinned upstream bytes.
+
+Tracker validation, diff whitespace check, unchanged HEAD/empty index and ignored internal Markdown checks passed.
+Migrations001-011 unchanged; forward migrations012-014 and upgrade/recovery tested.
+Independent read-only review found no remaining important defects after regression-tested fixes for scheduling authority checks, unknown tool pricing, raw connector failure classification, installed migration layout, backup schema integrity and restored authority quarantine.
+Mutation check: disabling the restricted-data remote-egress guard failed the targeted fallback regression; exact original source restored before this export.
+Skills applied: domain-modeling, codebase-design, api-and-interface-design, database-migrations, fastapi-patterns, agent-security-hardening, security-and-hardening, tdd, code-review-and-quality.
+Scope: six stories, 36 estimated base hours (roughly five planned workdays), not measured elapsed work.
+Limits: local fixture transports; no live model/native UI/external connector integration claimed. Budgets require enforcing adapters; egress transport security remains adapter responsibility. Restored workspaces remain read-only until future reviewed reconciliation/reactivation. Snapshot integrity is not producer authentication.
+Tracker: 19 prior accepted; six new stories in_review pending user implementation commits.
+
+Acceptance assessment: Reusable adapter conformance validates success schema/limits, raw error classifications, retry semantics, denied access and invalid-input no-dispatch.

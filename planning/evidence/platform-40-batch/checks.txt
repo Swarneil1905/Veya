@@ -1,0 +1,43 @@
+Veya platform batch: VEY-003, VEY-048, VEY-060, VEY-063, VEY-065
+24 October 2026. Local implementation; user owns commits and publication.
+Baseline HEAD: c6fb10e420df6ca3ac020a7da8d3375b7be7fb3c.
+
+Acceptance evidence
+VEY-003: Node 22.23.2, pnpm 11.0.9, Python 3.13.14, Rust 1.96.0 and uv 0.11.23 pinned. check_toolchains.py --exact passed all five tools; bootstrap validation rejects unsupported Node/Python before dependency installation. Generated uv.lock resolves freshly with both Python 3.10.11 and 3.13.14. Existing pnpm and Cargo locks retained.
+VEY-048: UsageStore captures immutable pre-dispatch model/config/pricing snapshots, separates estimated and provider-reported counts, uses exact fixed-point arithmetic, and exposes tenant-scoped typed summary/evidence endpoints. Missing usage/pricing remains unknown. Tests cover reconciliation, replay without double counting, conflicting final reports, bounds and tenant isolation. No inference adapter is connected yet; these records are captured through the trusted host API, not inferred from fake runs.
+VEY-060: Existing durable events now correlate proposal, approval, admitted attempt, result, retry and unknown outcome. Tracing redacts classified fields before persistence, excludes arguments/output/exception text, and does not create duplicate success on cached replay. Invalid result after a handler effect records unknown and does not redispatch. Cancellation during result persistence does not falsely record unknown while a completion thread can still commit success.
+VEY-063: Authenticated approval list/detail/decision endpoints require a distinct reviewer credential as well as the runtime bearer. Pending review binds exact proposal/context. Optimistic revision and transaction boundaries permit one decision; signed receipt and review update commit together. Expired/context-changed reviews can be superseded without changing the operation key/proposal or deleting history; rejected and still-valid approved decisions cannot be silently replaced. Decision itself never executes the action.
+VEY-065: Durable approval revocation is rechecked at execution and before cached-result disclosure. Tests cover revocation before dispatch, after admission, after restart, idempotent revocation and approved execution exactly once through the real fixture gateway. Earlier policy-change boundary tests remain passing.
+
+Executed checks
+services/runtime/.venv/Scripts/python.exe scripts/test_runtime.py services/runtime/tests --junitxml=artifacts/batch-40-runtime.xml -q: 389 passed on Python 3.13.14 with locked dependencies.
+artifacts/batch-40-py310/Scripts/python.exe scripts/test_runtime.py services/runtime/tests --junitxml=artifacts/batch-40-runtime-py310-locked.xml -q: 389 passed on Python 3.10.11 with freshly locked dependencies.
+python scripts/test_runtime.py services/runtime/tests --junitxml=artifacts/batch-40-runtime-py310.xml -q: 389 passed with the existing Python 3.10 environment.
+After the UsageCall Pydantic namespace compatibility cleanup, its seven tests passed in both the pinned and existing Python environments; the complete locked Python 3.10 run also includes that cleanup.
+Locked dependencies emit a Starlette/httpx TestClient deprecation warning. It does not affect the test result; no global Python packages were changed.
+python -m unittest discover -s tests -v: 21 passed, including toolchain compatibility and package manifest integrity failures.
+pnpm build: TypeScript and production Vite build passed; existing legacy lucide use-client warnings only.
+pnpm test: 9 passed.
+node scripts/test-ui.mjs: passed labelled synthetic-demo integration.
+node scripts/test-workspace-ui.mjs: passed workspace IPC/draft/retry/escaping/recovery/navigation integration.
+node scripts/test-workspace-browser.mjs: passed keyboard navigation, tab semantics, modal focus containment/restoration, draft reopen, save/activity, narrow/minimum windows, long titles and disconnected submission checks; no page errors. Automated axe WCAG A/AA checks passed for work list, overview, activity, editor and disconnected empty views. This is browser-fixture verification, not a new native visual or screen-reader assessment.
+node scripts/check-project.mjs: passed.
+node scripts/release-manifest.mjs and python scripts/verify_manifest.py --commit local-uncommitted: all six built frontend payload checksums and source identity verified.
+cargo fmt --manifest-path apps/desktop/src-tauri/Cargo.toml --check: passed.
+cargo clippy --manifest-path apps/desktop/src-tauri/Cargo.toml --offline --locked -- -D warnings: passed with pinned Rust 1.96.0.
+cargo test --manifest-path apps/desktop/src-tauri/Cargo.toml --offline --locked: 5 passed.
+actionlint v1.7.7: all six workflow files passed local validation. The downloaded official executable checksum was verified before execution.
+
+Review and regression quality
+Independent read-only runtime review found two issues: expired approval renewal and missing unknown-outcome tracing after result validation failure. Both were reproduced with failing tests, fixed, and independently reviewed again. The reviewer reported no remaining high-confidence correctness/security finding and 39 focused tests passing.
+Mutation experiment inverted revocation enforcement in a disposable package copy. Two targeted authorization tests failed as expected; production source was never mutated. Raw local diagnostic output: artifacts/batch-40/mutation.txt.
+A fresh dependency lock exposed an existing connector manifest bool-to-Literal coercion defect. The protocol validator now runs before coercion; its existing regression passes with the new lock.
+
+Architecture and delivery choices
+Reuse existing SQLite transactions, durable event stream, executor claims and policy boundary instead of adding a separate trace database or alternate executor. Usage capture is a trusted-host integration point until a real provider adapter is implemented. Reviewer credentials are separate from ordinary model/runtime credentials. Approval UI integration remains a later frontend story.
+Only new migrations 015-017 were added; migrations 001-014 were preserved. Tests use disposable databases, not the user's runtime database.
+CI now has runtime OS/Python matrices, reusable browser checks, actionlint, a required aggregate gate, weekly validation, and downloaded native artifact checksum/provenance verification. No GitHub workflow was triggered or claimed passing. Packaging remains manual and unsigned, with no release publication.
+22 UI stories now carry Ramp-led design acceptance criteria; supporting requirements use Superhuman typography/icons/keyboard commands, Basecamp work context/navigation, and Linear compact rows/status/interaction polish. The existing Public Sans/Phosphor Veya system stays coherent. These are per-feature requirements, not an extra completed redesign story.
+Applied skill guidance: TDD, code-review-and-quality, deployment-pipeline-design, github-actions-templates, fastapi-patterns, database-migrations, agent-security-hardening, domain-modeling, codebase-design, api-and-interface-design and python-observability.
+Stories remain in_review with evidence and no invented commit or hours. Internal Markdown stays ignored. No staging, commit, push, release, or upload was performed.
+Final checks: tracker validation and all 21 tracker/tooling tests passed after transitions; all 373 pinned skill files match. Git diff whitespace check passed, HEAD remains the baseline above, and the index is empty. Final ledger: 19 done, 21 in_review, 200 backlog, zero in_progress or blocked.

@@ -1,0 +1,59 @@
+Window: "Veya", App: veya-desktop.exe.
+	0 window Veya Secondary Actions: Raise
+		54 pane
+			55 pane (disabled)
+			56 region
+				57 tool tip Please fill out this field.
+		1 pane
+			8 pane Veya — Agent operations
+				9 pane (disabled)
+				10 region Veya — Agent operations - Web content
+					11 region
+						12 region
+						13 region
+							14 region
+								16 document Veya — Agent operations Value: http://tauri.localhost/ ID: RootWebArea
+									17 group ID: root
+										18 link Skip to workspace Value: http://tauri.localhost/#work-main
+										19 complementary
+											20 text Veya
+											21 button ＋ New task
+											22 heading Recent work
+											23 button Refresh
+											26 navigation Recent tasks
+												27 list
+													52 list item Desktop verification taskQueued
+														53 button Desktop verification task Queued
+											28 text Private workspace
+											29 text 
+											30 text Saved on this device
+											31 link Explore the labelled demo Value: http://tauri.localhost/?demo
+										32 main ID: work-main
+											33 section header
+												34 text Work
+												35 text Connected
+											36 status
+												37 text Connected to your local workspace.
+												38 button Restart runtime
+											39 heading What would you like to get done?
+											40 text Give your work a clear starting point. Your instructions and activity stay together.
+											41 form
+												42 text Name this task
+												43 edit (settable, string) Name this task Description: For example, review the supplier order ID: task-title
+												44 text What would you like done?
+												45 edit (settable, string) What would you like done? Description: Describe the task and what a useful result should include. ID: task-instruction
+												46 text Tasks are saved locally. AI execution and attachments are coming next.
+												47 button (disabled) Save task
+											48 heading A workspace taking shape
+											49 text You can save tasks and inspect their real activity. Document attachments and AI execution are the next connection.
+								15 region
+		2 title bar (settable, string) Value: Veya
+			3 menu bar System ID: MenuBar
+				4 menu item System
+			5 button Minimize
+			6 button Maximize
+			7 button Close
+
+Document text: ```
+￼
+```

@@ -1,0 +1,36 @@
+Clean source export, 24 October 2026.
+Runtime:
+........................................................................ [ 19%]
+........................................................................ [ 38%]
+........................................................................ [ 58%]
+........................................................................ [ 77%]
+........................................................................ [ 97%]
+...........                                                              [100%]
+371 passed in 30.30s
+
+Tracker:
+..................                                                       [100%]
+18 passed in 0.94s
+
+Pinned skills:
+PASS: 39 skill entry points; 373 files match pinned upstream bytes.
+
+HEAD unchanged, index empty, internal Markdown ignored, diff check passed.
+
+Additional final checks:
+cargo test --offline --manifest-path apps/desktop/src-tauri/Cargo.toml: 5 passed.
+cargo fmt --manifest-path apps/desktop/src-tauri/Cargo.toml --check: passed.
+cargo clippy --offline --manifest-path apps/desktop/src-tauri/Cargo.toml -- -D warnings: passed.
+pnpm build: TypeScript and production Vite build passed (existing lucide use-client directive warnings only).
+node scripts/test-workspace-ui.mjs: passed duplicate-click, lost-response retry identity, persisted draft, validation correction, escaped text, focus, cursor resume, no false completion and disconnected-browser cases.
+node scripts/test-ui.mjs: prior labelled-demo integration passed.
+pnpm test: 9 fixture tests passed. node scripts/check-project.mjs: passed.
+pnpm --dir apps/desktop tauri build --debug --no-bundle: standalone local debug build.
+Native Windows QA: connected startup, real test task save, queued activity, explicit restart/reconnect, close/reopen persistence, compact and wide layout, title-to-instruction keyboard focus. Closed window left no Python sidecar. Screenshots retained in this batch evidence directory. Only the current device/display scale was tested.
+Independent read-only review: fixed rejected-input draft lock and worst-case escaped task-page response overflow, with regressions; no remaining important findings reported. Narrow Windows backup publication retry reviewed and tested without overwriting competing destinations.
+Mutation check: disabling HTTP Content-Length validation failed its targeted regression; exact source restored, then all Rust tests rerun successfully.
+No staging, commit, push or upload. Baseline user HEAD c6fb10e420df6ca3ac020a7da8d3375b7be7fb3c; index empty. Existing six-story local batch preserved. Migrations001-011 unchanged; earlier batch012-014 preserved.
+Limits: no live inference, external connectors/effects, attachment ingestion, signed installer or clean-machine/WebView2-removal test. Python runtime dependencies must be installed. Real tasks remain queued until execution is connected; demo remains explicitly synthetic. In_review records implementation acceptance checks and open limits; user commits are required for done.
+Skills/checklists: Rust patterns/testing, frontend design/engineering, React best practices/composition, codebase design, TDD, code review, Computer Use native verification.
+
+Story assessment: One child per desktop instance, versioned authenticated readiness and bounded startup. Real-process tests cover reuse, protocol mismatch, hung-child cleanup and missing Python recovery. Runtime Python dependencies remain a prerequisite.

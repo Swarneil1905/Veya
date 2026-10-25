@@ -1,0 +1,22 @@
+Veya Ramp-informed workspace refresh — 24 October 2026
+
+Scope: local UI changes to existing Windows-first workspace. Existing uncommitted backend/native work preserved. No staging, commits, pushes or uploads. Baseline HEAD c6fb10e420df6ca3ac020a7da8d3375b7be7fb3c.
+
+pnpm build: TypeScript + Vite passed. Existing legacy lucide use-client warnings only.
+node scripts/test-workspace-ui.mjs: passed native-IPC seam integration, duplicate submission protection, uncertain-response retry identity, retained drafts, validation correction, escaped content, cursor resumption, live list status updates, search/filters, keyboard tabs, navigation persistence, read-only and browser states.
+Reconnect regression: writable -> disconnect -> ready with recovery unresolved kept Save disabled, prevented a direct form submission, retained the draft, and remained disabled when recovery returned required=true. This regression failed against the pre-fix bundle, then passed after the fix.
+node scripts/test-workspace-browser.mjs: owned Chrome + loopback fixture checks passed; search, filters, list/detail continuity, Overview/Activity keyboard tabs, modal focus containment, Escape/focus restoration, retained draft, save opens Activity, 800px/375px widths, 800x640 minimum editor reachability, long text, disabled browser submission, no page errors.
+axe checks: zero reported WCAG A/AA violations in Work, Overview, Activity, task editor and disconnected empty views. Automated checks are not full accessibility certification. No screen reader assessment this pass.
+Visual review: screenshots inspected for wide list, detail drawer, 375px layout and 800x640 editor. Legacy global table styles caused small low-contrast text; scoped typography/colour fixed and browser checks rerun. Native dialog allowed focus beyond the desired cycle; explicit Tab wrapping added and rendered regression passed.
+Mutation experiment: changed TaskList status/search conjunction from && to ||; work-list regression failed as expected. Source restored byte-for-byte and bundle rebuilt. Output at artifacts/workspace-design/mutation-check.txt.
+node scripts/test-ui.mjs: existing labelled-demo integration passed.
+pnpm test: all 9 existing fixture tests passed.
+node scripts/check-project.mjs: project contracts and demo labelling passed.
+
+Screenshots and rendered checks: artifacts/workspace-design/. Sample tasks/events are explicitly labelled test fixtures; they are not real execution evidence and never enter the app bundle. Loopback sample preview supports review of the actual components; desktop connection/persistence is through the unchanged IPC client.
+
+Independent review: reconnect write-permission race fixed with a failing-then-passing regression. No additional important findings reported in the reviewed components. Skills, visual contract, research links and deferred work are recorded in ignored docs/RAMP_WORKSPACE_DESIGN.md. REA research retained separately under the chat work/rea-research folder.
+
+Limits: no new live inference, document attachments, external connectors, SaaS authentication/tenancy, signed installer or clean-machine certification. This visual refresh has browser interaction verification; prior native interaction QA is not reused to claim the changed layout is native-verified. Stories remain in_review pending user commit and remaining acceptance review. Counts remain 19 done, 16 in_review, 205 backlog.
+
+Native compile: pnpm --dir apps/desktop tauri build --debug --no-bundle passed. Updated apps/desktop/src-tauri/target/debug/veya-desktop.exe. Incremental cache hard-link warning fell back to copying. Compilation is not native launch/interaction verification.
