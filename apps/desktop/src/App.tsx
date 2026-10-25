@@ -88,7 +88,7 @@ export default function App() {
     } }
     function newRun() { const agent = agents[agentIndex]; const next = 1049 + runs.filter(r => Number(r.id.slice(4)) >= 1049).length; const run: Run = { id: `RUN-${next}`, title: agentIndex === 0 ? 'Review invoice exception' : agentIndex === 1 ? 'Prepare onboarding checklist' : 'Review workspace access', subject: agentIndex === 0 ? 'Harbor Supplies · INV-DEMO-021' : agentIndex === 1 ? 'Jamie Chen · Operations associate' : 'Riley Park · Read-only analytics', team: agentIndex === 0 ? 'Finance' : agentIndex === 1 ? 'People' : 'IT', agent: agent.name, status: 'Review', time: 'Just now', cost: 'Demo', initials: agentIndex === 0 ? 'HS' : agentIndex === 1 ? 'JC' : 'RP', version: 1 }; setRuns(old => [run, ...old]); setSelected(run.id); setModal(null); navigate('Run history'); inform('Demo workflow created. No external systems were contacted.'); }
     return <div className="desktop-shell">
-  <header className="titlebar"><div className="title-brand"><span className="brand-glyph"><i /><i /><i /></span><strong>Relay</strong><span>Studio</span></div><span className="window-name">Northstar Operations</span><span className="title-mode"><Monitor size={13}/> Desktop preview</span></header>
+  <header className="titlebar"><div className="title-brand"><span className="brand-glyph"><i /><i /><i /></span><strong>Veya</strong><span>Demo</span></div><span className="window-name">Northstar Operations</span><span className="title-mode"><Monitor size={13}/> Desktop preview</span></header>
   <div className="app-layout">
    <aside className={`sidebar ${navOpen ? 'mobile-open' : ''}`}>
     <div className="workspace"><div className="workspace-avatar">N</div><div><strong>Northstar</strong><span>Demo workspace</span></div><span className="workspace-lock"><LockKeyhole size={14}/></span></div>
@@ -124,7 +124,7 @@ export default function App() {
        </section>
       </div>
      </> : page === 'AI employees' ? <Employees selected={agentIndex} select={setAgentIndex} start={() => setModal('new')}/> : page === 'Replay lab' ? <ReplayLab inform={inform}/> : page === 'Evaluations' ? <Evaluations onRelease={() => navigate('Releases')}/> : page === 'Data studio' ? <DataStudio inform={inform}/> : page === 'Knowledge' ? <Knowledge /> : page === 'Releases' ? <Releases inform={inform}/> : <Connections />}
-     <footer className="page-footer"><span><LockKeyhole size={12}/>Local interactions only</span><span>Relay Studio · Product concept</span></footer>
+     <footer className="page-footer"><span><LockKeyhole size={12}/>Local interactions only</span><span>Veya · Product concept</span></footer>
     </main>
    </div>
   </div>
