@@ -7,7 +7,7 @@ const {JSDOM}=require('jsdom');
 const html=readFileSync('apps/desktop/dist/index.html','utf8');
 const script=html.match(/<script[^>]+src="([^"]+)"[^>]*><\/script>/);
 assert.ok(script,'Build the frontend before running UI tests.');
-const dom=new JSDOM(html.replace(script[0],''),{url:'https://relay-demo.invalid',runScripts:'outside-only',pretendToBeVisual:true});
+const dom=new JSDOM(html.replace(script[0],''),{url:'https://relay-demo.invalid/?demo',runScripts:'outside-only',pretendToBeVisual:true});
 const {window}=dom;
 // jsdom does not implement native dialog modal behavior. Stub only this platform seam.
 window.HTMLDialogElement.prototype.showModal=function(){this.setAttribute('open','');};

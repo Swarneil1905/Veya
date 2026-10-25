@@ -8,5 +8,5 @@ if(process.argv.includes('--native'))walk('apps/desktop/src-tauri/target/release
 mkdirSync('artifacts',{recursive:true});
 const hashes=files.sort().map(file=>`${createHash('sha256').update(readFileSync(file)).digest('hex')}  ${file.replaceAll('\\','/')}`);
 writeFileSync('artifacts/SHA256SUMS.txt',hashes.join('\n')+'\n');
-writeFileSync('artifacts/build-manifest.json',JSON.stringify({project:'relay-studio',version:'0.1.0',kind:'design-prototype',commit:process.env.GITHUB_SHA||'local-uncommitted',native:process.argv.includes('--native'),signed:false,modelInference:false,createdAt:new Date().toISOString(),files:hashes.length},null,2));
+writeFileSync('artifacts/build-manifest.json',JSON.stringify({project:'veya-desktop',version:'0.1.0',kind:'design-prototype',commit:process.env.GITHUB_SHA||'local-uncommitted',native:process.argv.includes('--native'),signed:false,modelInference:false,createdAt:new Date().toISOString(),files:hashes.length},null,2));
 console.log(`Manifest created for ${files.length} files. This is not a signing attestation.`);

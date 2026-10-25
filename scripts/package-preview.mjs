@@ -7,5 +7,5 @@ const js=readFileSync(`apps/desktop/dist${script[1]}`,'utf8').replaceAll('</scri
 const css=readFileSync(`apps/desktop/dist${style[1]}`,'utf8');
 const bundled=html.replace(script[0],()=>`<script type="module">${js}</script>`).replace(style[0],()=>`<style>${css}</style>`);
 mkdirSync('preview',{recursive:true});
-writeFileSync('preview/Relay-Studio-Preview.html',bundled);
+writeFileSync('preview/Veya-Preview.html',bundled);
 console.log('Created self-contained desktop UI preview.');
