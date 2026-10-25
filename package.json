@@ -12,12 +12,17 @@
     "test": "pnpm --dir apps/desktop test",
     "check": "node scripts/check-project.mjs",
     "test:ui": "node scripts/test-ui.mjs",
+    "test:workspace": "node scripts/test-workspace-ui.mjs",
+    "test:workspace:browser": "node scripts/test-workspace-browser.mjs",
+    "preview:workspace": "node scripts/test-workspace-browser.mjs --serve",
     "test:runtime": "python scripts/test_runtime.py",
     "bootstrap:check": "python scripts/check_workspace.py",
     "desktop:dev": "pnpm --dir apps/desktop desktop:dev",
     "desktop:build": "pnpm --dir apps/desktop desktop:build"
   },
   "dependencies": {
+    "@fontsource-variable/public-sans": "5.3.0",
+    "@phosphor-icons/react": "2.1.10",
     "lucide-react": "1.18.0",
     "react": "19.2.7",
     "react-dom": "19.2.7"
@@ -26,8 +31,10 @@
     "@tauri-apps/cli": "2.11.2",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
+    "axe-core": "4.14.0",
+    "jsdom": "^29.1.1",
+    "playwright-core": "1.64.1",
     "typescript": "5.8.3",
-    "vite": "7.3.5",
-    "jsdom": "^29.1.1"
+    "vite": "7.3.5"
   }
 }
