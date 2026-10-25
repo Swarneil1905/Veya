@@ -1,6 +1,6 @@
 # Local runtime contracts
 
-The runtime is implemented independently of the synthetic desktop UI. Construct `create_app(settings, session_token)` explicitly; the native sidecar launcher and session-token provisioning are still open stories. No inference or external business effect runs on task submission.
+The native desktop host starts the local runtime and provisions its session token. Tests and other trusted hosts can construct `create_app(settings, session_token)` explicitly. No inference or external business effect runs on task submission.
 
 All HTTP routes use `/v1`, a configured tenant, and `Authorization: Bearer <session_token>`. Tokens must have at least 32 characters; there is no default token. Browser Origin headers are rejected. Request bodies are limited to 1 MiB including chunked input. Errors have `{error: {code, message, schema_version, retryable}}`; input is never echoed. SQLite contention returns retryable 503; retry submissions using their original request ID.
 
@@ -98,8 +98,71 @@ Leases protect local state commits. They cannot stop an expired process from exe
 
 ## Storage and recovery
 
-Migrations 001–011 are immutable, transactional and checksum checked. Add forward migrations for changes; do not drop event history or lease epochs for rollback. Test upgrades on backed-up databases. Older runtimes deliberately reject databases containing unsupported migrations.
+Migrations 001–014 are immutable, transactional and checksum checked. Add forward migrations for changes; do not drop event history or lease epochs for rollback. Test upgrades on backed-up databases. Older runtimes deliberately reject databases containing unsupported migrations.
 
 Artifacts use tenant-scoped content-addressed files. A temporary file is fully written and fsynced, then published under the database writer lock before metadata commits. Identical complete blobs are reused, avoiding Windows replacement races. Process crashes may leave staging files or unreferenced complete blobs; no metadata points to partial bytes. Automatic garbage collection and OS power-loss testing are not implemented. No deletion on transaction rollback can remove another artifact's shared content.
 
 Run `python scripts/test_runtime.py` for bounded local regression tests. Evidence is in planning/evidence; native UI verification and GitHub CI are separate gates.
+
+
+## Structured model actions
+
+`StructuredPlanner(proposals, max_bytes=..., max_repairs=..., repair_timeout=...)` accepts a bounded JSON object containing exactly `tool_name`, `tool_version` and `arguments`. `await planner.plan(scope, run_id, raw, repair=...)` validates the scoped registry/schema and creates an immutable proposal; it never executes or approves a tool. Duplicate keys, nonfinite values, invalid JSON/types/extras and oversized responses fail closed. Unknown tools or versions are not repairable authority failures.
+
+Repair is optional and bounded to the explicitly configured count (0–10) and per-attempt timeout. The callback receives only a safe error code and attempt number. The host must route any repair inference through its provider/egress/budget boundaries. Failed repairs, timeout and cancellation during repair cannot plan a tool. Final proposal persistence runs in a worker thread: cancellation once that write has begun may still leave a review record, never an executed action. This is a local action parser, not a live model adapter.
+
+## Run budget admission
+
+`BudgetStore.configure(tenant, run_id, BudgetLimits(tokens, tool_steps, wall_seconds, max_cost_microunits, currency, allow_unpriced))` fixes a run's limits and persisted deadline. Repeating the same configuration preserves the original deadline; changing it conflicts. All counts use nonnegative safe integers. `reserve(..., action_id, ActionEstimate(...))` atomically reserves an upper bound before work; concurrent reservations cannot overspend. The same key/estimate returns the original admission; changed estimates conflict. Reservations are never automatically refunded after failure, timeout, cancellation or an unknown outcome.
+
+`await store.execute(..., operation)` provides bounded admission for a trusted async model/adapter call. Repeated action IDs do not execute again and require outcome reconciliation. Adapters must enforce the declared input/output token bounds; the store cannot stop a dishonest transport from exceeding its estimate. Limits are admission estimates, not observed usage or bills. Read-only `usage` reports reservations.
+
+`ActionEstimate.inference(input_tokens, output_tokens, price)` computes an integer ceiling from the configured dated per-million-token prices. Missing prices stay unknown. If `allow_unpriced` is false, unknown price blocks admission. If explicitly true, token/step/time limits govern unpriced calls and only the known-price subtotal is capped; `estimated_cost_microunits` is `None` once any unpriced call is reserved. This opt-in does not promise a total monetary ceiling. Currency mismatches fail.
+
+Inject `budgets=store` into `ToolExecutor` to require a configured budget and charge each first tool dispatch atomically with admission. Each `ToolBinding` may supply a trusted synchronous `budget(arguments)` estimate (at least one tool step); without one, tool cost is unknown, never assumed free. Successful intent replay does not charge another step. Deadline and authorization checks run inside the scheduled bounded operation immediately before the handler. Persisted wall-clock rollback before run-budget creation fails closed. No automatic runtime loop or provider billing integration is added.
+
+## Data egress
+
+`EgressGateway` is a host-only outgoing-data boundary with fixed `Destination`/async transport bindings, a current `EgressPolicy`, an explicit byte limit and timeout. `send(actor, destination_id, fields, artifact_ids)` selects only allowlisted fields, requires a `ClassifiedField` for every selected field, and resolves exact tenant-owned artifact IDs through `ArtifactStore`. `ArtifactClassifications.classify` persists a known classification immutably with an audit record; a different classification requires a new artifact record. Unknown classifications, unauthorized attachments or corrupted artifact bytes block transmission.
+
+Grants bind the exact actor/workspace, destination ID **and endpoint**, field names, artifact IDs and classifications. Restricted data cannot go to a remote destination even if a grant lists that classification. Every fallback must call the gateway again for its own registered destination. Payload/attachment metadata and bytes share the configured outgoing limit. Policy is checked again inside the scheduled transport call after auditing. Audit records contain identities, not transmitted content.
+
+Classifications and adapters are trusted host inputs; this is not automatic secret detection or a Python/network sandbox. Transports must use the bound endpoint, enforce TLS/peer validation and reject redirects; they must not forward credentials across destinations. This batch uses fixture transports and makes no external transmissions. No public grant-creation or classification endpoint is exposed.
+
+## Connector declarations and conformance
+
+`packages/connectors/manifest.py` defines strict versioned connector/operation records. Protocol version 1, unique operations/tools, semantic versions, known effect classes and nonempty explicit capabilities are required. `enable(manifest, tools)` validates the complete implemented tool set, versions, effects and capabilities before returning an isolated registry. Enabling a declaration does not grant execution permission or install credentials.
+
+`packages/connectors/tests/contract_suite.py::check_adapter` runs the same success, authentication/permanent/transient/timeout/unknown-error, invalid-input and denied-capability checks for each supplied adapter fixture. Provide its declared tool, scope, valid arguments, expected result, named-scenario factory and timeout. The factory should wire the real adapter to controlled local transport fixtures. The suite checks raw adapter failure classifications before conservative write-error remapping, retry counts, schema/byte limits and no dispatch on denied input. It rejects malformed or unbounded successful output. It does not certify real credentials, transport security, external idempotency or business correctness; those need connector-specific tests.
+
+## Workspace backup and recovery quarantine
+
+`WorkspaceBackups(db, max_bytes=..., max_artifacts=..., timeout=...)` is a trusted host filesystem API. `create(absolute_new_directory)` captures SQLite and all referenced content-addressed blobs while holding the database writer lock, verifies metadata/hashes, and publishes a self-contained database plus versioned manifest. Unreferenced staging/orphan blobs and credentials outside SQLite are not exported. Size, artifact-record count and elapsed-time limits are explicit. This may temporarily block workspace writers; do not run it on the UI/event-loop thread.
+
+`restore(snapshot_directory, absolute_new_directory)` verifies manifest/checksums, supported migration prefix, actual tables/indexes/triggers, foreign keys, core payload projections and all referenced artifact hashes. It rejects corrupt/newer backups, active journals, links/junctions and existing destinations. Migration discovery supports both source and installed-wheel layouts. Validation and upgrades happen in a private sibling staging directory before publishing the new workspace. Restore never replaces the active workspace.
+
+**Every restored workspace is read-only pending reconciliation.** A snapshot may predate an external action that completed in the original workspace; restoring its approvals and operation history must not authorize that action again. Migration 014 records a durable recovery flag, and normal application write transactions—including intents, approvals, budgets and worker leases—reject with `recovery_required`. Reads remain available. Authenticated `GET /v1/workspace/recovery` reports the flag and reason; attempted API writes return 409. Restart preserves quarantine. There is intentionally no automatic reactivation endpoint; reviewed reconciliation/reactivation tooling remains future work. The migration/restore transaction override is trusted host administration, never model/API authority.
+
+Snapshot hashes detect corruption, not forgery by an attacker who can replace both data and manifest. Keep source/destination parent directories host-controlled. This is not protection against arbitrary privileged filesystem races, disk loss, power-loss during directory publication, or an adapter bypassing application transaction boundaries.
+
+
+## Native desktop connection
+
+The desktop launches `python -u -m veya.desktop` from its trusted runtime resource directory. Set `VEYA_PYTHON` in the host environment to select the supported interpreter. Python dependencies remain an explicit prerequisite; no installer is downloaded at startup. A versioned bootstrap with absolute workspace path and an ephemeral credential travels through inherited stdin. The runtime binds an OS-selected IPv4 loopback port, emits readiness only after startup, and exits on parent-pipe EOF. The host validates protocol and authenticated health, serializes lifecycle operations, and terminates only its owned child after a bounded shutdown timeout. Safe diagnostics stay in the native application data directory.
+
+Only the local main window has the three declared commands: `runtime_health`, `runtime_restart` and `workspace_call`. Workspace operations are a fixed allowlist: list ten recent tasks, submit a validated task, fetch its latest run, read recovery state, and fetch a bounded event page. UI content cannot supply endpoints, headers, filesystem paths, executable arguments or approval/execution operations. Native requests add the credential; React never receives it. Runtime HTTP still rejects missing credentials and all supplied browser Origin headers. This controls native capabilities, not malicious code already running as the OS user.
+
+Authenticated additions: `GET /v1/health` reports protocol1 and execution availability; `GET /v1/tasks/{id}/latest-run` returns the latest tenant-owned run; `GET /v1/runs/{id}/event-page?after=<cursor>` returns up to25 events, the last cursor and a has_more flag. The JSON page shares the persisted log and validation of SSE. Native responses are capped at2MiB and deadlines; ten recent tasks fit even at maximum JSON escaping. The UI retains at most500 activity rows and resumes from its last validated cursor after interruption. Partial events never set a task to completed.
+
+Draft text and stable request identity are versioned in local WebView storage before dispatch. Duplicate clicks share one request; unknown outcomes retry the same immutable payload. Definitive validation rejection allows correction. The native application identifier and old relay-demo-v1 storage remain unchanged, preserving prototype data separately from real tasks. No AI execution, attachments or external actions are claimed by this desktop batch.
+## Review and accounting additions
+
+`GET /v1/approvals?after=0&limit=50` returns a bounded page of pending, unexpired requests. `GET /v1/approvals/{id}` returns the exact proposed arguments and policy version. `POST /v1/approvals/{id}/decision` accepts `{revision, decision: "approve"|"reject", note}`. One decision advances the revision; competing, stale or expired decisions return conflict. A lost response is reconciled by fetching the request rather than issuing a second decision.
+
+These routes require the ordinary runtime credential plus a separately configured `X-Veya-Reviewer-Token`. The app factory takes an explicit scoped `ApprovalInbox` and a distinct reviewer token; default desktop/model sessions have no review authority. The trusted host enqueues immutable proposal reviews. Expired pending reviews can be superseded without changing the business operation key; old requests remain readable and cannot be approved. A decision only issues a receipt: execution remains a separate gateway operation.
+
+`ApprovalStore.revoke` durably revokes a receipt. The gateway rechecks current policy, resources, expiry and revocation immediately before dispatch and before returning cached results. Revocation cannot retract an effect already in flight. Unresolved external outcomes never permit automatic redispatch.
+
+`GET /v1/runs/{run_id}/usage` returns separate provider-reported and estimated cost totals per currency, the number of calls with unknown/incomplete accounting, and a completeness flag. `GET /v1/runs/{run_id}/usage/calls?after=0&limit=50` exposes paginated call evidence with the captured pricing date/version. Amounts are exact decimal strings. Missing usage or prices remain unknown; estimates never substitute for provider reports. Trusted inference adapters must call `UsageStore.begin` before dispatch and `finish` after the response; no live inference adapter is enabled by these endpoints.
+
+Tool events retain a versioned `span` with proposal, operation and attempt identifiers across proposal, approval, dispatch admission, completion and retry. A started span denotes an admitted attempt, not proof an external effect occurred. Unknown outcomes are explicit; replay does not add another success. Classified attributes are redacted before entering the durable event stream. Existing event-page/SSE endpoints deliver these records.

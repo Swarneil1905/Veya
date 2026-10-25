@@ -1,9 +1,9 @@
 {
-  "name": "relay-studio",
+  "name": "veya-desktop",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Desktop agent operations and evaluation workbench - interactive prototype",
+  "description": "Veya local task workspace",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 4317",
     "build": "tsc --noEmit && vite build",
