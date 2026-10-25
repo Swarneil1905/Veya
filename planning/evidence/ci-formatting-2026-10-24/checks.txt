@@ -1,0 +1,17 @@
+CI formatting repair verification
+Failed run: https://github.com/Swarneil1905/Veya/actions/runs/40150344308
+Failed Windows job: 121040407513
+Source commit: 8886ac64c77a146fa88c93a1c9c09ec2219dac58
+PASS Windows autocrlf checkout, 11 Go files, exact workflow step: exit 0; 
+PASS Regression: CRLF checkout without LF rule is rejected: exit 1; services\platform\cmd\veya-platform\main.go
+::error::Go files above must be formatted with gofmt.
+PASS Unformatted source rejected with filename: exit 1; services\platform\unformatted.go
+::error::Go files above must be formatted with gofmt.
+PASS Mutation: inverted guard incorrectly accepts unformatted source (detected): exit 0; 
+PASS Formatter syntax errors propagate failure: exit 2; services\platform\unformatted.go:2:6: expected 'IDENT', found '{'
+GitHub CI after fix remains pending the user push; no commits or pushes performed.
+PASS actionlint: all workflow YAML validated (exit 0).
+Skills applied: deployment-pipeline-design, github-actions-templates, code-review-and-quality.
+PASS tracker validation: 241 stories, dependency DAG and release closures valid.
+PASS git diff --check.
+Independent review (gpt-6-astra): no actionable findings in .gitattributes or platform-tests.yml; confirmed LF checkout, imported-source override and formatter error propagation. Reviewer inspected current files and evidence; reviewer Git diff unavailable in its environment. Primary agent inspected actual diff.

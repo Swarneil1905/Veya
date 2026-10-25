@@ -1363,7 +1363,8 @@
         ".github/workflows/workflow-checks.yml",
         ".go-version",
         "services/platform/go.mod",
-        ".github/workflows/platform-tests.yml"
+        ".github/workflows/platform-tests.yml",
+        ".gitattributes"
       ],
       "verification": "Exercise the changed entry point and assert: A fresh environment resolves the declared toolchain versions. Negative case: Unsupported Python or Node versions fail before dependency installation. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -1383,11 +1384,12 @@
       "evidence": [
         "planning/evidence/platform-40-batch/checks.txt",
         "planning/evidence/ci-repair-2026-10-24/checks.txt",
-        "planning/evidence/stack-migration-2026-10-24/checks.txt"
+        "planning/evidence/stack-migration-2026-10-24/checks.txt",
+        "planning/evidence/ci-formatting-2026-10-24/checks.txt"
       ],
       "acceptance_note": "Pinned toolchains and generated dependency lock verified locally, including fresh Python 3.10/3.13 environments, compatibility failure tests and expanded CI validation. GitHub workflows await the user push. Local implementation complete; left uncommitted for user review.",
       "blocked_reason": null,
-      "updated_at": "2026-10-25T01:20:49.128865+00:00",
+      "updated_at": "2026-10-25T01:34:40.575774+00:00",
       "release_ids": [
         "R2",
         "R3",
@@ -12104,7 +12106,8 @@
         "scripts/test-platform-browser.mjs",
         ".github/workflows",
         "package.json",
-        "pnpm-lock.yaml"
+        "pnpm-lock.yaml",
+        ".gitattributes"
       ],
       "verification": "Run Angular build, Chromium IPC and rendered accessibility tests, real web persistence/session integration, Go vet/unit/worker integration, Python runtime regressions, Rust lifecycle tests, workflow lint, toolchain/tracker validation and an independent boundary review. Preserve evidence; mutation test an authorization guard.",
       "depends_on": [
@@ -12121,10 +12124,12 @@
       "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
+      "evidence": [
+        "planning/evidence/ci-formatting-2026-10-24/checks.txt"
+      ],
       "acceptance_note": null,
       "blocked_reason": null,
-      "updated_at": "2026-10-25T01:20:49+00:00",
+      "updated_at": "2026-10-25T01:34:40.575774+00:00",
       "release_ids": [
         "R1",
         "R2",

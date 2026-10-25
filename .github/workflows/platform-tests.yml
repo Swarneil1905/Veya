@@ -28,7 +28,13 @@ jobs:
       - run: uv sync --project services/runtime --locked
       - name: Check Go formatting
         shell: bash
-        run: test -z "$(gofmt -l services/platform)"
+        run: |
+          unformatted="$(gofmt -l services/platform)"
+          if [ -n "$unformatted" ]; then
+            printf '%s\n' "$unformatted"
+            echo "::error::Go files above must be formatted with gofmt."
+            exit 1
+          fi
       - name: Vet, unit tests, private worker integration and native build
         run: uv run --project services/runtime --locked python scripts/build_platform.py --test
       - name: Record compiler and binary metadata

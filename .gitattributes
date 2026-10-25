@@ -1,2 +1,5 @@
+# Go formatting must be stable on Windows and Linux checkouts.
+*.go text eol=lf
+
 # Imported sources are byte-pinned; do not rewrite line endings on checkout.
 .agents/** -text
