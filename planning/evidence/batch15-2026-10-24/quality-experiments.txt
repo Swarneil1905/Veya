@@ -1,0 +1,100 @@
+ESLint violation through local check
+Checking: pnpm.cmd exec eslint apps/desktop/src
+
+C:\Users\Swarneil Pradhan\Veya\artifacts\bootstrap-a3ce0c6f\apps\desktop\src\verification-gate.ts
+  1:7  error  'unusedGate' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+âœ– 1 problem (1 error, 0 warnings)
+
+Check failed
+
+
+TypeScript violation through local check
+Checking: pnpm.cmd exec eslint apps/desktop/src
+Checking: pnpm.cmd exec tsc --project apps/desktop/tsconfig.json --noEmit
+apps/desktop/src/verification-gate.ts(1,14): error TS2322: Type 'string' is not assignable to type 'number'.
+Check failed
+
+
+Ruff violation through local check
+Checking: C:\Users\Swarneil Pradhan\Veya\artifacts\bootstrap-a3ce0c6f\services\runtime\.venv\Scripts\python.exe -m ruff check services/runtime/veya services/runtime/tests
+F401 [*] `os` imported but unused
+ --> services\runtime\veya\verification_gate.py:1:8
+  |
+1 | import os
+  |        ^^
+help: Remove unused import: `os`
+  |
+  - import os
+  |
+
+Found 1 error.
+[*] 1 fixable with `--fix`.
+Check failed
+
+
+Mypy violation through local check
+Checking: C:\Users\Swarneil Pradhan\Veya\artifacts\bootstrap-a3ce0c6f\services\runtime\.venv\Scripts\python.exe -m ruff check services/runtime/veya services/runtime/tests
+All checks passed!
+Checking: C:\Users\Swarneil Pradhan\Veya\artifacts\bootstrap-a3ce0c6f\services\runtime\.venv\Scripts\python.exe -m ruff format --check services/runtime/veya services/runtime/tests
+98 files already formatted
+Checking: C:\Users\Swarneil Pradhan\Veya\artifacts\bootstrap-a3ce0c6f\services\runtime\.venv\Scripts\python.exe -m mypy --config-file services/runtime/pyproject.toml services/runtime/veya
+services\runtime\veya\verification_gate.py:1: error: Incompatible types in assignment (expression has type "str", variable has type "int")  [assignment]
+Found 1 error in 1 file (checked 61 source files)
+Check failed
+
+
+Generated API schema drift
+API contract drift: review and regenerate versioned contracts.
+
+
+Grant-revocation mutation killed
+FF                                                                       [100%]
+================================== FAILURES ===================================
+________ test_durable_grant_revocation_blocks_cached_policy_and_result ________
+
+tmp_path = WindowsPath('C:/Users/Swarneil Pradhan/Veya/artifacts/bootstrap-a3ce0c6f/artifacts/runtime-tests-fly6qr1e/test_durable_grant_revocation_0')
+
+    def test_durable_grant_revocation_blocks_cached_policy_and_result(tmp_path):
+        executor, actor, proposal, _, _, calls = fixture_gateway(tmp_path)
+        asyncio.run(executor.execute(actor, scope(), 'once', proposal.id))
+        store = Revocations(executor.intents.db)
+        store.bind_session(actor, 'connector_session', ('grant_1',))
+        store.revoke(actor, 'grant_1')
+        anchor = AuditLedger(executor.intents.db).capture(actor.tenant_id)
+        store.revoke(actor, 'grant_1')
+        assert AuditLedger(executor.intents.db).capture(actor.tenant_id) == anchor
+>       with pytest.raises(PolicyDenied):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'veya.policy.engine.PolicyDenied'>
+
+services\runtime\tests\test_grant_revocation.py:22: Failed
+______________ test_queued_revocation_is_checked_after_admission ______________
+
+tmp_path = WindowsPath('C:/Users/Swarneil Pradhan/Veya/artifacts/bootstrap-a3ce0c6f/artifacts/runtime-tests-fly6qr1e/test_queued_revocation_is_chec0')
+
+    def test_queued_revocation_is_checked_after_admission(tmp_path):
+        executor, actor, proposal, _, _, calls = fixture_gateway(tmp_path)
+        original = executor._admit_dispatch
+    
+        def revoke(*args):
+            result = original(*args)
+            Revocations(executor.intents.db).revoke(actor, 'grant_1')
+            return result
+    
+        executor._admit_dispatch = revoke
+>       with pytest.raises(PolicyDenied):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'veya.policy.engine.PolicyDenied'>
+
+services\runtime\tests\test_grant_revocation.py:40: Failed
+============================== warnings summary ===============================
+services\runtime\.venv\Lib\site-packages\fastapi\testclient.py:1
+  C:\Users\Swarneil Pradhan\Veya\artifacts\bootstrap-a3ce0c6f\services\runtime\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED services\runtime\tests\test_grant_revocation.py::test_durable_grant_revocation_blocks_cached_policy_and_result
+FAILED services\runtime\tests\test_grant_revocation.py::test_queued_revocation_is_checked_after_admission
+2 failed, 1 warning in 0.39s

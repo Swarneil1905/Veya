@@ -47,3 +47,14 @@ export async function harness() {
     },
   };
 }
+
+// Browser fixtures may contact only their owned loopback origin. Block before DNS.
+export async function isolate(context, origin) {
+  const permitted = new URL(origin).origin;
+  if (new URL(origin).hostname !== '127.0.0.1') throw new Error('Fixture origin must be loopback');
+  await context.route('**/*', route => {
+    const url = new URL(route.request().url());
+    return url.origin === permitted ? route.continue() : route.abort('blockedbyclient');
+  });
+  await context.routeWebSocket('**/*', socket => socket.close());
+}

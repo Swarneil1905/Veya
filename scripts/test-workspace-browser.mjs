@@ -5,7 +5,7 @@ import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { chromium } from 'playwright-core';
 import axe from 'axe-core';
-import {asset} from './browser-harness.mjs';
+import {asset,isolate} from './browser-harness.mjs';
 
 const output = path.resolve('artifacts/workspace-design');
 await mkdir(output, {recursive:true});
@@ -24,7 +24,13 @@ const submissions=new Map();
 window.__TAURI__={core:{invoke:async(command,{operation,args}={})=>{
   if(command==='runtime_health'||command==='runtime_restart')return {state:'ready',message:'Interface test connection. Sample data only.'};
   if(operation==='recovery')return {required:false};
-  if(operation==='list_tasks')return {items:tasks.slice(0,10),next_cursor:null};
+  if(operation==='get_task')return tasks.find(t=>t.id===args.task_id);
+  if(operation==='list_tasks'){
+    const groups={attention:['waiting','failed'],active:['queued','running'],completed:['succeeded']};
+    let rows=tasks.filter(t=>(!args.status||groups[args.status]?.includes(t.state)||t.state===args.status)&&(!args.search||(t.title+' '+t.instruction).toLowerCase().includes(args.search.toLowerCase())));
+    if(args.sort==='oldest')rows=rows.slice().reverse();
+    const offset=Number(args.cursor||0);return {items:rows.slice(offset,offset+10),next_cursor:rows.length>offset+10?String(offset+10):null};
+  }
   if(operation==='submit_task'){
     if(!submissions.has(args.client_request_id)){const task={id:args.client_request_id,title:args.title,instruction:args.instruction,state:'queued',created_at:new Date().toISOString()};tasks.unshift(task);submissions.set(args.client_request_id,{task,run:{id:'run_'+task.id,state:'queued'}});}
     return submissions.get(args.client_request_id);
@@ -50,6 +56,7 @@ if(process.argv.includes('--serve')){
 } else {
   const browser=await chromium.launch({executablePath:process.env.VEYA_CHROME||(process.platform==='win32'?'C:/Program Files/Google/Chrome/Application/chrome.exe':undefined),headless:true});
   const page=await browser.newPage({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
+  await isolate(page.context(),origin);
   const errors=[];page.on('pageerror',error=>errors.push(error.message));
   const checks=[];
   async function screenshot(name){await page.screenshot({path:path.join(output,name+'.png'),fullPage:true});}

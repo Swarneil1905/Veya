@@ -1,0 +1,84 @@
+Veya next 15 stories — local implementation evidence, 2026-10-24 America/Chicago
+
+Stories: VEY-005–010, VEY-017, VEY-020, VEY-025, VEY-027, VEY-039, VEY-066, VEY-069, VEY-070, VEY-121.
+These are implemented and locally verified, awaiting formal acceptance/user commits. No staging, commits, pushes, uploads, live connector effects or release publication performed.
+
+Verification
+- Locked Python 3.13: 429 runtime tests pass. Python 3.10.11: 429 pass. Final retention checks then passed on both versions: 11 cases, including three added checks protecting immutable event, proposal and audit references. One upstream Starlette/httpx deprecation warning remains.
+- Python: Ruff lint/format pass; mypy passes on 60 runtime source files; OpenAPI/TypeScript drift checks pass on both Python versions.
+- Frontend: ESLint, strict tsc and Angular AOT build pass. Final JS/CSS total 249.51 kB raw / 61.70 kB estimated transfer; separate local font/icon assets.
+- Browser: existing IPC, rendered accessibility/keyboard and real Angular -> Go -> Python persistence suites pass. New batch suite covers paged queue, restored selection/query, empty-page recovery, exact approval review, stale revision, deadline, reject identity, uncertainty notice, 14px rows, focus and 800/375px layouts; axe A/AA passes. Screenshots inspected locally under ignored artifacts/workspace-design.
+- Go: vet + all command/server/worker integration tests pass, including private reviewer credential separation and invalid review/query commands.
+- Native: 10 tests pass, including real child failure, saved state/unseen event replay, restart budget, disk preferences, DPI/frame/removed-monitor fitting. rustfmt and Clippy gates applied.
+- Root tooling: 26 unittest checks pass, including actual bootstrap stop-on-failure. Two seeded fixture tests and nine existing JS fixture tests pass. Module boundaries and actionlint pass.
+- Full bootstrap passes in a fresh source-only copy with locked dependency installation and Go/Angular builds; existing machine prerequisites were used.
+- Six negative experiments: ESLint unused variable, TypeScript incompatible assignment, Ruff unused import, mypy incompatible assignment, stale generated schema, and removed grant-revocation guard all fail as expected. See quality-experiments.txt. Working source was never mutated for these experiments.
+- Pinned source verification: 39 skills / 373 upstream files unchanged.
+
+Independent review and fixes
+Review by the project-required independent reviewer identified expiry clock rollback, retention hold ordering, missing approval decision evidence, cleanup starvation behind shared blobs and missing window decoration extents. Each was fixed with regression coverage. Corrupt UI punctuation was corrected and rendered again. No remaining actionable finding was reported beyond those addressed.
+
+Delivery boundaries
+Angular + Go + private Python + Rust/Tauri retained. Ramp remains primary, with Public Sans/Phosphor, Superhuman keyboard/type consistency, Basecamp work context and Linear row/status polish. Approved Work inbox and 14px row spacing applied now.
+GitHub CI, Linux race execution, physical multi-monitor installed-app QA, signed/self-contained installer, live inference/connectors and hosted SaaS identity/tenancy are not claimed. Internal Markdown remains ignored; public README/API documentation and tracker/evidence are updated locally.
+
+Story evidence
+VEY-005: Formatting and static gates
+ESLint + strict TypeScript, Ruff formatting/lint, mypy and Clippy. LF checkout rules protect Windows/Linux checks. Adopting Ruff intentionally formats existing runtime/test modules; the diff includes those mechanical changes and tested type corrections. Introduced unused imports/variables and bad types were rejected through scripts/check.mjs in a source-only copy. Pinned skill sources remain byte-identical.
+Code/tests: eslint.config.mjs; services/runtime/pyproject.toml; scripts/check.mjs; .gitattributes
+
+VEY-006: Reproducible bootstrap
+scripts/dev.ps1 passed exact prerequisites and the full bootstrap in a fresh 669-file source-only copy: frozen pnpm install, locked uv environment, Cargo dependency fetch, Go build, Angular build. A simulated failing dependency exits nonzero with its command/exit code and no success message. This verifies a clean source environment on the existing supported Windows host, not a newly installed OS.
+Code/tests: scripts/dev.ps1; tests/test_bootstrap.py
+
+VEY-007: Generated API contracts
+Committed OpenAPI and generated TypeScript compile in Angular and strict tsc. Schema checks pass on Python 3.10 and 3.13. An intentionally stale schema fails drift checking; unit tests verify breaking-field/version handling. Contract version 3 records the new review and queue schema.
+Code/tests: packages/contracts/generate.py; packages/contracts/openapi.json; packages/contracts/src/index.ts; tests/test_contract_generation.py
+
+VEY-008: Isolated tests
+Temporary test workspace factory supplies unique roots and fixture tenants. Runtime tests deny socket calls before DNS; explicitly marked local-process tests permit numeric loopback only. Browser fixtures block external origins and WebSockets. Inherited provider credentials/proxy variables are removed. Browser and Python external-call rejection tests pass. This is fixture configuration, not an OS filesystem sandbox.
+Code/tests: services/runtime/tests/conftest.py; services/runtime/tests/test_isolation.py; scripts/browser-harness.mjs
+
+VEY-009: Module dependency boundaries
+AST domain import checks and statically bounded UI import rules pass on owned sources; storage/secrets/dynamic import violations fail unit tests. Generated schemas and pinned skills are not rewritten. CI enforces the check.
+Code/tests: scripts/check_boundaries.py; tests/test_boundaries.py
+
+VEY-010: Deterministic fixture builders
+Seeded user, tenant, task and document records are byte-stable and independent of call order. Documents retain content hashes. fixture_ tenant namespaces are reserved to test profiles and rejected by local/remote settings. Fixture and configuration tests pass.
+Code/tests: packages/fixtures/builders.py; packages/fixtures/tests/test_builders.py; services/runtime/veya/config.py
+
+VEY-017: Recovery after runtime failure
+Rust detects unexpected child exit and permits two automatic restart attempts per minute. Real Go/Python native integration verifies saved task/run identity and only unseen event replay after forced child termination. Uncertain writes remain unresolved across database reopen, do not redispatch, and produce a visible reconciliation notice. Explicit retry resets the restart budget.
+Code/tests: apps/desktop/src-tauri/src/recovery.rs; apps/desktop/src-tauri/src/runtime.rs; services/runtime/veya/recovery.py; services/runtime/tests/test_recovery.py
+
+VEY-020: Native window preferences
+Host-owned bounded versioned JSON saves normal geometry and maximized state atomically. Restoration clamps to current monitor work areas, accounts for DPI and OS frame dimensions, handles negative coordinates/removed monitors, and ignores malformed/oversized preferences. Native tests cover fitting and actual disk roundtrip/replacement. Physical multi-monitor installed-app visual QA remains a release check.
+Code/tests: apps/desktop/src-tauri/src/window_state.rs
+
+VEY-025: Exact action review
+Angular contextual review drawer shows tool/version, exact arguments, workspace/reviewer, policy, evidence digests, deadline and required note. Go exposes only explicit validated commands and privately injects a separate reviewer credential. UI stale revisions, expiry, reject identity, focus restoration, narrow layout and axe A/AA checks pass; Python tests cover competing decisions and no dispatch on approval. The default host has an honest empty inbox until workflows are configured.
+Code/tests: apps/desktop/src/features/approvals/approval-review.ts; services/platform/internal/workspace/commands.go; services/runtime/veya/policy/host.py; scripts/test-story-batch-browser.mjs
+
+VEY-027: Work queue
+Server search covers title/instruction, state groups, newest/oldest and scoped signed keyset cursors. UI restores filters, sorting and selected task after reload, pages both ways, returns to a valid page after deletion, and refreshes membership after live status changes. Browser tests verify 14px row spacing and keyboard behavior.
+Code/tests: apps/desktop/src/features/work/work-queue.ts; apps/desktop/src/workspace/workspace.ts; services/runtime/veya/storage/task_query.py; scripts/test-story-batch-browser.mjs
+
+VEY-039: Retention and safe deletion
+Explicit host-triggered pruning reclaims expired unreferenced terminal-run artifacts with durable deletion records. Active runs, legal holds, immutable evidence/classification references and shared blobs retain protection. Holds validate under the writer lock. Cleanup excludes shared hashes before LIMIT, preventing starvation. Deterministic hold-race, shared-blob, cleanup and retry regressions pass. No automatic background deletion enabled.
+Code/tests: services/runtime/veya/storage/retention.py; services/runtime/migrations/020_retention.sql; services/runtime/tests/test_retention.py
+
+VEY-066: Grant revocation
+Durable scoped revocations are checked at preparation, dispatch admission, final dispatch and replay. Connector session grant bindings are revalidated. Tests cover cached permission/result and queued work after revocation while preserving audit history. Removing the actual revocation guard in an isolated copy causes the regression tests to fail. In-flight external effects cannot be undone.
+Code/tests: services/runtime/veya/policy/revocation.py; services/runtime/veya/tools/execution.py; services/runtime/tests/test_grant_revocation.py
+
+VEY-069: Approval expiry and aging
+Pending requests are permanently superseded on expiry; a new request needs current evidence. Durable per-workspace clock high-water marks prevent expired receipts from reviving after clock rollback. Duplicate sweeps are idempotent. Angular aging and timer-based disabled decisions are covered by runtime and rendered browser tests. No automatic approval or external reminders sent.
+Code/tests: services/runtime/veya/policy/expiry.py; services/runtime/veya/policy/clock.py; services/runtime/tests/test_approval_expiry.py; apps/desktop/src/features/approvals/aging.ts
+
+VEY-070: Verifiable audit exports
+Explicit run-scoped export selects only allowed classified artifacts and redacted ledger evidence, including approved/rejected/expired review records. Manifest records hashes, policy and redaction metadata; caller must retain digest separately. Offline stdlib verifier rejects changed artifact/audit bytes and wrong digest. Cross-tenant, unclassified and unrelated-run evidence tests pass. Selected audit records are not represented as a full tenant chain.
+Code/tests: services/runtime/veya/audit/export.py; packages/audit/verify.py; services/runtime/tests/test_audit_export.py
+
+VEY-121: Scoped memory records
+Frozen memory contracts require explicit owner, tenant/workspace scope, source-run provenance and bounded aware validity intervals. Activation requires review; retracted, cross-scope, expired, future-reviewed or invalid-provenance records cannot be used. Tests pass. Persistence/retrieval and learned-memory workflows remain separate stories.
+Code/tests: services/runtime/veya/memory/models.py; services/runtime/tests/test_memory.py

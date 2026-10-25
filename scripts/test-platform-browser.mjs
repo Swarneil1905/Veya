@@ -1,3 +1,4 @@
+import {isolate} from './browser-harness.mjs';
 // No IPC fixtures: Angular -> Go session/commands -> Python -> SQLite -> Angular.
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
@@ -89,6 +90,7 @@ const browser = await chromium.launch({
   headless: true,
 });
 const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+await isolate(page.context(), platform.origin);
 const errors = [];
 page.on('pageerror', (e) => errors.push(e.message));
 try {

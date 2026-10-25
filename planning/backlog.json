@@ -58,7 +58,8 @@
       ],
       "policy": "Apply these patterns as part of each frontend story, not as a later redesign. Use original Veya content and licensed fonts/icons; do not copy proprietary branding or source.",
       "tokens": "Existing workspace.css Public Sans / Phosphor / muted green / neutral surfaces are the baseline. Change deliberately with rendered evidence.",
-      "acceptance": "Each UI story covers loading, empty, error, offline, permission, partial, cancellation and completion states where applicable; keyboard and 800x640/1440x1000 rendered checks are required."
+      "acceptance": "Each UI story covers loading, empty, error, offline, permission, partial, cancellation and completion states where applicable; keyboard and 800x640/1440x1000 rendered checks are required.",
+      "workspace_layout": "Work inbox; 14px vertical row padding; Ramp-led contextual review drawer; filters and focus persist."
     },
     "stack": {
       "frontend": "Angular 22 / strict TypeScript 6 / AOT / zoneless signals",
@@ -66,7 +67,8 @@
       "runtime": "Python: durable execution/storage, policy, approvals, model interfaces and evaluation",
       "desktop": "Rust/Tauri: native capabilities and owned Go process",
       "deployment_boundary": "Local single-user web and desktop; production SaaS identity/tenancy/hosting remain backlog"
-    }
+    },
+    "delivery_notes": "Local Angular/Go/Python integration, rendered browser checks and native process recovery are verified. Live inference/connectors, hosted SaaS identity/tenancy, installed multi-monitor visual QA, packaging/signing and remote CI for unpushed changes remain open. See planning/evidence/batch15-2026-10-24/checks.txt."
   },
   "capacity": {
     "hours_per_week_scenarios": [
@@ -1460,7 +1462,8 @@
       "code_paths": [
         "eslint.config.mjs",
         "services/runtime/pyproject.toml",
-        "scripts/check.mjs"
+        "scripts/check.mjs",
+        ".gitattributes"
       ],
       "verification": "Exercise the changed entry point and assert: Introduced type and lint violations fail the local verification command. Negative case: Vendored skills and generated clients are excluded from inappropriate rewrite rules. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -1474,14 +1477,18 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "ESLint + strict TypeScript, Ruff formatting/lint, mypy and Clippy. LF checkout rules protect Windows/Linux checks. Introduced unused imports/variables and bad types were rejected through scripts/check.mjs in a source-only copy. Pinned skill sources remain byte-identical. Local implementation only; formal dependency acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-25T02:42:03+00:00",
       "release_ids": [
         "R2",
         "R3",
@@ -1504,7 +1511,8 @@
         "A failed dependency step stops with actionable diagnostics and no false success"
       ],
       "code_paths": [
-        "scripts/dev.ps1"
+        "scripts/dev.ps1",
+        "tests/test_bootstrap.py"
       ],
       "verification": "Exercise the changed entry point and assert: Bootstrap produces a runnable dev environment on a clean supported machine. Negative case: A failed dependency step stops with actionable diagnostics and no false success. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -1518,14 +1526,18 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "scripts/dev.ps1 passed exact prerequisites and the full bootstrap in a fresh 669-file source-only copy: frozen pnpm install, locked uv environment, Cargo dependency fetch, Go build, Angular build. A simulated failing dependency exits nonzero with its command/exit code and no success message. This verifies a clean source environment on the existing supported Windows host, not a newly installed OS. Local implementation only; formal dependency acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-25T02:42:03+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -1547,7 +1559,9 @@
       ],
       "code_paths": [
         "packages/contracts/generate.py",
-        "packages/contracts/src/index.ts"
+        "packages/contracts/openapi.json",
+        "packages/contracts/src/index.ts",
+        "tests/test_contract_generation.py"
       ],
       "verification": "Exercise the changed entry point and assert: Generated client compiles against the committed API schema. Negative case: A breaking field change fails the drift check until deliberately versioned. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -1561,14 +1575,18 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "Committed OpenAPI and generated TypeScript compile in Angular and strict tsc. Schema checks pass on Python 3.10 and 3.13. An intentionally stale schema fails drift checking; unit tests verify breaking-field/version handling. Contract version 3 records the new review and queue schema. Local implementation only; formal dependency acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-25T02:42:03+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -1590,7 +1608,8 @@
       ],
       "code_paths": [
         "services/runtime/tests/conftest.py",
-        "apps/desktop/vitest.config.ts"
+        "services/runtime/tests/test_isolation.py",
+        "scripts/browser-harness.mjs"
       ],
       "verification": "Exercise the changed entry point and assert: Parallel test runs use distinct data roots and cannot see personal documents. Negative case: A test attempting a live connector call fails before network access. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -1604,14 +1623,18 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "Temporary test workspace factory supplies unique roots and fixture tenants. Runtime tests deny socket calls before DNS; explicitly marked local-process tests permit numeric loopback only. Browser fixtures block external origins and WebSockets. Inherited provider credentials/proxy variables are removed. Browser and Python external-call rejection tests pass. This is fixture configuration, not an OS filesystem sandbox. Local implementation only; formal dependency acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-25T02:42:03+00:00",
       "release_ids": [
         "R2",
         "R3",
@@ -1635,7 +1658,7 @@
       ],
       "code_paths": [
         "scripts/check_boundaries.py",
-        "apps/desktop/eslint.config.mjs"
+        "tests/test_boundaries.py"
       ],
       "verification": "Exercise the changed entry point and assert: Valid inward dependencies pass the architecture check. Negative case: A domain import of a database adapter or Angular UI import of secrets code fails. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -1649,14 +1672,18 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "AST domain import checks and statically bounded UI import rules pass on owned sources; storage/secrets/dynamic import violations fail unit tests. Generated schemas and pinned skills are not rewritten. CI enforces the check. Local implementation only; formal dependency acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-25T02:42:03+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -1678,7 +1705,8 @@
       ],
       "code_paths": [
         "packages/fixtures/builders.py",
-        "packages/fixtures/tests/test_builders.py"
+        "packages/fixtures/tests/test_builders.py",
+        "services/runtime/veya/config.py"
       ],
       "verification": "Exercise the changed entry point and assert: Identical seeds generate byte-stable fixture identities and records. Negative case: Fixture namespaces cannot be confused with configured live tenant identifiers. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -1692,14 +1720,18 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "Seeded user, tenant, task and document records are byte-stable and independent of call order. Documents retain content hashes. fixture_ tenant namespaces are reserved to test profiles and rejected by local/remote settings. Fixture and configuration tests pass. Local implementation only; formal dependency acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-25T02:42:03+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -2020,7 +2052,9 @@
       ],
       "code_paths": [
         "apps/desktop/src-tauri/src/recovery.rs",
-        "services/runtime/veya/recovery.py"
+        "apps/desktop/src-tauri/src/runtime.rs",
+        "services/runtime/veya/recovery.py",
+        "services/runtime/tests/test_recovery.py"
       ],
       "verification": "Exercise the changed entry point and assert: Restart reconnects to the existing run and replays unseen events. Negative case: An uncertain remote write is surfaced for reconciliation instead of retried blindly. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -2035,14 +2069,18 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "Rust detects unexpected child exit and permits two automatic restart attempts per minute. Real Go/Python native integration verifies saved task/run identity and only unseen event replay after forced child termination. Uncertain writes remain unresolved across database reopen, do not redispatch, and produce a visible reconciliation notice. Explicit retry resets the restart budget. Local implementation only; formal dependency acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-25T02:42:03+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -2166,14 +2204,18 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "Host-owned bounded versioned JSON saves normal geometry and maximized state atomically. Restoration clamps to current monitor work areas, accounts for DPI and OS frame dimensions, handles negative coordinates/removed monitors, and ignores malformed/oversized preferences. Native tests cover fitting and actual disk roundtrip/replacement. Physical multi-monitor installed-app visual QA remains a release check. Local implementation only; formal dependency acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-25T02:42:03+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -2439,7 +2481,9 @@
       ],
       "code_paths": [
         "apps/desktop/src/features/approvals/approval-review.ts",
-        "services/platform/internal/workspace"
+        "services/platform/internal/workspace/commands.go",
+        "services/runtime/veya/policy/host.py",
+        "scripts/test-story-batch-browser.mjs"
       ],
       "verification": "Exercise the changed entry point and assert: Approval shows exactly which operation and arguments will be authorized. Negative case: An expired or superseded proposal cannot be approved from stale UI. Retain the test command, result and evidence artifact. Design gate: apply the project design_direction references during implementation and retain rendered/keyboard evidence; do not defer visual integration to a later redesign.",
       "depends_on": [
@@ -2454,14 +2498,18 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "Angular contextual review drawer shows tool/version, exact arguments, workspace/reviewer, policy, evidence digests, deadline and required note. Go exposes only explicit validated commands and privately injects a separate reviewer credential. UI stale revisions, expiry, reject identity, focus restoration, narrow layout and axe A/AA checks pass; Python tests cover competing decisions and no dispatch on approval. The default host has an honest empty inbox until workflows are configured. Local implementation only; formal dependency acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-24T22:26:50+00:00",
+      "updated_at": "2026-10-25T02:42:03+00:00",
       "release_ids": [
         "R2",
         "R3",
@@ -2554,7 +2602,9 @@
       ],
       "code_paths": [
         "apps/desktop/src/features/work/work-queue.ts",
-        "services/platform/internal/workspace"
+        "apps/desktop/src/workspace/workspace.ts",
+        "services/runtime/veya/storage/task_query.py",
+        "scripts/test-story-batch-browser.mjs"
       ],
       "verification": "Exercise the changed entry point and assert: Filters and current selection survive navigation and refresh. Negative case: Empty pages after a deletion recover to a valid page without losing active filters. Retain the test command, result and evidence artifact. Design gate: apply the project design_direction references during implementation and retain rendered/keyboard evidence; do not defer visual integration to a later redesign.",
       "depends_on": [
@@ -2568,14 +2618,18 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "Server search covers title/instruction, state groups, newest/oldest and scoped signed keyset cursors. UI restores filters, sorting and selected task after reload, pages both ways, returns to a valid page after deletion, and refreshes membership after live status changes. Browser tests verify 14px row spacing and keyboard behavior. Local implementation only; formal dependency acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-24T22:26:50+00:00",
+      "updated_at": "2026-10-25T02:42:03+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -3150,7 +3204,9 @@
         "Active runs, legal holds and retained evidence prevent deletion"
       ],
       "code_paths": [
-        "services/runtime/veya/storage/retention.py"
+        "services/runtime/veya/storage/retention.py",
+        "services/runtime/migrations/020_retention.sql",
+        "services/runtime/tests/test_retention.py"
       ],
       "verification": "Exercise the changed entry point and assert: Expired unreferenced artifacts are reclaimed with a deletion record. Negative case: Active runs, legal holds and retained evidence prevent deletion. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -3164,14 +3220,18 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "Explicit host-triggered pruning reclaims expired unreferenced terminal-run artifacts with durable deletion records. Active runs, legal holds, immutable evidence/classification references and shared blobs retain protection. Holds validate under the writer lock. Cleanup excludes shared hashes before LIMIT, preventing starvation. Deterministic hold-race, shared-blob, cleanup and retry regressions pass. No automatic background deletion enabled. Local implementation only; formal dependency acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-25T02:42:03+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -4381,7 +4441,9 @@
         "Cached permissions cannot authorize a call after revocation is observed"
       ],
       "code_paths": [
-        "services/runtime/veya/policy/revocation.py"
+        "services/runtime/veya/policy/revocation.py",
+        "services/runtime/veya/tools/execution.py",
+        "services/runtime/tests/test_grant_revocation.py"
       ],
       "verification": "Exercise the changed entry point and assert: Revoked grants stop subsequent tool calls without deleting audit history. Negative case: Cached permissions cannot authorize a call after revocation is observed. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -4395,14 +4457,18 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "Durable scoped revocations are checked at preparation, dispatch admission, final dispatch and replay. Connector session grant bindings are revalidated. Tests cover cached permission/result and queued work after revocation while preserving audit history. Removing the actual revocation guard in an isolated copy causes the regression tests to fail. In-flight external effects cannot be undone. Local implementation only; formal dependency acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-25T02:42:03+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -4519,8 +4585,9 @@
       ],
       "code_paths": [
         "services/runtime/veya/policy/expiry.py",
-        "apps/desktop/src/features/approvals/aging.ts",
-        "services/platform/internal/workspace"
+        "services/runtime/veya/policy/clock.py",
+        "services/runtime/tests/test_approval_expiry.py",
+        "apps/desktop/src/features/approvals/aging.ts"
       ],
       "verification": "Exercise the changed entry point and assert: Expired proposals require a refreshed request with current evidence. Negative case: Clock changes and duplicate expiry events cannot reopen completed approvals. Retain the test command, result and evidence artifact. Design gate: apply the project design_direction references during implementation and retain rendered/keyboard evidence; do not defer visual integration to a later redesign.",
       "depends_on": [
@@ -4534,14 +4601,18 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "Pending requests are permanently superseded on expiry; a new request needs current evidence. Durable per-workspace clock high-water marks prevent expired receipts from reviving after clock rollback. Duplicate sweeps are idempotent. Angular aging and timer-based disabled decisions are covered by runtime and rendered browser tests. No automatic approval or external reminders sent. Local implementation only; formal dependency acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-24T22:26:50+00:00",
+      "updated_at": "2026-10-25T02:42:03+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -4570,7 +4641,8 @@
       ],
       "code_paths": [
         "services/runtime/veya/audit/export.py",
-        "packages/audit/verify.py"
+        "packages/audit/verify.py",
+        "services/runtime/tests/test_audit_export.py"
       ],
       "verification": "Exercise the changed entry point and assert: An offline verifier detects a changed artifact or audit record. Negative case: Export never includes vault contents or unrelated workspace records. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -4585,14 +4657,18 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "Explicit run-scoped export selects only allowed classified artifacts and redacted ledger evidence, including approved/rejected/expired review records. Manifest records hashes, policy and redaction metadata; caller must retain digest separately. Offline stdlib verifier rejects changed artifact/audit bytes and wrong digest. Cross-tenant, unclassified and unrelated-run evidence tests pass. Selected audit records are not represented as a full tenant chain. Local implementation only; formal dependency acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-25T02:42:03+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -6823,7 +6899,8 @@
         "A memory without scope or provenance cannot become active"
       ],
       "code_paths": [
-        "services/runtime/veya/memory/models.py"
+        "services/runtime/veya/memory/models.py",
+        "services/runtime/tests/test_memory.py"
       ],
       "verification": "Exercise the changed entry point and assert: Memories have explicit owners, scope, source runs and validity intervals. Negative case: A memory without scope or provenance cannot become active. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -6837,14 +6914,18 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "Frozen memory contracts require explicit owner, tenant/workspace scope, source-run provenance and bounded aware validity intervals. Activation requires review; retracted, cross-scope, expired, future-reviewed or invalid-provenance records cannot be used. Tests pass. Persistence/retrieval and learned-memory workflows remain separate stories. Local implementation only; formal dependency acceptance and user commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-25T02:42:03+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -13421,6 +13502,216 @@
       "commit": null,
       "evidence": [],
       "acceptance_note": "Active Angular/Go/private-Python migration verified locally with preserved desktop storage, real web save/restart and ambiguous retry, browser accessibility, Go/Python/Rust contracts and independent review. CI/toolchains and future story targets updated. No implementation commit or push; user retains publication control."
+    },
+    {
+      "at": "2026-10-25T02:42:03+00:00",
+      "story_id": "VEY-005",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "ESLint + strict TypeScript, Ruff formatting/lint, mypy and Clippy. LF checkout rules protect Windows/Linux checks. Introduced unused imports/variables and bad types were rejected through scripts/check.mjs in a source-only copy. Pinned skill sources remain byte-identical. Local implementation only; formal dependency acceptance and user commit remain outstanding."
+    },
+    {
+      "at": "2026-10-25T02:42:03+00:00",
+      "story_id": "VEY-006",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "scripts/dev.ps1 passed exact prerequisites and the full bootstrap in a fresh 669-file source-only copy: frozen pnpm install, locked uv environment, Cargo dependency fetch, Go build, Angular build. A simulated failing dependency exits nonzero with its command/exit code and no success message. This verifies a clean source environment on the existing supported Windows host, not a newly installed OS. Local implementation only; formal dependency acceptance and user commit remain outstanding."
+    },
+    {
+      "at": "2026-10-25T02:42:03+00:00",
+      "story_id": "VEY-007",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "Committed OpenAPI and generated TypeScript compile in Angular and strict tsc. Schema checks pass on Python 3.10 and 3.13. An intentionally stale schema fails drift checking; unit tests verify breaking-field/version handling. Contract version 3 records the new review and queue schema. Local implementation only; formal dependency acceptance and user commit remain outstanding."
+    },
+    {
+      "at": "2026-10-25T02:42:03+00:00",
+      "story_id": "VEY-008",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "Temporary test workspace factory supplies unique roots and fixture tenants. Runtime tests deny socket calls before DNS; explicitly marked local-process tests permit numeric loopback only. Browser fixtures block external origins and WebSockets. Inherited provider credentials/proxy variables are removed. Browser and Python external-call rejection tests pass. This is fixture configuration, not an OS filesystem sandbox. Local implementation only; formal dependency acceptance and user commit remain outstanding."
+    },
+    {
+      "at": "2026-10-25T02:42:03+00:00",
+      "story_id": "VEY-009",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "AST domain import checks and statically bounded UI import rules pass on owned sources; storage/secrets/dynamic import violations fail unit tests. Generated schemas and pinned skills are not rewritten. CI enforces the check. Local implementation only; formal dependency acceptance and user commit remain outstanding."
+    },
+    {
+      "at": "2026-10-25T02:42:03+00:00",
+      "story_id": "VEY-010",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "Seeded user, tenant, task and document records are byte-stable and independent of call order. Documents retain content hashes. fixture_ tenant namespaces are reserved to test profiles and rejected by local/remote settings. Fixture and configuration tests pass. Local implementation only; formal dependency acceptance and user commit remain outstanding."
+    },
+    {
+      "at": "2026-10-25T02:42:03+00:00",
+      "story_id": "VEY-017",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "Rust detects unexpected child exit and permits two automatic restart attempts per minute. Real Go/Python native integration verifies saved task/run identity and only unseen event replay after forced child termination. Uncertain writes remain unresolved across database reopen, do not redispatch, and produce a visible reconciliation notice. Explicit retry resets the restart budget. Local implementation only; formal dependency acceptance and user commit remain outstanding."
+    },
+    {
+      "at": "2026-10-25T02:42:03+00:00",
+      "story_id": "VEY-020",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "Host-owned bounded versioned JSON saves normal geometry and maximized state atomically. Restoration clamps to current monitor work areas, accounts for DPI and OS frame dimensions, handles negative coordinates/removed monitors, and ignores malformed/oversized preferences. Native tests cover fitting and actual disk roundtrip/replacement. Physical multi-monitor installed-app visual QA remains a release check. Local implementation only; formal dependency acceptance and user commit remain outstanding."
+    },
+    {
+      "at": "2026-10-25T02:42:03+00:00",
+      "story_id": "VEY-025",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "Angular contextual review drawer shows tool/version, exact arguments, workspace/reviewer, policy, evidence digests, deadline and required note. Go exposes only explicit validated commands and privately injects a separate reviewer credential. UI stale revisions, expiry, reject identity, focus restoration, narrow layout and axe A/AA checks pass; Python tests cover competing decisions and no dispatch on approval. The default host has an honest empty inbox until workflows are configured. Local implementation only; formal dependency acceptance and user commit remain outstanding."
+    },
+    {
+      "at": "2026-10-25T02:42:03+00:00",
+      "story_id": "VEY-027",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "Server search covers title/instruction, state groups, newest/oldest and scoped signed keyset cursors. UI restores filters, sorting and selected task after reload, pages both ways, returns to a valid page after deletion, and refreshes membership after live status changes. Browser tests verify 14px row spacing and keyboard behavior. Local implementation only; formal dependency acceptance and user commit remain outstanding."
+    },
+    {
+      "at": "2026-10-25T02:42:03+00:00",
+      "story_id": "VEY-039",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "Explicit host-triggered pruning reclaims expired unreferenced terminal-run artifacts with durable deletion records. Active runs, legal holds, immutable evidence/classification references and shared blobs retain protection. Holds validate under the writer lock. Cleanup excludes shared hashes before LIMIT, preventing starvation. Deterministic hold-race, shared-blob, cleanup and retry regressions pass. No automatic background deletion enabled. Local implementation only; formal dependency acceptance and user commit remain outstanding."
+    },
+    {
+      "at": "2026-10-25T02:42:03+00:00",
+      "story_id": "VEY-066",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "Durable scoped revocations are checked at preparation, dispatch admission, final dispatch and replay. Connector session grant bindings are revalidated. Tests cover cached permission/result and queued work after revocation while preserving audit history. Removing the actual revocation guard in an isolated copy causes the regression tests to fail. In-flight external effects cannot be undone. Local implementation only; formal dependency acceptance and user commit remain outstanding."
+    },
+    {
+      "at": "2026-10-25T02:42:03+00:00",
+      "story_id": "VEY-069",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "Pending requests are permanently superseded on expiry; a new request needs current evidence. Durable per-workspace clock high-water marks prevent expired receipts from reviving after clock rollback. Duplicate sweeps are idempotent. Angular aging and timer-based disabled decisions are covered by runtime and rendered browser tests. No automatic approval or external reminders sent. Local implementation only; formal dependency acceptance and user commit remain outstanding."
+    },
+    {
+      "at": "2026-10-25T02:42:03+00:00",
+      "story_id": "VEY-070",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "Explicit run-scoped export selects only allowed classified artifacts and redacted ledger evidence, including approved/rejected/expired review records. Manifest records hashes, policy and redaction metadata; caller must retain digest separately. Offline stdlib verifier rejects changed artifact/audit bytes and wrong digest. Cross-tenant, unclassified and unrelated-run evidence tests pass. Selected audit records are not represented as a full tenant chain. Local implementation only; formal dependency acceptance and user commit remain outstanding."
+    },
+    {
+      "at": "2026-10-25T02:42:03+00:00",
+      "story_id": "VEY-121",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local batch implementation verified against implemented prerequisite code. Acceptance gates remain outstanding; no done transition or commit fabricated.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch15-2026-10-24/checks.txt",
+        "planning/evidence/batch15-2026-10-24/quality-experiments.txt",
+        "planning/evidence/batch15-2026-10-24/browser-checks.txt"
+      ],
+      "acceptance_note": "Frozen memory contracts require explicit owner, tenant/workspace scope, source-run provenance and bounded aware validity intervals. Activation requires review; retracted, cross-scope, expired, future-reviewed or invalid-provenance records cannot be used. Tests pass. Persistence/retrieval and learned-memory workflows remain separate stories. Local implementation only; formal dependency acceptance and user commit remain outstanding."
     }
   ],
   "planning_deliverables": [

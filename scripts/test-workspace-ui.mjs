@@ -1,11 +1,12 @@
 // Built Angular integration at the IPC boundary, in Chromium rather than React/jsdom.
 import assert from 'node:assert/strict';
-import { harness } from './browser-harness.mjs';
+import { harness, isolate } from './browser-harness.mjs';
 const h = await harness();
 const errors = [];
 async function boot(mode) {
   const context = await h.browser.newContext(),
     page = await context.newPage();
+  await isolate(context,h.origin);
   page.on('pageerror', (e) => errors.push(e.message));
   await page.addInitScript((mode) => {
     const task = {
@@ -35,7 +36,7 @@ async function boot(mode) {
             return {
               items:
                 mode === 'readonly'
-                  ? [{ ...task, id: 'waiting', state: 'waiting' }]
+                  ? (args.status === 'attention' && task.state === 'running' ? [] : [{ ...task, id: 'waiting', state: task.state === 'running' ? 'running' : 'waiting' }])
                   : saved
                     ? [task]
                     : [],
@@ -49,8 +50,10 @@ async function boot(mode) {
             if (f.submissions.length === 1) throw 'runtime_timeout';
             return { task, run };
           }
-          if (operation === 'latest_run')
+          if (operation === 'latest_run') {
+            if(mode === 'readonly') task.state='running';
             return mode === 'readonly' ? { ...run, state: 'running' } : run;
+          }
           if (operation === 'events') {
             f.cursors.push(args.after);
             if (eventCount++ === 0)
