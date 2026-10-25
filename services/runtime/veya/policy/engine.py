@@ -1,4 +1,5 @@
 """Exact, deny-by-default grants supplied by trusted application configuration."""
+
 from dataclasses import dataclass
 from enum import Enum
 
@@ -60,7 +61,10 @@ class Grant:
             identifier(value)
         if not isinstance(self.actor, Actor) or not isinstance(self.resource, Resource):
             raise ValueError('Grants require typed actor and resource identities')
-        if (self.actor.tenant_id, self.actor.workspace_id) != (self.resource.tenant_id, self.resource.workspace_id):
+        if (self.actor.tenant_id, self.actor.workspace_id) != (
+            self.resource.tenant_id,
+            self.resource.workspace_id,
+        ):
             raise ValueError('Grant actor and resource must share tenant and workspace')
         if self.resource.classification is None:
             raise ValueError('Unknown data classification cannot be granted')
@@ -86,13 +90,24 @@ class PolicyEngine:
             raise ValueError('Policy snapshots must be immutable')
         for capability in self.known_capabilities:
             identifier(capability)
-        if any(not isinstance(grant, Grant) or grant.capability not in self.known_capabilities for grant in self.grants):
+        if any(
+            not isinstance(grant, Grant) or grant.capability not in self.known_capabilities
+            for grant in self.grants
+        ):
             raise ValueError('Every grant must use a known capability')
         if len({grant.id for grant in self.grants}) != len(self.grants):
             raise ValueError('Grant identities must be unique')
 
-    def authorize(self, actor: Actor | None, tenant: str, workspace: str, tool: ToolDefinition,
-                  operation: str, resources: tuple[Resource, ...], proposal_id: str) -> Decision:
+    def authorize(
+        self,
+        actor: Actor | None,
+        tenant: str,
+        workspace: str,
+        tool: ToolDefinition,
+        operation: str,
+        resources: tuple[Resource, ...],
+        proposal_id: str,
+    ) -> Decision:
         if not isinstance(actor, Actor):
             raise PolicyDenied('missing_identity')
         if (actor.tenant_id, actor.workspace_id) != (tenant, workspace):
@@ -110,12 +125,17 @@ class PolicyEngine:
             if resource.classification is None:
                 raise PolicyDenied('unknown_classification')
             for capability in tool.capabilities:
-                candidates = [grant for grant in self.grants
-                              if grant.actor == actor and grant.tool_name == tool.name
-                              and grant.operation == operation and grant.capability == capability
-                              and grant.resource == resource
-                              and (grant.proposal_id is None or grant.proposal_id == proposal_id)
-                              and (tool.effect == Effect.READ_ONLY or grant.proposal_id == proposal_id)]
+                candidates = [
+                    grant
+                    for grant in self.grants
+                    if grant.actor == actor
+                    and grant.tool_name == tool.name
+                    and grant.operation == operation
+                    and grant.capability == capability
+                    and grant.resource == resource
+                    and (grant.proposal_id is None or grant.proposal_id == proposal_id)
+                    and (tool.effect == Effect.READ_ONLY or grant.proposal_id == proposal_id)
+                ]
                 if not candidates:
                     raise PolicyDenied('missing_grant')
                 matched.add(min(grant.id for grant in candidates))
