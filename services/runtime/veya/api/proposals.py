@@ -15,7 +15,8 @@ class PlanRequest(BaseModel):
 
 def display(proposal: Proposal) -> dict:
     return {key: value for key, value in vars(proposal).items() if key != 'arguments_json'} | {
-        'arguments': proposal.arguments}
+        'arguments': proposal.arguments
+    }
 
 
 def router(db: Database, registry: ToolRegistry, scope: ToolScope) -> APIRouter:
@@ -26,11 +27,14 @@ def router(db: Database, registry: ToolRegistry, scope: ToolScope) -> APIRouter:
     def plan(run_id: str, request: PlanRequest):
         # A malformed path is a request error, not an uncaught domain constructor error.
         from veya.domain.models import DomainError, identifier
+
         try:
             identifier(run_id)
         except ValueError as error:
             raise DomainError('invalid_input', 'Invalid run identifier') from error
-        return display(store.plan(scope, run_id, request.tool_name, request.tool_version, request.arguments))
+        return display(
+            store.plan(scope, run_id, request.tool_name, request.tool_version, request.arguments)
+        )
 
     @routes.get('/v1/proposals/{proposal_id}')
     def review(proposal_id: str):

@@ -22,4 +22,5 @@ def router(registry: ToolRegistry, scope: ToolScope) -> APIRouter:
     @routes.get('/tools', response_model=list[ToolManifest])
     def list_tools() -> list[dict]:
         return registry.available(scope)
+
     return routes

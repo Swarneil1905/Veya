@@ -1,5 +1,7 @@
 """Authenticated metadata and preflight, using only host-configured providers."""
+
 import json
+
 from fastapi import APIRouter
 
 from veya.domain.models import DomainError
@@ -21,8 +23,10 @@ def router(db: Database, catalog: ModelCatalog) -> APIRouter:
     @routes.get('/runs/{run_id}/model')
     def selection(run_id: str) -> dict:
         with db.connection() as conn:
-            row = conn.execute('SELECT route_json FROM model_routes WHERE tenant_id=? AND run_id=?',
-                               (catalog.tenant_id, run_id)).fetchone()
+            row = conn.execute(
+                'SELECT route_json FROM model_routes WHERE tenant_id=? AND run_id=?',
+                (catalog.tenant_id, run_id),
+            ).fetchone()
         if row is None:
             raise DomainError('not_found', 'Run has no model selection')
         return json.loads(row['route_json'])

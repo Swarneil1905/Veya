@@ -18,4 +18,5 @@ def router(db: Database, tenant: str) -> APIRouter:
     @routes.patch('/runs/{run_id}', response_model=Run)
     def change_run(run_id: str, payload: RunTransition) -> Run:
         return transition_run(db, tenant, run_id, payload.state, payload.expected_revision)
+
     return routes
