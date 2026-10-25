@@ -1,11 +1,11 @@
-from dataclasses import FrozenInstanceError, replace
 import sqlite3
+from dataclasses import FrozenInstanceError, replace
 
 import pytest
-from fastapi.testclient import TestClient
-
 from conftest import TOKEN
+from fastapi.testclient import TestClient
 from test_tool_registry import definition, scope
+
 from veya.api.app import create_app
 from veya.domain.models import DomainError, Run, Task
 from veya.events.store import EventStore
@@ -26,9 +26,15 @@ def setup_store(root):
 
 def test_plan_review_and_mutation_create_distinct_records(settings):
     db, registry, store = setup_store(settings.storage_root)
-    payload = {'tool_name': 'lookup_invoice', 'tool_version': '1.0.0', 'arguments': {'invoice_id': 'inv_1'}}
-    with TestClient(create_app(settings, TOKEN, tool_registry=registry, tool_scope=scope()),
-                    headers={'Authorization': 'Bearer ' + TOKEN}) as client:
+    payload = {
+        'tool_name': 'lookup_invoice',
+        'tool_version': '1.0.0',
+        'arguments': {'invoice_id': 'inv_1'},
+    }
+    with TestClient(
+        create_app(settings, TOKEN, tool_registry=registry, tool_scope=scope()),
+        headers={'Authorization': 'Bearer ' + TOKEN},
+    ) as client:
         first = client.post('/v1/runs/run_plan/proposals', json=payload)
         assert first.status_code == 201
         first = first.json()
@@ -38,7 +44,10 @@ def test_plan_review_and_mutation_create_distinct_records(settings):
         assert first['arguments_hash'] != second['arguments_hash']
         assert client.get('/v1/proposals/' + first['id']).json() == first
         assert client.post('/v1/runs/bad!id/proposals', json=payload).status_code == 422
-        assert client.post('/v1/runs/run_plan/proposals', json=payload | {'execute': True}).status_code == 422
+        assert (
+            client.post('/v1/runs/run_plan/proposals', json=payload | {'execute': True}).status_code
+            == 422
+        )
     reopened = ProposalStore(Database(settings.storage_root), registry)
     proposal = reopened.get('fixture_acme', first['id'])
     proposal.arguments['invoice_id'] = 'mutated'
@@ -54,7 +63,7 @@ def test_plan_review_and_mutation_create_distinct_records(settings):
 def test_proposals_cannot_be_modified_or_deleted(tmp_path):
     db, _, store = setup_store(tmp_path)
     p = store.plan(scope(), 'run_plan', 'lookup_invoice', '1.0.0', {'invoice_id': 'inv'})
-    for sql in ['UPDATE proposals SET arguments_json=\'{}\'', 'DELETE FROM proposals']:
+    for sql in ["UPDATE proposals SET arguments_json='{}'", 'DELETE FROM proposals']:
         with db.transaction() as conn, pytest.raises(sqlite3.IntegrityError, match='immutable'):
             conn.execute(sql)
     assert store.get(scope().tenant_id, p.id) == p
@@ -81,8 +90,10 @@ def test_scopes_declarations_and_terminal_runs(tmp_path):
 
 def test_failed_event_rolls_back_proposal(tmp_path, monkeypatch):
     db, _, store = setup_store(tmp_path)
+
     def fail(*args):
         raise RuntimeError('fixture rollback')
+
     monkeypatch.setattr('veya.tools.tracing.append_event', fail)
     with pytest.raises(RuntimeError):
         store.plan(scope(), 'run_plan', 'lookup_invoice', '1.0.0', {'invoice_id': 'inv'})
