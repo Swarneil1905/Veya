@@ -15,10 +15,11 @@ from typing import Callable
 from uuid import uuid4
 
 from veya.audit.ledger import AuditField, Sensitivity, append_in_transaction
-from veya.domain.models import identifier
+from veya.domain.models import identifier, utc_now
 from veya.policy.engine import PolicyDenied
 from veya.storage.sqlite import Database
 from veya.tools.contracts import canonical_json
+from veya.tools.tracing import append_span, internal
 
 
 @dataclass(frozen=True)
@@ -69,6 +70,12 @@ class ApprovalStore:
         return hmac.new(self._key, body.encode('utf-8'), hashlib.sha256).hexdigest()
 
     def issue(self, review: ApprovalReview, *, expires_at: float) -> ApprovalReceipt:
+        with self.db.transaction() as conn:
+            return self.issue_in_transaction(conn, review, expires_at=expires_at)
+
+    def issue_in_transaction(self, conn, review: ApprovalReview, *, expires_at: float) -> ApprovalReceipt:
+        if not conn.in_transaction:
+            raise ValueError('Approval issuance requires a transaction')
         if type(review) is not ApprovalReview:
             raise ValueError('An exact reviewed action is required')
         now = self.clock()
@@ -78,21 +85,22 @@ class ApprovalStore:
         body = canonical_json(dict(asdict(review), id=receipt_id, key_id=self.key_id,
                                    issued_at=now, expires_at=expires_at), 16_384)
         receipt = ApprovalReceipt(receipt_id, body, self._sign(body))
-        with self.db.transaction() as conn:
-            proposal = conn.execute('SELECT p.*,r.state FROM proposals p JOIN runs r '
-                'ON r.tenant_id=p.tenant_id AND r.id=p.run_id WHERE p.tenant_id=? AND p.id=?',
-                (review.tenant_id, review.proposal_id)).fetchone()
-            if (proposal is None or proposal['state'] in {'succeeded', 'failed', 'cancelled'} or
-                any(proposal[name] != getattr(review, name) for name in ('run_id', 'arguments_hash', 'manifest_hash'))):
-                raise PolicyDenied('invalid_approval_proposal')
-            conn.execute('INSERT INTO approvals VALUES (?,?,?,?,?)',
-                         (review.tenant_id, receipt.id, review.proposal_id, receipt.body_json, receipt.signature))
-            append_in_transaction(conn, review.tenant_id, 'approval.issued', {
-                'approval_id': AuditField(receipt.id, Sensitivity.INTERNAL),
-                'proposal_id': AuditField(review.proposal_id, Sensitivity.INTERNAL),
-                'actor_id': AuditField(review.actor_id, Sensitivity.INTERNAL),
-                'policy_version': AuditField(review.policy_version, Sensitivity.INTERNAL),
-            })
+        proposal = conn.execute('SELECT p.*,r.state FROM proposals p JOIN runs r '
+            'ON r.tenant_id=p.tenant_id AND r.id=p.run_id WHERE p.tenant_id=? AND p.id=?',
+            (review.tenant_id, review.proposal_id)).fetchone()
+        if (proposal is None or proposal['state'] in {'succeeded', 'failed', 'cancelled'} or
+            any(proposal[name] != getattr(review, name) for name in ('run_id', 'arguments_hash', 'manifest_hash'))):
+            raise PolicyDenied('invalid_approval_proposal')
+        conn.execute('INSERT INTO approvals VALUES (?,?,?,?,?)',
+                     (review.tenant_id, receipt.id, review.proposal_id, receipt.body_json, receipt.signature))
+        append_in_transaction(conn, review.tenant_id, 'approval.issued', {
+            'approval_id': AuditField(receipt.id, Sensitivity.INTERNAL),
+            'proposal_id': AuditField(review.proposal_id, Sensitivity.INTERNAL),
+            'actor_id': AuditField(review.actor_id, Sensitivity.INTERNAL),
+            'policy_version': AuditField(review.policy_version, Sensitivity.INTERNAL),
+        })
+        append_span(conn, review.tenant_id, review.run_id, 'action.approved', 'approved',
+                    review.proposal_id, review.operation_key, fields={'approval_id': internal(receipt.id)})
         return receipt
 
     def get(self, tenant: str, receipt_id: str) -> ApprovalReceipt:
@@ -106,7 +114,7 @@ class ApprovalStore:
         return ApprovalReceipt(**dict(row))
 
     def verify(self, receipt: ApprovalReceipt, review: ApprovalReview) -> None:
-        """Pure signature/binding/clock check; safe immediately before dispatch."""
+        """Check signature, binding, expiry and durable revocation at dispatch."""
         try:
             if type(receipt) is not ApprovalReceipt or type(review) is not ApprovalReview:
                 raise ValueError()
@@ -125,5 +133,27 @@ class ApprovalStore:
             expected = dict(asdict(review), id=receipt.id, key_id=self.key_id, issued_at=issued, expires_at=expires)
             if canonical_json(expected, 16_384) != receipt.body_json:
                 raise ValueError()
+            with self.db.connection() as conn:
+                persisted = conn.execute('SELECT body_json,signature FROM approvals WHERE tenant_id=? AND id=?',
+                                         (review.tenant_id, receipt.id)).fetchone()
+                revoked = conn.execute('SELECT 1 FROM approval_revocations WHERE tenant_id=? AND approval_id=?',
+                                       (review.tenant_id, receipt.id)).fetchone()
+            if (persisted is None or revoked is not None or persisted['body_json'] != receipt.body_json or
+                    persisted['signature'] != receipt.signature):
+                raise ValueError()
         except (ValueError, TypeError, KeyError, UnicodeError, OverflowError):
             raise PolicyDenied('invalid_or_expired_approval') from None
+
+    def revoke(self, tenant: str, receipt_id: str, actor_id: str) -> None:
+        """Trusted reviewer-host operation; cannot undo an already dispatched effect."""
+        for value in (tenant, receipt_id, actor_id):
+            identifier(value)
+        with self.db.transaction() as conn:
+            if conn.execute('SELECT 1 FROM approvals WHERE tenant_id=? AND id=?', (tenant, receipt_id)).fetchone() is None:
+                raise PolicyDenied('missing_approval')
+            if conn.execute('INSERT OR IGNORE INTO approval_revocations VALUES (?,?,?,?)',
+                            (tenant, receipt_id, actor_id, utc_now())).rowcount:
+                append_in_transaction(conn, tenant, 'approval.revoked', {
+                    'approval_id': AuditField(receipt_id, Sensitivity.INTERNAL),
+                    'actor_id': AuditField(actor_id, Sensitivity.INTERNAL),
+                })
