@@ -1,7 +1,9 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+mod recovery;
 mod runtime;
 mod transport;
+mod window_state;
 use runtime::{Health, Runtime};
 use serde_json::Value;
 use std::sync::{Arc, Mutex};
@@ -109,6 +111,9 @@ fn main() {
         ])
         .setup(|app| {
             let folder = app.path().app_local_data_dir()?;
+            if let Some(window) = app.get_webview_window("main") {
+                window_state::install(&window, folder.join("window-v1.json"));
+            }
             let python = std::env::var_os("VEYA_PYTHON")
                 .map(std::path::PathBuf::from)
                 .unwrap_or_else(|| "python".into());

@@ -24,12 +24,14 @@ pub struct Runtime {
     workspace: PathBuf,
     log: PathBuf,
     health: Health,
+    recovery: crate::recovery::Recovery,
 }
 
 impl Runtime {
     pub fn new(python: PathBuf, source: PathBuf, workspace: PathBuf, log: PathBuf) -> Self {
         Self {
             child: None,
+            recovery: crate::recovery::Recovery::default(),
             port: 0,
             token: String::new(),
             python,
@@ -65,12 +67,19 @@ impl Runtime {
     pub fn health(&mut self) -> Health {
         if let Some(child) = &mut self.child {
             if !matches!(child.try_wait(), Ok(None)) {
-                self.child = None;
+                self.stop();
                 self.token.clear();
                 self.port = 0;
+                self.report(
+                    "failed",
+                    "Runtime stopped unexpectedly; reconnecting to saved work.",
+                );
+                if self.recovery.admit(Instant::now()) {
+                    return self.start();
+                }
                 return self.report(
                     "failed",
-                    "Runtime stopped unexpectedly. Restart to reconnect to saved work.",
+                    "Runtime repeatedly stopped. Check the connection details before restarting.",
                 );
             }
         }
@@ -173,6 +182,7 @@ impl Runtime {
     }
 
     pub fn restart(&mut self) -> Health {
+        self.recovery.reset();
         self.stop();
         self.start()
     }
@@ -237,7 +247,12 @@ fn id(value: &Value) -> Result<&str, String> {
 fn route(operation: &str, args: Value) -> Result<(&'static str, String, Value), String> {
     let object = args.as_object().ok_or("invalid_input")?;
     let allowed: &[&str] = match operation {
-        "list_tasks" | "recovery" => &[],
+        "list_tasks" => &["status", "search", "sort", "cursor"],
+        "recovery" => &[],
+        "get_task" => &["task_id"],
+        "list_approvals" => &["after"],
+        "get_approval" => &["id"],
+        "decide_approval" => &["id", "revision", "decision", "note"],
         "submit_task" => &["client_request_id", "title", "instruction"],
         "latest_run" => &["task_id"],
         "events" => &["run_id", "after"],
@@ -245,6 +260,13 @@ fn route(operation: &str, args: Value) -> Result<(&'static str, String, Value), 
     };
     if object.keys().any(|key| !allowed.contains(&key.as_str())) {
         return Err("invalid_input".into());
+    }
+    if matches!(
+        operation,
+        "get_task" | "list_approvals" | "get_approval" | "decide_approval"
+    ) {
+        // No arbitrary path is forwarded: Go owns the shared command validation.
+        return Ok(("POST", "/api/workspace".into(), args));
     }
     let path = match operation {
         "list_tasks" => "/v1/tasks?limit=10".into(),
@@ -350,6 +372,11 @@ mod tests {
         assert_eq!(host.child.as_ref().unwrap().id(), first);
         let request = json!({"client_request_id":"native_test", "title":"Native task", "instruction":"Preserve across restart"});
         let saved = host.call("submit_task", request.clone()).unwrap();
+        let run_id = saved["run"]["id"].as_str().unwrap().to_owned();
+        let initial_events = host
+            .call("events", json!({"run_id":run_id,"after":null}))
+            .unwrap();
+        let cursor = initial_events["next_cursor"].clone();
         let token = host.token.clone();
         assert_eq!(host.restart().state, "ready");
         assert_ne!(host.token, token);
@@ -364,9 +391,24 @@ mod tests {
                 .len(),
             1
         );
+        // A worker records new history after the renderer's last seen cursor.
+        let appended = Command::new("python")
+            .arg("-c")
+            .arg("import sys;from pathlib import Path;from veya.storage.sqlite import Database;from veya.events.store import EventStore;EventStore(Database(Path(sys.argv[1]))).append('desktop',sys.argv[2],'fixture.progress',{'message':'Saved before disconnect'})")
+            .arg(&host.workspace).arg(&run_id).env("PYTHONPATH", &host.source).status().unwrap();
+        assert!(appended.success());
         host.child.as_mut().unwrap().kill().unwrap();
         host.child.as_mut().unwrap().wait().unwrap();
-        assert_eq!(host.health().state, "failed");
+        assert_eq!(host.health().state, "ready");
+        let resumed = host
+            .call("events", json!({"run_id":run_id,"after":cursor}))
+            .unwrap();
+        assert_eq!(resumed["items"].as_array().unwrap().len(), 1);
+        assert_eq!(resumed["items"][0]["kind"], "fixture.progress");
+        assert_eq!(
+            host.call("list_tasks", json!({})).unwrap()["items"][0]["id"],
+            saved["task"]["id"]
+        );
         assert_eq!(host.start().state, "ready");
         host.stop();
         assert!(host.child.is_none());
