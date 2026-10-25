@@ -167,18 +167,18 @@ def test_metadata_commit_is_atomic_with_result_and_immutable(tmp_path, monkeypat
     def handler(arguments):
         calls.append(1)
         return {'total': 42}
-    from veya.tools import idempotency
-    real_append = idempotency.append_event
+    from veya.tools import tracing
+    real_append = tracing.append_event
     def failed_completion(conn, tenant, run, kind, data):
         if kind == 'action.completed':
             raise RuntimeError('fixture event failure')
         return real_append(conn, tenant, run, kind, data)
-    monkeypatch.setattr(idempotency, 'append_event', failed_completion)
+    monkeypatch.setattr(tracing, 'append_event', failed_completion)
     store = IntentStore(proposals)
     with pytest.raises(RuntimeError):
         store.execute(scope(), 'failed', proposal.id, handler)
     assert store.execute(scope(), 'failed', proposal.id, handler).metadata is None
-    monkeypatch.setattr(idempotency, 'append_event', real_append)
+    monkeypatch.setattr(tracing, 'append_event', real_append)
     store.execute(scope(), 'success', proposal.id, handler)
     for sql in ["UPDATE intent_results SET metadata_json='{}'", 'DELETE FROM intent_results']:
         with db.transaction() as conn, pytest.raises(sqlite3.IntegrityError):

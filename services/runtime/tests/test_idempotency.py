@@ -138,14 +138,14 @@ def test_reservation_and_completion_events_are_atomic(tmp_path, monkeypatch):
 
 
 def test_completion_event_failure_preserves_unknown_outcome(tmp_path, monkeypatch):
-    from veya.tools import idempotency
+    from veya.tools import tracing
     db, _, proposals, proposal = planned(tmp_path)
-    real_append = idempotency.append_event
+    real_append = tracing.append_event
     def fail_completion(conn, tenant, run, kind, data):
         if kind == 'action.completed':
             raise RuntimeError('fixture completion event failure')
         return real_append(conn, tenant, run, kind, data)
-    monkeypatch.setattr(idempotency, 'append_event', fail_completion)
+    monkeypatch.setattr(tracing, 'append_event', fail_completion)
     calls = []
     def handler(arguments):
         calls.append(1)

@@ -83,7 +83,7 @@ def test_failed_event_rolls_back_proposal(tmp_path, monkeypatch):
     db, _, store = setup_store(tmp_path)
     def fail(*args):
         raise RuntimeError('fixture rollback')
-    monkeypatch.setattr('veya.tools.proposals.append_event', fail)
+    monkeypatch.setattr('veya.tools.tracing.append_event', fail)
     with pytest.raises(RuntimeError):
         store.plan(scope(), 'run_plan', 'lookup_invoice', '1.0.0', {'invoice_id': 'inv'})
     with db.connection() as conn:
