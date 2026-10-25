@@ -1,6 +1,6 @@
+import re
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-import re
 
 STATES = frozenset({'queued', 'running', 'waiting', 'succeeded', 'failed', 'cancelled'})
 TERMINAL = frozenset({'succeeded', 'failed', 'cancelled'})

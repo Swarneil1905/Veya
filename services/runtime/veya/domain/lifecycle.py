@@ -1,7 +1,8 @@
 """Run transition policy, independent of transport and persistence."""
+
 from dataclasses import replace
 
-from veya.domain.models import DomainError, Run, STATES
+from veya.domain.models import STATES, DomainError, Run
 
 TRANSITIONS = {
     'queued': frozenset({'running', 'failed', 'cancelled'}),
