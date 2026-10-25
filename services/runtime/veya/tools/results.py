@@ -1,10 +1,11 @@
 """Untrusted result boundary: strict data, provenance and separately bounded preview."""
-from dataclasses import dataclass
+
 import hashlib
 import json
 import re
-from typing import AsyncIterable
 import unicodedata
+from dataclasses import dataclass
+from typing import AsyncIterable
 
 from veya.domain.models import DomainError, identifier
 from veya.tools.contracts import canonical_json
@@ -54,7 +55,11 @@ class NormalizedResult:
 
     @property
     def truncation_notice(self) -> str | None:
-        return f'Preview truncated; original result was {self.original_bytes} bytes.' if self.truncated else None
+        return (
+            f'Preview truncated; original result was {self.original_bytes} bytes.'
+            if self.truncated
+            else None
+        )
 
 
 _CARRIER_TOKEN = object()
@@ -66,7 +71,9 @@ class ResultData(dict):
     JSON objects cannot supply this provenance. Trusted Python code owns this
     boundary; this is not a sandbox against arbitrary Python execution.
     """
+
     __slots__ = ('_normalized',)
+    _normalized: NormalizedResult
 
     def __init__(self, result: NormalizedResult, token):
         if token is not _CARRIER_TOKEN:
@@ -80,8 +87,11 @@ class ResultData(dict):
 
 def _clean_text(value: str) -> str:
     value = _ESCAPES.sub('', value)
-    return ''.join(char for char in value if char not in _BIDI
-                   and (unicodedata.category(char) != 'Cc' or char in '\n\t'))
+    return ''.join(
+        char
+        for char in value
+        if char not in _BIDI and (unicodedata.category(char) != 'Cc' or char in '\n\t')
+    )
 
 
 def _clean(value, tool_name: str):
@@ -130,47 +140,99 @@ class ResultNormalizer:
         except ResultFailure:
             raise
         except (DomainError, ValueError, TypeError, RecursionError) as error:
-            reason = 'too_large' if isinstance(error, DomainError) and error.code == 'too_large' else 'schema'
+            reason = (
+                'too_large'
+                if isinstance(error, DomainError) and error.code == 'too_large'
+                else 'schema'
+            )
             raise ResultFailure(tool.name, reason) from None
         output = encoded.encode('utf-8')
         preview = output[:preview_bytes].decode('utf-8', errors='ignore')
-        return NormalizedResult(ResultSource(scope.tenant_id, tool.name, tool.version, call_id,
-                                              hashlib.sha256(canonical_json(tool.manifest(), 1_048_576).encode()).hexdigest()), encoded,
-                                len(original), hashlib.sha256(original).hexdigest(), original_controls or cleaned != validated,
-                                preview, len(output) > preview_bytes)
+        return NormalizedResult(
+            ResultSource(
+                scope.tenant_id,
+                tool.name,
+                tool.version,
+                call_id,
+                hashlib.sha256(canonical_json(tool.manifest(), 1_048_576).encode()).hexdigest(),
+            ),
+            encoded,
+            len(original),
+            hashlib.sha256(original).hexdigest(),
+            original_controls or cleaned != validated,
+            preview,
+            len(output) > preview_bytes,
+        )
 
-    def normalize(self, scope: ToolScope, name: str, version: str, payload: object,
-                  *, call_id: str, preview_bytes: int) -> NormalizedResult:
+    def normalize(
+        self,
+        scope: ToolScope,
+        name: str,
+        version: str,
+        payload: object,
+        *,
+        call_id: str,
+        preview_bytes: int,
+    ) -> NormalizedResult:
         self.validate_options(call_id, preview_bytes)
         tool = self.registry.resolve(scope, name, version)
         try:
             original = canonical_json(payload, tool.max_output_bytes).encode('utf-8')
         except DomainError as error:
-            raise ResultFailure(tool.name, 'too_large' if error.code == 'too_large' else 'invalid_json') from None
+            raise ResultFailure(
+                tool.name, 'too_large' if error.code == 'too_large' else 'invalid_json'
+            ) from None
         return self._finish(scope, name, version, payload, original, call_id, preview_bytes)
 
-    def normalize_dispatch(self, scope: ToolScope, name: str, version: str, payload: object,
-                           *, call_id: str, preview_bytes: int) -> NormalizedResult:
+    def normalize_dispatch(
+        self,
+        scope: ToolScope,
+        name: str,
+        version: str,
+        payload: object,
+        *,
+        call_id: str,
+        preview_bytes: int,
+    ) -> NormalizedResult:
         if type(payload) is not ResultData:
-            return self.normalize(scope, name, version, payload, call_id=call_id, preview_bytes=preview_bytes)
+            return self.normalize(
+                scope, name, version, payload, call_id=call_id, preview_bytes=preview_bytes
+            )
         tool = self.registry.resolve(scope, name, version)
         normalized = payload._normalized
         source = normalized.source
-        if (source.tenant_id, source.tool_name, source.tool_version) != (scope.tenant_id, name, version):
+        if (source.tenant_id, source.tool_name, source.tool_version) != (
+            scope.tenant_id,
+            name,
+            version,
+        ):
             raise ResultFailure(name, 'provenance_scope')
-        if source.manifest_hash != hashlib.sha256(canonical_json(tool.manifest(), 1_048_576).encode()).hexdigest():
+        if (
+            source.manifest_hash
+            != hashlib.sha256(canonical_json(tool.manifest(), 1_048_576).encode()).hexdigest()
+        ):
             raise ResultFailure(name, 'provenance_schema')
         # A caller may mutate its dict copy; it cannot retain stale provenance.
         try:
-            current = canonical_json(dict(payload), self.registry.resolve(scope, name, version).max_output_bytes)
+            current = canonical_json(
+                dict(payload), self.registry.resolve(scope, name, version).max_output_bytes
+            )
         except DomainError:
             raise ResultFailure(name, 'changed_result') from None
         if current != normalized.data_json:
             raise ResultFailure(name, 'changed_result')
         return normalized
 
-    def decode(self, scope: ToolScope, name: str, version: str, data: bytes,
-               *, call_id: str, preview_bytes: int) -> NormalizedResult:
+    def decode(
+        self,
+        scope: ToolScope,
+        name: str,
+        version: str,
+        data: bytes,
+        *,
+        call_id: str,
+        preview_bytes: int,
+    ) -> NormalizedResult:
         self.validate_options(call_id, preview_bytes)
         tool = self.registry.resolve(scope, name, version)
         if type(data) is not bytes:
@@ -182,15 +244,27 @@ class ResultNormalizer:
         except UnicodeError:
             raise ResultFailure(tool.name, 'invalid_encoding') from None
         try:
+
             def reject_constant(value):
                 raise ValueError('Nonfinite JSON number')
-            payload = json.loads(text, object_pairs_hook=_unique_object, parse_constant=reject_constant)
+
+            payload = json.loads(
+                text, object_pairs_hook=_unique_object, parse_constant=reject_constant
+            )
         except (ValueError, RecursionError):
             raise ResultFailure(tool.name, 'invalid_json') from None
         return self._finish(scope, name, version, payload, data, call_id, preview_bytes)
 
-    async def read(self, scope: ToolScope, name: str, version: str, chunks: AsyncIterable[bytes],
-                   *, call_id: str, preview_bytes: int) -> NormalizedResult:
+    async def read(
+        self,
+        scope: ToolScope,
+        name: str,
+        version: str,
+        chunks: AsyncIterable[bytes],
+        *,
+        call_id: str,
+        preview_bytes: int,
+    ) -> NormalizedResult:
         self.validate_options(call_id, preview_bytes)
         tool = self.registry.resolve(scope, name, version)
         buffer = bytearray()
@@ -205,4 +279,6 @@ class ResultNormalizer:
             raise
         except Exception:
             raise ResultFailure(tool.name, 'read_failure') from None
-        return self.decode(scope, name, version, bytes(buffer), call_id=call_id, preview_bytes=preview_bytes)
+        return self.decode(
+            scope, name, version, bytes(buffer), call_id=call_id, preview_bytes=preview_bytes
+        )

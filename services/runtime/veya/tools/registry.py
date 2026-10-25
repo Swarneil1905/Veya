@@ -1,8 +1,9 @@
 """Trusted tool declarations; workspace visibility does not grant approval to execute writes."""
-from dataclasses import dataclass
-from enum import Enum
+
 import json
 import re
+from dataclasses import dataclass
+from enum import Enum
 
 from pydantic import BaseModel, ConfigDict, ValidationError
 
@@ -49,7 +50,9 @@ class ToolDefinition:
 
     def __post_init__(self):
         identifier(self.name)
-        if not isinstance(self.version, str) or not re.fullmatch(r'(0|[1-9][0-9]{0,5})\.(0|[1-9][0-9]{0,5})\.(0|[1-9][0-9]{0,5})', self.version):
+        if not isinstance(self.version, str) or not re.fullmatch(
+            r'(0|[1-9][0-9]{0,5})\.(0|[1-9][0-9]{0,5})\.(0|[1-9][0-9]{0,5})', self.version
+        ):
             raise ValueError('Tool version must be an explicit major.minor.patch version')
         text(self.description, 500, 'description')
         if not isinstance(self.effect, Effect):
@@ -61,18 +64,28 @@ class ToolDefinition:
         for model in (self.input_model, self.output_model):
             if not isinstance(model, type) or not issubclass(model, ToolPayload):
                 raise ValueError('Tool schemas must derive from ToolPayload')
-            if model.model_config.get('extra') != 'forbid' or model.model_config.get('strict') is not True or model.model_config.get('validate_default') is not True:
+            if (
+                model.model_config.get('extra') != 'forbid'
+                or model.model_config.get('strict') is not True
+                or model.model_config.get('validate_default') is not True
+            ):
                 raise ValueError('Tool schemas must reject extras and type coercion')
         for maximum in (self.max_input_bytes, self.max_output_bytes):
             if type(maximum) is not int or not 0 < maximum <= 1_048_576:
                 raise ValueError('A positive byte limit at most 1 MiB is required')
 
     def manifest(self) -> dict:
-        return {'name': self.name, 'version': self.version, 'description': self.description,
-                'effect': self.effect.value, 'capabilities': sorted(self.capabilities),
-                'input_schema': self.input_model.model_json_schema(),
-                'output_schema': self.output_model.model_json_schema(),
-                'max_input_bytes': self.max_input_bytes, 'max_output_bytes': self.max_output_bytes}
+        return {
+            'name': self.name,
+            'version': self.version,
+            'description': self.description,
+            'effect': self.effect.value,
+            'capabilities': sorted(self.capabilities),
+            'input_schema': self.input_model.model_json_schema(),
+            'output_schema': self.output_model.model_json_schema(),
+            'max_input_bytes': self.max_input_bytes,
+            'max_output_bytes': self.max_output_bytes,
+        }
 
 
 class ToolRegistry:
@@ -89,18 +102,27 @@ class ToolRegistry:
         self._tools[tool.name] = tool
 
     def available(self, scope: ToolScope) -> list[dict]:
-        return [tool.manifest() for name, tool in sorted(self._tools.items())
-                if name in scope.enabled_tools and tool.capabilities <= scope.capabilities]
+        return [
+            tool.manifest()
+            for name, tool in sorted(self._tools.items())
+            if name in scope.enabled_tools and tool.capabilities <= scope.capabilities
+        ]
 
     def resolve(self, scope: ToolScope, name: str, version: str) -> ToolDefinition:
         tool = self._tools.get(name)
-        if tool is None or name not in scope.enabled_tools or not tool.capabilities <= scope.capabilities:
+        if (
+            tool is None
+            or name not in scope.enabled_tools
+            or not tool.capabilities <= scope.capabilities
+        ):
             raise DomainError('not_found', 'Tool is unavailable in this workspace')
         if tool.version != version:
             raise DomainError('conflict', 'Tool version is not available')
         return tool
 
-    def _validate(self, scope: ToolScope, name: str, version: str, payload: object, output: bool) -> dict:
+    def _validate(
+        self, scope: ToolScope, name: str, version: str, payload: object, output: bool
+    ) -> dict:
         tool = self.resolve(scope, name, version)
         maximum = tool.max_output_bytes if output else tool.max_input_bytes
         model = tool.output_model if output else tool.input_model
@@ -110,7 +132,9 @@ class ToolRegistry:
         try:
             validated = model.model_validate(payload, strict=True).model_dump(mode='json')
         except (ValidationError, ValueError, TypeError) as error:
-            raise DomainError('invalid_input', 'Tool payload does not match its declared schema') from error
+            raise DomainError(
+                'invalid_input', 'Tool payload does not match its declared schema'
+            ) from error
         # Defaults and serializers must fit the same limit as input bytes.
         return json.loads(canonical_json(validated, maximum))
 
@@ -119,4 +143,3 @@ class ToolRegistry:
 
     def output(self, scope: ToolScope, name: str, version: str, payload: object) -> dict:
         return self._validate(scope, name, version, payload, True)
-
