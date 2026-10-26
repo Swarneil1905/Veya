@@ -1,3 +1,4 @@
+import { ConnectionsSettings } from "../features/settings/connections-settings";
 import { Commands, Destination } from "../features/accessibility/commands";
 import { HostListener } from "@angular/core";
 import { ApprovalReview } from "../features/approvals/approval-review";
@@ -30,7 +31,15 @@ function savedNavigation() {
 
 @Component({
   selector: "veya-workspace",
-  imports: [Activity, Composer, Panel, TaskList, ApprovalReview, Commands],
+  imports: [
+    Activity,
+    Composer,
+    Panel,
+    TaskList,
+    ApprovalReview,
+    Commands,
+    ConnectionsSettings,
+  ],
   templateUrl: "./workspace.html",
 })
 export class Workspace implements OnInit, OnDestroy {

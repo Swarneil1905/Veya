@@ -76,6 +76,12 @@ def router(db, tenant: str) -> APIRouter:
     routes = APIRouter(prefix='/v1')
     documents = Documents(db, tenant)
 
+    @routes.get('/documents/{document_id}/chunks')
+    def chunks(document_id: str, after: int = 0) -> dict:
+        from veya.retrieval.chunking import page
+
+        return page(db, tenant, document_id, after)
+
     @routes.post('/documents', response_model=Document)
     def intake(payload: DocumentInput):
         try:

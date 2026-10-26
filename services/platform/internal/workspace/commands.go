@@ -28,7 +28,9 @@ type Command struct {
 func Route(c Command) (method, path string, body []byte, err error) {
 	allowed, ok := map[string][]string{
 		"list_tasks": {"status", "search", "sort", "cursor"}, "recovery": {},
-		"get_task":        {"task_id"},
+		"get_task":    {"task_id"},
+		"connections": {}, "check_connection": {"config", "consent"}, "activate_connection": {"fingerprints"}, "save_credential": {"reference", "secret"},
+		"execute_run": {"run_id", "expected_selection", "allow_remote"}, "cancel_run": {"run_id"}, "document_chunks": {"id", "after"},
 		"import_document": {"request_id", "name", "content"},
 		"get_document":    {"id"}, "process_document": {"id"}, "retry_document": {"id"}, "revoke_document": {"id"}, "document_versions": {"id"},
 		"task_documents": {"task_id"}, "resolve_citation": {"citation"},
@@ -56,6 +58,49 @@ func Route(c Command) (method, path string, body []byte, err error) {
 	}
 	text := func(key string) string { var s string; _ = json.Unmarshal(c.Args[key], &s); return s }
 	switch c.Operation {
+	case "connections":
+		return "GET", "/v1/connections", nil, nil
+	case "check_connection", "activate_connection", "save_credential":
+		suffix := map[string]string{"check_connection": "check", "activate_connection": "activate", "save_credential": "credential"}[c.Operation]
+		body, err = json.Marshal(c.Args)
+		if len(body) > 16384 {
+			return "", "", nil, ErrInput
+		}
+		return "POST", "/v1/connections/" + suffix, body, err
+	case "execute_run", "cancel_run":
+		if !identifier.MatchString(text("run_id")) {
+			return "", "", nil, ErrInput
+		}
+		path = "/v1/runs/" + text("run_id")
+		if c.Operation == "cancel_run" {
+			return "POST", path + "/cancel", []byte(`{}`), nil
+		}
+		payload := make(map[string]json.RawMessage)
+		for k, v := range c.Args {
+			if k != "run_id" {
+				payload[k] = v
+			}
+		}
+		body, err = json.Marshal(payload)
+		return "POST", path + "/execute", body, err
+	case "document_chunks":
+		if !identifier.MatchString(text("id")) {
+			return "", "", nil, ErrInput
+		}
+		if value, present := c.Args["after"]; present {
+			var cursor string
+			if json.Unmarshal(value, &cursor) != nil || cursor == "" {
+				return "", "", nil, ErrInput
+			}
+		}
+		after := text("after")
+		if after == "" {
+			after = "0"
+		}
+		if !cursorNumber.MatchString(after) {
+			return "", "", nil, ErrInput
+		}
+		return "GET", "/v1/documents/" + text("id") + "/chunks?after=" + after, nil, nil
 	case "import_document":
 		name, content := text("name"), text("content")
 		if !identifier.MatchString(text("request_id")) || name == "" || utf8.RuneCountInString(name) > 200 || strings.ContainsAny(name, "/\\:") || len(content) > 699052 {

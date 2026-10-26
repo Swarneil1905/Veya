@@ -1,0 +1,27 @@
+Veya local provider/business-foundation batch - 2026-10-25
+Baseline user HEAD: 0b840f9. No staging, commit, push, release or repository upload performed.
+
+PASS: Python 3.13.14 full runtime: 481 tests, scripts/test_runtime.py services/runtime/tests -q.
+PASS: Python 3.10 full runtime before final two provider tests: 479 tests; final provider module including both additions: 13 tests.
+PASS: 27 project unittest tests; 2 deterministic business fixture tests.
+PASS: Ruff check/format, mypy 92 modules, generated OpenAPI/TypeScript contract v5 drift check.
+PASS: Connector Ruff check/format with runtime settings.
+PASS: Go vet and full Go test suite with VEYA_PYTHON pointing to locked environment; build produced local platform sidecar. Additional new command-boundary tests passed separately.
+PASS: Rust format, clippy -D warnings, 12 native host tests with pinned runtime on PATH.
+PASS: Angular production build, ESLint, TypeScript, project contract checks, owned module boundaries.
+PASS: Angular IPC regression including hosted opt-in reset when run identity changes.
+PASS: workspace, story-batch, platform, document and provider browser flows. New provider flow runs real Angular -> Go -> Python -> fixture HTTP SSE -> verified artifact; browser displays exact 1476.00.
+PASS: actionlint; 39 skill entries/373 imported files still match pins.
+PASS: required quality gate rejects failed/cancelled/skipped/missing/neutral prerequisites; in-memory mutations demonstrate permission/gate regressions fail tests.
+
+LIVE LOCAL EVIDENCE:
+User authorized small model download. Ollama qwen2.5:1.5b downloaded (~986 MB), checksum verified by Ollama. Real model list and streaming/tool probe succeeded through runtime and browser UI. No private source documents sent.
+Real synthetic task attempts failed closed: calculator response did not meet verified-output contract; document attempt requested a disallowed/ungranted tool operation. No accepted artifact. A reproducible scripts/validate_local_model.py check records the failure. This is NOT main-model qualification and does not satisfy VEY-052's positive real-model task acceptance.
+Hardware observed: about 16 GB RAM; RTX 4050 Laptop GPU, 6141 MiB VRAM. Main-model candidate evaluation remains pending. No larger model downloaded or promoted.
+
+LIMITATIONS:
+Hosted OpenAI adapter tested through HTTP fixtures, including credential use, permitted fallback and no-egress denial. No live paid provider call. Windows vault synthetic credential save/read/isolation/delete tested; no real keys used.
+Fixture ERP is synthetic-only and not exposed as an agent write tool. Finance policy/models/duplicate logic are host libraries, not a completed invoice workflow. No OS tool sandbox claimed.
+Manual installed/signed desktop, native file picker, physical display scaling and screen-reader listening remain unverified. Browser CSS 200% zoom is not native DPI validation. No GitHub CI execution was requested or claimed; workflows were validated locally.
+The existing Starlette httpx deprecation warning remains; all tests pass with the pinned dependencies.
+Initial exploratory runs used an incorrect test collection scope or unpinned Python and failed/timed out; reruns used explicit suite paths and the locked runtime. Earlier UI assertions were updated for configured execution and result refresh, not removed.

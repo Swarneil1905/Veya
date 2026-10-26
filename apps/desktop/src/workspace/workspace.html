@@ -163,11 +163,12 @@
       >}
       <p class="work-muted">
         Task saving and recorded activity are available through the local
-        platform. Document imports and source inspection are available. AI
-        execution is not connected yet.
+        platform. Document imports and source inspection are available. Model
+        execution requires a tested provider and an explicit start for each
+        task.
       </p>
-    </div></veya-panel
-  >
+      <veya-connections-settings [disabled]="!ready() || readOnly()" /></div
+  ></veya-panel>
   } @if(commandsOpen()){<veya-commands
     (closed)="commandsOpen.set(false)"
     (chosen)="command($event)"

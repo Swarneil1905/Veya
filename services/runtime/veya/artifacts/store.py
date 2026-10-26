@@ -25,7 +25,9 @@ class ArtifactStore:
         # Only validated tenant IDs and hashes enter paths; names are display metadata.
         return self.root / artifact.tenant_id / artifact.sha256[:2] / artifact.sha256
 
-    def put(self, tenant: str, run_id: str, content: bytes, name: str, mime_type: str) -> Artifact:
+    def put(
+        self, tenant: str, run_id: str, content: bytes, name: str, mime_type: str, *, publish=None
+    ) -> Artifact:
         run = self.db.get_run(tenant, run_id)
         if len(content) > MAX_ARTIFACT_BYTES:
             raise DomainError('too_large', 'Artifact exceeds 1 MiB')
@@ -61,6 +63,8 @@ class ArtifactStore:
                         existing = file.read(MAX_ARTIFACT_BYTES + 1)
                 if existing != content:
                     os.replace(temporary, destination)
+                if publish is not None:
+                    publish(connection, artifact)
                 self.db.insert_artifact(connection, artifact)
         except OSError as error:
             raise DomainError('storage_error', 'Artifact could not be stored') from error

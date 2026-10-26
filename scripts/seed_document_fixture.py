@@ -11,7 +11,7 @@ from veya.ingestion.jobs import Documents
 from veya.artifacts.store import ArtifactStore
 
 root=Path(sys.argv[1]).resolve()
-if not root.is_relative_to(ROOT/'artifacts'/'document-batch') or not root.name.startswith('workspace-'):
+if not any(root.is_relative_to(ROOT/'artifacts'/batch) for batch in ('document-batch','provider-batch')) or not root.name.startswith('workspace-'):
     raise ValueError('Synthetic workspace required')
 db=Database(root);docs=Documents(db,'desktop')
 item=docs.intake('fixture_source','Fixture order.csv',b'amount,currency\n12.30,USD\n')

@@ -86,3 +86,35 @@ func TestDocumentCommands(t *testing.T) {
 		}
 	}
 }
+
+func TestProviderCommandsRemainExplicit(t *testing.T) {
+	for _, tc := range []struct{ op, args, method, path string }{
+		{"connections", `{}`, "GET", "/v1/connections"},
+		{"check_connection", `{"config":{},"consent":false}`, "POST", "/v1/connections/check"},
+		{"activate_connection", `{"fingerprints":["snapshot"]}`, "POST", "/v1/connections/activate"},
+		{"save_credential", `{"reference":"vault:fixture","secret":"synthetic"}`, "POST", "/v1/connections/credential"},
+		{"execute_run", `{"run_id":"run_a","expected_selection":["snapshot"],"allow_remote":false}`, "POST", "/v1/runs/run_a/execute"},
+		{"cancel_run", `{"run_id":"run_a"}`, "POST", "/v1/runs/run_a/cancel"},
+		{"document_chunks", `{"id":"doc_a","after":"20"}`, "GET", "/v1/documents/doc_a/chunks?after=20"},
+	} {
+		method, path, body, err := Route(command(tc.op, tc.args))
+		if err != nil || method != tc.method || path != tc.path {
+			t.Fatalf("route %s: %v", tc.op, err)
+		}
+		if tc.op == "execute_run" && strings.Contains(string(body), "run_id") {
+			t.Fatal("run ID leaked into execute payload")
+		}
+	}
+	for _, tc := range []struct{ op, args string }{
+		{"read_credential", `{}`}, {"execute_run", `{"run_id":"../secrets"}`},
+		{"execute_run", `{"run_id":"r","tenant_id":"other"}`},
+		{"document_chunks", `{"id":"doc_a","after":2}`},
+		{"document_chunks", `{"id":"doc_a","after":null}`},
+		{"document_chunks", `{"id":"doc_a","after":"-1"}`},
+		{"save_credential", `{"reference":"vault:a","secret":"synthetic","path":"/arbitrary"}`},
+	} {
+		if _, _, _, err := Route(command(tc.op, tc.args)); err == nil {
+			t.Fatalf("accepted %s", tc.op)
+		}
+	}
+}

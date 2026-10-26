@@ -26,6 +26,7 @@ async function boot(mode) {
           const f = window.fixture;
           if (command === 'runtime_health' || command === 'runtime_restart')
             return { state: f.state, message: 'Test connection' };
+          if (operation === 'connections') return {profiles:[], active: mode === 'consent' ? [{id:'hosted_fixture', model_name:'fixture', endpoint:'https://api.openai.com/v1', profile:'remote'}] : [], active_fingerprints: mode === 'consent' ? ['fixture_snapshot'] : []};
           if (operation === 'recovery') {
             f.recoveryCalls++;
             if (mode === 'reconnect' && f.recoveryCalls > 1)
@@ -52,7 +53,7 @@ async function boot(mode) {
           }
           if (operation === 'latest_run') {
             if(mode === 'readonly') task.state='running';
-            return mode === 'readonly' ? { ...run, state: 'running' } : run;
+            return mode === 'readonly' ? { ...run, state: 'running' } : {...run, id: f.runOverride || run.id};
           }
           if (operation === 'events') {
             f.cursors.push(args.after);
@@ -115,13 +116,24 @@ try {
   assert.equal(await p.locator('.work-events li').count(), 1);
   assert.equal(await p.locator('.work-activity script').count(), 0);
   assert.equal(await p.locator('#activity-title').innerText(), 'Review <script> order');
-  await p.getByText('Saved and queued. AI execution is not connected yet.').waitFor();
+  await p.getByText('Saved and queued. Test and activate a model in Connection to start this task.').waitFor();
   await p.keyboard.press('Escape');
   await compose(p, 'New draft');
   await p.keyboard.press('Escape');
   await p.getByRole('button', { name: 'New task', exact: true }).click();
   assert.equal(await p.getByLabel('Task name', { exact: true }).inputValue(), 'New draft');
   await t.close();
+  const consentCase = await boot('consent'), cp = consentCase.page;
+  await compose(cp);
+  await cp.getByRole('button', {name:'Save task',exact:true}).click();
+  await cp.getByRole('button', {name:'Retry same task',exact:true}).click();
+  const optin=cp.getByRole('checkbox');
+  await optin.check();
+  assert.ok(await cp.getByRole('button',{name:'Start read-only task',exact:true}).isEnabled());
+  await cp.evaluate(()=>window.fixture.runOverride='run_replacement');
+  await cp.waitForFunction(()=>!document.querySelector('.work-execution-controls input[type=checkbox]').checked);
+  assert.ok(await cp.getByRole('button',{name:'Start read-only task',exact:true}).isDisabled());
+  await consentCase.close();
   const invalid = await boot('invalid');
   await compose(invalid.page);
   await invalid.page.getByRole('button', { name: 'Save task', exact: true }).click();

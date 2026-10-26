@@ -1,0 +1,1 @@
+PASS: real local Ollama streaming tool probe through Angular, Go and Python; model qwen2.5:1.5b. This is connectivity evidence, not task-quality qualification.

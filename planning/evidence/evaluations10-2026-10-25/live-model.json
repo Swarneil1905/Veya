@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "spec_fingerprint": "1140929089d5da46018d422d4c3e81b44a7c36303abb4051bdae5d960b1125e3",
+  "snapshot_fingerprint": "79f57aa223f0e4af91c741d6ba87a9358e20e6e2fce5d7c56fe6a051f811c819",
+  "expected_state_fingerprint": "6e356f3d8f86ffd988e00a7aaafb88571337ac420d2169f72440ad08162b6260",
+  "instruction_fingerprint": "7b882b1117822ac0ec0c419b47b66ff21d4e14e1ba1e44ab4d60c2b91dfb368d",
+  "model_revision": "sha256:65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+  "seed": 1,
+  "run_id": "run_1312dd0ffa0a4a8ca8f49b781e9f1e71",
+  "run_state": "failed",
+  "outcome": "verification_failed",
+  "artifact_count": 0,
+  "reward": {
+    "final_state": {
+      "status": "fail",
+      "score": 0,
+      "rationale": "state evidence does not satisfy the required outcome",
+      "evidence_ids": [
+        "run_1312dd0ffa0a4a8ca8f49b781e9f1e71:state"
+      ]
+    },
+    "policy": {
+      "status": "pass",
+      "score": 1,
+      "rationale": "policy evidence matches the required outcome",
+      "evidence_ids": [
+        "run_1312dd0ffa0a4a8ca8f49b781e9f1e71:audit"
+      ]
+    },
+    "completed": false,
+    "success": false
+  },
+  "synthetic_only": true,
+  "qualification": "A synthetic smoke test does not qualify a model for production."
+}

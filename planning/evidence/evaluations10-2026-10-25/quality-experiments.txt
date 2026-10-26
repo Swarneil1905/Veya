@@ -1,0 +1,3 @@
+PASS mutation detection: removing policy requirement breaks reward-hacking regression.
+PASS mutation detection: disabling pinned-input check breaks prompt/expected-state regression.
+Product sources unchanged; mutations executed in isolated in-memory module namespaces.

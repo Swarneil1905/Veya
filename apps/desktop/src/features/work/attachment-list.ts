@@ -63,7 +63,7 @@ type Entry = {
             >Add files<input
               type="file"
               multiple
-              accept=".pdf,.csv,.xlsx"
+              accept=".pdf,.csv,.xlsx,.eml"
               [disabled]="disabled || busy() || rows().length >= 10"
               (change)="files($event)"
               aria-label="Add document files"

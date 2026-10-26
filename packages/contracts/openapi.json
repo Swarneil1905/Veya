@@ -1,8 +1,27 @@
 {
-  "contract_version": 4,
+  "contract_version": 5,
   "openapi": {
     "components": {
       "schemas": {
+        "ActivateInput": {
+          "additionalProperties": false,
+          "properties": {
+            "fingerprints": {
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 3,
+              "minItems": 1,
+              "title": "Fingerprints",
+              "type": "array"
+            }
+          },
+          "required": [
+            "fingerprints"
+          ],
+          "title": "ActivateInput",
+          "type": "object"
+        },
         "Artifact": {
           "properties": {
             "created_at": {
@@ -132,6 +151,24 @@
           "title": "Block",
           "type": "object"
         },
+        "CheckInput": {
+          "additionalProperties": false,
+          "properties": {
+            "config": {
+              "$ref": "#/components/schemas/ModelConfig"
+            },
+            "consent": {
+              "default": false,
+              "title": "Consent",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "config"
+          ],
+          "title": "CheckInput",
+          "type": "object"
+        },
         "Citation": {
           "properties": {
             "available": {
@@ -193,6 +230,30 @@
             "text"
           ],
           "title": "Claim",
+          "type": "object"
+        },
+        "CredentialInput": {
+          "additionalProperties": false,
+          "properties": {
+            "reference": {
+              "pattern": "^vault:[a-zA-Z0-9_-]{1,64}$",
+              "title": "Reference",
+              "type": "string"
+            },
+            "secret": {
+              "format": "password",
+              "maxLength": 2048,
+              "minLength": 1,
+              "title": "Secret",
+              "type": "string",
+              "writeOnly": true
+            }
+          },
+          "required": [
+            "reference",
+            "secret"
+          ],
+          "title": "CredentialInput",
           "type": "object"
         },
         "DecisionRequest": {
@@ -440,6 +501,130 @@
             "locator"
           ],
           "title": "Issue",
+          "type": "object"
+        },
+        "ModelCapabilities": {
+          "additionalProperties": false,
+          "properties": {
+            "context_tokens": {
+              "anyOf": [
+                {
+                  "exclusiveMinimum": 0.0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Context Tokens"
+            },
+            "max_output_tokens": {
+              "anyOf": [
+                {
+                  "exclusiveMinimum": 0.0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Max Output Tokens"
+            },
+            "streaming": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Streaming"
+            },
+            "tools": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Tools"
+            }
+          },
+          "title": "ModelCapabilities",
+          "type": "object"
+        },
+        "ModelConfig": {
+          "additionalProperties": false,
+          "properties": {
+            "capabilities": {
+              "$ref": "#/components/schemas/ModelCapabilities"
+            },
+            "credential_ref": {
+              "anyOf": [
+                {
+                  "pattern": "^(env:[A-Z][A-Z0-9_]{0,100}|vault:[a-zA-Z0-9/_-]{1,100})$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Credential Ref"
+            },
+            "endpoint": {
+              "maxLength": 2048,
+              "minLength": 1,
+              "title": "Endpoint",
+              "type": "string"
+            },
+            "id": {
+              "pattern": "^[a-zA-Z0-9_-]{1,64}$",
+              "title": "Id",
+              "type": "string"
+            },
+            "model_name": {
+              "maxLength": 200,
+              "minLength": 1,
+              "pattern": "^[a-zA-Z0-9_./:-]+$",
+              "title": "Model Name",
+              "type": "string"
+            },
+            "price": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/PriceMetadata"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "profile": {
+              "enum": [
+                "local",
+                "remote"
+              ],
+              "title": "Profile",
+              "type": "string"
+            },
+            "provider_id": {
+              "pattern": "^[a-zA-Z0-9_-]{1,64}$",
+              "title": "Provider Id",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "provider_id",
+            "model_name",
+            "profile",
+            "endpoint",
+            "capabilities"
+          ],
+          "title": "ModelConfig",
           "type": "object"
         },
         "ModelRequest": {
@@ -976,6 +1161,30 @@
             "expected_revision"
           ],
           "title": "RunTransition",
+          "type": "object"
+        },
+        "StartInput": {
+          "additionalProperties": false,
+          "properties": {
+            "allow_remote": {
+              "default": false,
+              "title": "Allow Remote",
+              "type": "boolean"
+            },
+            "expected_selection": {
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 3,
+              "minItems": 1,
+              "title": "Expected Selection",
+              "type": "array"
+            }
+          },
+          "required": [
+            "expected_selection"
+          ],
+          "title": "StartInput",
           "type": "object"
         },
         "Submission": {
@@ -1731,6 +1940,146 @@
           "summary": "Citation"
         }
       },
+      "/v1/connections": {
+        "get": {
+          "operationId": "status_v1_connections_get",
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "additionalProperties": true,
+                    "title": "Response Status V1 Connections Get",
+                    "type": "object"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            }
+          },
+          "summary": "Status"
+        }
+      },
+      "/v1/connections/activate": {
+        "post": {
+          "operationId": "activate_v1_connections_activate_post",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivateInput"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "additionalProperties": true,
+                    "title": "Response Activate V1 Connections Activate Post",
+                    "type": "object"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Activate"
+        }
+      },
+      "/v1/connections/check": {
+        "post": {
+          "operationId": "check_v1_connections_check_post",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckInput"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "additionalProperties": true,
+                    "title": "Response Check V1 Connections Check Post",
+                    "type": "object"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Check"
+        }
+      },
+      "/v1/connections/credential": {
+        "post": {
+          "operationId": "credential_v1_connections_credential_post",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CredentialInput"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "additionalProperties": true,
+                    "title": "Response Credential V1 Connections Credential Post",
+                    "type": "object"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Credential"
+        }
+      },
       "/v1/documents": {
         "post": {
           "operationId": "intake_v1_documents_post",
@@ -1806,6 +2155,57 @@
             }
           },
           "summary": "Detail"
+        }
+      },
+      "/v1/documents/{document_id}/chunks": {
+        "get": {
+          "operationId": "chunks_v1_documents__document_id__chunks_get",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "document_id",
+              "required": true,
+              "schema": {
+                "title": "Document Id",
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "after",
+              "required": false,
+              "schema": {
+                "default": 0,
+                "title": "After",
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "additionalProperties": true,
+                    "title": "Response Chunks V1 Documents  Document Id  Chunks Get",
+                    "type": "object"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Chunks"
         }
       },
       "/v1/documents/{document_id}/process": {
@@ -2233,6 +2633,45 @@
           "summary": "Upload"
         }
       },
+      "/v1/runs/{run_id}/cancel": {
+        "post": {
+          "operationId": "cancel_v1_runs__run_id__cancel_post",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "run_id",
+              "required": true,
+              "schema": {
+                "title": "Run Id",
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Run"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Cancel"
+        }
+      },
       "/v1/runs/{run_id}/event-page": {
         "get": {
           "operationId": "event_page_v1_runs__run_id__event_page_get",
@@ -2370,6 +2809,55 @@
             }
           },
           "summary": "Events"
+        }
+      },
+      "/v1/runs/{run_id}/execute": {
+        "post": {
+          "operationId": "start_v1_runs__run_id__execute_post",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "run_id",
+              "required": true,
+              "schema": {
+                "title": "Run Id",
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StartInput"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Run"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Start"
         }
       },
       "/v1/runs/{run_id}/model": {

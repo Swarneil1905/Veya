@@ -1,0 +1,40 @@
+Veya invoice/evaluation batch - 2026-10-25
+User HEAD: 0b840f9. Preserved the prior uncommitted 20-story batch. No stage, commit, push, upload or release.
+
+PASS: Python 3.13.14 full runtime: 511 tests (481 previous + 30 new), 70.26 seconds.
+Command: services/runtime/.venv/Scripts/python.exe scripts/test_runtime.py services/runtime/tests -q --junitxml=artifacts/evaluation-runtime-results.xml
+PASS: Python 3.10 targeted matching/evaluation suite: 30 tests, 12.18 seconds.
+Command: artifacts/document-python310/Scripts/python.exe scripts/test_runtime.py services/runtime/tests/test_evaluation_contracts.py services/runtime/tests/test_evaluation_environment.py services/runtime/tests/test_headless_evaluation.py services/runtime/tests/test_invoice_matching.py -q
+PASS: node scripts/check.mjs python - Ruff lint/format, mypy 93 source modules, generated API contract drift.
+PASS: node scripts/check.mjs evaluations - all 15 harness/script Python files linted/formatted. Added as a CI step in the existing OS/Python runtime matrix.
+PASS: actionlint; scripts/check_boundaries.py; scripts/verify-skills.py (39 skill entries, 373 pinned files).
+PASS: two in-memory mutations killed by actual regressions; see quality-experiments.txt.
+PASS: independent read-only review and correction verification; see review.txt.
+
+NEW TEST COVERAGE:
+Invoice 120 vs 100 at 12 = 240; fractional tolerance edges; returns; duplicate receipt ambiguity; offsetting mismatches; explicit currency/tax review.
+Identical restored state; unsupported snapshot schema and corrupt/missing blobs cannot publish a partial workspace; seeded ERP conflicts reject.
+Exact approval, repeated execution, malformed approval audit persistence across reopen, hidden expected answers and host-only controls.
+Fault replay and real ToolExecutor binding; timeout/throttle avoid side effects; stale/malformed substitution restricted to read bindings.
+Separate state/policy/completion rewards, typed ungradable evidence, prompt/answer hash mismatch, model revision mismatch, no-consent hosted rejection.
+Actual execution-router/headless contract parity and source-reading parity across independently restored physical document IDs.
+Transitive split isolation and immutable manifests; exact, near, family and lineage leakage; invalid thresholds and evidence reject.
+
+LIVE QWEN EVIDENCE:
+Installed qwen2.5:1.5b digest 65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b.
+Final pinned-input run: scripts/run_invoice_evaluation.py --model qwen2.5:1.5b --context 8192.
+Connection passed; actual arithmetic task failed verification; zero artifacts; exit 1 is retained as negative evidence. See live-model.json.
+Only synthetic fixture data used. No new download, hosted paid call, training or model promotion. Context is an explicit operator-configured preflight limit, not a measured model capacity.
+
+LIMITS:
+Current agent remains read-only. Synthetic ERP write scenarios use the existing host-reviewed approval gateway separately; no production ERP access or autonomous invoice write workflow claimed.
+Headless/API equivalence is a runtime contract test, not new installed desktop or native visual QA. This batch changes no frontend layout.
+Snapshots are host-owned synthetic state; isolated directories are not an OS sandbox for arbitrary agents. Expected data is held by the host grader, outside model messages/tools.
+Fixture seed replays faults/partitioning; stochastic model inference is not deterministic. A model digest is pinned and the live runner checks Ollama identity before/after; this is not a production model-serving attestation.
+GitHub CI has not been run for these unpushed changes. Formal story acceptance waits for prerequisite acceptance and user implementation commits.
+Existing Starlette/httpx deprecation warning persists with pinned dependencies.
+
+FINAL HANDOFF CHECKS:
+PASS: 27 project unittest tests; node scripts/check-project.mjs; final evaluation Ruff check/format.
+PASS: project.py render and validate; 241 stories, 19 done, 77 in_review, 145 backlog.
+PASS: git diff --check; index remains empty; HEAD remains 0b840f9. Internal GLOSSARY/STATUS/SCOPE Markdown still ignored.

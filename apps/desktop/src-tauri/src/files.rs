@@ -128,7 +128,7 @@ pub fn pick(folder: bool) -> Result<Vec<SelectedFile>, String> {
             if path
                 .extension()
                 .and_then(|x| x.to_str())
-                .is_some_and(|x| ["pdf", "csv", "xlsx"].contains(&x.to_lowercase().as_str()))
+                .is_some_and(|x| ["pdf", "csv", "xlsx", "eml"].contains(&x.to_lowercase().as_str()))
             {
                 paths.push(path);
             }
@@ -142,7 +142,7 @@ pub fn pick(folder: bool) -> Result<Vec<SelectedFile>, String> {
         paths
     } else {
         picker
-            .add_filter("Documents", &["pdf", "csv", "xlsx"])
+            .add_filter("Documents", &["pdf", "csv", "xlsx", "eml"])
             .pick_files()
             .unwrap_or_default()
     };

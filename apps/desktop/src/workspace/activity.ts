@@ -1,3 +1,4 @@
+import { ExecutionControls } from "../features/work/execution-controls";
 import {
   Component,
   EventEmitter,
@@ -15,7 +16,7 @@ import { stateLabel } from "./task-list";
 
 @Component({
   selector: "veya-activity",
-  imports: [ResultPanel, TaskDocuments],
+  imports: [ResultPanel, TaskDocuments, ExecutionControls],
   template: ` <section class="work-activity" aria-labelledby="activity-title">
     <div class="work-detail-heading">
       <span class="work-task-state" [attr.data-state]="status()">{{
@@ -45,11 +46,11 @@ import { stateLabel } from "./task-list";
       }
     </div>
     <div class="work-panel-content">
-      @if (status() === "queued") {
-        <p class="work-notice">
-          Saved and queued. AI execution is not connected yet.
-        </p>
-      }
+      <veya-execution-controls
+        [runId]="runId()"
+        [state]="status()"
+        [disabled]="readOnly || !connected"
+      />
       @if (!connected) {
         <p role="status">
           Disconnected. Saved activity will resume when the runtime reconnects.
@@ -90,8 +91,9 @@ import { stateLabel } from "./task-list";
         <div class="work-detail-note">
           <h3>What happens next</h3>
           <p>
-            Your brief is saved. Recorded progress appears in Activity. AI
-            execution is not connected yet.
+            Your brief is saved. Start read-only work using a tested model
+            connection. Recorded progress appears in Activity, and source-backed
+            output appears in Results.
           </p>
         </div>
       </div>
@@ -136,7 +138,7 @@ import { stateLabel } from "./task-list";
           aria-labelledby="task-tab-results"
           tabindex="0"
         >
-          <veya-results [runId]="runId()" />
+          <veya-results [runId]="runId()" [runState]="status()" />
         </div>
       }
     </div>

@@ -138,6 +138,7 @@ type ResultItem = {
 })
 export class ResultPanel implements OnChanges, OnDestroy {
   @Input({ required: true }) runId = "";
+  @Input() runState = "";
   readonly items = signal<ResultItem[]>([]);
   readonly loading = signal(false);
   readonly error = signal("");

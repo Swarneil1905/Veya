@@ -1,0 +1,1 @@
+PASS: Angular -> Go -> Python -> HTTP fixture provider streaming/tool calls -> durable result; tested activation, failed candidate preserves active provider, keyboard navigation, 1440/800/375/320px and axe. Synthetic provider only.

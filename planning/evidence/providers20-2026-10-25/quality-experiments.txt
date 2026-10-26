@@ -1,0 +1,3 @@
+PASS mutation detection: granting forbidden tool capability breaks adversarial-source regression.
+PASS mutation detection: always-green aggregate gate breaks prerequisite-state regression.
+In-memory monkeypatches only; product sources were not mutated.

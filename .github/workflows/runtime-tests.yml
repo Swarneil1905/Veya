@@ -32,6 +32,8 @@ jobs:
         run: uv sync --project services/runtime --locked --python ${{ matrix.python }}
       - name: Python formatting, typing and generated contract drift
         run: node scripts/check.mjs python
+      - name: Evaluation harness and grader quality
+        run: node scripts/check.mjs evaluations
       - name: API, policy, migration, restart and fault contracts
         run: uv run --project services/runtime --locked --python ${{ matrix.python }} python scripts/test_runtime.py services/runtime/tests -q --junitxml=artifacts/runtime-results.xml
       - name: Retain test results

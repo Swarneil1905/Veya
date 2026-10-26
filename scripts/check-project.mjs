@@ -9,5 +9,6 @@ assert.ok(manifest.dependencies['@angular/core']);
 assert.ok(!manifest.dependencies.react && !manifest.dependencies['react-dom']);
 assert.ok(existsSync('services/platform/go.mod'));
 const source=readFileSync('apps/desktop/src/workspace/activity.ts','utf8');
-assert.ok(source.includes('AI execution is not connected yet.'));
+assert.ok(source.includes('veya-execution-controls'));
+assert.ok(readFileSync('apps/desktop/src/features/work/execution-controls.ts', 'utf8').includes('Start read-only task'));
 console.log('Angular, Go and private Python workspace contracts verified.');

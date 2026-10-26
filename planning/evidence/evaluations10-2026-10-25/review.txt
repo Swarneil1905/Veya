@@ -1,0 +1,7 @@
+Applied project guidance: TDD, domain-modeling, eval-harness-first, eval-harness and code-review-and-quality. Dataset-curation consulted for split/lineage boundaries; no training dataset or training run created. Upstream skills unchanged.
+
+Independent GPT-6-astra read-only review (required by the project review skill) identified three P2 findings: prompt missing from evaluation identity; unstable restored citation IDs; malformed approvals bypassing denial count. All fixed and regression-tested. Reviewer rechecked and confirmed all three fixes; no further blocking bugs found. Reviewer inspected code/tests but did not execute tests; primary agent ran the tests recorded in checks.txt.
+
+Architecture choices: shared existing Agent and ToolExecutor instead of a second agent loop or new write bypass. Host-only expected state instead of model-judged claims. Canonical source IDs for cross-restore grading; physical UUIDs retain normal runtime behavior. Decimal arithmetic with explicit tolerance and rounding-policy rejection instead of implicit rounding. Transitive grouping instead of random row splits. Read-only fault-response substitution instead of pretending an unperformed write succeeded. No UI change needed for this infrastructure batch; Ramp-led design requirements remain on existing UI stories.
+
+Acceptance: ten stories locally implemented and in_review. No invented commit, elapsed engineering estimate, formal milestone acceptance, model quality success or remote CI result.

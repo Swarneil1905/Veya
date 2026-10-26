@@ -25,6 +25,11 @@ def validate(name: str, content: bytes) -> str:
     kind = name.rsplit('.', 1)[-1].lower()
     if content.startswith((b'MZ', b'\x7fELF', b'#!')):
         raise DomainError('invalid_input', 'Executable content is not a document')
+    if kind == 'eml':
+        from veya.ingestion.email import extract_email
+
+        extract_email(content, validation_only=True)
+        return kind
     if kind == 'pdf' and content.startswith(b'%PDF-'):
         return kind
     if kind == 'csv':
@@ -71,4 +76,4 @@ def validate(name: str, content: bytes) -> str:
             raise DomainError(
                 'invalid_input', 'Workbook is malformed, oversized or contains unsafe links'
             ) from error
-    raise DomainError('invalid_input', 'Choose a text PDF, UTF-8 CSV or XLSX workbook')
+    raise DomainError('invalid_input', 'Choose a text PDF, UTF-8 CSV XLSX workbook or EML message')

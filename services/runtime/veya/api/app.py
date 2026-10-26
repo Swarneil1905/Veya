@@ -3,6 +3,7 @@
 import hashlib
 import secrets
 import sqlite3
+from contextlib import asynccontextmanager
 
 from fastapi import Depends, FastAPI, Request
 from fastapi.exceptions import RequestValidationError
@@ -12,8 +13,10 @@ from starlette.types import ASGIApp, Receive, Scope, Send
 
 from veya.api.approvals import router as approval_router
 from veya.api.artifacts import router as artifact_router
+from veya.api.connections import router as connections_router
 from veya.api.documents import router as document_router
 from veya.api.events import router as event_router
+from veya.api.execution import router as execution_router
 from veya.api.proposals import router as proposal_router
 from veya.api.providers import router as provider_router
 from veya.api.results import router as result_router
@@ -24,8 +27,10 @@ from veya.api.tools import router as tool_router
 from veya.api.usage import router as usage_router
 from veya.config import Settings
 from veya.domain.models import DomainError
+from veya.execution.agent_loop import Agent
 from veya.policy.inbox import ApprovalInbox
 from veya.providers.models import ModelCatalog
+from veya.providers.settings import Connections
 from veya.storage.sqlite import Database
 from veya.tools.registry import ToolRegistry, ToolScope
 
@@ -37,7 +42,7 @@ def error_response(code: str, message: str, status: int) -> JSONResponse:
                 'code': code,
                 'message': message,
                 'schema_version': 1,
-                'retryable': code == 'busy',
+                'retryable': code in {'busy', 'provider_transient'},
             }
         },
         status,
@@ -111,7 +116,16 @@ def create_app(
         if request.headers.get('origin'):
             raise DomainError('forbidden', 'Browser origins cannot call the runtime directly')
 
+    @asynccontextmanager
+    async def lifespan(_app):
+        agent.recover()
+        try:
+            yield
+        finally:
+            await agent.close()
+
     app = FastAPI(
+        lifespan=lifespan,
         title='Veya runtime',
         version='0.1.0',
         dependencies=[Depends(authenticate)],
@@ -135,6 +149,8 @@ def create_app(
             'storage_error': 500,
             'model_unsupported': 422,
             'model_unknown': 422,
+            'model_missing': 422,
+            'provider_transient': 503,
         }.get(error.code, 400)
         return error_response(error.code, str(error), status)
 
@@ -163,6 +179,10 @@ def create_app(
         return error_response('storage_error', 'Storage operation failed', 500)
 
     db = Database(settings.storage_root)
+    connections = Connections(db, settings.tenant_id)
+    agent = Agent(db, settings.tenant_id, connections)
+    app.include_router(connections_router(connections))
+    app.include_router(execution_router(agent))
     if approval_inbox is not None:
         if (
             approval_inbox.db.path != db.path
@@ -180,7 +200,7 @@ def create_app(
         return {
             'protocol': 1,
             'status': 'ready',
-            'execution_available': False,
+            'execution_available': bool(connections.status()['active']),
             'recovery_required': db.recovery_status()['required'],
         }
 

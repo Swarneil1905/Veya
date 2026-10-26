@@ -111,7 +111,7 @@ try {
     .fill('Save this brief through Angular and Go, then preserve it across restart.');
   await page.getByRole('button', { name: 'Save task', exact: true }).click();
   await page.getByRole('heading', { name: 'Verify the migrated platform', exact: true }).waitFor();
-  await page.getByText('Saved and queued. AI execution is not connected yet.').waitFor();
+  await page.getByText('Saved and queued. Test and activate a model in Connection to start this task.').waitFor();
   await page.getByText('No execution activity has been recorded.', { exact: true }).waitFor();
   await page.screenshot({ path: 'artifacts/stack-migration/live-web-task.png', fullPage: true });
   const csrf = await fetch(platform.origin + '/api/workspace', {

@@ -110,15 +110,10 @@ jobs:
     needs: [frontend, native-check, runtime, platform, browser, workflows]
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
       - name: Reject any unsuccessful prerequisite
         env:
-          FRONTEND_RESULT: ${{ needs.frontend.result }}
-          NATIVE_RESULT: ${{ needs.native-check.result }}
-          RUNTIME_RESULT: ${{ needs.runtime.result }}
-          PLATFORM_RESULT: ${{ needs.platform.result }}
-          BROWSER_RESULT: ${{ needs.browser.result }}
-          WORKFLOWS_RESULT: ${{ needs.workflows.result }}
-        run: |
-          for result in "$FRONTEND_RESULT" "$NATIVE_RESULT" "$RUNTIME_RESULT" "$PLATFORM_RESULT" "$BROWSER_RESULT" "$WORKFLOWS_RESULT"; do
-            test "$result" = success || exit 1
-          done
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        run: python scripts/quality_gate.py

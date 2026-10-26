@@ -249,6 +249,13 @@ fn route(operation: &str, args: Value) -> Result<(&'static str, String, Value), 
     let allowed: &[&str] = match operation {
         "list_tasks" => &["status", "search", "sort", "cursor"],
         "recovery" => &[],
+        "connections" => &[],
+        "check_connection" => &["config", "consent"],
+        "activate_connection" => &["fingerprints"],
+        "save_credential" => &["reference", "secret"],
+        "execute_run" => &["run_id", "expected_selection", "allow_remote"],
+        "cancel_run" => &["run_id"],
+        "document_chunks" => &["id", "after"],
         "get_task" => &["task_id"],
         "list_approvals" => &["after"],
         "get_approval" => &["id"],
@@ -283,6 +290,13 @@ fn route(operation: &str, args: Value) -> Result<(&'static str, String, Value), 
             | "task_documents"
             | "resolve_citation"
             | "list_results"
+            | "connections"
+            | "check_connection"
+            | "activate_connection"
+            | "save_credential"
+            | "execute_run"
+            | "cancel_run"
+            | "document_chunks"
     ) {
         // No arbitrary path is forwarded: Go owns the shared command validation.
         return Ok(("POST", "/api/workspace".into(), args));

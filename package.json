@@ -29,7 +29,8 @@
     "contracts:check": "python packages/contracts/generate.py --check",
     "test:fixtures": "python -m unittest discover -s packages/fixtures/tests -v",
     "test:batch:browser": "node scripts/test-story-batch-browser.mjs",
-    "test:documents:browser": "node scripts/test-document-browser.mjs"
+    "test:documents:browser": "node scripts/test-document-browser.mjs",
+    "test:providers:browser": "node scripts/test-provider-browser.mjs"
   },
   "dependencies": {
     "@angular/common": "22.2.3",

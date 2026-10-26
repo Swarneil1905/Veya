@@ -1,0 +1,19 @@
+{
+  "model": "qwen2.5:1.5b",
+  "connection": {
+    "ready": true,
+    "model": "qwen2.5:1.5b",
+    "fingerprint": "177e7ec42e760a3b1a5fca6bfb9f2b4e0a716ae8ed0e916270472c75cf7309e9",
+    "checked_at": "2026-10-25T15:59:03.332306+00:00",
+    "capabilities": [
+      "streaming",
+      "tools"
+    ],
+    "limits": "operator configured; enforced conservatively before each request"
+  },
+  "run_state": "failed",
+  "outcome": "forbidden",
+  "artifact_count": 0,
+  "synthetic_only": true,
+  "quality_qualification": "One smoke check is not model qualification or production approval."
+}
