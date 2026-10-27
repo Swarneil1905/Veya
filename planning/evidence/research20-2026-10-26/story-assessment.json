@@ -1,0 +1,141 @@
+{
+  "VEY-133": {
+    "implementation": "Seeded cooperative/delayed/abandoned clarification events replay deterministically; unknown facts are unavailable, repeated request IDs cannot change meaning.",
+    "code_paths": [
+      "packages/environments/users/simulator.py"
+    ]
+  },
+  "VEY-136": {
+    "implementation": "Host-pinned grading state and explicit invariant failures prevent reward increases from evaluator mutation, duplicate writes, hidden access or premature completion; actual shared-Agent tamper regression included.",
+    "code_paths": [
+      "packages/environments/exploits.py",
+      "packages/environments/runner.py",
+      "services/runtime/tests/test_research_data.py"
+    ]
+  },
+  "VEY-139": {
+    "implementation": "Declared outcomes retain missing, abandoned, cancelled, failed and system-failure runs in the denominator; unknown IDs and duplicate outcomes fail.",
+    "code_paths": [
+      "packages/environments/accounting.py"
+    ]
+  },
+  "VEY-140": {
+    "implementation": "Every batch attempt restores a new owned workspace from the pinned snapshot; exact initial drafts, model attempts, policy residue and memory/cache tables are checked.",
+    "code_paths": [
+      "packages/environments/reset.py",
+      "packages/evals/batch.py",
+      "services/runtime/veya/ingestion/worker.py",
+      "services/runtime/veya/ingestion/tables.py"
+    ]
+  },
+  "VEY-142": {
+    "implementation": "Immutable durable plans, expiring fenced leases, retained failed attempts and bounded worker slices resume unfinished repetitions; integrated with the shared read-only Agent and a local batch CLI.",
+    "code_paths": [
+      "packages/evals/scheduler.py",
+      "packages/evals/batch.py",
+      "scripts/run_research.py"
+    ]
+  },
+  "VEY-144": {
+    "implementation": "Blinded seeded answer order, strict judge output, per-class human-label agreement/disagreement and pinned calibration control promotion eligibility. Fixture labels exercise code only; no real judge is qualified.",
+    "code_paths": [
+      "packages/evals/graders/model_judge.py"
+    ]
+  },
+  "VEY-146": {
+    "implementation": "Seeded paired task-family bootstrap reports units and intervals; repeated task family changes and unmatched pairs fail, and one-family data remains inconclusive.",
+    "code_paths": [
+      "packages/evals/statistics.py"
+    ]
+  },
+  "VEY-147": {
+    "implementation": "Matched task/seed/repetition/source comparisons report full declared success, P50/P95, known tokens/costs and missing counts. Failed workflow attempts retain measured elapsed time.",
+    "code_paths": [
+      "packages/evals/metrics.py",
+      "packages/evals/batch.py"
+    ]
+  },
+  "VEY-148": {
+    "implementation": "Angular evaluation list, paired metrics, family filter and exact run/evidence drawer use authenticated Go operations. Synthetic/model/mixed/unrecorded labels are distinct. Ramp-led rendered and keyboard/axe checks passed at 1440 and 1024 pixels.",
+    "code_paths": [
+      "apps/desktop/src/features/evaluations/evaluation-report.ts",
+      "services/platform/internal/workspace",
+      "services/runtime/veya/api/research.py"
+    ]
+  },
+  "VEY-149": {
+    "implementation": "Evidence-bound qualification recomputes matched metrics and paired intervals; incomplete runs, unknown cost, synthetic evidence, leakage, uncalibrated judges, resource limits or inconclusive benefit block an explicit pass. No deployment operation exists.",
+    "code_paths": [
+      "packages/evals/gates.py"
+    ]
+  },
+  "VEY-150": {
+    "implementation": "Create-only, content-verified bundles bind strict run metadata to actual evaluation specs, split fingerprints and code hashes. Private source bytes require exact allowlisting; unsupported result fields fail and free-form grading content is omitted. Replay requires original authorized pinned inputs/snapshots.",
+    "code_paths": [
+      "packages/evals/export.py",
+      "scripts/run_research.py"
+    ]
+  },
+  "VEY-151": {
+    "implementation": "Normalization preserves run, attempt and model provenance and quarantines sequence gaps, mixed provenance, unmatched proposals, duplicate or unapproved writes and incomplete traces.",
+    "code_paths": [
+      "training/data/normalize.py",
+      "services/runtime/veya/research/normalization.py"
+    ]
+  },
+  "VEY-152": {
+    "implementation": "Bounded field classification removes personal/secret values and credential sentinels; unclassified fields are withheld and require review, with hashed unknown-path diagnostics. Corpus export applies the rules before writing.",
+    "code_paths": [
+      "training/data/redact.py",
+      "training/data/export.py"
+    ]
+  },
+  "VEY-153": {
+    "implementation": "Angular trace inspection and revisioned approve/reject decisions retain original bytes and host-selected personal reviewer identity. Stale concurrent review and revoked-source approval fail. Browser reconnect preserves notes and clears stale saving state.",
+    "code_paths": [
+      "apps/desktop/src/features/data/trajectory-review.ts",
+      "training/data/review.py",
+      "services/runtime/veya/research/store.py",
+      "services/platform/internal/workspace"
+    ]
+  },
+  "VEY-154": {
+    "implementation": "Preference pairs pin task, family, lineage and initial conditions with reason/evidence. Identical answers, different conditions, held-out content signatures and held-out family/lineage contamination fail.",
+    "code_paths": [
+      "training/data/preferences.py"
+    ]
+  },
+  "VEY-155": {
+    "implementation": "Manifest links immutable traces to source/run identities, exact review revision, transforms and split. Create-only corpus export rechecks current approval/authorization under the workspace writer lock and blocks orphaned/rejected/revoked records. Required lineage IDs/reviewer must be classified public and remain unchanged after scrubbing, otherwise export is blocked before writing.",
+    "code_paths": [
+      "training/data/manifest.py",
+      "training/data/export.py"
+    ]
+  },
+  "VEY-156": {
+    "implementation": "Bounded exact-content, host semantic-key and lexical-neighbor connected components report kept/removed IDs and unique families; cross-split components are quarantined transitively. No learned embedding deduplicator is claimed.",
+    "code_paths": [
+      "training/data/deduplicate.py"
+    ]
+  },
+  "VEY-157": {
+    "implementation": "Pinned training-only shortage templates generate bounded amount variants with deterministic identities, preserved lineage and independently checked arithmetic. Unsupported templates and held-out parents fail.",
+    "code_paths": [
+      "training/data/augment.py"
+    ]
+  },
+  "VEY-158": {
+    "implementation": "Quality diagnostics retain declared and observed counts, family coverage, actionable IDs and failed/missing pipeline stages; integrated corpus export blocks failed checks.",
+    "code_paths": [
+      "training/data/quality.py",
+      "training/data/export.py"
+    ]
+  },
+  "VEY-161": {
+    "implementation": "Measured local NVIDIA memory/driver plus Torch/CUDA availability feed conservative full-parameter training estimates. Unknown/insufficient/mismapped devices block readiness with smaller-plan guidance. Actual RTX 4050 preflight blocked; no training launched.",
+    "code_paths": [
+      "training/runtime/preflight.py",
+      "scripts/run_research.py"
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+Research20 local validation, 2026-10-26 America/Chicago
+Repository: C:/Users/Swarneil Pradhan/Veya
+Baseline/user HEAD: 93792e5 (no project staging, commits or pushes by this batch).
+
+PASS: Python 3.13 full runtime suite: 530 tests before final five batch/latency/isolation tests and two corpus/tamper tests.
+PASS: latest focused research suite: 26 tests, including shared Agent execution, corpus export, authorization revocation and evaluator-state tampering.
+PASS: Angular production build; ESLint; TypeScript; workspace stack contracts.
+PASS: runtime Ruff check/format; mypy (98 source files); generated OpenAPI/TypeScript contracts v6.
+PASS: environment/evaluation/training Ruff; architectural boundary checks.
+PASS: Go vet and all platform package tests; local platform build. One concurrent-native-build run hit worker startup timeout; isolated rerun passed without changing runtime deadlines.
+PASS: Rust 12 tests, clippy -D warnings, cargo fmt.
+PASS: real Angular -> Go -> Python -> SQLite browser regression including interrupted-save reconnect, durable review, unauthorized approval denial, keyboard, retry, and axe at 1440x1000/1024x768.
+PASS: project tooling 27 unit tests. Earlier invocation used nonexistent scripts/tests; corrected discovery is tests/.
+PASS: actionlint workflow syntax; diff whitespace check.
+PASS: final Python 3.10 full suite: 538 passed in 219.50 seconds, after lazy parser dispatch and CSV-only imports. The preceding full run recorded 536 passes plus one transient source-extraction failure; its focused retry passed 26/26. Resource ceilings remain unchanged. The hard suite timeout is 300 seconds, below the 15-minute CI job limit.
+PASS: final Python 3.13 data tests include private-lineage and private-parent rejection plus CSV column CV boundary / no unrelated parser imports.
+No existing API schema or route shape changed relative to user HEAD; contract version 6 records the new research surfaces.
+PASS: internal planning Markdown remains ignored; backlog JSON and TXT/JSON evidence remain local working changes.
+
+
+No GitHub CI execution or signed/native installed GUI acceptance is claimed. Browser evidence uses synthetic fixtures in owned temporary workspaces. No model qualification, real human judge calibration, tokenizer-ready dataset, training run or promotion is claimed.

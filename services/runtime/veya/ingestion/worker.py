@@ -45,10 +45,6 @@ def extract(kind: str, content: bytes) -> dict:
 
 
 def main(kind: str) -> None:
-    from veya.ingestion.email import extract_email
-    from veya.ingestion.pdf import extract_pdf
-    from veya.ingestion.tables import extract_table
-
     try:
         # Numeric limits plus a process deadline bound malformed parser work.
         from veya.ingestion.intake import MAX_BYTES
@@ -56,13 +52,18 @@ def main(kind: str) -> None:
         content = sys.stdin.buffer.read(MAX_BYTES + 1)
         if len(content) > MAX_BYTES:
             raise DomainError('too_large', 'Document exceeds 512 KiB')
-        value = (
-            extract_email(content)
-            if kind == 'eml'
-            else extract_pdf(content)
-            if kind == 'pdf'
-            else extract_table(kind, content)
-        )
+        if kind == 'eml':
+            from veya.ingestion.email import extract_email
+
+            value = extract_email(content)
+        elif kind == 'pdf':
+            from veya.ingestion.pdf import extract_pdf
+
+            value = extract_pdf(content)
+        else:
+            from veya.ingestion.tables import extract_table
+
+            value = extract_table(kind, content)
         encoded = json.dumps(value, ensure_ascii=True).encode()
         if len(encoded) > MAX_RESULT:
             raise DomainError('too_large', 'Extracted text exceeds 256 KiB')

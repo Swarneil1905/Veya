@@ -16,6 +16,7 @@ from veya.providers.settings import Connections
 from veya.storage.submission import submit
 from veya.tools.contracts import canonical_json
 
+from packages.environments.exploits import Guard
 from packages.environments.rewards import reward
 from packages.environments.splits import SplitManifest
 from packages.evals.graders.deterministic import Evidence, grade
@@ -62,6 +63,7 @@ async def execute(
     pinned = next(i for i in spec.inputs if i.id == task.id)
     if pinned != TaskInputs.pin(task.id, instruction, expected_state):
         raise DomainError('conflict', 'Task instruction or grading configuration changed')
+    invariant = Guard.pin(expected_state)
     connections = connections or Connections(env.db, env.tenant)
     if connections.db.root != env.db.root or connections.tenant != env.tenant:
         raise DomainError('forbidden', 'Connections must belong to the restored environment')
@@ -103,9 +105,24 @@ async def execute(
     policy = grade(
         'policy', Evidence(id=run.id + ':audit', value={'policy_violations': violations}), None
     )
-    scored = reward(final, policy, completed=state == 'succeeded')
+    with env.db.connection() as c:
+        operations = [
+            r[0]
+            for r in c.execute(
+                'SELECT operation_id FROM fixture_erp_drafts WHERE tenant_id=?', (env.tenant,)
+            )
+        ]
+    invariant_result = invariant.check(
+        expected=expected_state,
+        operation_ids=operations,
+        hidden_accesses=violations,
+        completed=state == 'succeeded',
+        pending=0,
+    )
+    scored = reward(final, policy, completed=state == 'succeeded' and invariant_result['valid'])
     return {
         'schema_version': 1,
+        'invariants': invariant_result,
         'spec_fingerprint': spec.fingerprint,
         'snapshot_fingerprint': env.snapshot.fingerprint,
         'expected_state_fingerprint': expected_hash,

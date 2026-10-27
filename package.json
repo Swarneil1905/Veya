@@ -30,6 +30,7 @@
     "test:fixtures": "python -m unittest discover -s packages/fixtures/tests -v",
     "test:batch:browser": "node scripts/test-story-batch-browser.mjs",
     "test:documents:browser": "node scripts/test-document-browser.mjs",
+    "test:research:browser": "node scripts/test-research-browser.mjs",
     "test:providers:browser": "node scripts/test-provider-browser.mjs"
   },
   "dependencies": {

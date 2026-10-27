@@ -28,7 +28,9 @@ type Command struct {
 func Route(c Command) (method, path string, body []byte, err error) {
 	allowed, ok := map[string][]string{
 		"list_tasks": {"status", "search", "sort", "cursor"}, "recovery": {},
-		"get_task":    {"task_id"},
+		"get_task":         {"task_id"},
+		"list_evaluations": {"after"}, "get_evaluation": {"id"},
+		"list_trajectories": {"after"}, "get_trajectory": {"id"}, "review_trajectory": {"id", "revision", "fingerprint", "decision", "tags", "note"},
 		"connections": {}, "check_connection": {"config", "consent"}, "activate_connection": {"fingerprints"}, "save_credential": {"reference", "secret"},
 		"execute_run": {"run_id", "expected_selection", "allow_remote"}, "cancel_run": {"run_id"}, "document_chunks": {"id", "after"},
 		"import_document": {"request_id", "name", "content"},
@@ -58,6 +60,39 @@ func Route(c Command) (method, path string, body []byte, err error) {
 	}
 	text := func(key string) string { var s string; _ = json.Unmarshal(c.Args[key], &s); return s }
 	switch c.Operation {
+	case "list_evaluations", "list_trajectories":
+		var after int64
+		if raw, exists := c.Args["after"]; exists && (json.Unmarshal(raw, &after) != nil || after < 0) {
+			return "", "", nil, ErrInput
+		}
+		resource := "evaluations"
+		if c.Operation == "list_trajectories" {
+			resource = "trajectories"
+		}
+		return "GET", "/v1/research/" + resource + "?after=" + strconv.FormatInt(after, 10), nil, nil
+	case "get_evaluation", "get_trajectory", "review_trajectory":
+		if !identifier.MatchString(text("id")) {
+			return "", "", nil, ErrInput
+		}
+		resource := "trajectories"
+		if c.Operation == "get_evaluation" {
+			resource = "evaluations"
+		}
+		path = "/v1/research/" + resource + "/" + text("id")
+		if c.Operation != "review_trajectory" {
+			return "GET", path, nil, nil
+		}
+		payload := make(map[string]json.RawMessage)
+		for k, v := range c.Args {
+			if k != "id" {
+				payload[k] = v
+			}
+		}
+		body, err = json.Marshal(payload)
+		if len(body) > 8192 {
+			return "", "", nil, ErrInput
+		}
+		return "POST", path + "/review", body, err
 	case "connections":
 		return "GET", "/v1/connections", nil, nil
 	case "check_connection", "activate_connection", "save_credential":

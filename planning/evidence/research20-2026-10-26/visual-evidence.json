@@ -1,0 +1,19 @@
+{
+  "local_directory": "artifacts/research20",
+  "inspected": [
+    "evaluation-detail-1440.png",
+    "review-1024.png"
+  ],
+  "sha256": {
+    "evaluation-detail-1440.png": "6748bbd500dc6768fea9e396fece7b59b718e7f65149c8cb5dc6fe43c8e61867",
+    "evaluations-1440.png": "207df87c2dc61f01513b80de536627b5cf1e9bd4d2eee1a7caafd32b950eecff",
+    "review-1024.png": "de61ded6d596aae696d028291210e9acce890a75df56802c4697debc0ede61c3",
+    "review-1440.png": "60dc6d57904bac0f7f44070addb271340d6f4bb3c0abd1ca0944d1957b8d0fd8"
+  },
+  "primary_reference": "Ramp",
+  "supporting": [
+    "Superhuman",
+    "Basecamp",
+    "Linear"
+  ]
+}

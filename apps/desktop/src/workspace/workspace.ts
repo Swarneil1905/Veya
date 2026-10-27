@@ -1,3 +1,5 @@
+import { EvaluationReports } from "../features/evaluations/evaluation-report";
+import { TrajectoryReview } from "../features/data/trajectory-review";
 import { ConnectionsSettings } from "../features/settings/connections-settings";
 import { Commands, Destination } from "../features/accessibility/commands";
 import { HostListener } from "@angular/core";
@@ -39,6 +41,8 @@ function savedNavigation() {
     ApprovalReview,
     Commands,
     ConnectionsSettings,
+    EvaluationReports,
+    TrajectoryReview,
   ],
   templateUrl: "./workspace.html",
 })
@@ -64,7 +68,19 @@ export class Workspace implements OnInit, OnDestroy {
     else this.view.set(destination);
   }
 
-  readonly view = signal<"work" | "approvals">("work");
+  readonly view = signal<"work" | "approvals" | "evaluations" | "data">("work");
+  readonly pageTitles = {
+    work: "Work",
+    approvals: "Approvals",
+    evaluations: "Evaluations",
+    data: "Data review",
+  };
+  readonly pageDescriptions = {
+    work: "Your briefs, progress, and next steps.",
+    approvals: "Decisions that need your attention.",
+    evaluations: "Compare recorded runs and inspect the evidence.",
+    data: "Review examples before they enter a dataset.",
+  };
   readonly native = isNative();
   readonly web = isWeb();
   readonly connection = signal<Health>({

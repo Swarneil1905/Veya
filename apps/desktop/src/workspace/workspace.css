@@ -153,3 +153,93 @@ veya-attachments,veya-document-inspector,veya-task-documents,veya-results,veya-c
 .work-provider-settings{margin-top:28px;border-top:1px solid var(--work-line);padding-top:24px}.work-provider-form{display:grid;gap:10px}.work-provider-form>label{font-size:13px;font-weight:500;margin-top:8px}.work-provider-form input:not([type=checkbox]),.work-provider-form select{width:100%;min-width:0;padding:10px;border:1px solid var(--work-line);border-radius:4px;font:inherit;background:#fff;color:var(--work-ink)}.work-provider-list{padding:0;list-style:none}.work-provider-list li{padding:14px 0;border-bottom:1px solid var(--work-line)}.work-provider-list strong,.work-provider-list small{display:block;overflow-wrap:anywhere}.work-provider-list small{color:var(--work-muted);margin:5px 0}.work-actions{display:flex;flex-wrap:wrap;gap:8px}.work-check-label{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.6}.work-check-label input{flex:none;margin-top:5px}.work-execution-controls{margin-bottom:24px}.work-execution-controls .work-primary{margin-top:12px}
 
 .work-provider-settings .work-notice {overflow-wrap:anywhere}
+
+.research-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  border-top: 1px solid var(--work-border, #dededb);
+}
+.research-list li {
+  border-bottom: 1px solid var(--work-border, #dededb);
+}
+.research-row {
+  width: 100%;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  padding: 18px 12px;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.research-row:hover {
+  background: #f1f2ee;
+}
+.research-row > span:first-child {
+  flex: 1;
+  min-width: 0;
+}
+.research-row strong,
+.research-row small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+.research-row small {
+  margin-top: 6px;
+  color: #59615b;
+}
+.research-events {
+  padding-left: 22px;
+}
+.research-events li {
+  padding: 12px 0;
+  border-bottom: 1px solid #dededb;
+  overflow-wrap: anywhere;
+}
+.research-events p {
+  white-space: pre-wrap;
+}
+.work-panel-content textarea {
+  font: inherit;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  border: 1px solid #b1b8b1;
+  border-radius: 6px;
+}
+.work-panel-content code,
+.work-panel-content dd {
+  overflow-wrap: anywhere;
+}
+
+.research-metrics {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin: 24px 0;
+}
+.research-metrics caption {
+  text-align: left;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.research-metrics th,
+.research-metrics td {
+  padding: 10px 6px;
+  border-bottom: 1px solid #dededb;
+  text-align: left;
+}
+.research-metrics small {
+  display: block;
+  color: #59615b;
+  margin-top: 4px;
+}
+
+.work-panel-content > label {display:block;font-size:13px;font-weight:600;margin:20px 0 8px}
+.work-panel-content > select {display:block;font:inherit;min-height:36px;min-width:160px;max-width:100%;border:1px solid #b1b8b1;border-radius:6px;background:#fff;padding:6px 30px 6px 10px;color:inherit}
+.work-panel-content > .work-form-actions {display:flex;gap:10px;margin:18px 0 24px;justify-content:flex-end}
+.work-panel-content > .work-form-actions button:disabled {opacity:.5;cursor:not-allowed}

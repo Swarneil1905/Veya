@@ -1,6 +1,12 @@
 import { Component, Output, EventEmitter, signal } from "@angular/core";
 import { Panel } from "../../workspace/panel";
-export type Destination = "work" | "new" | "approvals" | "connection";
+export type Destination =
+  | "work"
+  | "new"
+  | "approvals"
+  | "connection"
+  | "evaluations"
+  | "data";
 @Component({
   selector: "veya-commands",
   imports: [Panel],
@@ -49,6 +55,12 @@ export class Commands {
   readonly query = signal("");
   readonly actions: { id: Destination; label: string; icon: string }[] = [
     { id: "new", label: "New task", icon: "ph-plus" },
+    {
+      id: "evaluations",
+      label: "Engineering evaluations",
+      icon: "ph-chart-line",
+    },
+    { id: "data", label: "Review dataset examples", icon: "ph-stack" },
     { id: "work", label: "Work inbox", icon: "ph-tray" },
     { id: "approvals", label: "Approvals", icon: "ph-check-square" },
     {

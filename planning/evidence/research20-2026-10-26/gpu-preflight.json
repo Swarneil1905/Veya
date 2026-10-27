@@ -1,0 +1,22 @@
+{
+  "hardware": {
+    "name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+    "total_mib": 6141,
+    "free_mib": 4075,
+    "driver": "617.42",
+    "torch_version": null,
+    "cuda_runtime": null,
+    "cuda_available": false
+  },
+  "estimated_peak_mib": 24425,
+  "launch_allowed": false,
+  "reasons": [
+    "unsupported_or_unmeasured_runtime",
+    "insufficient_memory"
+  ],
+  "suggestion": "Use a smaller parameter count, batch/context activation budget, or a separately measured adapter-training plan.",
+  "estimate_kind": "full_parameter_fp32_adam",
+  "parameters": 1500000000,
+  "activation_mib": 512,
+  "reserve_mib": 1024
+}

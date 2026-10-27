@@ -7653,14 +7653,23 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt",
+        "planning/evidence/research20-2026-10-26/test-results.json"
+      ],
+      "acceptance_note": "Seeded cooperative/delayed/abandoned clarification events replay deterministically; unknown facts are unavailable, repeated request IDs cannot change meaning. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-27T01:20:24+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -7778,7 +7787,9 @@
         "An agent cannot increase reward by editing evaluator-owned state"
       ],
       "code_paths": [
-        "packages/environments/tests/test_reward_exploits.py"
+        "packages/environments/exploits.py",
+        "packages/environments/runner.py",
+        "services/runtime/tests/test_research_data.py"
       ],
       "verification": "Exercise the changed entry point and assert: Exploit fixtures fail reward validation before training use. Negative case: An agent cannot increase reward by editing evaluator-owned state. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -7792,14 +7803,23 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt",
+        "planning/evidence/research20-2026-10-26/test-results.json"
+      ],
+      "acceptance_note": "Host-pinned grading state and explicit invariant failures prevent reward increases from evaluator mutation, duplicate writes, hidden access or premature completion; actual shared-Agent tamper regression included. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-27T01:20:24+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -7931,14 +7951,23 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt",
+        "planning/evidence/research20-2026-10-26/test-results.json"
+      ],
+      "acceptance_note": "Declared outcomes retain missing, abandoned, cancelled, failed and system-failure runs in the denominator; unknown IDs and duplicate outcomes fail. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-27T01:20:24+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -7960,7 +7989,10 @@
         "Residual drafts, memory or cache entries cause isolation validation to fail"
       ],
       "code_paths": [
-        "packages/environments/reset.py"
+        "packages/environments/reset.py",
+        "packages/evals/batch.py",
+        "services/runtime/veya/ingestion/worker.py",
+        "services/runtime/veya/ingestion/tables.py"
       ],
       "verification": "Exercise the changed entry point and assert: Each repeated run begins from the same declared snapshot. Negative case: Residual drafts, memory or cache entries cause isolation validation to fail. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -7975,14 +8007,23 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt",
+        "planning/evidence/research20-2026-10-26/test-results.json"
+      ],
+      "acceptance_note": "Every batch attempt restores a new owned workspace from the pinned snapshot; exact initial drafts, model attempts, policy residue and memory/cache tables are checked. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-27T01:20:24+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -8052,7 +8093,9 @@
         "Worker failures remain measured outcomes or explicitly retried attempts"
       ],
       "code_paths": [
-        "packages/evals/scheduler.py"
+        "packages/evals/scheduler.py",
+        "packages/evals/batch.py",
+        "scripts/run_research.py"
       ],
       "verification": "Exercise the changed entry point and assert: Interrupted evaluations resume unfinished repetitions without duplicating completed ones. Negative case: Worker failures remain measured outcomes or explicitly retried attempts. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -8067,14 +8110,23 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt",
+        "planning/evidence/research20-2026-10-26/test-results.json"
+      ],
+      "acceptance_note": "Immutable durable plans, expiring fenced leases, retained failed attempts and bounded worker slices resume unfinished repetitions; integrated with the shared read-only Agent and a local batch CLI. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-27T01:20:24+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -8158,14 +8210,23 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt",
+        "planning/evidence/research20-2026-10-26/test-results.json"
+      ],
+      "acceptance_note": "Blinded seeded answer order, strict judge output, per-class human-label agreement/disagreement and pinned calibration control promotion eligibility. Fixture labels exercise code only; no real judge is qualified. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-27T01:20:24+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -8248,14 +8309,23 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt",
+        "planning/evidence/research20-2026-10-26/test-results.json"
+      ],
+      "acceptance_note": "Seeded paired task-family bootstrap reports units and intervals; repeated task family changes and unmatched pairs fail, and one-family data remains inconclusive. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-27T01:20:24+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -8277,7 +8347,8 @@
         "Cheap incomplete runs cannot win by dropping failed tasks from totals"
       ],
       "code_paths": [
-        "packages/evals/metrics.py"
+        "packages/evals/metrics.py",
+        "packages/evals/batch.py"
       ],
       "verification": "Exercise the changed entry point and assert: Candidate comparisons use matching tasks and include missing-cost counts. Negative case: Cheap incomplete runs cannot win by dropping failed tasks from totals. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -8292,14 +8363,23 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt",
+        "planning/evidence/research20-2026-10-26/test-results.json"
+      ],
+      "acceptance_note": "Matched task/seed/repetition/source comparisons report full declared success, P50/P95, known tokens/costs and missing counts. Failed workflow attempts retain measured elapsed time. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-27T01:20:24+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -8325,7 +8405,8 @@
       ],
       "code_paths": [
         "apps/desktop/src/features/evaluations/evaluation-report.ts",
-        "services/platform/internal/workspace"
+        "services/platform/internal/workspace",
+        "services/runtime/veya/api/research.py"
       ],
       "verification": "Exercise the changed entry point and assert: Users can drill from an aggregate to its exact run and evidence. Negative case: Synthetic fixtures and genuine model results have distinct visible labels. Retain the test command, result and evidence artifact. Design gate: apply the project design_direction references during implementation and retain rendered/keyboard evidence; do not defer visual integration to a later redesign.",
       "depends_on": [
@@ -8339,14 +8420,23 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt",
+        "planning/evidence/research20-2026-10-26/test-results.json"
+      ],
+      "acceptance_note": "Angular evaluation list, paired metrics, family filter and exact run/evidence drawer use authenticated Go operations. Synthetic/model/mixed/unrecorded labels are distinct. Ramp-led rendered and keyboard/axe checks passed at 1440 and 1024 pixels. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-24T22:26:50+00:00",
+      "updated_at": "2026-10-27T01:20:24+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -8390,14 +8480,23 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt",
+        "planning/evidence/research20-2026-10-26/test-results.json"
+      ],
+      "acceptance_note": "Evidence-bound qualification recomputes matched metrics and paired intervals; incomplete runs, unknown cost, synthetic evidence, leakage, uncalibrated judges, resource limits or inconclusive benefit block an explicit pass. No deployment operation exists. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-27T01:20:24+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -8419,7 +8518,8 @@
         "Private source content is excluded unless explicitly allowed by export policy"
       ],
       "code_paths": [
-        "packages/evals/export.py"
+        "packages/evals/export.py",
+        "scripts/run_research.py"
       ],
       "verification": "Exercise the changed entry point and assert: Another environment can verify the bundle and rerun the same declared experiment. Negative case: Private source content is excluded unless explicitly allowed by export policy. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -8434,14 +8534,23 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt",
+        "planning/evidence/research20-2026-10-26/test-results.json"
+      ],
+      "acceptance_note": "Create-only, content-verified bundles bind strict run metadata to actual evaluation specs, split fingerprints and code hashes. Private source bytes require exact allowlisting; unsupported result fields fail and free-form grading content is omitted. Replay requires original authorized pinned inputs/snapshots. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-27T01:20:24+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -8463,7 +8572,8 @@
         "Incomplete or contradictory step ordering is quarantined"
       ],
       "code_paths": [
-        "training/data/normalize.py"
+        "training/data/normalize.py",
+        "services/runtime/veya/research/normalization.py"
       ],
       "verification": "Exercise the changed entry point and assert: Every step retains its source run, attempt and model identifiers. Negative case: Incomplete or contradictory step ordering is quarantined. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -8477,14 +8587,23 @@
       },
       "scope": "Research",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt",
+        "planning/evidence/research20-2026-10-26/test-results.json"
+      ],
+      "acceptance_note": "Normalization preserves run, attempt and model provenance and quarantines sequence gaps, mixed provenance, unmatched proposals, duplicate or unapproved writes and incomplete traces. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-27T01:20:24+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -8506,7 +8625,8 @@
         "Unknown fields follow a conservative policy and require review"
       ],
       "code_paths": [
-        "training/data/redact.py"
+        "training/data/redact.py",
+        "training/data/export.py"
       ],
       "verification": "Exercise the changed entry point and assert: Sentinel personal data and credentials are absent from the exported corpus. Negative case: Unknown fields follow a conservative policy and require review. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -8520,14 +8640,23 @@
       },
       "scope": "Research",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt",
+        "planning/evidence/research20-2026-10-26/test-results.json"
+      ],
+      "acceptance_note": "Bounded field classification removes personal/secret values and credential sentinels; unclassified fields are withheld and require review, with hashed unknown-path diagnostics. Corpus export applies the rules before writing. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-27T01:20:24+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -8554,6 +8683,7 @@
       "code_paths": [
         "apps/desktop/src/features/data/trajectory-review.ts",
         "training/data/review.py",
+        "services/runtime/veya/research/store.py",
         "services/platform/internal/workspace"
       ],
       "verification": "Exercise the changed entry point and assert: Review changes preserve the original trace and reviewer identity. Negative case: Rejected or unreviewed examples cannot enter an approved dataset build. Retain the test command, result and evidence artifact. Design gate: apply the project design_direction references during implementation and retain rendered/keyboard evidence; do not defer visual integration to a later redesign.",
@@ -8568,14 +8698,23 @@
       },
       "scope": "Research",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt",
+        "planning/evidence/research20-2026-10-26/test-results.json"
+      ],
+      "acceptance_note": "Angular trace inspection and revisioned approve/reject decisions retain original bytes and host-selected personal reviewer identity. Stale concurrent review and revoked-source approval fail. Browser reconnect preserves notes and clears stale saving state. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-24T22:26:50+00:00",
+      "updated_at": "2026-10-27T01:20:24+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -8618,14 +8757,23 @@
       },
       "scope": "Research",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt",
+        "planning/evidence/research20-2026-10-26/test-results.json"
+      ],
+      "acceptance_note": "Preference pairs pin task, family, lineage and initial conditions with reason/evidence. Identical answers, different conditions, held-out content signatures and held-out family/lineage contamination fail. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-27T01:20:24+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -8647,7 +8795,8 @@
         "An orphaned row or deleted source authorization blocks export"
       ],
       "code_paths": [
-        "training/data/manifest.py"
+        "training/data/manifest.py",
+        "training/data/export.py"
       ],
       "verification": "Exercise the changed entry point and assert: Every training row can be traced back to permitted source evidence. Negative case: An orphaned row or deleted source authorization blocks export. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -8662,14 +8811,23 @@
       },
       "scope": "Research",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt",
+        "planning/evidence/research20-2026-10-26/test-results.json"
+      ],
+      "acceptance_note": "Manifest links immutable traces to source/run identities, exact review revision, transforms and split. Create-only corpus export rechecks current approval/authorization under the workspace writer lock and blocks orphaned/rejected/revoked records. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding. Classified private provenance cannot be reintroduced through exported manifest metadata.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-27T01:20:24+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -8705,14 +8863,23 @@
       },
       "scope": "Research",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt",
+        "planning/evidence/research20-2026-10-26/test-results.json"
+      ],
+      "acceptance_note": "Bounded exact-content, host semantic-key and lexical-neighbor connected components report kept/removed IDs and unique families; cross-split components are quarantined transitively. No learned embedding deduplicator is claimed. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-27T01:20:24+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -8748,14 +8915,23 @@
       },
       "scope": "Research",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt",
+        "planning/evidence/research20-2026-10-26/test-results.json"
+      ],
+      "acceptance_note": "Pinned training-only shortage templates generate bounded amount variants with deterministic identities, preserved lineage and independently checked arithmetic. Unsupported templates and held-out parents fail. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-27T01:20:24+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -8777,7 +8953,8 @@
         "A failed pipeline stage cannot appear as zero detected defects"
       ],
       "code_paths": [
-        "training/data/quality.py"
+        "training/data/quality.py",
+        "training/data/export.py"
       ],
       "verification": "Exercise the changed entry point and assert: Dataset reports show counts and actionable example IDs for each quality issue. Negative case: A failed pipeline stage cannot appear as zero detected defects. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -8792,14 +8969,23 @@
       },
       "scope": "Research",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt",
+        "planning/evidence/research20-2026-10-26/test-results.json"
+      ],
+      "acceptance_note": "Quality diagnostics retain declared and observed counts, family coverage, actionable IDs and failed/missing pipeline stages; integrated corpus export blocks failed checks. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-27T01:20:24+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -8907,7 +9093,8 @@
         "Insufficient memory or unsupported runtime blocks launch with a smaller-run suggestion"
       ],
       "code_paths": [
-        "training/runtime/preflight.py"
+        "training/runtime/preflight.py",
+        "scripts/run_research.py"
       ],
       "verification": "Exercise the changed entry point and assert: A run configuration records measured hardware before training. Negative case: Insufficient memory or unsupported runtime blocks launch with a smaller-run suggestion. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -8921,14 +9108,23 @@
       },
       "scope": "Research",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt",
+        "planning/evidence/research20-2026-10-26/test-results.json"
+      ],
+      "acceptance_note": "Measured local NVIDIA memory/driver plus Torch/CUDA availability feed conservative full-parameter training estimates. Unknown/insufficient/mismapped devices block readiness with smaller-plan guidance. Actual RTX 4050 preflight blocked; no training launched. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-27T01:20:24+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -14427,6 +14623,366 @@
         "planning/evidence/providers20-2026-10-25/live-model.json"
       ],
       "acceptance_note": "Required aggregate workflow gate validates exactly six expected prerequisites and all-success status; failures/cancellation/skips/missing jobs cannot pass. Provider browser regression added to Linux/Windows workflow; local validation only. Local implementation submitted for review; formal prerequisite acceptance and user commit remain outstanding."
+    },
+    {
+      "at": "2026-10-27T01:20:24+00:00",
+      "story_id": "VEY-133",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized next 20 local implementations; preserve formal acceptance and commit gates. Scoped against existing implemented prerequisite interfaces; no unimplemented Temporal/memory/training capability claimed.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt"
+      ],
+      "acceptance_note": "Seeded cooperative/delayed/abandoned clarification events replay deterministically; unknown facts are unavailable, repeated request IDs cannot change meaning. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding."
+    },
+    {
+      "at": "2026-10-27T01:20:24+00:00",
+      "story_id": "VEY-136",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized next 20 local implementations; preserve formal acceptance and commit gates. Scoped against existing implemented prerequisite interfaces; no unimplemented Temporal/memory/training capability claimed.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt"
+      ],
+      "acceptance_note": "Host-pinned grading state and explicit invariant failures prevent reward increases from evaluator mutation, duplicate writes, hidden access or premature completion; actual shared-Agent tamper regression included. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding."
+    },
+    {
+      "at": "2026-10-27T01:20:24+00:00",
+      "story_id": "VEY-139",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized next 20 local implementations; preserve formal acceptance and commit gates. Scoped against existing implemented prerequisite interfaces; no unimplemented Temporal/memory/training capability claimed.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt"
+      ],
+      "acceptance_note": "Declared outcomes retain missing, abandoned, cancelled, failed and system-failure runs in the denominator; unknown IDs and duplicate outcomes fail. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding."
+    },
+    {
+      "at": "2026-10-27T01:20:24+00:00",
+      "story_id": "VEY-140",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized next 20 local implementations; preserve formal acceptance and commit gates. Scoped against existing implemented prerequisite interfaces; no unimplemented Temporal/memory/training capability claimed.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt"
+      ],
+      "acceptance_note": "Every batch attempt restores a new owned workspace from the pinned snapshot; exact initial drafts, model attempts, policy residue and memory/cache tables are checked. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding."
+    },
+    {
+      "at": "2026-10-27T01:20:24+00:00",
+      "story_id": "VEY-142",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized next 20 local implementations; preserve formal acceptance and commit gates. Scoped against existing implemented prerequisite interfaces; no unimplemented Temporal/memory/training capability claimed.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt"
+      ],
+      "acceptance_note": "Immutable durable plans, expiring fenced leases, retained failed attempts and bounded worker slices resume unfinished repetitions; integrated with the shared read-only Agent and a local batch CLI. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding."
+    },
+    {
+      "at": "2026-10-27T01:20:24+00:00",
+      "story_id": "VEY-144",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized next 20 local implementations; preserve formal acceptance and commit gates. Scoped against existing implemented prerequisite interfaces; no unimplemented Temporal/memory/training capability claimed.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt"
+      ],
+      "acceptance_note": "Blinded seeded answer order, strict judge output, per-class human-label agreement/disagreement and pinned calibration control promotion eligibility. Fixture labels exercise code only; no real judge is qualified. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding."
+    },
+    {
+      "at": "2026-10-27T01:20:24+00:00",
+      "story_id": "VEY-146",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized next 20 local implementations; preserve formal acceptance and commit gates. Scoped against existing implemented prerequisite interfaces; no unimplemented Temporal/memory/training capability claimed.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt"
+      ],
+      "acceptance_note": "Seeded paired task-family bootstrap reports units and intervals; repeated task family changes and unmatched pairs fail, and one-family data remains inconclusive. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding."
+    },
+    {
+      "at": "2026-10-27T01:20:24+00:00",
+      "story_id": "VEY-147",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized next 20 local implementations; preserve formal acceptance and commit gates. Scoped against existing implemented prerequisite interfaces; no unimplemented Temporal/memory/training capability claimed.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt"
+      ],
+      "acceptance_note": "Matched task/seed/repetition/source comparisons report full declared success, P50/P95, known tokens/costs and missing counts. Failed workflow attempts retain measured elapsed time. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding."
+    },
+    {
+      "at": "2026-10-27T01:20:24+00:00",
+      "story_id": "VEY-148",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized next 20 local implementations; preserve formal acceptance and commit gates. Scoped against existing implemented prerequisite interfaces; no unimplemented Temporal/memory/training capability claimed.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt"
+      ],
+      "acceptance_note": "Angular evaluation list, paired metrics, family filter and exact run/evidence drawer use authenticated Go operations. Synthetic/model/mixed/unrecorded labels are distinct. Ramp-led rendered and keyboard/axe checks passed at 1440 and 1024 pixels. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding."
+    },
+    {
+      "at": "2026-10-27T01:20:24+00:00",
+      "story_id": "VEY-149",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized next 20 local implementations; preserve formal acceptance and commit gates. Scoped against existing implemented prerequisite interfaces; no unimplemented Temporal/memory/training capability claimed.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt"
+      ],
+      "acceptance_note": "Evidence-bound qualification recomputes matched metrics and paired intervals; incomplete runs, unknown cost, synthetic evidence, leakage, uncalibrated judges, resource limits or inconclusive benefit block an explicit pass. No deployment operation exists. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding."
+    },
+    {
+      "at": "2026-10-27T01:20:24+00:00",
+      "story_id": "VEY-150",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized next 20 local implementations; preserve formal acceptance and commit gates. Scoped against existing implemented prerequisite interfaces; no unimplemented Temporal/memory/training capability claimed.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt"
+      ],
+      "acceptance_note": "Create-only, content-verified bundles bind strict run metadata to actual evaluation specs, split fingerprints and code hashes. Private source bytes require exact allowlisting; unsupported result fields fail and free-form grading content is omitted. Replay requires original authorized pinned inputs/snapshots. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding."
+    },
+    {
+      "at": "2026-10-27T01:20:24+00:00",
+      "story_id": "VEY-151",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized next 20 local implementations; preserve formal acceptance and commit gates. Scoped against existing implemented prerequisite interfaces; no unimplemented Temporal/memory/training capability claimed.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt"
+      ],
+      "acceptance_note": "Normalization preserves run, attempt and model provenance and quarantines sequence gaps, mixed provenance, unmatched proposals, duplicate or unapproved writes and incomplete traces. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding."
+    },
+    {
+      "at": "2026-10-27T01:20:24+00:00",
+      "story_id": "VEY-152",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized next 20 local implementations; preserve formal acceptance and commit gates. Scoped against existing implemented prerequisite interfaces; no unimplemented Temporal/memory/training capability claimed.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt"
+      ],
+      "acceptance_note": "Bounded field classification removes personal/secret values and credential sentinels; unclassified fields are withheld and require review, with hashed unknown-path diagnostics. Corpus export applies the rules before writing. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding."
+    },
+    {
+      "at": "2026-10-27T01:20:24+00:00",
+      "story_id": "VEY-153",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized next 20 local implementations; preserve formal acceptance and commit gates. Scoped against existing implemented prerequisite interfaces; no unimplemented Temporal/memory/training capability claimed.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt"
+      ],
+      "acceptance_note": "Angular trace inspection and revisioned approve/reject decisions retain original bytes and host-selected personal reviewer identity. Stale concurrent review and revoked-source approval fail. Browser reconnect preserves notes and clears stale saving state. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding."
+    },
+    {
+      "at": "2026-10-27T01:20:24+00:00",
+      "story_id": "VEY-154",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized next 20 local implementations; preserve formal acceptance and commit gates. Scoped against existing implemented prerequisite interfaces; no unimplemented Temporal/memory/training capability claimed.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt"
+      ],
+      "acceptance_note": "Preference pairs pin task, family, lineage and initial conditions with reason/evidence. Identical answers, different conditions, held-out content signatures and held-out family/lineage contamination fail. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding."
+    },
+    {
+      "at": "2026-10-27T01:20:24+00:00",
+      "story_id": "VEY-155",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized next 20 local implementations; preserve formal acceptance and commit gates. Scoped against existing implemented prerequisite interfaces; no unimplemented Temporal/memory/training capability claimed.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt"
+      ],
+      "acceptance_note": "Manifest links immutable traces to source/run identities, exact review revision, transforms and split. Create-only corpus export rechecks current approval/authorization under the workspace writer lock and blocks orphaned/rejected/revoked records. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding."
+    },
+    {
+      "at": "2026-10-27T01:20:24+00:00",
+      "story_id": "VEY-156",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized next 20 local implementations; preserve formal acceptance and commit gates. Scoped against existing implemented prerequisite interfaces; no unimplemented Temporal/memory/training capability claimed.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt"
+      ],
+      "acceptance_note": "Bounded exact-content, host semantic-key and lexical-neighbor connected components report kept/removed IDs and unique families; cross-split components are quarantined transitively. No learned embedding deduplicator is claimed. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding."
+    },
+    {
+      "at": "2026-10-27T01:20:24+00:00",
+      "story_id": "VEY-157",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized next 20 local implementations; preserve formal acceptance and commit gates. Scoped against existing implemented prerequisite interfaces; no unimplemented Temporal/memory/training capability claimed.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt"
+      ],
+      "acceptance_note": "Pinned training-only shortage templates generate bounded amount variants with deterministic identities, preserved lineage and independently checked arithmetic. Unsupported templates and held-out parents fail. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding."
+    },
+    {
+      "at": "2026-10-27T01:20:24+00:00",
+      "story_id": "VEY-158",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized next 20 local implementations; preserve formal acceptance and commit gates. Scoped against existing implemented prerequisite interfaces; no unimplemented Temporal/memory/training capability claimed.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt"
+      ],
+      "acceptance_note": "Quality diagnostics retain declared and observed counts, family coverage, actionable IDs and failed/missing pipeline stages; integrated corpus export blocks failed checks. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding."
+    },
+    {
+      "at": "2026-10-27T01:20:24+00:00",
+      "story_id": "VEY-161",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized next 20 local implementations; preserve formal acceptance and commit gates. Scoped against existing implemented prerequisite interfaces; no unimplemented Temporal/memory/training capability claimed.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/research20-2026-10-26/checks.txt",
+        "planning/evidence/research20-2026-10-26/review.txt",
+        "planning/evidence/research20-2026-10-26/story-assessment.json",
+        "planning/evidence/research20-2026-10-26/browser-result.json",
+        "planning/evidence/research20-2026-10-26/gpu-preflight.json",
+        "planning/evidence/research20-2026-10-26/visual-evidence.json",
+        "planning/evidence/research20-2026-10-26/usage.txt"
+      ],
+      "acceptance_note": "Measured local NVIDIA memory/driver plus Torch/CUDA availability feed conservative full-parameter training estimates. Unknown/insufficient/mismapped devices block readiness with smaller-plan guidance. Actual RTX 4050 preflight blocked; no training launched. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding."
     }
   ],
   "planning_deliverables": [

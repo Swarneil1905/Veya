@@ -49,6 +49,8 @@ jobs:
         run: pnpm test:documents:browser
       - name: Provider activation and read-only execution
         run: pnpm test:providers:browser
+      - name: Engineering evaluations and revisioned dataset review
+        run: node scripts/test-research-browser.mjs
       - name: Retain screenshots and diagnostics even on failure
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -62,5 +64,7 @@ jobs:
             artifacts/document-batch/browser-checks.txt
             artifacts/provider-batch/*.png
             artifacts/provider-batch/browser-checks.txt
+            artifacts/research20/*.png
+            artifacts/research20/browser-result.json
           if-no-files-found: warn
           retention-days: 14

@@ -1,5 +1,5 @@
 {
-  "contract_version": 5,
+  "contract_version": 6,
   "openapi": {
     "components": {
       "schemas": {
@@ -472,6 +472,131 @@
           "title": "Effect",
           "type": "string"
         },
+        "EvaluationReport": {
+          "additionalProperties": false,
+          "properties": {
+            "baseline": {
+              "title": "Baseline",
+              "type": "string"
+            },
+            "candidate": {
+              "title": "Candidate",
+              "type": "string"
+            },
+            "expected_ids": {
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 10000,
+              "minItems": 1,
+              "title": "Expected Ids",
+              "type": "array"
+            },
+            "expected_runs": {
+              "items": {
+                "$ref": "#/components/schemas/ExpectedRun"
+              },
+              "maxItems": 2000,
+              "minItems": 1,
+              "title": "Expected Runs",
+              "type": "array"
+            },
+            "id": {
+              "pattern": "^[a-zA-Z0-9_-]{1,64}$",
+              "title": "Id",
+              "type": "string"
+            },
+            "interval": {
+              "$ref": "#/components/schemas/Interval"
+            },
+            "outcomes": {
+              "items": {
+                "$ref": "#/components/schemas/Outcome"
+              },
+              "maxItems": 2000,
+              "title": "Outcomes",
+              "type": "array"
+            },
+            "schema_version": {
+              "const": 1,
+              "default": 1,
+              "title": "Schema Version",
+              "type": "integer"
+            },
+            "spec_hash": {
+              "pattern": "^[a-f0-9]{64}$",
+              "title": "Spec Hash",
+              "type": "string"
+            },
+            "title": {
+              "maxLength": 120,
+              "minLength": 1,
+              "title": "Title",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "title",
+            "spec_hash",
+            "expected_ids",
+            "expected_runs",
+            "outcomes",
+            "baseline",
+            "candidate",
+            "interval"
+          ],
+          "title": "EvaluationReport",
+          "type": "object"
+        },
+        "ExpectedRun": {
+          "additionalProperties": false,
+          "properties": {
+            "candidate": {
+              "pattern": "^[a-zA-Z0-9_-]{1,64}$",
+              "title": "Candidate",
+              "type": "string"
+            },
+            "case_id": {
+              "pattern": "^[a-zA-Z0-9_-]{1,64}$",
+              "title": "Case Id",
+              "type": "string"
+            },
+            "family": {
+              "maxLength": 100,
+              "minLength": 1,
+              "title": "Family",
+              "type": "string"
+            },
+            "id": {
+              "pattern": "^[a-zA-Z0-9_-]{1,64}$",
+              "title": "Id",
+              "type": "string"
+            },
+            "repetition": {
+              "maximum": 99.0,
+              "minimum": 0.0,
+              "title": "Repetition",
+              "type": "integer"
+            },
+            "seed": {
+              "exclusiveMaximum": 4294967296.0,
+              "minimum": 0.0,
+              "title": "Seed",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id",
+            "case_id",
+            "family",
+            "candidate",
+            "repetition",
+            "seed"
+          ],
+          "title": "ExpectedRun",
+          "type": "object"
+        },
         "HTTPValidationError": {
           "properties": {
             "detail": {
@@ -483,6 +608,93 @@
             }
           },
           "title": "HTTPValidationError",
+          "type": "object"
+        },
+        "Interval": {
+          "additionalProperties": false,
+          "properties": {
+            "delta": {
+              "anyOf": [
+                {
+                  "maximum": 1.0,
+                  "minimum": -1.0,
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Delta"
+            },
+            "draws": {
+              "maximum": 10000.0,
+              "minimum": 100.0,
+              "title": "Draws",
+              "type": "integer"
+            },
+            "high": {
+              "anyOf": [
+                {
+                  "maximum": 1.0,
+                  "minimum": -1.0,
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "High"
+            },
+            "independent_units": {
+              "minimum": 0.0,
+              "title": "Independent Units",
+              "type": "integer"
+            },
+            "low": {
+              "anyOf": [
+                {
+                  "maximum": 1.0,
+                  "minimum": -1.0,
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Low"
+            },
+            "seed": {
+              "exclusiveMaximum": 4294967296.0,
+              "minimum": 0.0,
+              "title": "Seed",
+              "type": "integer"
+            },
+            "status": {
+              "enum": [
+                "estimated",
+                "insufficient",
+                "unpaired"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "unit": {
+              "const": "task_family",
+              "default": "task_family",
+              "title": "Unit",
+              "type": "string"
+            }
+          },
+          "required": [
+            "status",
+            "delta",
+            "low",
+            "high",
+            "independent_units",
+            "seed",
+            "draws"
+          ],
+          "title": "Interval",
           "type": "object"
         },
         "Issue": {
@@ -670,6 +882,143 @@
           "title": "ModelRequest",
           "type": "object"
         },
+        "Outcome": {
+          "additionalProperties": false,
+          "properties": {
+            "candidate": {
+              "pattern": "^[a-zA-Z0-9_-]{1,64}$",
+              "title": "Candidate",
+              "type": "string"
+            },
+            "case_id": {
+              "pattern": "^[a-zA-Z0-9_-]{1,64}$",
+              "title": "Case Id",
+              "type": "string"
+            },
+            "cost_microunits": {
+              "anyOf": [
+                {
+                  "maximum": 1000000000000.0,
+                  "minimum": 0.0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cost Microunits"
+            },
+            "currency": {
+              "default": "USD",
+              "pattern": "^[A-Z]{3}$",
+              "title": "Currency",
+              "type": "string"
+            },
+            "duration_ms": {
+              "maximum": 86400000.0,
+              "minimum": 0.0,
+              "title": "Duration Ms",
+              "type": "integer"
+            },
+            "evidence_ids": {
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 100,
+              "minItems": 1,
+              "title": "Evidence Ids",
+              "type": "array"
+            },
+            "family": {
+              "maxLength": 100,
+              "minLength": 1,
+              "title": "Family",
+              "type": "string"
+            },
+            "id": {
+              "pattern": "^[a-zA-Z0-9_-]{1,64}$",
+              "title": "Id",
+              "type": "string"
+            },
+            "model_revision": {
+              "anyOf": [
+                {
+                  "pattern": "^sha256:[a-f0-9]{64}$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Model Revision"
+            },
+            "repetition": {
+              "maximum": 99.0,
+              "minimum": 0.0,
+              "title": "Repetition",
+              "type": "integer"
+            },
+            "seed": {
+              "exclusiveMaximum": 4294967296.0,
+              "minimum": 0.0,
+              "title": "Seed",
+              "type": "integer"
+            },
+            "source": {
+              "enum": [
+                "synthetic",
+                "model"
+              ],
+              "title": "Source",
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "succeeded",
+                "failed",
+                "abandoned",
+                "system_failure",
+                "cancelled"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "tokens": {
+              "anyOf": [
+                {
+                  "maximum": 100000000.0,
+                  "minimum": 0.0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Tokens"
+            },
+            "violations": {
+              "maximum": 100000.0,
+              "minimum": 0.0,
+              "title": "Violations",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id",
+            "case_id",
+            "family",
+            "candidate",
+            "repetition",
+            "seed",
+            "source",
+            "status",
+            "duration_ms",
+            "violations",
+            "evidence_ids"
+          ],
+          "title": "Outcome",
+          "type": "object"
+        },
         "PlanRequest": {
           "additionalProperties": false,
           "properties": {
@@ -773,6 +1122,46 @@
           "title": "PriceMetadata",
           "type": "object"
         },
+        "RecordSummary": {
+          "additionalProperties": false,
+          "properties": {
+            "count": {
+              "title": "Count",
+              "type": "integer"
+            },
+            "id": {
+              "title": "Id",
+              "type": "string"
+            },
+            "source": {
+              "enum": [
+                "synthetic",
+                "model",
+                "mixed",
+                "unrecorded"
+              ],
+              "title": "Source",
+              "type": "string"
+            },
+            "status": {
+              "title": "Status",
+              "type": "string"
+            },
+            "title": {
+              "title": "Title",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "title",
+            "source",
+            "count",
+            "status"
+          ],
+          "title": "RecordSummary",
+          "type": "object"
+        },
         "Reference": {
           "properties": {
             "id": {
@@ -789,6 +1178,35 @@
             "tenant_id"
           ],
           "title": "Reference",
+          "type": "object"
+        },
+        "ResearchPage": {
+          "additionalProperties": false,
+          "properties": {
+            "items": {
+              "items": {
+                "$ref": "#/components/schemas/RecordSummary"
+              },
+              "title": "Items",
+              "type": "array"
+            },
+            "next_cursor": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Next Cursor"
+            }
+          },
+          "required": [
+            "items",
+            "next_cursor"
+          ],
+          "title": "ResearchPage",
           "type": "object"
         },
         "ResultItem": {
@@ -996,6 +1414,58 @@
           "title": "ReviewDetail",
           "type": "object"
         },
+        "ReviewInput": {
+          "additionalProperties": false,
+          "properties": {
+            "decision": {
+              "enum": [
+                "approved",
+                "rejected"
+              ],
+              "title": "Decision",
+              "type": "string"
+            },
+            "fingerprint": {
+              "pattern": "^[a-f0-9]{64}$",
+              "title": "Fingerprint",
+              "type": "string"
+            },
+            "note": {
+              "maxLength": 2000,
+              "minLength": 1,
+              "title": "Note",
+              "type": "string"
+            },
+            "revision": {
+              "minimum": 0.0,
+              "title": "Revision",
+              "type": "integer"
+            },
+            "tags": {
+              "items": {
+                "enum": [
+                  "useful",
+                  "incorrect",
+                  "incomplete",
+                  "sensitive"
+                ],
+                "type": "string"
+              },
+              "maxItems": 4,
+              "title": "Tags",
+              "type": "array"
+            }
+          },
+          "required": [
+            "revision",
+            "fingerprint",
+            "decision",
+            "tags",
+            "note"
+          ],
+          "title": "ReviewInput",
+          "type": "object"
+        },
         "ReviewPage": {
           "properties": {
             "items": {
@@ -1022,6 +1492,53 @@
             "next_cursor"
           ],
           "title": "ReviewPage",
+          "type": "object"
+        },
+        "ReviewRecord": {
+          "additionalProperties": false,
+          "properties": {
+            "decision": {
+              "enum": [
+                "approved",
+                "rejected"
+              ],
+              "title": "Decision",
+              "type": "string"
+            },
+            "note": {
+              "title": "Note",
+              "type": "string"
+            },
+            "reviewer": {
+              "title": "Reviewer",
+              "type": "string"
+            },
+            "revision": {
+              "minimum": 1.0,
+              "title": "Revision",
+              "type": "integer"
+            },
+            "source_hash": {
+              "title": "Source Hash",
+              "type": "string"
+            },
+            "tags": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Tags",
+              "type": "array"
+            }
+          },
+          "required": [
+            "revision",
+            "reviewer",
+            "decision",
+            "tags",
+            "note",
+            "source_hash"
+          ],
+          "title": "ReviewRecord",
           "type": "object"
         },
         "ReviewSummary": {
@@ -1377,6 +1894,220 @@
             "max_output_bytes"
           ],
           "title": "ToolManifest",
+          "type": "object"
+        },
+        "TraceEvent": {
+          "additionalProperties": false,
+          "properties": {
+            "approved": {
+              "default": false,
+              "title": "Approved",
+              "type": "boolean"
+            },
+            "attempt": {
+              "maximum": 100.0,
+              "minimum": 1.0,
+              "title": "Attempt",
+              "type": "integer"
+            },
+            "content": {
+              "default": "",
+              "maxLength": 8000,
+              "title": "Content",
+              "type": "string"
+            },
+            "effect": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "read",
+                    "write"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Effect"
+            },
+            "kind": {
+              "enum": [
+                "start",
+                "proposal",
+                "approval",
+                "tool",
+                "finish"
+              ],
+              "title": "Kind",
+              "type": "string"
+            },
+            "model_id": {
+              "maxLength": 200,
+              "minLength": 1,
+              "title": "Model Id",
+              "type": "string"
+            },
+            "operation": {
+              "anyOf": [
+                {
+                  "maxLength": 100,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Operation"
+            },
+            "run_id": {
+              "pattern": "^[a-zA-Z0-9_-]{1,64}$",
+              "title": "Run Id",
+              "type": "string"
+            },
+            "sequence": {
+              "maximum": 1000.0,
+              "minimum": 1.0,
+              "title": "Sequence",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "sequence",
+            "run_id",
+            "attempt",
+            "model_id",
+            "kind"
+          ],
+          "title": "TraceEvent",
+          "type": "object"
+        },
+        "TraceView": {
+          "additionalProperties": false,
+          "properties": {
+            "authorized": {
+              "title": "Authorized",
+              "type": "boolean"
+            },
+            "fingerprint": {
+              "title": "Fingerprint",
+              "type": "string"
+            },
+            "history": {
+              "items": {
+                "$ref": "#/components/schemas/ReviewRecord"
+              },
+              "title": "History",
+              "type": "array"
+            },
+            "review": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/ReviewRecord"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "trace": {
+              "$ref": "#/components/schemas/Trajectory"
+            }
+          },
+          "required": [
+            "trace",
+            "fingerprint",
+            "review",
+            "history",
+            "authorized"
+          ],
+          "title": "TraceView",
+          "type": "object"
+        },
+        "Trajectory": {
+          "additionalProperties": false,
+          "properties": {
+            "case_id": {
+              "pattern": "^[a-zA-Z0-9_-]{1,64}$",
+              "title": "Case Id",
+              "type": "string"
+            },
+            "conditions_hash": {
+              "pattern": "^[a-f0-9]{64}$",
+              "title": "Conditions Hash",
+              "type": "string"
+            },
+            "events": {
+              "items": {
+                "$ref": "#/components/schemas/TraceEvent"
+              },
+              "maxItems": 1000,
+              "minItems": 2,
+              "title": "Events",
+              "type": "array"
+            },
+            "family": {
+              "maxLength": 100,
+              "minLength": 1,
+              "title": "Family",
+              "type": "string"
+            },
+            "id": {
+              "pattern": "^[a-zA-Z0-9_-]{1,64}$",
+              "title": "Id",
+              "type": "string"
+            },
+            "lineage": {
+              "maxLength": 100,
+              "minLength": 1,
+              "title": "Lineage",
+              "type": "string"
+            },
+            "schema_version": {
+              "const": 1,
+              "default": 1,
+              "title": "Schema Version",
+              "type": "integer"
+            },
+            "source": {
+              "enum": [
+                "synthetic",
+                "model"
+              ],
+              "title": "Source",
+              "type": "string"
+            },
+            "source_ids": {
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 100,
+              "minItems": 1,
+              "title": "Source Ids",
+              "type": "array"
+            },
+            "split": {
+              "enum": [
+                "train",
+                "dev",
+                "test"
+              ],
+              "title": "Split",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "case_id",
+            "family",
+            "lineage",
+            "conditions_hash",
+            "source",
+            "split",
+            "events",
+            "source_ids"
+          ],
+          "title": "Trajectory",
           "type": "object"
         },
         "UsageCall": {
@@ -2468,6 +3199,215 @@
               "content": {
                 "application/json": {
                   "schema": {}
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Review"
+        }
+      },
+      "/v1/research/evaluations": {
+        "get": {
+          "operationId": "evaluations_v1_research_evaluations_get",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "after",
+              "required": false,
+              "schema": {
+                "default": 0,
+                "minimum": 0,
+                "title": "After",
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ResearchPage"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Evaluations"
+        }
+      },
+      "/v1/research/evaluations/{key}": {
+        "get": {
+          "operationId": "evaluation_v1_research_evaluations__key__get",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "key",
+              "required": true,
+              "schema": {
+                "title": "Key",
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/EvaluationReport"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Evaluation"
+        }
+      },
+      "/v1/research/trajectories": {
+        "get": {
+          "operationId": "trajectories_v1_research_trajectories_get",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "after",
+              "required": false,
+              "schema": {
+                "default": 0,
+                "minimum": 0,
+                "title": "After",
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ResearchPage"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Trajectories"
+        }
+      },
+      "/v1/research/trajectories/{key}": {
+        "get": {
+          "operationId": "trajectory_v1_research_trajectories__key__get",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "key",
+              "required": true,
+              "schema": {
+                "title": "Key",
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/TraceView"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Trajectory"
+        }
+      },
+      "/v1/research/trajectories/{key}/review": {
+        "post": {
+          "operationId": "review_v1_research_trajectories__key__review_post",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "key",
+              "required": true,
+              "schema": {
+                "title": "Key",
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewInput"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/TraceView"
+                  }
                 }
               },
               "description": "Successful Response"

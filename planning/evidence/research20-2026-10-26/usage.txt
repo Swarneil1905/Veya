@@ -1,0 +1,10 @@
+Local entry points (use the runtime virtual environment):
+python scripts/run_research.py --help
+python scripts/run_research.py preflight --parameters 1500000000 --activation-mib 512
+python scripts/run_research.py batch --plan <explicit-plan.json> --workspace <local-run-folder> --id <evaluation-id> --limit 100
+python scripts/import_research.py --workspace <personal-workspace> --kind evaluation --record <report.json>
+python scripts/import_research.py --workspace <personal-workspace> --kind trajectory --record <trace.json> --allow-source <exact-authorized-source-id>
+python scripts/import_research.py --workspace <personal-workspace> --revoke-source <exact-source-id>
+Run pnpm web / the desktop launcher for the workspace, then choose Evaluations or Data review, also reachable from Ctrl+K.
+The supplied synthetic browser-test seeder refuses non-test or existing workspaces. No fixture data is inserted into the user's live workspace.
+Skills applied: eval-harness-first, dataset-curation, tdd, frontend-ui-engineering, accessibility-compliance, code-review-and-quality; existing Go/Rust capability patterns preserved.

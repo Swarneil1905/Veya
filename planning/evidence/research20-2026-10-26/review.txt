@@ -1,0 +1,13 @@
+Review applied the repository code-review-and-quality multi-model pattern (read-only independent review).
+Resolved findings:
+1. Held-out answer envelopes could be relabeled: content signatures and family/lineage exclusions now survive relabeling.
+2. Repeated task families could inflate independent units: both plans and statistics enforce stable case-family mapping.
+3. Physical/visible GPU mismatch: ambiguous CUDA remapping and multi-GPU inventory block this initial preflight.
+4. Private arbitrary result fields could enter bundles: strict public ExportRun projection, unknown-field rejection and sentinel regression.
+5. Interrupted trajectory review could retain saving=true: invalidation resets saving, drafts retained, actual browser reconnect regression passed.
+6. Failed attempts could report zero latency: elapsed workflow time measured from before model observation and reset; failure timing regression.
+7. Relative batch workspace paths could break evidence references: root normalized and relative-path shared-Agent regression.
+Screenshots inspected directly; native selects/labels/action spacing refined after inspection. Public Sans and Phosphor remain unchanged.
+8. Corpus lineage could reintroduce scrubbed IDs: linkage fields and reviewer identity now require explicit public classification or the entire export is blocked; unrelated held-out IDs are excluded from corpus metadata.
+9. CSV fixtures unnecessarily loaded PDF/XLSX engines: parser dispatch now imports only the selected engine, CSV handles bounded column labels without loading openpyxl; extraction deadline remains eight seconds.
+Final independent narrow review: all reported confidentiality, state-recovery and accounting findings closed; no further findings.

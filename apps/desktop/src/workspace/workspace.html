@@ -35,6 +35,25 @@
         <i class="ph ph-check-square" aria-hidden="true"></i
         ><span>Approvals</span>
       </button>
+      <button
+        class="work-nav-item"
+        [attr.aria-current]="view() === 'evaluations' ? 'page' : null"
+        aria-label="Evaluations"
+        title="Evaluations"
+        (click)="command('evaluations')"
+      >
+        <i class="ph ph-chart-line" aria-hidden="true"></i
+        ><span>Evaluations</span>
+      </button>
+      <button
+        class="work-nav-item"
+        [attr.aria-current]="view() === 'data' ? 'page' : null"
+        aria-label="Data review"
+        title="Data review"
+        (click)="command('data')"
+      >
+        <i class="ph ph-stack" aria-hidden="true"></i><span>Data review</span>
+      </button>
     </nav>
     <button
       class="work-nav-item work-nav-bottom"
@@ -69,13 +88,8 @@
     <main id="work-main" class="work-main">
       <div class="work-page-heading">
         <div>
-          <h1 id="work-heading" tabindex="-1">
-            {{view()==='work'?'Work':'Approvals'}}
-          </h1>
-          <p>
-            {{view()==='work'?'Your briefs, progress, and next
-            steps.':'Decisions that need your attention.'}}
-          </p>
+          <h1 id="work-heading" tabindex="-1">{{pageTitles[view()]}}</h1>
+          <p>{{pageDescriptions[view()]}}</p>
         </div>
         <button class="work-primary" (click)="newTask()">
           <i class="ph ph-plus" aria-hidden="true"></i>New task
@@ -112,7 +126,15 @@
         (newTask)="newTask()"
         (selected)="openTask($event)"
       />
-      } @else {<veya-approvals [connected]="ready()" [readOnly]="readOnly()" />}
+      } @else if(view()==='evaluations'){<veya-evaluations
+        [connected]="ready()"
+      />} @else if(view()==='data'){<veya-trajectory-review
+        [connected]="ready()"
+        [readOnly]="readOnly()"
+      />} @else {<veya-approvals
+        [connected]="ready()"
+        [readOnly]="readOnly()"
+      />}
     </main>
   </div>
   @if(composing()){

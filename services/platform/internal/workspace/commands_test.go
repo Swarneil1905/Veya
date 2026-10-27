@@ -118,3 +118,33 @@ func TestProviderCommandsRemainExplicit(t *testing.T) {
 		}
 	}
 }
+
+func TestResearchCapabilityBoundary(t *testing.T) {
+	for _, tc := range []struct{ op, args, method, path string }{
+		{"list_evaluations", `{"after":25}`, "GET", "/v1/research/evaluations?after=25"},
+		{"get_evaluation", `{"id":"report_a"}`, "GET", "/v1/research/evaluations/report_a"},
+		{"list_trajectories", `{}`, "GET", "/v1/research/trajectories?after=0"},
+		{"get_trajectory", `{"id":"trace_a"}`, "GET", "/v1/research/trajectories/trace_a"},
+		{"review_trajectory", `{"id":"trace_a","revision":0,"fingerprint":"hash","decision":"rejected","tags":[],"note":"Check"}`, "POST", "/v1/research/trajectories/trace_a/review"},
+	} {
+		method, path, body, err := Route(command(tc.op, tc.args))
+		if err != nil || method != tc.method || path != tc.path {
+			t.Fatalf("%s route: %v", tc.op, err)
+		}
+		if tc.op == "review_trajectory" && strings.Contains(string(body), `"id"`) {
+			t.Fatal("identity leaked into body")
+		}
+	}
+	for _, tc := range []struct{ op, args string }{
+		{"review_trajectory", `{"id":"a","reviewer":"other"}`},
+		{"review_trajectory", `{"id":"a","tenant":"other"}`},
+		{"get_trajectory", `{"id":"../secret"}`},
+		{"list_evaluations", `{"after":-1}`},
+		{"list_evaluations", `{"after":1.5}`},
+		{"import_trajectory", `{}`}, {"authorize_source", `{}`}, {"promote_model", `{}`},
+	} {
+		if _, _, _, err := Route(command(tc.op, tc.args)); err == nil {
+			t.Fatalf("accepted %s", tc.op)
+		}
+	}
+}

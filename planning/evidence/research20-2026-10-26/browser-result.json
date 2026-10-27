@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "realStack": [
+    "Angular",
+    "Go",
+    "Python",
+    "SQLite"
+  ],
+  "widths": [
+    1440,
+    1024
+  ],
+  "checks": [
+    "list",
+    "paired-metrics",
+    "family-filter",
+    "exact-evidence",
+    "review-approval",
+    "permission-denial",
+    "rejection",
+    "durable-review",
+    "keyboard",
+    "retry",
+    "axe",
+    "interrupted-save-reconnect",
+    "review-note-retained"
+  ],
+  "syntheticOnly": true
+}

@@ -7,10 +7,16 @@ from datetime import date, datetime
 from decimal import Decimal, InvalidOperation
 from typing import Any
 
-from openpyxl import load_workbook
-from openpyxl.utils import get_column_letter
-
 from veya.domain.models import DomainError
+
+
+def column_label(number: int) -> str:
+    # At most 100 validated columns; CSV does not need to load the XLSX engine.
+    label = ''
+    while number:
+        number, remainder = divmod(number - 1, 26)
+        label = chr(65 + remainder) + label
+    return label
 
 
 def extract_table(kind: str, content: bytes) -> dict:
@@ -20,6 +26,8 @@ def extract_table(kind: str, content: bytes) -> dict:
     if kind == 'csv':
         sheets: Any = [('CSV', csv.reader(io.StringIO(content.decode('utf-8-sig')), strict=True))]
     else:
+        from openpyxl import load_workbook
+
         book = load_workbook(io.BytesIO(content), read_only=True, data_only=False, keep_links=False)
         if len(book.worksheets) > 20:
             book.close()
@@ -39,7 +47,7 @@ def extract_table(kind: str, content: bytes) -> dict:
                 if len(row) != len(headers):
                     issues.append({'code': 'row_width', 'locator': f'{sheet}!{row_number}'})
                 for column, value in enumerate(row):
-                    locator = f'{sheet}!{get_column_letter(column + 1)}{row_number}'
+                    locator = f'{sheet}!{column_label(column + 1)}{row_number}'
                     text = (
                         value.isoformat()
                         if isinstance(value, (date, datetime))
