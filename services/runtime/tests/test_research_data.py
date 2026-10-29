@@ -463,7 +463,7 @@ def test_reviewed_corpus_export_scrubs_and_rechecks_authorization(tmp_path):
         update={
             'events': (
                 original.events[0],
-                original.events[1].model_copy(update={'content': 'PERSONAL_SENTINEL'}),
+                original.events[1].model_copy(update={'content': 'VEYA_SECRET_SENTINEL_personal'}),
             )
         }
     )
@@ -491,7 +491,20 @@ def test_reviewed_corpus_export_scrubs_and_rechecks_authorization(tmp_path):
     review(store, original.id)
     result = export(store, output, (original.id,), rules=rules, held_out=())
     assert result['rows'] == 1 and not result['training_ready']
-    assert 'PERSONAL_SENTINEL' not in output.read_text(encoding='utf8')
+    assert 'VEYA_SECRET_SENTINEL_personal' not in output.read_text(encoding='utf8')
+    public_content = tuple(
+        r.model_copy(update={'classification': 'public'}) if r.path == 'events[].content' else r
+        for r in rules
+    )
+    with pytest.raises(ValueError, match='secret policy'):
+        export(
+            store,
+            tmp_path / 'secret-corpus.json',
+            (original.id,),
+            rules=public_content,
+            held_out=(),
+        )
+    assert not (tmp_path / 'secret-corpus.json').exists()
     private_rules = tuple(
         r.model_copy(update={'classification': 'secret'}) if r.path == 'source_ids[]' else r
         for r in rules

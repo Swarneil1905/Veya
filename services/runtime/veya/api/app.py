@@ -29,6 +29,9 @@ from veya.api.usage import router as usage_router
 from veya.config import Settings
 from veya.domain.models import DomainError
 from veya.execution.agent_loop import Agent
+from veya.observability.admission import Admission
+from veya.observability.diagnostics import router as diagnostics_router
+from veya.observability.tracing import Telemetry, TelemetryMiddleware
 from veya.policy.inbox import ApprovalInbox
 from veya.providers.models import ModelCatalog
 from veya.providers.settings import Connections
@@ -124,6 +127,7 @@ def create_app(
             yield
         finally:
             await agent.close()
+            telemetry.provider.shutdown()
 
     app = FastAPI(
         lifespan=lifespan,
@@ -135,6 +139,11 @@ def create_app(
         openapi_url=None,
     )
     app.add_middleware(BodyLimit)
+    telemetry = Telemetry()
+    app.add_middleware(TelemetryMiddleware, telemetry=telemetry)
+    app.add_middleware(Admission, telemetry=telemetry)
+    app.state.telemetry = telemetry
+    app.include_router(diagnostics_router(telemetry))
 
     @app.exception_handler(DomainError)
     async def domain_error(request: Request, error: DomainError) -> JSONResponse:

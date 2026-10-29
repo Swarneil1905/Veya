@@ -11,6 +11,7 @@ from veya.artifacts.store import ArtifactStore
 from veya.domain.models import DomainError, Run
 from veya.events.store import append_event
 from veya.execution.budgets import ActionEstimate, BudgetLimits, BudgetStore
+from veya.observability.tracing import current, operation
 from veya.providers.cancellation import while_running
 from veya.providers.fallback import complete
 from veya.storage.run_state import persist_transition, transition_run
@@ -52,6 +53,11 @@ class Agent:
                 'SELECT 1 FROM agent_jobs WHERE tenant_id=? AND run_id=?', (self.tenant, run_id)
             ).fetchone():
                 return self.db.get_run(self.tenant, run_id)
+        if len(self.running) >= 4:
+            telemetry = current.get()
+            if telemetry is not None:
+                telemetry.metrics.rejections.inc()
+            raise DomainError('busy', 'Four tasks are already executing; saved work remains queued')
         configs = self.connections.selection()
         if [m.fingerprint for m in configs] != expected:
             raise DomainError('conflict', 'Active providers changed; review them before starting')
@@ -123,7 +129,8 @@ class Agent:
 
     async def _owned(self, run, configs, allow_remote):
         try:
-            await asyncio.wait_for(self._loop(run, configs, allow_remote), 120)
+            with operation('runtime', run_id=run.id):
+                await asyncio.wait_for(self._loop(run, configs, allow_remote), 120)
         except asyncio.CancelledError:
             self._stop(run.id, 'interrupted_or_cancelled')
         except asyncio.TimeoutError:
