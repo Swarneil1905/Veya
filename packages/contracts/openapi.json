@@ -1,5 +1,5 @@
 {
-  "contract_version": 6,
+  "contract_version": 7,
   "openapi": {
     "components": {
       "schemas": {
@@ -285,6 +285,49 @@
             "note"
           ],
           "title": "DecisionRequest",
+          "type": "object"
+        },
+        "DiagnosticBundle": {
+          "properties": {
+            "content": {
+              "title": "Content",
+              "type": "string"
+            },
+            "format_version": {
+              "title": "Format Version",
+              "type": "integer"
+            },
+            "generated_at": {
+              "title": "Generated At",
+              "type": "string"
+            },
+            "records": {
+              "title": "Records",
+              "type": "integer"
+            },
+            "runtime_version": {
+              "title": "Runtime Version",
+              "type": "string"
+            },
+            "sha256": {
+              "title": "Sha256",
+              "type": "string"
+            },
+            "truncated": {
+              "title": "Truncated",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "format_version",
+            "generated_at",
+            "runtime_version",
+            "records",
+            "truncated",
+            "content",
+            "sha256"
+          ],
+          "title": "DiagnosticBundle",
           "type": "object"
         },
         "Document": {
@@ -2811,6 +2854,24 @@
           "summary": "Credential"
         }
       },
+      "/v1/diagnostics/export": {
+        "post": {
+          "operationId": "export_v1_diagnostics_export_post",
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/DiagnosticBundle"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            }
+          },
+          "summary": "Export"
+        }
+      },
       "/v1/documents": {
         "post": {
           "operationId": "intake_v1_documents_post",
@@ -3117,6 +3178,17 @@
             }
           },
           "summary": "Health"
+        }
+      },
+      "/v1/metrics": {
+        "get": {
+          "operationId": "metrics_v1_metrics_get",
+          "responses": {
+            "200": {
+              "description": "Successful Response"
+            }
+          },
+          "summary": "Metrics"
         }
       },
       "/v1/models": {

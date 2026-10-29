@@ -18,6 +18,7 @@ import (
 	"strings"
 	"sync"
 	"time"
+	"veya/platform/internal/tracecontext"
 )
 
 type Process struct {
@@ -117,6 +118,9 @@ func (p *Process) Request(ctx context.Context, method, path string, body []byte)
 		return 0, nil, err
 	}
 	req.Header.Set("Authorization", "Bearer "+p.token)
+	if parent := tracecontext.Header(ctx); parent != "" {
+		req.Header.Set("Traceparent", parent)
+	}
 	if path == "/v1/approvals" || strings.HasPrefix(path, "/v1/approvals/") || strings.HasPrefix(path, "/v1/approvals?") {
 		req.Header.Set("X-Veya-Reviewer-Token", p.reviewerToken)
 	}

@@ -28,8 +28,9 @@ type Command struct {
 func Route(c Command) (method, path string, body []byte, err error) {
 	allowed, ok := map[string][]string{
 		"list_tasks": {"status", "search", "sort", "cursor"}, "recovery": {},
-		"get_task":         {"task_id"},
-		"list_evaluations": {"after"}, "get_evaluation": {"id"},
+		"get_task":           {"task_id"},
+		"export_diagnostics": {},
+		"list_evaluations":   {"after"}, "get_evaluation": {"id"},
 		"list_trajectories": {"after"}, "get_trajectory": {"id"}, "review_trajectory": {"id", "revision", "fingerprint", "decision", "tags", "note"},
 		"connections": {}, "check_connection": {"config", "consent"}, "activate_connection": {"fingerprints"}, "save_credential": {"reference", "secret"},
 		"execute_run": {"run_id", "expected_selection", "allow_remote"}, "cancel_run": {"run_id"}, "document_chunks": {"id", "after"},
@@ -60,6 +61,8 @@ func Route(c Command) (method, path string, body []byte, err error) {
 	}
 	text := func(key string) string { var s string; _ = json.Unmarshal(c.Args[key], &s); return s }
 	switch c.Operation {
+	case "export_diagnostics":
+		return "POST", "/v1/diagnostics/export", []byte("{}"), nil
 	case "list_evaluations", "list_trajectories":
 		var after int64
 		if raw, exists := c.Args["after"]; exists && (json.Unmarshal(raw, &after) != nil || after < 0) {

@@ -1,0 +1,77 @@
+[
+  {
+    "path": "artifacts/operations20/runtime-final.xml",
+    "bytes": 78876,
+    "sha256": "70d1cc9eea6893b9b323b9838d28d77407296cb13305ba9d196d34ea59f3a923"
+  },
+  {
+    "path": "artifacts/operations20/runtime-python310.xml",
+    "bytes": 78170,
+    "sha256": "da13e4ff563072dafd2742a47b15a87be3c0cbd3d2b28472c76ac4b2a188fd9b"
+  },
+  {
+    "path": "artifacts/operations20/focused-python310.xml",
+    "bytes": 4176,
+    "sha256": "bbcc6bc6a077c7278712394a2d8dd0dee94706cc7069b9310b458ce5023bf8e8"
+  },
+  {
+    "path": "artifacts/operations20/research-final.xml",
+    "bytes": 2710,
+    "sha256": "6654c4fe5d6a79fd5b4b639bbaa5c37d629231ce4e7f422eda7248afab5d0620"
+  },
+  {
+    "path": "artifacts/operations20/ui/result.json",
+    "bytes": 156,
+    "sha256": "76b092bf2ae8a6f919f8120aab08a6e66aebedb2cbf5f5730e76c416710a2098"
+  },
+  {
+    "path": "artifacts/operations20/ui/regression-diff.json",
+    "bytes": 460,
+    "sha256": "1a33c8d85df9d3df8eb33f6b89da7a9828fc28ba2d9a3d8e6e498ad227f3350b"
+  },
+  {
+    "path": "artifacts/operations20/ui/diagnostics.json",
+    "bytes": 6530,
+    "sha256": "fad3cdc01f697667e023634f88bc0295da06e583ca0311e1a8e62f5c743be7fa"
+  },
+  {
+    "path": "artifacts/operations20/ui/diagnostics-1440.png",
+    "bytes": 100083,
+    "sha256": "6b7575f310c0e2a526dffb4871faac3ce84790018a6b8b2baa137ede32fbef63"
+  },
+  {
+    "path": "artifacts/operations20/ui/diagnostics-800.png",
+    "bytes": 52183,
+    "sha256": "dfb6d1b2f6d78f3c989a155f5cce3518d029ac9aca7d0cce103aeaaa9310e86a"
+  },
+  {
+    "path": "artifacts/operations20/ui/deliberately-broken.png",
+    "bytes": 34579,
+    "sha256": "54f5ccc9916dd899496ac07044a3a030e9ffd06053ce29974f143c0f432db06e"
+  },
+  {
+    "path": "artifacts/operations20/dashboard/query-result.json",
+    "bytes": 121,
+    "sha256": "6002f9f37e3e7434cd66784b54e1980c64f4f2d44a04ea8f710a7ca417d2202e"
+  },
+  {
+    "path": "artifacts/operations20/dashboard/rendered.png",
+    "bytes": 116871,
+    "sha256": "5f340558aada9b72af92da7f59704f0e5a1e73fff980b8d2866028ea157eaad1"
+  },
+  {
+    "path": "artifacts/operations20/dashboard/rendered-bottom.png",
+    "bytes": 86431,
+    "sha256": "0e8c41dc056e286ff7aaf02e09b4c8b52392a0b6819f573d88357be62533e5dd"
+  },
+  {
+    "path": "artifacts/operations20/dashboard/browser.log",
+    "bytes": 96,
+    "sha256": "be4d4fbb0b50f71e7efe3a5f5f78ac2045fab7a6e5d5663bed270b4243b5f1b6"
+  },
+  {
+    "path": "artifacts/operations20/live-baseline/result.json",
+    "bytes": 3453,
+    "sha256": "d0b73784aafe005f0b8adee65d5f5eb12a616d360c4ceea3c0360b619f358dd0"
+  }
+]

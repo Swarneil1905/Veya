@@ -1,0 +1,127 @@
+{
+  "stories": [
+    {
+      "id": "VEY-085",
+      "assessment": "Host invoice investigator finishes queued source extraction, validates reviewed records/citations, matches exact amounts and historical policy, and persists one draft proposal or targeted clarification. No autonomous interpretation of unreviewed invoice fields is claimed.",
+      "verification": "test_finance_operations.py",
+      "status": "in_review"
+    },
+    {
+      "id": "VEY-087",
+      "assessment": "Exact approval gateway executes synthetic ERP drafts and reconciles authoritative state after timeout. Evidence, receipt and final draft are linked to legal run transitions. Revocation/state conflicts persist unresolved reasons; concurrent denial cannot erase verified success.",
+      "verification": "test_finance_operations.py",
+      "status": "in_review"
+    },
+    {
+      "id": "VEY-088",
+      "assessment": "Result packs preserve per-run evidence, unresolved reasons and currency-separated exact totals. Unknown discrepancy counts remain explicit; only all-verified outcomes are complete.",
+      "verification": "test_finance_operations.py",
+      "status": "in_review"
+    },
+    {
+      "id": "VEY-089",
+      "assessment": "Durable batch child tasks have stable submission IDs and 1-4 bounded workers, independent failure outcomes, cancellation of unscheduled items, explicit restart recovery and summaries reflecting committed draft outcomes.",
+      "verification": "test_finance_operations.py",
+      "status": "in_review"
+    },
+    {
+      "id": "VEY-106",
+      "assessment": "Host synthetic connector shares persistent per-connection request/concurrency budgets, per-task admission and bounded numeric/date Retry-After cooldowns. No sleeping retry queue; other connections remain usable.",
+      "verification": "test_operations_telemetry.py",
+      "status": "in_review"
+    },
+    {
+      "id": "VEY-107",
+      "assessment": "Host webhook ingress validates signed bytes, bounded timestamps and strict normalized schema; persistent tenant/connection/event identity rejects replay. No externally reachable webhook listener is enabled.",
+      "verification": "test_operations_telemetry.py",
+      "status": "in_review"
+    },
+    {
+      "id": "VEY-162",
+      "assessment": "Baseline CLI pins actual Ollama digest, template, quantization and parameters before A/A evaluation. Source mode is immutable; identity failures persist across resume. Real Qwen attempts failed, so comparison/promotion eligibility is false.",
+      "verification": "test_operations_policy.py",
+      "status": "in_review"
+    },
+    {
+      "id": "VEY-181",
+      "assessment": "OpenTelemetry fixed-name spans correlate Rust/Go/private Python requests and runtime/provider/connector calls. Exported attributes are allowlisted; unsampled parents and malformed IDs are covered.",
+      "verification": "test_operations_telemetry.py",
+      "status": "in_review"
+    },
+    {
+      "id": "VEY-182",
+      "assessment": "Prometheus counters/histograms/gauges separate sources and retain failed/cancelled/rejected outcomes, active operations, saturation, queue delay/depth, budget exhaustion and unknown costs. No user/task label cardinality.",
+      "verification": "test_operations_telemetry.py",
+      "status": "in_review"
+    },
+    {
+      "id": "VEY-183",
+      "assessment": "Allowlisted timestamped local structured records carry trace/span IDs and outcome/timing. Uvicorn stderr filter removes raw exception messages before formatting. Sentinel checks cover both sinks.",
+      "verification": "test_operations_telemetry.py",
+      "status": "in_review"
+    },
+    {
+      "id": "VEY-184",
+      "assessment": "Real Prometheus recording-rule execution verifies exact failure ratios and missing denominators. Rules include latency, queue wait and unknown cost; absence remains missing rather than zero healthy.",
+      "verification": "infra/observability/rules/test.yml",
+      "status": "in_review"
+    },
+    {
+      "id": "VEY-185",
+      "assessment": "Provisioned Grafana panels were rendered against a local synthetic Prometheus server. Queried and rendered provider failure ratio was 0.1 and runtime 0.0. Missing data and unknown cost remain visible; deployment target/credential provisioning is explicit.",
+      "verification": "scripts/verify_observability.py",
+      "status": "in_review"
+    },
+    {
+      "id": "VEY-186",
+      "assessment": "Prometheus sustained/missing-data rules and persistent local incident state deduplicate breaches, preserve missing telemetry and emit one recovery transition. No external notification delivery is configured.",
+      "verification": "test_operations_telemetry.py",
+      "status": "in_review"
+    },
+    {
+      "id": "VEY-187",
+      "assessment": "Ramp-led Angular Connection diagnostics panel calls explicit authenticated Go command and verifies content SHA-256 before local download. Bounded projection excludes source bodies, prompts and credentials. Rendered/keyboard/axe/retry evidence at 1440x1000 and 800x640.",
+      "verification": "scripts/test-operations-browser.mjs",
+      "status": "in_review"
+    },
+    {
+      "id": "VEY-188",
+      "assessment": "Admission rejects before body buffering; agent concurrency is bounded. Load test admits 8 of 200 simultaneous slow requests, sheds 192 with no pending queue and recovers. Shared connector throttling is also exercised.",
+      "verification": "test_operations_policy.py",
+      "status": "in_review"
+    },
+    {
+      "id": "VEY-189",
+      "assessment": "Read-only bounded startup/storage inspection distinguishes incomplete checks from damage and finds missing artifacts. Verified snapshot restore creates a separate read-only workspace and preserves corrupt original bytes. Healthy large/timeout inspections are not mislabeled corruption.",
+      "verification": "test_operations_recovery.py",
+      "status": "in_review"
+    },
+    {
+      "id": "VEY-194",
+      "assessment": "Generated UTF-8/ZIP secret scanning fails on seeded secrets, common credential signatures, unsupported binary/archive input and scanner errors. Diagnostic, training bundle and protected export boundaries scan before output; denied protected exports create no plaintext file.",
+      "verification": "test_operations_policy.py / test_operations_recovery.py",
+      "status": "in_review"
+    },
+    {
+      "id": "VEY-196",
+      "assessment": "Installed pnpm graph policy enforces explicit license expressions and high/critical advisories with exact expiring exceptions. Empty/inconsistent summaries and absent advisory detail fail closed. Actual 311-package inventory and advisory report passed. Python/Go/Rust graphs are not certified by this policy.",
+      "verification": "test_operations_policy.py",
+      "status": "in_review"
+    },
+    {
+      "id": "VEY-199",
+      "assessment": "Host-selected exact run/artifact scope and 32-byte provided key produce AES-256-GCM exports without plaintext files. Holder roundtrip, wrong key, tampering, missing key, denied scope and pre-encryption secret denial are tested.",
+      "verification": "test_operations_recovery.py",
+      "status": "in_review"
+    },
+    {
+      "id": "VEY-213",
+      "assessment": "Rendered CI runs actual Angular/Go/Python stack, accessibility and reviewed geometry/style contracts at two sizes, and retains screenshots plus expected/actual differences. Deliberate overflow fails validation. Browser absence and empty screens cannot pass; no pixel-perfect cross-platform equality is claimed.",
+      "verification": "scripts/test-operations-browser.mjs",
+      "status": "in_review"
+    }
+  ],
+  "publication": "No staging, commits or pushes. Internal Markdown stays ignored.",
+  "baseline_commit": "d6e2de449ce6258c2a1730a2b4af2604e9e00b95",
+  "architecture_note": "Keep explicit host tools for synthetic finance, repair and scoped export; renderer/model cannot acquire host authority. Use existing gateway, not a new business-write API. Baseline implementation lives in training/baseline.py alongside existing training helpers."
+}

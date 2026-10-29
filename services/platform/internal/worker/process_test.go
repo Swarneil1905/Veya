@@ -7,8 +7,10 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"strings"
 	"testing"
 	"time"
+	"veya/platform/internal/tracecontext"
 )
 
 func settings(t *testing.T) (string, string) {
@@ -34,6 +36,15 @@ func TestPrivateWorkerDurabilityAndIsolation(t *testing.T) {
 		t.Fatal(err)
 	}
 	defer p.Close()
+	parent := "00-" + strings.Repeat("a", 32) + "-" + strings.Repeat("b", 16) + "-01"
+	_, _, err = p.Request(tracecontext.With(ctx, parent), "GET", "/v1/health", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	statusDiag, diagnostics, err := p.Request(ctx, "POST", "/v1/diagnostics/export", []byte(`{}`))
+	if err != nil || statusDiag != 200 || !strings.Contains(string(diagnostics), strings.Repeat("a", 32)) || strings.Contains(string(diagnostics), p.token) {
+		t.Fatal("private trace propagation or diagnostic redaction failed")
+	}
 	request := []byte(`{"client_request_id":"migration_test","title":"Saved across Go restart","instruction":"Keep the same submission identity"}`)
 	status, first, err := p.Request(ctx, "POST", "/v1/tasks", request)
 	if err != nil || status != 201 {

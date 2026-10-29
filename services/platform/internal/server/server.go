@@ -16,6 +16,7 @@ import (
 	"strconv"
 	"strings"
 
+	"veya/platform/internal/tracecontext"
 	"veya/platform/internal/workspace"
 )
 
@@ -160,7 +161,8 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) forward(w http.ResponseWriter, r *http.Request, method, path string, body []byte) {
-	status, data, err := s.backend.Request(r.Context(), method, path, body)
+	ctx := tracecontext.With(r.Context(), r.Header.Get("Traceparent"))
+	status, data, err := s.backend.Request(ctx, method, path, body)
 	if err != nil || status < 200 || status >= 500 || !json.Valid(data) {
 		failure(w, 503, "runtime_unavailable")
 		return

@@ -20,6 +20,7 @@ func TestCommandCapabilities(t *testing.T) {
 		{"get_approval", `{"id":"review_1"}`, "/v1/approvals/review_1"},
 		{"decide_approval", `{"id":"review_1","revision":1,"decision":"reject","note":"Reviewed"}`, "/v1/approvals/review_1/decision"},
 		{"recovery", `{}`, "/v1/workspace/recovery"},
+		{"export_diagnostics", `{}`, "/v1/diagnostics/export"},
 		{"latest_run", `{"task_id":"task_a"}`, "/v1/tasks/task_a/latest-run"},
 		{"events", `{"run_id":"run_a","after":"run_a:2"}`, "/v1/runs/run_a/event-page?after=run_a%3A2"},
 		{"submit_task", `{"client_request_id":"r_1","title":"Title","instruction":"Do work"}`, "/v1/tasks"},
@@ -33,6 +34,7 @@ func TestCommandCapabilities(t *testing.T) {
 	}
 	for _, tc := range []struct{ op, args string }{
 		{"list_tasks", `{"status":""}`}, {"list_tasks", `{"sort":"random"}`}, {"list_tasks", `{"search":2}`},
+		{"export_diagnostics", `{"path":"private"}`},
 		{"get_task", `{"task_id":"../vault"}`}, {"list_approvals", `{"after":-1}`},
 		{"decide_approval", `{"id":"r","revision":0,"decision":"approve","note":"ok"}`},
 		{"decide_approval", `{"id":"r","revision":1,"decision":"approve","note":"  "}`},

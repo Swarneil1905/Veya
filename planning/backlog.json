@@ -59,7 +59,7 @@
       "policy": "Apply these patterns as part of each frontend story, not as a later redesign. Use original Veya content and licensed fonts/icons; do not copy proprietary branding or source.",
       "tokens": "Existing workspace.css Public Sans / Phosphor / muted green / neutral surfaces are the baseline. Change deliberately with rendered evidence.",
       "acceptance": "Each UI story covers loading, empty, error, offline, permission, partial, cancellation and completion states where applicable; keyboard and 800x640/1440x1000 rendered checks are required.",
-      "workspace_layout": "Work inbox; 14px vertical row padding; Ramp-led contextual review drawer; filters and focus persist."
+      "workspace_layout": "Work console (user-selected); Ramp-led contextual review, compact navigation and anchored controls; preserve Public Sans/Phosphor, keyboard focus and work context during each UI story."
     },
     "stack": {
       "frontend": "Angular 22 / strict TypeScript 6 / AOT / zoneless signals",
@@ -68,7 +68,7 @@
       "desktop": "Rust/Tauri: native capabilities and owned Go process",
       "deployment_boundary": "Local single-user web and desktop; production SaaS identity/tenancy/hosting remain backlog"
     },
-    "delivery_notes": "96 stories locally implemented: 19 accepted and 77 in review, with 145 backlog stories. This batch adds exact invoice matching and reproducible evaluation environments, faults, headless execution, split manifests, deterministic grading and leakage checks. Qwen2.5:1.5b is installed and connects, but task-quality smoke checks fail verification; main-model qualification remains open. Native installed/signed QA, production SaaS identity/tenancy and live business connectors remain open. See planning/evidence/evaluations10-2026-10-25/checks.txt. User handles commits and pushes."
+    "delivery_notes": "136 stories locally implemented: 19 accepted and 117 in review; 105 remain backlog. This batch adds reviewed invoice workflows, connection throttling/webhook ingress, unchanged-model baselines, local observability/recovery, diagnostic UI, protected exports and CI policies. Qwen2.5:1.5b remains unqualified: both real baseline attempts were unsuccessful. Production SaaS identity/tenancy, live business connectors, installed/signed release QA and model qualification remain open. User handles commits and pushes. Evidence: planning/evidence/operations20-2026-10-28/checks.txt."
   },
   "capacity": {
     "hours_per_week_scenarios": [
@@ -5476,13 +5476,14 @@
       "milestone_id": "M2",
       "actor": "finance operations user",
       "user_value": "resolve invoice exceptions with evidence and approved draft actions",
-      "code_change": "Orchestrate extraction, matching, policy lookup and a proposed resolution",
+      "code_change": "Orchestrate source extraction, reviewed typed invoice records, matching, policy lookup and a proposed synthetic resolution through the local host command",
       "acceptance_criteria": [
         "The agent produces an evidence-backed discrepancy resolution without manual step driving",
         "Missing receipt or contradictory evidence causes a targeted clarification"
       ],
       "code_paths": [
-        "services/runtime/veya/finance/agent.py"
+        "services/runtime/veya/finance/agent.py",
+        "scripts/operations.py"
       ],
       "verification": "Exercise the changed entry point and assert: The agent produces an evidence-backed discrepancy resolution without manual step driving. Negative case: Missing receipt or contradictory evidence causes a targeted clarification. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -5498,14 +5499,17 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/operations20-2026-10-28/checks.txt",
+        "planning/evidence/operations20-2026-10-28/acceptance.json"
+      ],
+      "acceptance_note": "Host invoice investigator finishes queued source extraction, validates reviewed records/citations, matches exact amounts and historical policy, and persists one draft proposal or targeted clarification. No autonomous interpretation of unreviewed invoice fields is claimed. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-29T00:47:51.036766+00:00",
       "release_ids": [
         "R2",
         "R3",
@@ -5580,7 +5584,8 @@
         "Revoked approval or state mismatch leaves the task unresolved with a reason"
       ],
       "code_paths": [
-        "services/runtime/veya/finance/execute.py"
+        "services/runtime/veya/finance/execute.py",
+        "scripts/operations.py"
       ],
       "verification": "Exercise the changed entry point and assert: Evidence, approval and final draft ID are linked to the completed run. Negative case: Revoked approval or state mismatch leaves the task unresolved with a reason. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -5595,14 +5600,17 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/operations20-2026-10-28/checks.txt",
+        "planning/evidence/operations20-2026-10-28/acceptance.json"
+      ],
+      "acceptance_note": "Exact approval gateway executes synthetic ERP drafts and reconciles authoritative state after timeout. Evidence, receipt and final draft are linked to legal run transitions. Revocation/state conflicts persist unresolved reasons; concurrent denial cannot erase verified success. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-29T00:47:51.036827+00:00",
       "release_ids": [
         "R2",
         "R3",
@@ -5625,7 +5633,8 @@
         "Unknown amounts and partial outcomes cannot be presented as a fully reconciled batch"
       ],
       "code_paths": [
-        "services/runtime/veya/finance/report.py"
+        "services/runtime/veya/finance/report.py",
+        "scripts/operations.py"
       ],
       "verification": "Exercise the changed entry point and assert: Output totals reconcile with matched records and every claim has evidence. Negative case: Unknown amounts and partial outcomes cannot be presented as a fully reconciled batch. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -5640,14 +5649,17 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/operations20-2026-10-28/checks.txt",
+        "planning/evidence/operations20-2026-10-28/acceptance.json"
+      ],
+      "acceptance_note": "Result packs preserve per-run evidence, unresolved reasons and currency-separated exact totals. Unknown discrepancy counts remain explicit; only all-verified outcomes are complete. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-29T00:47:51.036845+00:00",
       "release_ids": [
         "R2",
         "R3",
@@ -5670,7 +5682,8 @@
         "Cancellation stops unscheduled invoices and preserves already committed outcomes"
       ],
       "code_paths": [
-        "services/runtime/veya/finance/batch.py"
+        "services/runtime/veya/finance/batch.py",
+        "scripts/operations.py"
       ],
       "verification": "Exercise the changed entry point and assert: One failing invoice does not discard successful independent invoices. Negative case: Cancellation stops unscheduled invoices and preserves already committed outcomes. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -5685,14 +5698,17 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/operations20-2026-10-28/checks.txt",
+        "planning/evidence/operations20-2026-10-28/acceptance.json"
+      ],
+      "acceptance_note": "Durable batch child tasks have stable submission IDs and 1-4 bounded workers, independent failure outcomes, cancellation of unscheduled items, explicit restart recovery and summaries reflecting committed draft outcomes. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-29T00:47:51.036857+00:00",
       "release_ids": [
         "R2",
         "R3",
@@ -6436,14 +6452,17 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/operations20-2026-10-28/checks.txt",
+        "planning/evidence/operations20-2026-10-28/acceptance.json"
+      ],
+      "acceptance_note": "Host synthetic connector shares persistent per-connection request/concurrency budgets, per-task admission and bounded numeric/date Retry-After cooldowns. No sleeping retry queue; other connections remain usable. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-29T00:47:51.036873+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -6464,7 +6483,8 @@
         "Replayed, stale and invalidly signed events are rejected"
       ],
       "code_paths": [
-        "services/runtime/veya/connections/webhooks.py"
+        "services/runtime/veya/connections/webhooks.py",
+        "scripts/operations.py"
       ],
       "verification": "Exercise the changed entry point and assert: Valid signed events create one normalized source event. Negative case: Replayed, stale and invalidly signed events are rejected. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -6478,14 +6498,17 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/operations20-2026-10-28/checks.txt",
+        "planning/evidence/operations20-2026-10-28/acceptance.json"
+      ],
+      "acceptance_note": "Host webhook ingress validates signed bytes, bounded timestamps and strict normalized schema; persistent tenant/connection/event identity rejects replay. No externally reachable webhook listener is enabled. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-29T00:47:51.036884+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -9146,7 +9169,8 @@
         "A missing or changed base revision invalidates a claimed paired comparison"
       ],
       "code_paths": [
-        "training/evaluation/base_model.py"
+        "training/baseline.py",
+        "scripts/run_research.py"
       ],
       "verification": "Exercise the changed entry point and assert: Baseline results record model revision, precision and inference settings. Negative case: A missing or changed base revision invalidates a claimed paired comparison. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -9161,14 +9185,17 @@
       },
       "scope": "Research",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/operations20-2026-10-28/checks.txt",
+        "planning/evidence/operations20-2026-10-28/acceptance.json"
+      ],
+      "acceptance_note": "Baseline CLI pins actual Ollama digest, template, quantization and parameters before A/A evaluation. Source mode is immutable; identity failures persist across resume. Real Qwen attempts failed, so comparison/promotion eligibility is false. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-29T00:47:51.036904+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -9987,14 +10014,17 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/operations20-2026-10-28/checks.txt",
+        "planning/evidence/operations20-2026-10-28/acceptance.json"
+      ],
+      "acceptance_note": "OpenTelemetry fixed-name spans correlate Rust/Go/private Python requests and runtime/provider/connector calls. Exported attributes are allowlisted; unsampled parents and malformed IDs are covered. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-29T00:47:51.036918+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -10028,14 +10058,17 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/operations20-2026-10-28/checks.txt",
+        "planning/evidence/operations20-2026-10-28/acceptance.json"
+      ],
+      "acceptance_note": "Prometheus counters/histograms/gauges separate sources and retain failed/cancelled/rejected outcomes, active operations, saturation, queue delay/depth, budget exhaustion and unknown costs. No user/task label cardinality. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-29T00:47:51.036928+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -10070,14 +10103,17 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/operations20-2026-10-28/checks.txt",
+        "planning/evidence/operations20-2026-10-28/acceptance.json"
+      ],
+      "acceptance_note": "Allowlisted timestamped local structured records carry trace/span IDs and outcome/timing. Uvicorn stderr filter removes raw exception messages before formatting. Sentinel checks cover both sinks. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-29T00:47:51.036938+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -10111,14 +10147,17 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/operations20-2026-10-28/checks.txt",
+        "planning/evidence/operations20-2026-10-28/acceptance.json"
+      ],
+      "acceptance_note": "Real Prometheus recording-rule execution verifies exact failure ratios and missing denominators. Rules include latency, queue wait and unknown cost; absence remains missing rather than zero healthy. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-29T00:47:51.037068+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -10153,14 +10192,17 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/operations20-2026-10-28/checks.txt",
+        "planning/evidence/operations20-2026-10-28/acceptance.json"
+      ],
+      "acceptance_note": "Provisioned Grafana panels were rendered against a local synthetic Prometheus server. Queried and rendered provider failure ratio was 0.1 and runtime 0.0. Missing data and unknown cost remain visible; deployment target/credential provisioning is explicit. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-29T00:47:51.037082+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -10182,7 +10224,8 @@
       ],
       "code_paths": [
         "infra/observability/alerts/veya.yml",
-        "services/runtime/veya/observability/alerts.py"
+        "services/runtime/veya/observability/alerts.py",
+        "scripts/operations.py"
       ],
       "verification": "Exercise the changed entry point and assert: Sustained SLO breaches generate one active alert per incident key. Negative case: Brief spikes below policy thresholds do not flood notifications. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -10196,14 +10239,17 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/operations20-2026-10-28/checks.txt",
+        "planning/evidence/operations20-2026-10-28/acceptance.json"
+      ],
+      "acceptance_note": "Prometheus sustained/missing-data rules and persistent local incident state deduplicate breaches, preserve missing telemetry and emit one recovery transition. No external notification delivery is configured. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-29T00:47:51.037094+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -10243,14 +10289,17 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/operations20-2026-10-28/checks.txt",
+        "planning/evidence/operations20-2026-10-28/acceptance.json"
+      ],
+      "acceptance_note": "Ramp-led Angular Connection diagnostics panel calls explicit authenticated Go command and verifies content SHA-256 before local download. Bounded projection excludes source bodies, prompts and credentials. Rendered/keyboard/axe/retry evidence at 1440x1000 and 800x640. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-24T22:26:50+00:00",
+      "updated_at": "2026-10-29T00:47:51.037105+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -10293,14 +10342,17 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/operations20-2026-10-28/checks.txt",
+        "planning/evidence/operations20-2026-10-28/acceptance.json"
+      ],
+      "acceptance_note": "Admission rejects before body buffering; agent concurrency is bounded. Load test admits 8 of 200 simultaneous slow requests, sheds 192 with no pending queue and recovers. Shared connector throttling is also exercised. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-29T00:47:51.037167+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -10321,7 +10373,8 @@
         "Recovery never overwrites the only remaining corrupt copy without preserving it"
       ],
       "code_paths": [
-        "services/runtime/veya/storage/recovery.py"
+        "services/runtime/veya/storage/recovery.py",
+        "scripts/operations.py"
       ],
       "verification": "Exercise the changed entry point and assert: Healthy backups can restore a damaged test workspace. Negative case: Recovery never overwrites the only remaining corrupt copy without preserving it. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -10335,14 +10388,17 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/operations20-2026-10-28/checks.txt",
+        "planning/evidence/operations20-2026-10-28/acceptance.json"
+      ],
+      "acceptance_note": "Read-only bounded startup/storage inspection distinguishes incomplete checks from damage and finds missing artifacts. Verified snapshot restore creates a separate read-only workspace and preserves corrupt original bytes. Healthy large/timeout inspections are not mislabeled corruption. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-29T00:47:51.037177+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -10548,14 +10604,17 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/operations20-2026-10-28/checks.txt",
+        "planning/evidence/operations20-2026-10-28/acceptance.json"
+      ],
+      "acceptance_note": "Generated UTF-8/ZIP secret scanning fails on seeded secrets, common credential signatures, unsupported binary/archive input and scanner errors. Diagnostic, training bundle and protected export boundaries scan before output; denied protected exports create no plaintext file. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-29T00:47:51.037188+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -10613,7 +10672,7 @@
       "milestone_id": "M6",
       "actor": "workspace administrator",
       "user_value": "protect credentials, tenant data and executable boundaries",
-      "code_change": "Enforce reviewed severity and license rules with expiring exceptions",
+      "code_change": "Enforce reviewed severity and license rules with expiring exceptions for the installed pnpm graph; additional language dependency policies remain separate scope",
       "acceptance_criteria": [
         "A known forbidden dependency causes the policy job to fail",
         "Expired exceptions cannot silently keep a vulnerable build green"
@@ -10634,14 +10693,17 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/operations20-2026-10-28/checks.txt",
+        "planning/evidence/operations20-2026-10-28/acceptance.json"
+      ],
+      "acceptance_note": "Installed pnpm graph policy enforces explicit license expressions and high/critical advisories with exact expiring exceptions. Empty/inconsistent summaries and absent advisory detail fail closed. Actual 311-package inventory and advisory report passed. Python/Go/Rust graphs are not certified by this policy. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-29T00:47:51.037199+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -10749,7 +10811,8 @@
         "Missing key material or denied scope prevents creation of a plaintext sensitive bundle"
       ],
       "code_paths": [
-        "services/runtime/veya/privacy/export.py"
+        "services/runtime/veya/privacy/export.py",
+        "scripts/operations.py"
       ],
       "verification": "Exercise the changed entry point and assert: An authorized export can be verified and decrypted by its intended holder. Negative case: Missing key material or denied scope prevents creation of a plaintext sensitive bundle. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -10764,14 +10827,17 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/operations20-2026-10-28/checks.txt",
+        "planning/evidence/operations20-2026-10-28/acceptance.json"
+      ],
+      "acceptance_note": "Host-selected exact run/artifact scope and 32-byte provided key produce AES-256-GCM exports without plaintext files. Holder roundtrip, wrong key, tampering, missing key, denied scope and pre-encryption secret denial are tested. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-29T00:47:51.037209+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -11386,14 +11452,17 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/operations20-2026-10-28/checks.txt",
+        "planning/evidence/operations20-2026-10-28/acceptance.json"
+      ],
+      "acceptance_note": "Rendered CI runs actual Angular/Go/Python stack, accessibility and reviewed geometry/style contracts at two sizes, and retains screenshots plus expected/actual differences. Deliberate overflow fails validation. Browser absence and empty screens cannot pass; no pixel-perfect cross-platform equality is claimed. Local implementation submitted for review; formal prerequisite acceptance and user implementation commit remain outstanding.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-10-29T00:47:51.037223+00:00",
       "release_ids": [
         "R4",
         "R5"

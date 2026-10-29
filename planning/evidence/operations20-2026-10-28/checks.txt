@@ -1,0 +1,43 @@
+Veya operations batch: 2026-10-28
+Repository: C:/Users/Swarneil Pradhan/Veya
+Starting and retained HEAD: d6e2de449ce6258c2a1730a2b4af2604e9e00b95
+No repository staging, commit, push, release or upload performed. Tracker remains in_review for user acceptance/commit.
+Stories: VEY-085,087,088,089,106,107,162,181,182,183,184,185,186,187,188,189,194,196,199,213.
+
+Verification already executed:
+- Python 3.13 final full runtime: 567 passed, 1 upstream Starlette/httpx deprecation warning. Additional research-export boundary rerun: 19 passed after final corpus scanner integration.
+- Python 3.10 full runtime: 562 passed; final 29-operation focused suite passed after subsequent additions.
+- Python lint/format/mypy: pass; generated OpenAPI/TypeScript contract version 7: pass.
+- Go vet/tests and real private worker durability/trace propagation: pass using locked runtime interpreter.
+- Rust native tests: 13 passed; cargo fmt/clippy -D warnings: pass.
+- Angular ESLint/type/contract checks and production build: pass.
+- Real Angular -> Go -> Python browser: diagnostic content hash/download, 1440x1000 and 800x640, compact scrolling, keyboard, retry, last report retention, axe accessibility and intentional overflow mutation: pass.
+- Actual Prometheus 3.7.0 promtool test rules infra/observability/rules/test.yml: SUCCESS (exact failure denominator, brief/sustained breach, absent telemetry).
+- Grafana 12.2.0 portable build SHA-256 matched vendor checksum; provisioned panels rendered against fresh local synthetic Prometheus data. Provider failure ratio 0.1, runtime ratio 0.0; unknown cost and missing telemetry shown explicitly. Helper terminates child processes.
+- Actual pnpm license/advisory report: 311 installed packages, zero policy failures, no exceptions. Incomplete/empty reports and expired exceptions fail negative tests.
+- Generated diagnostic scanner: clean; seeded-secret and scanner-error cases reject output.
+- Pinned actionlint v1.7.7: pass. Project/tooling unittest suite: 27 passed.
+- Delivery ledger validates 241 unique stories and dependency DAG. New total 136 implemented (19 done +117 in_review), 105 backlog.
+
+Review corrections verified:
+Unsampled OpenTelemetry spans; legal finance run transitions; unresolved reason retention; revoked approval handling; atomic preservation of concurrent success; incomplete recovery versus corruption; CLI artifact tuple normalization; immutable baseline provenance and persistent identity failure; complete advisory summary reconciliation; Python interpreter selection; zero-deadline behavior across SQLite versions; fail-closed training exports.
+
+Live model evidence:
+Ollama qwen2.5:1.5b, digest sha256:65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b, Q4_K_M.
+Template SHA-256 eb4402837c7829a690fa845de4d7f3fd842c2adee476d5341da8a46ea9255175.
+Real unchanged-model A/A: two attempts, one system_failure and one failed. Identity unchanged; paired_comparison_eligible=false, promoted=false. This is a preserved negative result, not model qualification.
+
+Known scope limits:
+Finance operates on reviewed typed records and cited sources against synthetic ERP only; no payment or live business write integration.
+Metrics/alerts are local; production scraper targets/credentials and notification delivery are not automatically configured.
+Dependency license/vulnerability policy covers installed pnpm packages, not all language ecosystems.
+Secret scanner supports bounded UTF-8 and unnested unencrypted ZIP; unsupported formats fail, no general DLP claim.
+Web screenshots do not prove signed/installed desktop release QA. GitHub CI was not triggered or claimed green.
+
+Applied guidance:
+code-review-and-quality (read-only independent review), tdd, python-observability, python-resilience, deployment-pipeline-design, github-actions-templates, security-and-hardening, codebase-design, frontend-ui-engineering, accessibility-compliance, fastapi-patterns, database-migrations, golang-patterns/golang-testing, rust-patterns/rust-testing, eval-harness/eval-harness-first.
+Design: Ramp primary; Public Sans/Phosphor, Superhuman keyboard consistency, Basecamp work context, Linear density/status polish. User-selected Work console recorded in canonical project direction.
+Primary references checked: OpenTelemetry Python instrumentation/exporters; cryptography AESGCM API; Prometheus rule unit-testing documentation; Angular component lifecycle/signals; official Grafana portable download checksum.
+
+Final evidence: artifacts/operations20/runtime-final.xml; runtime-python310.xml; focused-python310.xml; research-final.xml; ui/result.json; ui/regression-diff.json; ui/diagnostics.json; dashboard/query-result.json; dashboard/browser.log; live-baseline/result.json.
+Final Git check: empty staged diff, HEAD unchanged, git diff --check passed.
