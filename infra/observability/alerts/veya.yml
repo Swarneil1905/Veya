@@ -1,0 +1,19 @@
+groups:
+  - name: veya-local-operations
+    rules:
+      - alert: VeyaSustainedFailures
+        expr: veya:failure_ratio:rate5m > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          route: local_diagnostics
+        annotations:
+          summary: Sustained operation failures; inspect diagnostic trace IDs.
+      - alert: VeyaTelemetryMissing
+        expr: absent_over_time(veya_operations_total[10m])
+        for: 5m
+        labels:
+          severity: warning
+          route: local_diagnostics
+        annotations:
+          summary: No operation telemetry; health is unknown.
