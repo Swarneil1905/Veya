@@ -156,6 +156,10 @@ def export(
         files['sources/' + digest] = content
     if len(files) > 100 or sum(map(len, files.values())) > 5 * 1048576:
         raise ValueError('Bundle exceeds limit')
+    from veya.privacy.scanning import require_clean
+
+    for content in files.values():
+        require_clean(content)
     manifest = {name: hashlib.sha256(value).hexdigest() for name, value in sorted(files.items())}
     with zipfile.ZipFile(path, 'x', compression=zipfile.ZIP_STORED) as bundle:
         for name, content in sorted(files.items()):
