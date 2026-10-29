@@ -21,6 +21,12 @@ jobs:
     uses: ./.github/workflows/workspace-browser.yml
   workflows:
     uses: ./.github/workflows/workflow-checks.yml
+  dependency-policy:
+    uses: ./.github/workflows/dependency-policy.yml
+  ui-regression:
+    uses: ./.github/workflows/ui-regression.yml
+  operational-rules:
+    uses: ./.github/workflows/operational-rules.yml
   frontend:
     name: Frontend and fixture contracts (${{ matrix.os }})
     runs-on: ${{ matrix.os }}

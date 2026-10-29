@@ -1,0 +1,42 @@
+name: Dependency policy
+on:
+  workflow_call:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  policy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version-file: .python-version
+      - run: pnpm install --frozen-lockfile
+      - name: Collect audit (policy evaluates findings; network errors remain failures)
+        shell: bash
+        run: |
+          mkdir -p artifacts/dependency-policy
+          pnpm licenses list --json > artifacts/dependency-policy/licenses.json
+          set +e
+          pnpm audit --json > artifacts/dependency-policy/audit.json
+          code=$?
+          set -e
+          if [ "$code" -gt 1 ]; then exit "$code"; fi
+      - name: Enforce reviewed licenses, severities and exception expiry
+        run: python scripts/dependency_policy.py --inventory artifacts/dependency-policy/licenses.json --audit artifacts/dependency-policy/audit.json --policy config/dependency-policy.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: dependency-policy-evidence
+          path: artifacts/dependency-policy/
+          if-no-files-found: error
+          retention-days: 14

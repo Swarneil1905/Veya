@@ -34,6 +34,8 @@ jobs:
         run: node scripts/check.mjs python
       - name: Evaluation harness and grader quality
         run: node scripts/check.mjs evaluations
+      - name: Operator, connector and policy tooling quality
+        run: node scripts/check.mjs operations
       - name: API, policy, migration, restart and fault contracts
         run: uv run --project services/runtime --locked --python ${{ matrix.python }} python scripts/test_runtime.py services/runtime/tests -q --junitxml=artifacts/runtime-results.xml
       - name: Retain test results

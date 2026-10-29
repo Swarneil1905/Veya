@@ -1,0 +1,16 @@
+name: Operational recording and alert rules
+on:
+  workflow_call:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  rules:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Verify Prometheus expressions and failure/missing telemetry scenarios
+        run: docker run --rm --entrypoint /bin/promtool -v "$PWD/infra/observability:/work:ro" -w /work/rules prom/prometheus:v3.7.0 test rules test.yml
