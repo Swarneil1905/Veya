@@ -49,7 +49,7 @@ def regular(path: Path, root: Path) -> Path:
 
 
 class WorkspaceBackups:
-    def __init__(self, db: Database, *, max_bytes: int, max_artifacts: int, timeout: float):
+    def __init__(self, db: Database | Path, *, max_bytes: int, max_artifacts: int, timeout: float):
         if (
             type(max_bytes) is not int
             or max_bytes <= 0
@@ -59,8 +59,9 @@ class WorkspaceBackups:
             raise ValueError('Explicit positive snapshot size and artifact-count limits required')
         if type(timeout) not in {int, float} or not math.isfinite(timeout) or timeout <= 0:
             raise ValueError('An explicit finite snapshot timeout is required')
+        self.root = db.root if isinstance(db, Database) else db.resolve()
         self.db, self.max_bytes, self.max_artifacts, self.timeout = (
-            db,
+            db if isinstance(db, Database) else None,
             max_bytes,
             max_artifacts,
             timeout,
@@ -79,7 +80,7 @@ class WorkspaceBackups:
             )
         parent = target.parent.resolve(strict=True)
         destination = parent / target.name
-        if destination.is_relative_to(self.db.root) or self.db.root.is_relative_to(destination):
+        if destination.is_relative_to(self.root) or self.root.is_relative_to(destination):
             raise DomainError(
                 'conflict', 'Snapshot destination must be outside the active workspace'
             )
@@ -94,6 +95,8 @@ class WorkspaceBackups:
 
     @contextmanager
     def _writer(self, deadline):
+        if self.db is None:
+            raise ValueError('A restore-only source cannot create backups')
         with self.db.connection() as conn:
             self._tick(deadline)
             conn.execute(
@@ -266,6 +269,8 @@ class WorkspaceBackups:
                 time.sleep(min(0.05, max(0, deadline - time.monotonic())))
 
     def create(self, destination: Path) -> Path:
+        if self.db is None:
+            raise ValueError('A restore-only source cannot create backups')
         destination = self._target(destination)
         deadline = time.monotonic() + self.timeout
         try:
@@ -300,9 +305,9 @@ class WorkspaceBackups:
                     total = db_record['size']
                     for blob in blobs:
                         copied = self._copy(
-                            self._blob(self.db.root, blob),
+                            self._blob(self.root, blob),
                             self._blob(stage, blob),
-                            self.db.root,
+                            self.root,
                             deadline,
                             self.max_bytes - total,
                         )

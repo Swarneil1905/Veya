@@ -14,6 +14,7 @@ import uvicorn
 
 from veya.api.app import create_app
 from veya.config import Settings
+from veya.observability.logging import SERVER_LOGGING
 
 
 def main():
@@ -48,6 +49,11 @@ def main():
         print(json.dumps({'status': 'failed', 'code': 'invalid_bootstrap'}), flush=True)
         return 1
     try:
+        from veya.storage.recovery import inspect
+
+        if inspect(root)['state'] == 'damaged':
+            print(json.dumps({'status': 'failed', 'code': 'storage_recovery_required'}), flush=True)
+            return 1
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as listener:
             listener.bind(('127.0.0.1', 0))
             port = listener.getsockname()[1]
@@ -76,7 +82,7 @@ def main():
                     app,
                     host='127.0.0.1',
                     port=port,
-                    log_config=None,
+                    log_config=SERVER_LOGGING,
                     access_log=False,
                     timeout_graceful_shutdown=3,
                 )

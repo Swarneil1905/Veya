@@ -14,6 +14,7 @@ from veya.audit.ledger import AuditField, Sensitivity, append_in_transaction
 from veya.domain.models import DomainError, identifier
 from veya.events.store import append_event
 from veya.execution.budgets import ActionEstimate, BudgetStore, Reservation
+from veya.observability.tracing import operation
 from veya.policy.approvals import ApprovalReview, ApprovalStore
 from veya.policy.engine import Actor, Decision, PolicyDenied, PolicyEngine, Resource
 from veya.policy.revocation import Revocations
@@ -318,7 +319,8 @@ class ToolExecutor:
                 if self.budgets is not None:
                     assert reservation is not None
                     self.budgets.remaining(reservation)
-                return await action.binding.handler(arguments)
+                with operation('connector', run_id=action.proposal.run_id):
+                    return await action.binding.handler(arguments)
 
             if self.budgets is not None:
                 assert reservation is not None

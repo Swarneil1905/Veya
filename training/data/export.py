@@ -6,6 +6,7 @@ This is a scrubbed research corpus, not a tokenizer-specific training dataset (V
 import json
 from pathlib import Path
 
+from veya.privacy.scanning import require_clean
 from veya.research.models import fingerprint
 from veya.tools.contracts import canonical_json
 
@@ -103,6 +104,7 @@ def export(store, path: Path, ids: tuple[str, ...], *, rules, held_out: tuple[Ex
             },
         }
         encoded = canonical_json(payload, 1048576)
+        require_clean(encoded.encode('utf8'))
         with path.open('x', encoding='utf8', newline='\n') as output:
             output.write(encoded + '\n')
     return {'rows': len(retained), 'fingerprint': fingerprint(payload), 'training_ready': False}
