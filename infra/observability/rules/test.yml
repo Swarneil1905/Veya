@@ -1,0 +1,49 @@
+rule_files:
+  - veya.yml
+  - ../alerts/veya.yml
+evaluation_interval: 30s
+tests:
+  - interval: 30s
+    input_series:
+      - series: 'veya_operations_total{source="provider",outcome="succeeded"}'
+        values: '0+90x30'
+      - series: 'veya_operations_total{source="provider",outcome="failed"}'
+        values: '0+10x30'
+      - series: 'veya_operations_total{source="runtime",outcome="succeeded"}'
+        values: '0+100x30'
+    promql_expr_test:
+      - expr: veya:failure_ratio:rate5m
+        eval_time: 10m
+        exp_samples:
+          - labels: '{__name__="veya:failure_ratio:rate5m",source="provider"}'
+            value: 0.1
+          - labels: '{__name__="veya:failure_ratio:rate5m",source="runtime"}'
+            value: 0
+    alert_rule_test:
+      - eval_time: 2m
+        alertname: VeyaSustainedFailures
+        exp_alerts: []
+      - eval_time: 10m
+        alertname: VeyaSustainedFailures
+        exp_alerts:
+          - exp_labels:
+              source: provider
+              severity: warning
+              route: local_diagnostics
+            exp_annotations:
+              summary: Sustained operation failures; inspect diagnostic trace IDs.
+  - interval: 30s
+    input_series: []
+    promql_expr_test:
+      - expr: veya:failure_ratio:rate5m
+        eval_time: 10m
+        exp_samples: []
+    alert_rule_test:
+      - eval_time: 16m
+        alertname: VeyaTelemetryMissing
+        exp_alerts:
+          - exp_labels:
+              severity: warning
+              route: local_diagnostics
+            exp_annotations:
+              summary: No operation telemetry; health is unknown.

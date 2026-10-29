@@ -1,0 +1,16 @@
+groups:
+  - name: veya-runtime
+    interval: 30s
+    rules:
+      - record: veya:attempts:rate5m
+        expr: sum by (source) (rate(veya_operations_total[5m]))
+      - record: veya:failures:rate5m
+        expr: sum by (source) (rate(veya_operations_total{outcome=~"failed|unknown|rejected"}[5m]))
+      - record: veya:failure_ratio:rate5m
+        expr: (veya:failures:rate5m or on(source) (0 * veya:attempts:rate5m)) / (veya:attempts:rate5m > 0)
+      - record: veya:latency_p95:5m
+        expr: histogram_quantile(0.95, sum by (source, le) (rate(veya_operation_seconds_bucket[5m])))
+      - record: veya:unknown_cost:rate5m
+        expr: rate(veya_unknown_cost_calls_total[5m])
+      - record: veya:queue_delay_p95:5m
+        expr: histogram_quantile(0.95, sum by (le) (rate(veya_queue_delay_seconds_bucket[5m])))

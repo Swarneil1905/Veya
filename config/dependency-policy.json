@@ -1,0 +1,26 @@
+{
+  "allowed_licenses": [
+    "MIT",
+    "ISC",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "Apache-2.0",
+    "0BSD",
+    "CC0-1.0",
+    "CC-BY-4.0",
+    "OFL-1.1",
+    "Python-2.0",
+    "BlueOak-1.0.0",
+    "(MIT OR Apache-2.0)",
+    "(MIT AND Zlib)",
+    "(BSD-2-Clause OR MIT OR Apache-2.0)",
+    "(Apache-2.0 AND BSD-3-Clause)",
+    "Apache-2.0 OR MIT",
+    "MPL-2.0"
+  ],
+  "blocked_severities": [
+    "high",
+    "critical"
+  ],
+  "exceptions": []
+}
