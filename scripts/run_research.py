@@ -47,6 +47,24 @@ async def batch(args):
                 'Batch CLI supports local Ollama at the explicitly observed endpoint only'
             )
     manifest = SplitManifest.model_validate_json(json.dumps(plan['split']))
+    if args.command == 'baseline':
+        from training.baseline import baseline, ollama_identity
+
+        if set(specs) != {'baseline'}:
+            raise ValueError('An unchanged baseline plan contains only the baseline spec')
+        return await baseline(
+            args.workspace,
+            args.id,
+            spec=specs['baseline'],
+            identity=await ollama_identity(specs['baseline'].model),
+            manifest=manifest,
+            snapshots={key: (base / value).resolve() for key, value in plan['snapshots'].items()},
+            inputs={
+                key: (value['instruction'], value['expected_state'])
+                for key, value in plan['inputs'].items()
+            },
+            limit=args.limit,
+        )
 
     async def observe(model):
         return await revision(model.model_name)
@@ -87,6 +105,11 @@ def main():
     run_parser.add_argument('--workspace', type=Path, required=True)
     run_parser.add_argument('--id', required=True)
     run_parser.add_argument('--limit', type=int, default=100)
+    base = commands.add_parser('baseline')
+    base.add_argument('--plan', type=Path, required=True)
+    base.add_argument('--workspace', type=Path, required=True)
+    base.add_argument('--id', required=True)
+    base.add_argument('--limit', type=int, default=100)
     gpu = commands.add_parser('preflight')
     gpu.add_argument('--parameters', type=int, required=True)
     gpu.add_argument('--activation-mib', type=int, required=True)
@@ -100,7 +123,7 @@ def main():
     check.add_argument('path', type=Path)
     check.add_argument('--sha256', required=True)
     args = parser.parse_args()
-    if args.command == 'batch':
+    if args.command in {'batch', 'baseline'}:
         result = asyncio.run(batch(args))
     elif args.command == 'preflight':
         result = assess(measure(), parameters=args.parameters, activation_mib=args.activation_mib)

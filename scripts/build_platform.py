@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -22,6 +23,7 @@ def main():
     if f' go{pin} ' not in version:
         parser.exit(1, f'Go {pin} is required.\n')
     env = dict(os.environ, GOTOOLCHAIN='local')
+    env.setdefault('VEYA_PYTHON', sys.executable)
     source = ROOT / 'services/platform'
     if args.test:
         subprocess.run([go, 'vet', './...'], cwd=source, env=env, check=True)
