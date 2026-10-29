@@ -3,6 +3,7 @@
 mod files;
 mod recovery;
 mod runtime;
+mod tracing;
 mod transport;
 mod window_state;
 use runtime::{Health, Runtime};

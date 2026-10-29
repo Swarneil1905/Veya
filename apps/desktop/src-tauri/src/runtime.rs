@@ -253,6 +253,7 @@ fn route(operation: &str, args: Value) -> Result<(&'static str, String, Value), 
         "get_evaluation" | "get_trajectory" => &["id"],
         "review_trajectory" => &["id", "revision", "fingerprint", "decision", "tags", "note"],
         "connections" => &[],
+        "export_diagnostics" => &[],
         "check_connection" => &["config", "consent"],
         "activate_connection" => &["fingerprints"],
         "save_credential" => &["reference", "secret"],
@@ -305,6 +306,7 @@ fn route(operation: &str, args: Value) -> Result<(&'static str, String, Value), 
             | "get_evaluation"
             | "get_trajectory"
             | "review_trajectory"
+            | "export_diagnostics"
     ) {
         // No arbitrary path is forwarded: Go owns the shared command validation.
         return Ok(("POST", "/api/workspace".into(), args));
@@ -402,7 +404,9 @@ mod tests {
         let root = test_root();
         let source = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../../services/runtime");
         let mut host = Runtime::new(
-            "python".into(),
+            std::env::var("VEYA_PYTHON")
+                .unwrap_or_else(|_| "python".into())
+                .into(),
             source,
             root.join("workspace"),
             root.join("runtime.log"),
@@ -467,7 +471,9 @@ mod tests {
         std::fs::write(package.join("__init__.py"), "").unwrap();
         std::fs::write(package.join("desktop.py"), "import sys,time\nsys.stdin.readline()\nprint('{\"status\":\"ready\",\"protocol\":2,\"port\":12345}',flush=True)\ntime.sleep(60)\n").unwrap();
         let mut host = Runtime::new(
-            "python".into(),
+            std::env::var("VEYA_PYTHON")
+                .unwrap_or_else(|_| "python".into())
+                .into(),
             root.join("source"),
             root.join("workspace"),
             root.join("runtime.log"),

@@ -189,6 +189,7 @@
         execution requires a tested provider and an explicit start for each
         task.
       </p>
+      <veya-diagnostics [disabled]="!ready()" />
       <veya-connections-settings [disabled]="!ready() || readOnly()" /></div
   ></veya-panel>
   } @if(commandsOpen()){<veya-commands

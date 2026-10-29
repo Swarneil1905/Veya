@@ -1,6 +1,7 @@
 import { EvaluationReports } from "../features/evaluations/evaluation-report";
 import { TrajectoryReview } from "../features/data/trajectory-review";
 import { ConnectionsSettings } from "../features/settings/connections-settings";
+import { Diagnostics } from "../features/settings/diagnostics";
 import { Commands, Destination } from "../features/accessibility/commands";
 import { HostListener } from "@angular/core";
 import { ApprovalReview } from "../features/approvals/approval-review";
@@ -41,6 +42,7 @@ function savedNavigation() {
     ApprovalReview,
     Commands,
     ConnectionsSettings,
+    Diagnostics,
     EvaluationReports,
     TrajectoryReview,
   ],

@@ -28,7 +28,8 @@ pub fn request(
     socket
         .set_write_timeout(Some(Duration::from_secs(10)))
         .map_err(|_| "transport_failed")?;
-    write!(socket, "{method} {path} HTTP/1.1\r\nHost: 127.0.0.1:{port}\r\nAuthorization: Bearer {token}\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n", bytes.len()).map_err(|_| "transport_failed")?;
+    let parent = crate::tracing::parent()?;
+    write!(socket, "{method} {path} HTTP/1.1\r\nHost: 127.0.0.1:{port}\r\nAuthorization: Bearer {token}\r\nTraceparent: {parent}\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n", bytes.len()).map_err(|_| "transport_failed")?;
     socket.write_all(&bytes).map_err(|_| "transport_failed")?;
     let deadline = Instant::now() + Duration::from_secs(12);
     let mut response = Vec::new();

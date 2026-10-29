@@ -243,3 +243,9 @@ veya-attachments,veya-document-inspector,veya-task-documents,veya-results,veya-c
 .work-panel-content > select {display:block;font:inherit;min-height:36px;min-width:160px;max-width:100%;border:1px solid #b1b8b1;border-radius:6px;background:#fff;padding:6px 30px 6px 10px;color:inherit}
 .work-panel-content > .work-form-actions {display:flex;gap:10px;margin:18px 0 24px;justify-content:flex-end}
 .work-panel-content > .work-form-actions button:disabled {opacity:.5;cursor:not-allowed}
+
+.work-diagnostics { border-top: 1px solid var(--work-line); padding-top: 20px; margin: 20px 0 28px; }
+.work-diagnostics h3 { font-size: 14px; margin: 0 0 8px; }
+.work-diagnostics p { line-height: 1.5; }
+.work-diagnostic-result { margin-top: 16px; padding: 16px; border: 1px solid var(--work-line); border-radius: 6px; background: var(--work-bg); }
+.work-diagnostic-result strong { font-size: 13px; }
