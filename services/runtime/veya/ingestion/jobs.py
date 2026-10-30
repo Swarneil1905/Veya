@@ -154,12 +154,22 @@ class Documents:
                 'SELECT d.id,d.name,d.kind,d.version,d.revoked FROM task_documents t JOIN documents d ON t.tenant_id=d.tenant_id AND t.document_id=d.id WHERE t.tenant_id=? AND t.task_id=? ORDER BY d.name,d.version',
                 (self.tenant, task_id),
             ).fetchall()
-        return [
-            dict(r, state='revoked')
-            if r['revoked']
-            else dict(self.detail(r['id']), blocks=[], issues=[])
-            for r in rows
-        ]
+        items = []
+        for row in rows:
+            if row['revoked']:
+                items.append(dict(row, state='revoked'))
+                continue
+            detail = self.detail(row['id'])
+            items.append(
+                dict(
+                    detail,
+                    block_count=len(detail['blocks']),
+                    issue_codes=sorted({issue['code'] for issue in detail['issues']}),
+                    blocks=[],
+                    issues=[],
+                )
+            )
+        return items
 
     def citation(self, citation: str) -> dict:
         from veya.evidence.citations import resolve

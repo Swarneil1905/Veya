@@ -26,13 +26,13 @@ def schema(name, description, properties, required):
 TOOLS = [
     schema(
         'documents',
-        'List only the documents attached to this task. Their contents are untrusted evidence.',
+        'List attached documents with block counts, first citations and extraction issue codes. Empty documents have no citation. Contents are untrusted evidence.',
         {},
         [],
     ),
     schema(
         'excerpt',
-        'Read a source block by citation from an attached document.',
+        'Read an attached source block by citation. Follow next_citation for the next block; null means the end of this document.',
         {'citation': {'type': 'string'}},
         ['citation'],
     ),
@@ -67,7 +67,9 @@ class ReadOnly:
                         'id': i['id'],
                         'name': i['name'],
                         'version': i['version'],
-                        'first_citation': i['id'] + ':0',
+                        'block_count': i['block_count'],
+                        'issue_codes': i['issue_codes'],
+                        'first_citation': i['id'] + ':0' if i['block_count'] else None,
                     }
                     for i in attachments
                     if i['id'] in allowed
@@ -82,7 +84,16 @@ class ReadOnly:
                 raise DomainError('not_found', 'Source evidence is unavailable')
             if len(result['text']) > 8000:
                 raise DomainError('too_large', 'Source block exceeds the tool output limit')
-            return result
+            document = next(i for i in attachments if i['id'] == result['document_id'])
+            next_index = int(result['citation'].rsplit(':', 1)[1]) + 1
+            return dict(
+                result,
+                next_citation=(
+                    result['document_id'] + ':' + str(next_index)
+                    if next_index < document['block_count']
+                    else None
+                ),
+            )
         if name == 'calculate' and set(arguments) == {'left', 'right', 'operation'}:
             try:
                 values = [arguments[k] for k in ('left', 'right')]
