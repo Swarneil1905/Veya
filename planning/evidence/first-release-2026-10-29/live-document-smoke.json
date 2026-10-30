@@ -1,0 +1,206 @@
+{
+  "kind": "R1 synthetic live-model smoke",
+  "model": "qwen2.5:1.5b",
+  "model_digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+  "qualification": false,
+  "release_approved": false,
+  "attempts": [
+    {
+      "state": "failed",
+      "outcome": "forbidden",
+      "seconds": 0.51,
+      "correct_second_block_citation": false,
+      "events": [
+        {
+          "kind": "run.state_changed",
+          "data": {
+            "from": "queued",
+            "to": "running",
+            "revision": 1
+          }
+        },
+        {
+          "kind": "agent.started",
+          "data": {
+            "providers": [
+              "local"
+            ],
+            "max_cycles": 8,
+            "token_reservation_limit": 65536,
+            "read_only": true
+          }
+        },
+        {
+          "kind": "budget.reserved",
+          "data": {
+            "action_id": "model_0_0",
+            "tokens": 4804,
+            "tool_steps": 0,
+            "cost_microunits": null,
+            "currency": null
+          }
+        },
+        {
+          "kind": "budget.reserved",
+          "data": {
+            "action_id": "tool_2467e01c1a5544f298fd966cf0e586bb",
+            "tokens": 0,
+            "tool_steps": 1,
+            "cost_microunits": 0,
+            "currency": null
+          }
+        },
+        {
+          "kind": "run.state_changed",
+          "data": {
+            "from": "running",
+            "to": "failed",
+            "revision": 2
+          }
+        },
+        {
+          "kind": "agent.stopped",
+          "data": {
+            "reason": "forbidden"
+          }
+        }
+      ],
+      "results": []
+    },
+    {
+      "state": "failed",
+      "outcome": "forbidden",
+      "seconds": 1.07,
+      "correct_second_block_citation": false,
+      "events": [
+        {
+          "kind": "run.state_changed",
+          "data": {
+            "from": "queued",
+            "to": "running",
+            "revision": 1
+          }
+        },
+        {
+          "kind": "agent.started",
+          "data": {
+            "providers": [
+              "local"
+            ],
+            "max_cycles": 8,
+            "token_reservation_limit": 65536,
+            "read_only": true
+          }
+        },
+        {
+          "kind": "budget.reserved",
+          "data": {
+            "action_id": "model_0_0",
+            "tokens": 4804,
+            "tool_steps": 0,
+            "cost_microunits": null,
+            "currency": null
+          }
+        },
+        {
+          "kind": "budget.reserved",
+          "data": {
+            "action_id": "tool_2ad1f64f56b74e298f41d7ad0f8a0976",
+            "tokens": 0,
+            "tool_steps": 1,
+            "cost_microunits": 0,
+            "currency": null
+          }
+        },
+        {
+          "kind": "run.state_changed",
+          "data": {
+            "from": "running",
+            "to": "failed",
+            "revision": 2
+          }
+        },
+        {
+          "kind": "agent.stopped",
+          "data": {
+            "reason": "forbidden"
+          }
+        }
+      ],
+      "results": []
+    },
+    {
+      "state": "failed",
+      "outcome": "forbidden",
+      "seconds": 0.85,
+      "correct_second_block_citation": false,
+      "events": [
+        {
+          "kind": "run.state_changed",
+          "data": {
+            "from": "queued",
+            "to": "running",
+            "revision": 1
+          }
+        },
+        {
+          "kind": "agent.started",
+          "data": {
+            "providers": [
+              "local"
+            ],
+            "max_cycles": 8,
+            "token_reservation_limit": 65536,
+            "read_only": true
+          }
+        },
+        {
+          "kind": "budget.reserved",
+          "data": {
+            "action_id": "model_0_0",
+            "tokens": 4804,
+            "tool_steps": 0,
+            "cost_microunits": null,
+            "currency": null
+          }
+        },
+        {
+          "kind": "budget.reserved",
+          "data": {
+            "action_id": "tool_107962d5ee664fd3bdefc1a2d4ab7de2",
+            "tokens": 0,
+            "tool_steps": 1,
+            "cost_microunits": 0,
+            "currency": null
+          }
+        },
+        {
+          "kind": "run.state_changed",
+          "data": {
+            "from": "running",
+            "to": "failed",
+            "revision": 2
+          }
+        },
+        {
+          "kind": "agent.stopped",
+          "data": {
+            "reason": "forbidden"
+          }
+        }
+      ],
+      "results": []
+    }
+  ],
+  "connection": {
+    "ready": true,
+    "model": "qwen2.5:1.5b",
+    "fingerprint": "b2e55c29095d7f9667fc694fad6a62ff2b0213c87637658dd4683a75bca2cc91",
+    "checked_at": "2026-10-30T01:38:17.666629+00:00",
+    "capabilities": [
+      "streaming",
+      "tools"
+    ],
+    "limits": "operator configured; enforced conservatively before each request"
+  }
+}

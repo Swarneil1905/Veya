@@ -68,7 +68,8 @@
       "desktop": "Rust/Tauri: native capabilities and owned Go process",
       "deployment_boundary": "Local single-user web and desktop; production SaaS identity/tenancy/hosting remain backlog"
     },
-    "delivery_notes": "136 stories locally implemented: 19 accepted and 117 in review; 105 remain backlog. This batch adds reviewed invoice workflows, connection throttling/webhook ingress, unchanged-model baselines, local observability/recovery, diagnostic UI, protected exports and CI policies. Qwen2.5:1.5b remains unqualified: both real baseline attempts were unsuccessful. Production SaaS identity/tenancy, live business connectors, installed/signed release QA and model qualification remain open. User handles commits and pushes. Evidence: planning/evidence/operations20-2026-10-28/checks.txt."
+    "delivery_notes": "136 stories implemented or in review: 19 accepted, 117 in review; 105 backlog. Current focus is the 36-story R1 release, not completing the full roadmap. Document navigation, empty-source handling and extraction warnings repaired; 572 runtime tests and document browser checks pass. R1 is not ready: local Qwen2.5:1.5b failed all three live document smoke tasks after one connection timeout; model qualification and installed Windows QA remain open. User handles commits/pushes; contributor issues deferred. Evidence: planning/evidence/first-release-2026-10-29/readiness.json.",
+    "delivery_focus": "R1 first real delegated task. External contributor issues postponed by user. Prioritize real-model correctness, first-use/result/recovery flow and installed Windows verification; keep changes local."
   },
   "capacity": {
     "hours_per_week_scenarios": [
@@ -3905,11 +3906,13 @@
         "planning/evidence/providers20-2026-10-25/quality-experiments.txt",
         "planning/evidence/providers20-2026-10-25/browser-checks.txt",
         "planning/evidence/providers20-2026-10-25/live-browser-check.txt",
-        "planning/evidence/providers20-2026-10-25/live-model.json"
+        "planning/evidence/providers20-2026-10-25/live-model.json",
+        "planning/evidence/first-release-2026-10-29/checks.txt",
+        "planning/evidence/first-release-2026-10-29/readiness.json"
       ],
-      "acceptance_note": "Durable bounded read-only model/tool loop, budgets, cancellation, no-progress and exact-observation completion verifier implemented. End-to-end fixture provider task succeeds. Positive real-model task acceptance is NOT met by the downloaded 1.5B model; its unsafe/invalid outputs fail closed. Main-model qualification remains pending. Local implementation submitted for review; formal prerequisite acceptance and user commit remain outstanding.",
+      "acceptance_note": "Durable bounded read-only model/tool loop, budgets, cancellation, no-progress and exact-observation completion verifier implemented. End-to-end fixture provider task succeeds. Positive real-model task acceptance is NOT met by the downloaded 1.5B model; its unsafe/invalid outputs fail closed. Main-model qualification remains pending. Local implementation submitted for review; formal prerequisite acceptance and user commit remain outstanding. 2026-10-29 R1 follow-up: scripted-provider source discovery -> first excerpt -> second excerpt -> cited result passes through Agent and the result API. Real qwen2.5:1.5b still fails all three live smoke tasks (forbidden); no positive real-model task acceptance or release approval claimed.",
       "blocked_reason": null,
-      "updated_at": "2026-10-25T16:11:07+00:00",
+      "updated_at": "2026-10-29",
       "release_ids": [
         "R1",
         "R2",
@@ -3958,11 +3961,13 @@
         "planning/evidence/providers20-2026-10-25/quality-experiments.txt",
         "planning/evidence/providers20-2026-10-25/browser-checks.txt",
         "planning/evidence/providers20-2026-10-25/live-browser-check.txt",
-        "planning/evidence/providers20-2026-10-25/live-model.json"
+        "planning/evidence/providers20-2026-10-25/live-model.json",
+        "planning/evidence/first-release-2026-10-29/checks.txt",
+        "planning/evidence/first-release-2026-10-29/readiness.json"
       ],
-      "acceptance_note": "Task-attached document listing/excerpts and bounded exact Decimal calculator enforce source grants and deny traversal, extra arguments, unsupported tools and inexact division. Local implementation submitted for review; formal prerequisite acceptance and user commit remain outstanding.",
+      "acceptance_note": "Task-attached document listing/excerpts and bounded exact Decimal calculator enforce source grants and deny traversal, extra arguments, unsupported tools and inexact division. Local implementation submitted for review; formal prerequisite acceptance and user commit remain outstanding. 2026-10-29 R1 follow-up: block counts, extraction issue codes and next-citation navigation now reach the scoped agent tools; empty documents have no fabricated citation. Revocation and second-block result regressions pass. Existing bounded execution remains; arbitrary full-document completion is not claimed.",
       "blocked_reason": null,
-      "updated_at": "2026-10-25T16:11:07+00:00",
+      "updated_at": "2026-10-29",
       "release_ids": [
         "R1",
         "R2",

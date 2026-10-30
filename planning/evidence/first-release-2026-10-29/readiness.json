@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-29",
+  "release_id": "R1",
+  "release_ready": false,
+  "user_outcome": "Attach a document, delegate a bounded read-only task, inspect a cited result, and handle failure or cancellation in the Windows desktop.",
+  "scope": "36 existing R1 stories; do not wait for all 241 roadmap stories.",
+  "gates": [
+    {
+      "gate": "Document navigation and permissions",
+      "status": "local_checks_passed",
+      "evidence": "planning/evidence/first-release-2026-10-29/checks.txt"
+    },
+    {
+      "gate": "Real model returns correct cited work",
+      "status": "not_met",
+      "evidence": "planning/evidence/first-release-2026-10-29/live-document-smoke.json"
+    },
+    {
+      "gate": "First-use, result and recovery experience",
+      "status": "browser_flows_tested_product_acceptance_pending",
+      "evidence": "planning/evidence/first-release-2026-10-29/browser-checks.txt"
+    },
+    {
+      "gate": "Installed Windows startup, file picker and clean-machine dependencies",
+      "status": "unverified"
+    },
+    {
+      "gate": "Formal story acceptance and release artifact approval",
+      "status": "pending"
+    }
+  ],
+  "deferred": [
+    "External contributor issues",
+    "Unrelated research and infrastructure stories",
+    "Production SaaS and live business writes"
+  ]
+}

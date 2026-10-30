@@ -1,0 +1,9 @@
+{
+  "kind": "R1 synthetic live-model smoke",
+  "model": "qwen2.5:1.5b",
+  "model_digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+  "qualification": false,
+  "release_approved": false,
+  "attempts": [],
+  "connection_error": "provider_transient"
+}

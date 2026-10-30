@@ -1,0 +1,29 @@
+First-release focus: 2026-10-29
+Base commit: aa432ad1cbcc33245437c73d7b5c190e80195732
+Outcome: first delegated document-task navigation repaired; release NOT approved.
+
+Changes:
+- Attached document tool summaries now expose block_count and extraction issue_codes.
+- Empty documents have no fabricated first citation.
+- Excerpts expose next_citation; source scope/revocation checks remain in place.
+- Five regression tests include a scripted-provider task publishing the second source block through the real result API.
+
+Validation:
+- python -m pytest services/runtime/tests -q --tb=short --junitxml=artifacts/first-release-2026-10-29/runtime.xml: 572 passed, one upstream Starlette/httpx deprecation warning.
+- node scripts/check.mjs python: lint, format (168 files), mypy (115 source files), generated contracts PASS.
+- node scripts/test-document-browser.mjs: PASS, real Angular/Go/Python local stack with synthetic fixtures, file upload, source/result inspection, permission revocation, keyboard/focus, responsive widths and accessibility checks. Not installed-app QA.
+- Navigation mutation: isolated in-memory source module changed next-citation condition to False; first-block traversal test failed at its expected next-citation assertion. Repository source was never mutated.
+- Independent read-only review found no high-confidence correctness/security findings. Reviewer confirmed four navigation tests; its combined integration run was stopped. Primary-agent five-test run and full 572-test suite passed.
+
+Live model:
+- Installed qwen2.5:1.5b only; synthetic two-row CSV, local Ollama endpoint, no remote provider or download.
+- First connection attempt timed out (provider_transient). Second connected; all 3 task attempts failed closed with forbidden and no correct second-block result.
+- These are smoke checks, not a representative benchmark or model promotion/qualification.
+
+Scope limits:
+- Existing eight model cycles, tool/context/time budgets remain. With one document-list call and one source block per model response, at most six reads fit before the final answer.
+- No UI redesign or installer changes. No claim of full-document traversal at arbitrary size.
+- Native installed startup/file picker, clean-machine dependency packaging and release qualification remain outstanding.
+- Source changed locally only. No staging, commits, push, issues, PRs, or releases.
+
+Guidance applied: project tdd (existing tool/API boundaries), code-review-and-quality; existing execution and source authorization contracts preserved.
