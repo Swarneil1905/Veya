@@ -7,6 +7,7 @@ from fastapi import APIRouter
 from pydantic import BaseModel, ConfigDict, Field
 
 from veya.domain.models import DomainError
+from veya.extraction.invoice import FieldReviews, Review
 from veya.ingestion.jobs import Documents
 
 
@@ -26,6 +27,8 @@ class Block(BaseModel):
     field: str | None = None
     start: int | None = None
     end: int | None = None
+    confidence: float | None = None
+    region: list[float] | None = None
 
 
 class Issue(BaseModel):
@@ -75,6 +78,15 @@ class DocumentVersions(BaseModel):
 def router(db, tenant: str) -> APIRouter:
     routes = APIRouter(prefix='/v1')
     documents = Documents(db, tenant)
+
+    @routes.get('/documents/{document_id}/fields')
+    def fields(document_id: str) -> dict:
+        return FieldReviews(db, tenant).get(document_id)
+
+    @routes.post('/documents/{document_id}/fields')
+    def review_fields(document_id: str, payload: Review) -> dict:
+        # Identity comes from the authenticated local workspace, never the request body.
+        return FieldReviews(db, tenant).review(document_id, payload, reviewer='workspace_operator')
 
     @routes.get('/documents/{document_id}/chunks')
     def chunks(document_id: str, after: int = 0) -> dict:

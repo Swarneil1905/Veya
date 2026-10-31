@@ -3,6 +3,8 @@
 from fastapi import APIRouter
 from pydantic import BaseModel, ConfigDict, Field, SecretStr
 
+from veya.connections.remove import remove
+from veya.connections.store import ConnectionStore
 from veya.providers.models import ModelConfig
 from veya.providers.settings import Connections
 
@@ -26,6 +28,15 @@ class CredentialInput(BaseModel):
 
 def router(connections: Connections):
     routes = APIRouter(prefix='/v1/connections')
+    external = ConnectionStore(connections.db, connections.tenant, 'personal', connections.vault)
+
+    @routes.get('/external')
+    def external_status() -> dict:
+        return {'items': external.summaries()}
+
+    @routes.post('/external/{connection_id}/remove')
+    def remove_external(connection_id: str) -> dict:
+        return remove(external, connection_id)
 
     @routes.get('')
     def status() -> dict:

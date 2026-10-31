@@ -38,12 +38,15 @@ def _extract(content: bytes) -> dict:
             raise DomainError('too_large', 'PDF exceeds 100 pages')
         blocks = []
         expanded = 0
+        scanned = []
         for page_number, page in enumerate(reader.pages, 1):
             stream = page.get_contents()
             expanded += len(stream.get_data()) if stream is not None else 0
             if expanded > 4194304:
                 raise DomainError('too_large', 'PDF exceeds the expanded content limit')
             text = page.extract_text() or ''
+            if not text.strip():
+                scanned.append(page_number)
             if len(text) > 100000:
                 raise DomainError('too_large', 'PDF page text exceeds the extraction limit')
             offset = 0
@@ -58,12 +61,19 @@ def _extract(content: bytes) -> dict:
                         }
                     )
                 offset += len(line)
+        issues = []
+        if scanned:
+            from veya.ingestion.ocr import extract_scanned
+
+            result = extract_scanned(content, scanned)
+            blocks.extend(result['blocks'])
+            issues.extend(result['issues'])
         if not blocks:
             raise DomainError(
                 'invalid_input',
-                'No selectable text found. Scanned PDFs need OCR, which is not available yet',
+                'No readable text found. Upload a clearer document or enter reviewed fields',
             )
-        return {'blocks': blocks, 'issues': []}
+        return {'blocks': blocks, 'issues': issues}
     except DomainError:
         raise
     except Exception as error:

@@ -1,1 +1,1 @@
-"""Host-configured connector ingress."""
+"""External connector state, separate from inference-provider settings."""

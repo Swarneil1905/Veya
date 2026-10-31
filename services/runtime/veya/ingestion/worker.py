@@ -1,12 +1,12 @@
 """Bounded parser subprocess; no workspace path, credential or environment inheritance."""
 
 import json
-import os
-import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 from veya.domain.models import DomainError
+from veya.security.process import run_worker
 
 MAX_RESULT = 262144
 
@@ -15,30 +15,20 @@ def extract(kind: str, content: bytes) -> dict:
     source = Path(__file__).resolve().parents[2]
     # Isolated interpreter; add only this installed/source package location explicitly.
     code = 'import sys; sys.path.insert(0, sys.argv[1]); from veya.ingestion.worker import main; main(sys.argv[2])'
-    env = {
-        k: v
-        for k, v in os.environ.items()
-        if k.upper() in {'SYSTEMROOT', 'WINDIR', 'PATH', 'TEMP', 'TMP'}
-    }
     try:
-        result = subprocess.run(
-            [sys.executable, '-I', '-c', code, str(source), kind],
-            input=content,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.DEVNULL,
-            timeout=8,
-            env=env,
-            creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0),
-        )
-    except (OSError, subprocess.TimeoutExpired) as error:
+        with tempfile.TemporaryDirectory(prefix='veya-parser-') as folder:
+            output = run_worker(
+                [sys.executable, '-I', '-c', code, str(source), kind],
+                content,
+                cwd=Path(folder),
+                timeout=30 if kind == 'pdf' else 8,
+                maximum=MAX_RESULT,
+            )
+    except DomainError as error:
         raise DomainError(
             'invalid_input', 'Document parsing timed out or could not start'
         ) from error
-    if result.returncode != 0 or len(result.stdout) > MAX_RESULT:
-        raise DomainError(
-            'invalid_input', 'Document could not be parsed within the extraction limits'
-        )
-    value = json.loads(result.stdout)
+    value = json.loads(output)
     if 'error' in value:
         raise DomainError('invalid_input', value['error'])
     return value
