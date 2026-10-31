@@ -1,0 +1,26 @@
+name: Read-only repository protection audit
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Inspect protection and report missing visibility
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET_REPOSITORY: ${{ github.repository }}
+        run: python scripts/audit_repository_rules.py --repository "$TARGET_REPOSITORY"
+      - name: Retain audit including unknown controls
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: repository-protection-audit
+          path: artifacts/repository-rules-audit.json
+          if-no-files-found: error
+          retention-days: 14

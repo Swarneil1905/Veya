@@ -1,0 +1,32 @@
+name: Source and build provenance
+on:
+  workflow_call:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version-file: .python-version
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        with:
+          go-version-file: .go-version
+          cache: false
+      - name: Build platform from checked out source
+        run: python scripts/build_platform.py
+      - name: Record dependency inventory and platform provenance
+        run: python scripts/build_manifest.py apps/desktop/src-tauri/binaries/veya-platform
+      - name: Retain unsigned supply-chain evidence
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: platform-supply-chain-${{ github.sha }}
+          path: artifacts/supply-chain/
+          if-no-files-found: error
+          retention-days: 14

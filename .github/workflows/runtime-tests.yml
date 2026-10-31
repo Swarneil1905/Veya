@@ -29,15 +29,19 @@ jobs:
       - name: Install pinned dependency manager
         run: python -m pip install uv==0.11.23
       - name: Resolve only the reviewed lockfile
-        run: uv sync --project services/runtime --locked --python ${{ matrix.python }}
+        run: uv sync --project services/runtime --locked --extra ocr --python ${{ matrix.python }}
       - name: Python formatting, typing and generated contract drift
         run: node scripts/check.mjs python
       - name: Evaluation harness and grader quality
         run: node scripts/check.mjs evaluations
       - name: Operator, connector and policy tooling quality
         run: node scripts/check.mjs operations
+      - name: Connector, SDK and supply-chain tooling quality
+        run: node scripts/check.mjs connectors
+      - name: Offline contributor adapter contracts
+        run: uv run --project services/runtime --locked --extra ocr --python ${{ matrix.python }} python -m packages.contributor_kit.runner
       - name: API, policy, migration, restart and fault contracts
-        run: uv run --project services/runtime --locked --python ${{ matrix.python }} python scripts/test_runtime.py services/runtime/tests -q --junitxml=artifacts/runtime-results.xml
+        run: uv run --project services/runtime --locked --extra ocr --python ${{ matrix.python }} python scripts/test_runtime.py services/runtime/tests -q --junitxml=artifacts/runtime-results.xml
       - name: Retain test results
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

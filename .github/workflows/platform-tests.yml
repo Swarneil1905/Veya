@@ -37,6 +37,8 @@ jobs:
           fi
       - name: Vet, unit tests, private worker integration and native build
         run: uv run --project services/runtime --locked python scripts/build_platform.py --test
+      - name: SDK through the real authenticated platform
+        run: uv run --project services/runtime --locked python scripts/test_runtime.py services/runtime/tests/test_sdk_platform.py -q
       - name: Record compiler and binary metadata
         shell: bash
         run: |

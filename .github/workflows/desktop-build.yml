@@ -36,6 +36,12 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm --dir apps/desktop tauri build --bundles nsis
       - run: node scripts/release-manifest.mjs --native
+      - name: Record unsigned native provenance and dependency inventory
+        shell: pwsh
+        run: |
+          $installers = @(Get-ChildItem -LiteralPath apps/desktop/src-tauri/target/release/bundle/nsis -Filter *.exe | ForEach-Object { $_.FullName })
+          if ($installers.Count -eq 0) { throw 'Installer output is missing' }
+          python scripts/build_manifest.py @installers
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: veya-desktop-windows-unsigned-${{ github.sha }}
@@ -44,6 +50,7 @@ jobs:
             apps/desktop/src-tauri/target/release/bundle/nsis/*.exe
             artifacts/build-manifest.json
             artifacts/SHA256SUMS.txt
+            artifacts/supply-chain/
           if-no-files-found: error
           retention-days: 14
       - name: Record release boundary

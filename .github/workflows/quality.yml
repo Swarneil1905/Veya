@@ -13,6 +13,8 @@ concurrency:
   group: quality-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
+  provenance:
+    uses: ./.github/workflows/provenance.yml
   runtime:
     uses: ./.github/workflows/runtime-tests.yml
   platform:
@@ -113,7 +115,7 @@ jobs:
     name: Required quality gate
     timeout-minutes: 5
     if: always()
-    needs: [frontend, native-check, runtime, platform, browser, workflows]
+    needs: [frontend, native-check, runtime, platform, browser, workflows, provenance]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
