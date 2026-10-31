@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "mode": "read_only",
+  "compliant": false,
+  "findings": [
+    {
+      "control": "branch_protection",
+      "status": "unknown",
+      "reason": "Protection is absent or account visibility is insufficient"
+    },
+    {
+      "control": "environment:release",
+      "status": "unknown"
+    }
+  ]
+}

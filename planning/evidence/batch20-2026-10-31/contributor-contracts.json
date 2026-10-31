@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "fixture": true,
+  "checks": [
+    "success",
+    "authentication",
+    "permanent",
+    "transient",
+    "timeout",
+    "unknown_outcome",
+    "invalid_input",
+    "capability_denied"
+  ],
+  "passed": true,
+  "live_writes": false,
+  "unsupported": [
+    "production credentials",
+    "remote deployment",
+    "arbitrary native plugins"
+  ]
+}

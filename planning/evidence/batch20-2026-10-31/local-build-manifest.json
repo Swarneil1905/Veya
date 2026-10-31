@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "commit": "733a66e5abc8d0cc7958885adba3474c94453dc9",
+  "dirty": true,
+  "signed": false,
+  "artifacts": [
+    {
+      "name": "apps/desktop/src-tauri/binaries/veya-platform.exe",
+      "digest": {
+        "sha256": "8b4bedc1489a04737beb5bb44e81aa714d1385ef94596db4ef7bfa6b8f2bf3f2"
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "uri": "pnpm-lock.yaml",
+      "digest": {
+        "sha256": "8d1e64f3aa8e2b0128b42f793db7338f6154527262c5e8ba318ca3966f2654ae"
+      }
+    },
+    {
+      "uri": "services/runtime/uv.lock",
+      "digest": {
+        "sha256": "274c1ac2e474aac059dc7529de0075815b16907016d0aac4a5c8a6bfaf443bd8"
+      }
+    },
+    {
+      "uri": "apps/desktop/src-tauri/Cargo.lock",
+      "digest": {
+        "sha256": "5163b2afe4bda42c607310ffe98408949fe1a69133ea0e4847b7921979228459"
+      }
+    },
+    {
+      "uri": "services/platform/go.mod",
+      "digest": {
+        "sha256": "c3e98de9b6568e7e3cc7aecf0199f200c31a7d9a3617db99ccfdb10a0effd292"
+      }
+    },
+    {
+      "uri": "toolchains.json",
+      "digest": {
+        "sha256": "2d10c28cf5f884f178e809a16139d8def484fe51c426b7cb649c4f56ddc79e6d"
+      }
+    }
+  ],
+  "limitations": [
+    "Unsigned evidence; verify trusted CI attestations before release",
+    "Dependency inventory covers locks, not native system libraries or container base layers"
+  ]
+}

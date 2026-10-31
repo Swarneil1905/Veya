@@ -1,0 +1,290 @@
+{
+  "date": "2026-10-31",
+  "status": "local_implementation_in_review",
+  "publication": "No staging, commits, pushes, remote issues or releases performed.",
+  "scope": "Twenty selected backlog stories for isolated tools, document OCR/review, connector safety, training export, SDK and release evidence.",
+  "architecture": {
+    "tool_isolation": "WASI with read-only explicit inputs and process budgets; arbitrary native subprocess execution rejected because cwd/env filtering is not an OS sandbox.",
+    "oauth_host": "Shared Python host-owned loopback helper instead of duplicated Rust authorization logic; registration remains trusted-host-only.",
+    "design": "Existing approved Veya Public Sans/Phosphor workspace and contextual source drawer; no new generic dashboard or sidebar redesign."
+  },
+  "verification": {
+    "runtime_suite": {
+      "tests": 604,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 169.358,
+      "command": "services/runtime/.venv/Scripts/python.exe scripts/test_runtime.py services/runtime/tests -q --tb=short --junitxml=artifacts/batch20-runtime-results.xml"
+    },
+    "additional_gateway_test": "10 sandbox tests passed after adding normal-policy-gateway plugin coverage; this adds one test beyond the 604-test full run.",
+    "platform": "Go vet and all four tested packages passed; real SDK start/observe/cancel/authentication checks passed.",
+    "python": "ruff checks and formatting, mypy 129 source files, generated API contract v8 passed.",
+    "frontend": "pnpm check, pnpm build (332.15 kB raw, 78.55 kB estimated transfer), pnpm test (9 passed).",
+    "browser": "Document flow with real Angular/Go/Python passed, including reviewed fields, keyboard save and axe checks at 1440 and 375 pixels; existing document checks cover 800 and 320 too. Screenshots visually inspected.",
+    "repository": "27 unittest checks passed; module boundaries, dataset/connector tooling formatting, and actionlint v1.7.7 passed.",
+    "qwen_tokenizer": "Qwen/Qwen2.5-0.5B-Instruct revision 7ae557604adf67be50417f59c2c2f167def9a775, tokenizer files only; real export and template round-trip passed, not inference/model qualification."
+  },
+  "limitations": [
+    "Stories remain in_review; implementation commits and formal prerequisite acceptance are pending user review.",
+    "Drive/ticket adapters and OAuth provider exchange were tested with synthetic fixtures, not production accounts.",
+    "OCR and tokenizer tooling are optional dependency extras; OCR is enabled in the authored runtime workflow.",
+    "GitHub CI has not run these local changes. Repository protection visibility was unknown.",
+    "No training, deployment, signed release, container publication or installed Windows QA performed. Existing R1 model task-quality blocker remains open."
+  ],
+  "skills_applied": [
+    "security-and-hardening",
+    "agent-security-hardening",
+    "api-and-interface-design",
+    "python-resilience",
+    "fastapi-patterns",
+    "database-migrations",
+    "mcp-builder",
+    "golang-patterns",
+    "golang-testing",
+    "frontend-ui-engineering",
+    "accessibility-compliance",
+    "dataset-curation",
+    "deployment-pipeline-design",
+    "github-actions-templates",
+    "tdd",
+    "code-review-and-quality"
+  ],
+  "stories": [
+    {
+      "id": "VEY-055",
+      "assessment": "Approved WASI modules execute through ToolBinding/ToolExecutor with fuel, memory, deadline, stdout and explicit read-only input limits. Native executables are unsupported.",
+      "code_paths": [
+        "services/runtime/veya/tools/process_sandbox.py",
+        "services/runtime/veya/security/process.py"
+      ],
+      "checks": [
+        "test_sandbox_boundaries.py"
+      ]
+    },
+    {
+      "id": "VEY-073",
+      "assessment": "Optional local RapidOCR/PDFium extraction recognizes a real raster invoice and returns normalized regions/confidence. OCR model hashes are verified before load; five scanned pages maximum.",
+      "code_paths": [
+        "services/runtime/veya/ingestion/ocr.py",
+        "services/runtime/veya/ingestion/pdf.py"
+      ],
+      "checks": [
+        "test_ocr_review.py"
+      ]
+    },
+    {
+      "id": "VEY-079",
+      "assessment": "Typed invoice header review is wired Angular -> Go -> Python. Original values, evidence regions, corrections, reviewer, note and revisions survive restart; missing/conflicting values require explicit input.",
+      "code_paths": [
+        "services/runtime/veya/extraction/invoice.py",
+        "apps/desktop/src/features/documents/field-review.ts",
+        "services/platform/internal/workspace/commands.go"
+      ],
+      "checks": [
+        "test_ocr_review.py",
+        "scripts/test-document-browser.mjs"
+      ]
+    },
+    {
+      "id": "VEY-080",
+      "assessment": "Document workers now cap output while reading and run with a minimal environment in disposable directories. Malformed parser input does not prevent the next document; untrusted instructions remain source text.",
+      "code_paths": [
+        "services/runtime/veya/ingestion/worker.py",
+        "services/runtime/veya/security/process.py",
+        "services/runtime/tests/test_sandbox_boundaries.py"
+      ],
+      "checks": [
+        "test_sandbox_boundaries.py",
+        "test_documents.py"
+      ]
+    },
+    {
+      "id": "VEY-102",
+      "assessment": "MCP JSON/HTTP client negotiates pinned 2025-11-25, discovers bounded catalogs and requires host-approved typed mappings. Server instructions/annotations cannot add permissions. SSE, newer protocols and dynamic tools are explicitly unsupported.",
+      "code_paths": [
+        "packages/connectors/mcp/client.py"
+      ],
+      "checks": [
+        "test_external_connectors.py"
+      ]
+    },
+    {
+      "id": "VEY-103",
+      "assessment": "Host-owned numeric-loopback authorization-code PKCE helper binds state, issuer, redirect and scopes; state is durable and single-use, tokens use vault references. Verified with a real loopback callback and synthetic provider. No live provider registration/account consent claimed.",
+      "code_paths": [
+        "services/runtime/veya/connections/oauth.py",
+        "services/runtime/veya/connections/loopback.py",
+        "services/runtime/migrations/026_connectors.sql"
+      ],
+      "checks": [
+        "test_external_connectors.py"
+      ]
+    },
+    {
+      "id": "VEY-104",
+      "assessment": "Explicit synthetic drive adapter lists only a granted folder, imports stable remote identities/revisions through document intake and links retained evidence. Removal denies later retrieval.",
+      "code_paths": [
+        "packages/connectors/drive/adapter.py"
+      ],
+      "checks": [
+        "test_external_connectors.py"
+      ]
+    },
+    {
+      "id": "VEY-105",
+      "assessment": "Synthetic ticket create/update binding uses exact approvals and durable operation fingerprints. A simulated timeout after commit reconciles to one verified ticket ID; later writes fail after removal.",
+      "code_paths": [
+        "packages/connectors/tickets/adapter.py"
+      ],
+      "checks": [
+        "test_external_connectors.py"
+      ]
+    },
+    {
+      "id": "VEY-108",
+      "assessment": "Revision-fenced token refresh preserves exact scopes and rotates vault references. Scope changes require reauthorization; concurrent removal wins and cannot resurrect a connection.",
+      "code_paths": [
+        "services/runtime/veya/connections/health.py"
+      ],
+      "checks": [
+        "test_external_connectors.py"
+      ]
+    },
+    {
+      "id": "VEY-110",
+      "assessment": "Connector removal disables future calls before credential cleanup, records audit evidence, and revokes connector document retrieval without deleting source bytes. Safe status/removal commands exposed through Go and the SDK.",
+      "code_paths": [
+        "services/runtime/veya/connections/remove.py",
+        "services/runtime/veya/api/connections.py",
+        "services/platform/internal/workspace/commands.go"
+      ],
+      "checks": [
+        "test_external_connectors.py",
+        "test_sdk_platform.py"
+      ]
+    },
+    {
+      "id": "VEY-159",
+      "assessment": "TRL conversational export composes existing review, consent, scrubbing, deduplication and lineage controls. Actual Qwen tokenizer/template round-trip passed; mismatched tokenizer identity, truncation, incomplete tools and revoked sources fail closed. No training or quality promotion claimed.",
+      "code_paths": [
+        "training/data/export_trl.py"
+      ],
+      "checks": [
+        "test_trl_export.py",
+        "test_release_batch.py"
+      ]
+    },
+    {
+      "id": "VEY-191",
+      "assessment": "Explicit relative file grants reject traversal/link escapes and bound reads. MCP/OAuth HTTPS transport rejects private/mixed DNS resolutions, connects to the approved numeric address with original TLS hostname, and does not follow credential-bearing redirects.",
+      "code_paths": [
+        "services/runtime/veya/security/boundaries.py"
+      ],
+      "checks": [
+        "test_sandbox_boundaries.py"
+      ]
+    },
+    {
+      "id": "VEY-192",
+      "assessment": "Host-approved plugin identity pins module digest, version and capabilities; changed bytes are quarantined before execution and unsupported native formats cannot load. Integration test exercises the normal policy gateway.",
+      "code_paths": [
+        "services/runtime/veya/security/plugins.py",
+        "services/runtime/veya/tools/process_sandbox.py"
+      ],
+      "checks": [
+        "test_sandbox_boundaries.py"
+      ]
+    },
+    {
+      "id": "VEY-193",
+      "assessment": "Authenticated API and real Go SDK regressions reject forged tenant/workspace/approval/budget fields, unknown privileged operations and invalid credentials without task writes.",
+      "code_paths": [
+        "services/runtime/tests/test_security_regression_batch.py",
+        "services/runtime/tests/test_sdk_platform.py"
+      ],
+      "checks": [
+        "test_security_regression_batch.py",
+        "test_sdk_platform.py",
+        "test_policy_execution.py"
+      ]
+    },
+    {
+      "id": "VEY-197",
+      "assessment": "Bounded artifact verification checks immutable bytes against explicit SHA-256; mismatches are quarantined before plugin/OCR loading. Valid artifacts are reusable.",
+      "code_paths": [
+        "services/runtime/veya/security/artifact_integrity.py"
+      ],
+      "checks": [
+        "test_sandbox_boundaries.py",
+        "test_ocr_review.py"
+      ]
+    },
+    {
+      "id": "VEY-200",
+      "assessment": "Adversarial checks cover output floods, deadlines, repeated invalid credentials, oversized bodies and admission saturation/cancellation recovery. Existing event and telemetry bounds also run in the full suite.",
+      "code_paths": [
+        "services/runtime/tests/test_security_regression_batch.py",
+        "services/runtime/tests/test_sandbox_boundaries.py"
+      ],
+      "checks": [
+        "test_security_regression_batch.py",
+        "test_sandbox_boundaries.py",
+        "test_events.py",
+        "test_operations_telemetry.py"
+      ]
+    },
+    {
+      "id": "VEY-215",
+      "assessment": "Generic artifact manifest records source commit, dirty state, locked input hashes, artifact checksums, CycloneDX dependency inventory and unsigned in-toto provenance. Platform and native workflows consume it with read-only permissions and no signing/publishing credentials. No container build, installed installer QA or signed attestation claimed.",
+      "code_paths": [
+        "scripts/build_manifest.py",
+        ".github/workflows/provenance.yml",
+        ".github/workflows/desktop-build.yml"
+      ],
+      "checks": [
+        "test_release_batch.py",
+        "actionlint"
+      ]
+    },
+    {
+      "id": "VEY-219",
+      "assessment": "Read-only repository audit evaluates required checks, review count, administrator enforcement and protected environments. Missing visibility is unknown. The actual audit returned unknown protection/environment status and remains noncompliant; no remote setting changed.",
+      "code_paths": [
+        "scripts/audit_repository_rules.py",
+        ".github/repository-rules.json",
+        ".github/workflows/repository-rules-audit.yml"
+      ],
+      "checks": [
+        "test_release_batch.py",
+        "repository-rules-audit.json"
+      ]
+    },
+    {
+      "id": "VEY-238",
+      "assessment": "Installable local Python SDK starts, observes, executes and cancels through authenticated Go commands, with bounded transport and no automatic write retries or approval bypass. Tested against the real Go/Python process.",
+      "code_paths": [
+        "packages/sdk/veya_client/client.py",
+        "packages/sdk/pyproject.toml"
+      ],
+      "checks": [
+        "test_sdk_platform.py"
+      ]
+    },
+    {
+      "id": "VEY-240",
+      "assessment": "Credential-free contributor command runs eight adapter success/fault/permission contracts against explicit synthetic fixtures and reports unsupported production/native capabilities.",
+      "code_paths": [
+        "packages/contributor_kit/runner.py",
+        "packages/contributor_kit/fixtures.py"
+      ],
+      "checks": [
+        "test_release_batch.py",
+        "contributor-contracts.json"
+      ]
+    }
+  ],
+  "preview": {
+    "url": "http://127.0.0.1:50961/",
+    "data": "Synthetic browser-test workspace; not personal production data."
+  }
+}

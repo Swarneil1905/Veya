@@ -5,6 +5,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const python = process.env.VEYA_PYTHON || path.join(root, 'services/runtime/.venv', process.platform === 'win32' ? 'Scripts/python.exe' : 'bin/python');
 const pnpm = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm';
 const groups = {
+  connectors: [[python, ['-m', 'ruff', 'check', '--config', 'services/runtime/pyproject.toml', 'packages/connectors/drive', 'packages/connectors/tickets', 'packages/connectors/mcp', 'packages/contributor_kit', 'packages/sdk/veya_client', 'scripts/build_manifest.py', 'scripts/audit_repository_rules.py']], [python, ['-m', 'ruff', 'format', '--check', '--config', 'services/runtime/pyproject.toml', 'packages/connectors/drive', 'packages/connectors/tickets', 'packages/connectors/mcp', 'packages/contributor_kit', 'packages/sdk/veya_client', 'scripts/build_manifest.py', 'scripts/audit_repository_rules.py']]],
   frontend: [[pnpm, ['exec', 'eslint', 'apps/desktop/src']], [pnpm, ['exec', 'tsc', '--project', 'apps/desktop/tsconfig.json', '--noEmit']], [process.execPath, ['scripts/check-project.mjs']]],
   python: [[python, ['-m', 'ruff', 'check', 'services/runtime/veya', 'services/runtime/tests']], [python, ['-m', 'ruff', 'format', '--check', 'services/runtime/veya', 'services/runtime/tests']], [python, ['-m', 'mypy', '--config-file', 'services/runtime/pyproject.toml', 'services/runtime/veya']], [python, ['packages/contracts/generate.py', '--check']]],
   boundaries: [[python, ['scripts/check_boundaries.py']]],

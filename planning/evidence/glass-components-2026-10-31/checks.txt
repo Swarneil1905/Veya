@@ -1,0 +1,56 @@
+Veya component refinement — 2026-10-31
+
+Scope: original Angular glass icon surfaces, segmented work filters, vector V mark,
+and a finite CSS 3D document-stack entrance in the first-use empty workspace.
+Primary action remains creating a task; populated task tables and result text stay flat.
+No React, Spline, shader package, remote model asset or runtime dependency added.
+This is a CSS glass treatment, not optical refraction or the Spline robot demo.
+
+Design contract:
+- Retain Public Sans and Phosphor; neutral surfaces, muted green accent (#315c48),
+  ink (#292d29), glass base (#e5eee8), edge (#c4d2c8), white reading surfaces.
+- Icon tiles are decorative within named native buttons. Selected navigation
+  retains aria-current and an edge marker; filters retain aria-pressed and focus.
+- Motion lasts 950ms once, with no polling, pointer tracking or frame loop.
+- Empty, filtered-empty, loading, disconnected and failed-load states remain distinct.
+  A failed task list must not claim that the workspace is empty.
+- No-animation reduced-motion mode; opaque high-contrast/reduced-transparency
+  surfaces; CSS fallback when backdrop-filter is unavailable.
+- Existing responsive navigation and modal behavior retained. No dashboard theme import.
+
+References inspected:
+https://21st.dev/@serafimcloud/components/splite
+https://21st.dev/@jahed/components/glass-button
+https://21st.dev/community/components/explore/liquid-glass-components
+Spline demo is a hosted robot scene plus React/Spline runtime. Registry source needs
+a 21st account/API key. No source was installed or copied; these are original
+Angular implementations of the reviewed visual ideas. No account/key needed.
+
+Verification:
+pnpm build — PASS; final initial bundle 325.76 kB raw / 77.13 kB estimated transfer.
+pnpm check — PASS: ESLint, strict TypeScript and stack/CSP project contracts.
+pnpm test — PASS: 9 domain tests.
+pnpm test:workspace:browser — PASS after local browser network access was allowed.
+Full output retained in browser-checks.txt. Includes keyboard task entry, modal
+focus return, persisted drafts/navigation, filters, 800x640 minimum window,
+1440x1000 desktop, 375/320px empty layouts, reduced motion, finite entrance,
+forced colors, filtered emptiness and busy-load error. Six axe A/AA state scans pass.
+One new test initially expected raw fixture error text; corrected to assert the
+actual public busy error. No app error bypass was introduced.
+
+Rendered inspection: browser screenshot review of populated and empty workspaces,
+expanded navigation and compact/high-contrast captures. Review caught the previous
+tall mobile navigation; changed it to a horizontal icon row retaining named buttons,
+then rebuilt and reran the browser suite. Screenshots retained under
+artifacts/workspace-design/. The live preview uses explicitly labelled sample tasks.
+No fresh installed Tauri/WebView2 or screen-reader audit; no WCAG conformance claim.
+
+Applied guidance: frontend-design, frontend-ui-engineering, ui-ux-pro-max,
+design-system-patterns, accessibility-compliance, codebase-design,
+code-review-and-quality. Used the existing browser/IPC test seam for regression checks.
+Self-review: checked decorative semantics, native button behavior, finite motion,
+CSS feature fallbacks, no external assets, no API/state persistence changes,
+and errors retaining useful recovery controls. No remaining finding in this scope.
+
+VEY-021/029/030 remain in_review. No new stories marked done. R1 real-model
+qualification and installed Windows QA remain open. No staging, commit or push.

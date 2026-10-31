@@ -26,6 +26,7 @@ window.__TAURI__={core:{invoke:async(command,{operation,args}={})=>{
   if(operation==='recovery')return {required:false};
   if(operation==='get_task')return tasks.find(t=>t.id===args.task_id);
   if(operation==='list_tasks'){
+    if(new URL(location.href).searchParams.has('list-error'))throw Error('busy');
     const groups={attention:['waiting','failed'],active:['queued','running'],completed:['succeeded']};
     let rows=tasks.filter(t=>(!args.status||groups[args.status]?.includes(t.state)||t.state===args.status)&&(!args.search||(t.title+' '+t.instruction).toLowerCase().includes(args.search.toLowerCase())));
     if(args.sort==='oldest')rows=rows.slice().reverse();
@@ -79,6 +80,10 @@ if(process.argv.includes('--serve')){
     await page.getByRole('searchbox',{name:'Search recent work'}).fill('notice periods');
     await page.waitForFunction(()=>document.querySelectorAll('.work-table tbody tr').length===1);
     await page.getByRole('searchbox',{name:'Search recent work'}).fill('');
+    await page.getByRole('searchbox',{name:'Search recent work'}).fill('No matching synthetic task');
+    await page.getByRole('heading',{name:'No matching work'}).waitFor();
+    assert.equal(await page.locator('veya-work-welcome').count(),0,'filtered emptiness is not a first-use screen');
+    await page.getByRole('button',{name:'Clear filters',exact:true}).click();
     await page.getByRole('button',{name:/Needs attention/}).click();
     await page.waitForFunction(()=>document.querySelectorAll('.work-table tbody tr').length===2);
     assert.equal(await page.locator('.work-table tbody tr').count(),2);
@@ -123,8 +128,33 @@ if(process.argv.includes('--serve')){
     await page.setViewportSize({width:1440,height:1000});await page.goto(origin+'/');
     await page.getByRole('heading',{name:'Your work starts here'}).waitFor();
     await screenshot('empty-browser');await accessibility('Disconnected empty workspace');
-    await page.getByRole('button',{name:'New task',exact:true}).click();
+    assert.equal(await page.locator('veya-work-welcome').getAttribute('aria-hidden'),'true','decorative welcome is excluded from announcements');
+    assert.equal(await page.locator('veya-work-welcome').evaluate(el=>el.getAnimations({subtree:true}).length),0,'reduced motion disables welcome animation');
+    await page.emulateMedia({reducedMotion:'no-preference'});
+    await page.reload();await page.getByRole('heading',{name:'Your work starts here'}).waitFor();
+    assert.notEqual(await page.locator('veya-work-welcome .stack').evaluate(el=>getComputedStyle(el).animationName),'none','normal motion enables the finite entrance');
+    await page.waitForFunction(()=>document.querySelector('veya-work-welcome').getAnimations({subtree:true}).every(a=>a.playState==='finished'));
+    await screenshot('glass-welcome');
+    await page.emulateMedia({forcedColors:'active'});
+    assert.equal(await page.locator('veya-glass-icon').first().evaluate(el=>getComputedStyle(el).backdropFilter),'none','high contrast removes translucent surfaces');
+    await screenshot('glass-high-contrast');
+    await page.emulateMedia({forcedColors:'none',reducedMotion:'reduce'});
+    for(const width of [800,375,320]){
+      await page.setViewportSize({width,height:640});
+      assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'empty workspace has no horizontal overflow at '+width);
+      await screenshot('glass-welcome-'+width);
+    }
+    await page.setViewportSize({width:1440,height:1000});
+    const firstTask=page.getByRole('button',{name:'Create your first task',exact:true});
+    await firstTask.focus();await page.keyboard.press('Enter');
     assert.ok(await page.getByRole('button',{name:'Save task',exact:true}).isDisabled());
+    await page.keyboard.press('Escape');
+    await page.goto(origin+'/fixture?list-error=1');
+    await page.getByRole('alert').filter({hasText:'The runtime is busy.'}).waitFor();
+    assert.equal(await page.locator('veya-work-welcome').count(),0,'failed loads do not show a welcome illustration');
+    assert.equal(await page.getByRole('heading',{name:'Your work starts here'}).count(),0,'failed loads are not presented as an empty workspace');
+    await accessibility('Task list failure');
+    checks.push('PASS: decorative glass icons and welcome, finite 3D entrance, reduced motion, forced colors, empty workspace at 800/375/320px, keyboard first-task entry, filtered and failed-load states.');
     assert.deepEqual(errors,[]);
     checks.push('PASS: navigation persistence, search, filters, Overview/Activity keyboard tabs, modal focus containment/restoration, draft close/reopen, submit opens activity, narrow and minimum windows, long title wrapping, disabled browser submission; no page errors.');
     await writeFile(path.join(output,'browser-checks.txt'),checks.join('\n')+'\n');console.log(checks.join('\n'));

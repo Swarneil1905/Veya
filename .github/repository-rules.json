@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "branch": "main",
+  "required_checks": ["Required quality gate"],
+  "approving_reviews": 1,
+  "protected_environments": ["release"]
+}

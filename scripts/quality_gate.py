@@ -3,7 +3,7 @@ import json
 import os
 import sys
 
-REQUIRED = frozenset({'frontend', 'native-check', 'runtime', 'platform', 'browser', 'workflows'})
+REQUIRED = frozenset({'frontend', 'native-check', 'runtime', 'platform', 'browser', 'workflows', 'provenance'})
 
 def verify(needs):
     if type(needs) is not dict or set(needs) != REQUIRED:

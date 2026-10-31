@@ -170,6 +170,25 @@ try {
   await page.keyboard.press("Enter");
   await page.getByRole("heading", { name: "Order.csv", exact: true }).waitFor();
   await page.getByText("1.250", { exact: true }).waitFor();
+  await page.getByText('Review invoice fields', {exact:true}).focus();
+  await page.keyboard.press('Enter');
+  await page.getByLabel('Vendor', {exact:true}).fill('Fixture supplier');
+  await page.getByLabel('Invoice number', {exact:true}).fill('INV-42');
+  await page.getByLabel('Total amount', {exact:true}).fill('12.30');
+  await page.getByLabel('Currency', {exact:true}).fill('USD');
+  await page.getByLabel('Verification note', {exact:true}).fill('Checked synthetic source; supplied missing invoice header fields.');
+  await page.getByRole('button', {name:'Save reviewed fields', exact:true}).focus();
+  await page.keyboard.press('Enter');
+  await page.getByText('Review saved. Original values and source evidence are retained.', {exact:true}).waitFor();
+  await a11y('Reviewed invoice fields');
+  await page.screenshot({path:output + '/field-review-desktop.png', fullPage:true});
+  await page.setViewportSize({width:375,height:812});
+  await page.getByLabel('Total amount', {exact:true}).scrollIntoViewIfNeeded();
+  assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+  await a11y('Reviewed invoice fields narrow');
+  await page.screenshot({path:output + '/field-review-narrow.png', fullPage:true});
+  await page.setViewportSize({width:1440,height:1000});
+  await page.getByText('Review invoice fields', {exact:true}).click();
   await a11y("Source inspection");
   await page.screenshot({
     path: output + "/source-desktop.png",
