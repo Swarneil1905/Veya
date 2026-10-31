@@ -33,6 +33,12 @@ Install the pinned Go SDK on PATH, or set `VEYA_GO` to its executable. The platf
 
 ## Run the web workspace
 
+Scanned PDF recognition is an optional local CPU feature. Install it with `uv sync --project services/runtime --locked --extra ocr` before starting Veya. It uses bundled OCR models, verifies their digests and processes at most five scanned pages per document. In the source inspector, **Review invoice fields** records explicit corrections and retains the original evidence; it does not authorize a payment.
+
+Contributors can run offline connector fault contracts with `uv run --project services/runtime --locked python -m packages.contributor_kit.runner`. The local Python SDK lives in `packages/sdk`; its `Client` requires the Go platform URL and session credential and uses the same commands as the desktop. Sandbox drive/ticket adapters require explicitly synthetic tenants. Live provider registrations and credentials are not supplied by these fixtures.
+
+Reviewed training export is available through `training.data.export_trl`, with the optional `training` dependency extra. It requires current source consent, human review, scrubbing rules and a matching tokenizer/template digest. It rejects incomplete tools or context truncation and does not start training.
+
 ```powershell
 pnpm web
 ```
