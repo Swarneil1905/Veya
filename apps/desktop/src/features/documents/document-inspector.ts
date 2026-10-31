@@ -10,9 +10,11 @@ import {
 import { Panel } from "../../workspace/panel";
 import { call } from "../../workspace/client";
 import { Document, documentError, getDocument, object } from "./client";
+import { FieldReview } from "./field-review";
 @Component({
   selector: "veya-document-inspector",
-  imports: [Panel],
+  imports: [Panel, FieldReview],
+  styles: [`summary { min-height: 32px; padding: 8px 0; cursor: pointer; } summary:focus-visible { outline: 2px solid #216744; outline-offset: 2px; }`],
   template: ` <veya-panel title="Source document" (closed)="closed.emit()"
     ><div class="work-panel-content">
       @if (loading()) {
@@ -60,6 +62,9 @@ import { Document, documentError, getDocument, object } from "./client";
             <p>No extracted text is available.</p>
           }
         </div>
+        @if (item.state === 'ready') {
+          <details><summary>Review invoice fields</summary><veya-field-review [documentId]="item.id" /></details>
+        }
         <details>
           <summary>Version history</summary>
           <ul class="work-document-versions">

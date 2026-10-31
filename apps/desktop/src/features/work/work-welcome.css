@@ -1,0 +1,30 @@
+:host { display: block; width: 240px; max-width: 100%; margin: 0 auto 12px; }
+.scene { height: 190px; display: grid; place-items: center; perspective: 700px; }
+.stack { position: relative; width: 126px; height: 144px; transform-style: preserve-3d; transform: rotateX(14deg) rotateY(-18deg) rotateZ(8deg); }
+.sheet { position: absolute; inset: 0; border: 1px solid var(--work-glass-edge); border-radius: 14px; background: var(--work-bg); box-shadow: 8px 12px 24px #234a3620; }
+.sheet-back { background: var(--work-soft); transform: translate3d(-22px, -8px, -28px) rotate(-12deg); }
+.sheet-middle { background: var(--work-glass-base); transform: translate3d(-10px, -4px, -14px) rotate(-6deg); }
+.sheet-front { padding: 16px; background: linear-gradient(150deg, white, var(--work-nav)); }
+veya-brand-mark { width: 24px; height: 24px; margin-bottom: 16px; }
+.paper-line { display: block; height: 4px; margin-bottom: 8px; border-radius: 2px; background: #c4d1c8; }
+.paper-line.short { width: 65%; }
+.paper-divider { height: 1px; background: var(--work-line); margin: 12px 0; }
+.glass-seal { position: absolute; right: -22px; bottom: -6px; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 17px; border: 1px solid var(--work-glass-edge); background: var(--work-glass-base); color: var(--work-accent); box-shadow: var(--work-glass-shadow); transform: translateZ(28px) rotate(-8deg); }
+.glass-seal i { font-size: 27px; }
+@supports (backdrop-filter: blur(8px)) {
+  .glass-seal { background: var(--work-glass-tint); backdrop-filter: blur(8px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .stack { animation: work-stack-arrive 950ms cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes work-stack-arrive {
+    from { transform: translateY(16px) rotateX(30deg) rotateY(-30deg) rotateZ(3deg); opacity: 0; }
+    to { transform: rotateX(14deg) rotateY(-18deg) rotateZ(8deg); opacity: 1; }
+  }
+}
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .glass-seal { background: var(--work-bg); backdrop-filter: none; border-color: currentColor; }
+}
+@media (forced-colors: active) {
+  .sheet, .glass-seal { border-color: CanvasText; background: Canvas; color: CanvasText; box-shadow: none; backdrop-filter: none; }
+  .paper-line, .paper-divider { background: CanvasText; }
+}
