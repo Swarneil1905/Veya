@@ -1,6 +1,7 @@
 import {QueueQuery} from '../features/work/work-queue';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Task } from './client';
+import { WorkWelcome } from '../features/work/work-welcome';
 export const stateLabel: Record<string, string> = {
   queued: 'Queued',
   running: 'In progress',
@@ -15,6 +16,7 @@ const filters = [
 ];
 @Component({
   selector: 'veya-task-list',
+  imports: [WorkWelcome],
   template: ` <section class="work-list" aria-label="Recent work" [attr.aria-busy]="loading">
     <div class="work-filters" role="group" aria-label="Filter work">
       @for (item of filters; track item.id) {
@@ -99,8 +101,9 @@ const filters = [
           </tbody>
         </table>
       </div>
-    } @else {
+    } @else if (!error) {
       <div class="work-empty" role="status">
+        @if (!hasFilter() && !hasPrevious) { <veya-work-welcome /> }
         <h2>{{ hasFilter() ? 'No matching work' : 'Your work starts here' }}</h2>
         <p>
           {{

@@ -1,0 +1,12 @@
+[project]
+name = "veya-client"
+version = "0.1.0"
+description = "Local authenticated client for the Veya Go platform"
+requires-python = ">=3.10"
+
+[build-system]
+requires = ["hatchling>=1.25,<2"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["veya_client"]

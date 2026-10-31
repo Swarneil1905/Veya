@@ -23,7 +23,7 @@
         title="Work"
         (click)="work()"
       >
-        <i class="ph ph-tray" aria-hidden="true"></i><span>Work</span>
+        <veya-glass-icon name="tray" /><span>Work</span>
       </button>
       <button
         class="work-nav-item"
@@ -32,8 +32,7 @@
         title="Approvals"
         (click)="view.set('approvals');closeTask();composing.set(false)"
       >
-        <i class="ph ph-check-square" aria-hidden="true"></i
-        ><span>Approvals</span>
+        <veya-glass-icon name="check-square" /><span>Approvals</span>
       </button>
       <button
         class="work-nav-item"
@@ -42,8 +41,7 @@
         title="Evaluations"
         (click)="command('evaluations')"
       >
-        <i class="ph ph-chart-line" aria-hidden="true"></i
-        ><span>Evaluations</span>
+        <veya-glass-icon name="chart-line" /><span>Evaluations</span>
       </button>
       <button
         class="work-nav-item"
@@ -52,7 +50,7 @@
         title="Data review"
         (click)="command('data')"
       >
-        <i class="ph ph-stack" aria-hidden="true"></i><span>Data review</span>
+        <veya-glass-icon name="stack" /><span>Data review</span>
       </button>
     </nav>
     <button
@@ -61,13 +59,12 @@
       aria-label="Connection details"
       title="Connection details"
     >
-      <i class="ph ph-plugs-connected" aria-hidden="true"></i
-      ><span>Connection</span>
+      <veya-glass-icon name="plugs-connected" /><span>Connection</span>
     </button>
   </aside>
   <div class="work-body">
     <header class="work-topbar">
-      <div class="work-brand">Veya<span>Personal workspace</span></div>
+      <div class="work-brand"><veya-brand-mark />Veya<span>Personal workspace</span></div>
       <button
         class="work-command-trigger work-secondary"
         (click)="commandsOpen.set(true)"

@@ -11,6 +11,8 @@ import { Activity } from "./activity";
 import { Composer } from "./composer";
 import { Panel } from "./panel";
 import { TaskList } from "./task-list";
+import { GlassIcon } from "../ui/glass-icon";
+import { BrandMark } from "../ui/brand-mark";
 import {
   connectWeb,
   errorText,
@@ -39,6 +41,8 @@ function savedNavigation() {
     Composer,
     Panel,
     TaskList,
+    GlassIcon,
+    BrandMark,
     ApprovalReview,
     Commands,
     ConnectionsSettings,

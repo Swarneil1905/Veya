@@ -1,5 +1,5 @@
 {
-  "contract_version": 7,
+  "contract_version": 8,
   "openapi": {
     "components": {
       "schemas": {
@@ -79,6 +79,17 @@
               "title": "Citation",
               "type": "string"
             },
+            "confidence": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Confidence"
+            },
             "end": {
               "anyOf": [
                 {
@@ -104,6 +115,20 @@
             "locator": {
               "title": "Locator",
               "type": "string"
+            },
+            "region": {
+              "anyOf": [
+                {
+                  "items": {
+                    "type": "number"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Region"
             },
             "start": {
               "anyOf": [
@@ -638,6 +663,42 @@
             "seed"
           ],
           "title": "ExpectedRun",
+          "type": "object"
+        },
+        "FieldValues": {
+          "additionalProperties": false,
+          "properties": {
+            "currency": {
+              "pattern": "^[A-Z]{3}$",
+              "title": "Currency",
+              "type": "string"
+            },
+            "invoice_number": {
+              "maxLength": 100,
+              "minLength": 1,
+              "title": "Invoice Number",
+              "type": "string"
+            },
+            "total": {
+              "maxLength": 40,
+              "minLength": 1,
+              "title": "Total",
+              "type": "string"
+            },
+            "vendor": {
+              "maxLength": 100,
+              "minLength": 1,
+              "title": "Vendor",
+              "type": "string"
+            }
+          },
+          "required": [
+            "vendor",
+            "invoice_number",
+            "total",
+            "currency"
+          ],
+          "title": "FieldValues",
           "type": "object"
         },
         "HTTPValidationError": {
@@ -1323,6 +1384,33 @@
             "next_cursor"
           ],
           "title": "ResultPage",
+          "type": "object"
+        },
+        "Review": {
+          "additionalProperties": false,
+          "properties": {
+            "note": {
+              "maxLength": 2000,
+              "minLength": 1,
+              "title": "Note",
+              "type": "string"
+            },
+            "revision": {
+              "maximum": 99.0,
+              "minimum": 0.0,
+              "title": "Revision",
+              "type": "integer"
+            },
+            "values": {
+              "$ref": "#/components/schemas/FieldValues"
+            }
+          },
+          "required": [
+            "revision",
+            "values",
+            "note"
+          ],
+          "title": "Review",
           "type": "object"
         },
         "ReviewDetail": {
@@ -2854,6 +2942,67 @@
           "summary": "Credential"
         }
       },
+      "/v1/connections/external": {
+        "get": {
+          "operationId": "external_status_v1_connections_external_get",
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "additionalProperties": true,
+                    "title": "Response External Status V1 Connections External Get",
+                    "type": "object"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            }
+          },
+          "summary": "External Status"
+        }
+      },
+      "/v1/connections/external/{connection_id}/remove": {
+        "post": {
+          "operationId": "remove_external_v1_connections_external__connection_id__remove_post",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "connection_id",
+              "required": true,
+              "schema": {
+                "title": "Connection Id",
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "additionalProperties": true,
+                    "title": "Response Remove External V1 Connections External  Connection Id  Remove Post",
+                    "type": "object"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Remove External"
+        }
+      },
       "/v1/diagnostics/export": {
         "post": {
           "operationId": "export_v1_diagnostics_export_post",
@@ -2998,6 +3147,96 @@
             }
           },
           "summary": "Chunks"
+        }
+      },
+      "/v1/documents/{document_id}/fields": {
+        "get": {
+          "operationId": "fields_v1_documents__document_id__fields_get",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "document_id",
+              "required": true,
+              "schema": {
+                "title": "Document Id",
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "additionalProperties": true,
+                    "title": "Response Fields V1 Documents  Document Id  Fields Get",
+                    "type": "object"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Fields"
+        },
+        "post": {
+          "operationId": "review_fields_v1_documents__document_id__fields_post",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "document_id",
+              "required": true,
+              "schema": {
+                "title": "Document Id",
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Review"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "additionalProperties": true,
+                    "title": "Response Review Fields V1 Documents  Document Id  Fields Post",
+                    "type": "object"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Review Fields"
         }
       },
       "/v1/documents/{document_id}/process": {

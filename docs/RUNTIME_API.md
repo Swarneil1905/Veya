@@ -1,5 +1,9 @@
 # Platform and private runtime contracts
 
+Contract version 8 adds `document_fields` and `review_document_fields` commands through Go. Reviews require an expected revision, all four typed header values and a verification note. Python retains original extraction values, citations, OCR regions and correction history; forged reviewer or tenant fields are rejected. `external_connections` lists safe connector metadata, and `remove_external_connection` disables future access before removing credential references. Provider registration and OAuth initiation remain trusted-host operations.
+
+The Python SDK in `packages/sdk` calls `POST /api/workspace` with the same session authorization as the desktop. Submission is idempotent by request ID and does not automatically start inference. The SDK never retries a write or grants approvals implicitly.
+
 ## Go application boundary
 
 Both clients use the Go platform. The desktop host provisions a platform token over an inherited pipe; the web launcher provisions the same protocol and serves the Angular build on loopback. Go starts Python with a separate private token. Python owns the existing durable execution/storage invariants; no inference or external business effect runs on task submission.
