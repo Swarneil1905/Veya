@@ -51,6 +51,8 @@ jobs:
         run: pnpm test:providers:browser
       - name: Engineering evaluations and revisioned dataset review
         run: node scripts/test-research-browser.mjs
+      - name: Reviewed memory lifecycle and evidence attribution
+        run: pnpm test:memory:browser
       - name: Retain screenshots and diagnostics even on failure
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -66,5 +68,7 @@ jobs:
             artifacts/provider-batch/browser-checks.txt
             artifacts/research20/*.png
             artifacts/research20/browser-result.json
+            artifacts/memory-batch/*.png
+            artifacts/memory-batch/browser-checks.txt
           if-no-files-found: warn
           retention-days: 14

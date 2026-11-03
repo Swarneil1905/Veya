@@ -104,12 +104,12 @@ const filters = [
     } @else if (!error) {
       <div class="work-empty" role="status">
         @if (!hasFilter() && !hasPrevious) { <veya-work-welcome /> }
-        <h2>{{ hasFilter() ? 'No matching work' : 'Your work starts here' }}</h2>
+        <h2>{{ hasFilter() ? 'No matching work' : 'No tasks yet' }}</h2>
         <p>
           {{
             hasFilter()
               ? 'Try a different search or view.'
-              : 'Give a task a clear brief. Keep its instructions and progress together, from the first note onward.'
+              : 'Create a task to keep its instructions and progress together.'
           }}
         </p>
         @if (hasFilter()) {

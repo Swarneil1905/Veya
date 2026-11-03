@@ -64,7 +64,9 @@
   </aside>
   <div class="work-body">
     <header class="work-topbar">
-      <div class="work-brand"><veya-brand-mark />Veya<span>Personal workspace</span></div>
+      <div class="work-brand">
+        <veya-brand-mark />Veya<span>Personal workspace</span>
+      </div>
       <button
         class="work-command-trigger work-secondary"
         (click)="commandsOpen.set(true)"
@@ -125,10 +127,28 @@
       />
       } @else if(view()==='evaluations'){<veya-evaluations
         [connected]="ready()"
-      />} @else if(view()==='data'){<veya-trajectory-review
+      />} @else if(view()==='data'){
+      <div class="work-detail-tabs" role="group" aria-label="Review type">
+        <button
+          [attr.aria-pressed]="reviewMode()==='examples'"
+          (click)="reviewMode.set('examples')"
+        >
+          Examples
+        </button>
+        <button
+          [attr.aria-pressed]="reviewMode()==='lessons'"
+          (click)="reviewMode.set('lessons')"
+        >
+          Lessons
+        </button>
+      </div>
+      @if(reviewMode()==='examples'){<veya-trajectory-review
         [connected]="ready()"
         [readOnly]="readOnly()"
-      />} @else {<veya-approvals
+      />} @else{<veya-memory-review
+        [connected]="ready()"
+        [readOnly]="readOnly()"
+      />}} @else {<veya-approvals
         [connected]="ready()"
         [readOnly]="readOnly()"
       />}
@@ -137,7 +157,7 @@
   @if(composing()){
   <veya-panel title="New task" (closed)="composing.set(false)"
     ><div class="work-panel-content">
-      <h2>A clear brief. A place to start.</h2>
+      <h2>Describe the task</h2>
       <p class="work-intro">
         Describe the work and what a useful result should include.
       </p>
@@ -181,10 +201,8 @@
         {{restarting()?'Restarting…':'Restart runtime'}}</button
       >}
       <p class="work-muted">
-        Task saving and recorded activity are available through the local
-        platform. Document imports and source inspection are available. Model
-        execution requires a tested provider and an explicit start for each
-        task.
+        Save tasks, import documents and inspect their sources and activity locally.
+        Model execution requires a tested provider and an explicit start for each task.
       </p>
       <veya-diagnostics [disabled]="!ready()" />
       <veya-connections-settings [disabled]="!ready() || readOnly()" /></div

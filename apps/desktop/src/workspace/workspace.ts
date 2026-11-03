@@ -1,5 +1,6 @@
 import { EvaluationReports } from "../features/evaluations/evaluation-report";
 import { TrajectoryReview } from "../features/data/trajectory-review";
+import { MemoryReview } from "../features/memory/memory-review";
 import { ConnectionsSettings } from "../features/settings/connections-settings";
 import { Diagnostics } from "../features/settings/diagnostics";
 import { Commands, Destination } from "../features/accessibility/commands";
@@ -49,6 +50,7 @@ function savedNavigation() {
     Diagnostics,
     EvaluationReports,
     TrajectoryReview,
+    MemoryReview,
   ],
   templateUrl: "./workspace.html",
 })
@@ -75,6 +77,7 @@ export class Workspace implements OnInit, OnDestroy {
   }
 
   readonly view = signal<"work" | "approvals" | "evaluations" | "data">("work");
+  readonly reviewMode = signal<"examples" | "lessons">("examples");
   readonly pageTitles = {
     work: "Work",
     approvals: "Approvals",
@@ -85,7 +88,7 @@ export class Workspace implements OnInit, OnDestroy {
     work: "Your briefs, progress, and next steps.",
     approvals: "Decisions that need your attention.",
     evaluations: "Compare recorded runs and inspect the evidence.",
-    data: "Review examples before they enter a dataset.",
+    data: "Review examples and lessons before they are reused.",
   };
   readonly native = isNative();
   readonly web = isWeb();

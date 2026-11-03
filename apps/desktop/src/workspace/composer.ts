@@ -81,7 +81,7 @@ function readDraft(): Draft {
       (blocked)="attachmentsBlocked.set($event)"
     />
     <div class="work-submit">
-      <p>Tasks are saved locally. AI execution is not connected yet.</p>
+      <p>Tasks are saved locally. Start a saved task from its details when a model is connected.</p>
       <button
         class="work-primary"
         [disabled]="

@@ -57,7 +57,7 @@ veya-workspace, veya-task-list, veya-composer, veya-activity {display:block;}
 .work-filters button:hover:not([aria-pressed='true']) {background:var(--work-soft);color:var(--work-ink)}
 .work-filters button:focus-visible {outline-offset:-3px}
 .work-detail-tabs button {display:flex;align-items:center;gap:9px;white-space:nowrap;border:0;border-bottom:2px solid transparent;padding:12px 0 16px;background:transparent;color:var(--work-muted);min-height:48px}
-.work-detail-tabs button[aria-selected='true'] {border-bottom-color:var(--work-ink);color:var(--work-ink)}
+.work-detail-tabs button[aria-selected='true'],.work-detail-tabs button[aria-pressed='true'] {border-bottom-color:var(--work-ink);color:var(--work-ink)}
 .work-filters button span {font-variant-numeric:tabular-nums;font-size:12px;min-width:20px;padding:0 4px;line-height:20px;text-align:center;background:var(--work-nav);border-radius:4px}
 .work-list-tools {display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 0}
 .work-search {display:flex;align-items:center;gap:10px;width:min(420px,70%);color:var(--work-muted)}

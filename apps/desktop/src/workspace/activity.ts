@@ -1,4 +1,5 @@
 import { ExecutionControls } from "../features/work/execution-controls";
+import { MemoryEvidence } from "../features/activity/memory-evidence";
 import {
   Component,
   EventEmitter,
@@ -16,7 +17,7 @@ import { stateLabel } from "./task-list";
 
 @Component({
   selector: "veya-activity",
-  imports: [ResultPanel, TaskDocuments, ExecutionControls],
+  imports: [ResultPanel, TaskDocuments, ExecutionControls, MemoryEvidence],
   template: ` <section class="work-activity" aria-labelledby="activity-title">
     <div class="work-detail-heading">
       <span class="work-task-state" [attr.data-state]="status()">{{
@@ -104,6 +105,12 @@ import { stateLabel } from "./task-list";
         [hidden]="tab() !== 'activity'"
         tabindex="0"
       >
+        <veya-memory-evidence
+          [runId]="runId()"
+          [state]="status()"
+          [connected]="connected"
+          [readOnly]="readOnly"
+        />
         <h3>Recorded activity</h3>
         @if (loading()) {
           <p role="status">Loading activity…</p>
