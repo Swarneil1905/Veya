@@ -1,5 +1,5 @@
 {
-  "contract_version": 8,
+  "contract_version": 9,
   "openapi": {
     "components": {
       "schemas": {
@@ -174,6 +174,21 @@
             "citation"
           ],
           "title": "Block",
+          "type": "object"
+        },
+        "CandidateInput": {
+          "additionalProperties": false,
+          "properties": {
+            "run_id": {
+              "pattern": "^[a-zA-Z0-9_-]{1,64}$",
+              "title": "Run Id",
+              "type": "string"
+            }
+          },
+          "required": [
+            "run_id"
+          ],
+          "title": "CandidateInput",
           "type": "object"
         },
         "CheckInput": {
@@ -539,6 +554,21 @@
           ],
           "title": "Effect",
           "type": "string"
+        },
+        "EraseInput": {
+          "additionalProperties": false,
+          "properties": {
+            "revision": {
+              "minimum": 1.0,
+              "title": "Revision",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "revision"
+          ],
+          "title": "EraseInput",
+          "type": "object"
         },
         "EvaluationReport": {
           "additionalProperties": false,
@@ -1545,58 +1575,6 @@
           "title": "ReviewDetail",
           "type": "object"
         },
-        "ReviewInput": {
-          "additionalProperties": false,
-          "properties": {
-            "decision": {
-              "enum": [
-                "approved",
-                "rejected"
-              ],
-              "title": "Decision",
-              "type": "string"
-            },
-            "fingerprint": {
-              "pattern": "^[a-f0-9]{64}$",
-              "title": "Fingerprint",
-              "type": "string"
-            },
-            "note": {
-              "maxLength": 2000,
-              "minLength": 1,
-              "title": "Note",
-              "type": "string"
-            },
-            "revision": {
-              "minimum": 0.0,
-              "title": "Revision",
-              "type": "integer"
-            },
-            "tags": {
-              "items": {
-                "enum": [
-                  "useful",
-                  "incorrect",
-                  "incomplete",
-                  "sensitive"
-                ],
-                "type": "string"
-              },
-              "maxItems": 4,
-              "title": "Tags",
-              "type": "array"
-            }
-          },
-          "required": [
-            "revision",
-            "fingerprint",
-            "decision",
-            "tags",
-            "note"
-          ],
-          "title": "ReviewInput",
-          "type": "object"
-        },
         "ReviewPage": {
           "properties": {
             "items": {
@@ -1809,6 +1787,38 @@
             "expected_revision"
           ],
           "title": "RunTransition",
+          "type": "object"
+        },
+        "SearchInput": {
+          "additionalProperties": false,
+          "properties": {
+            "mode": {
+              "default": "hybrid",
+              "enum": [
+                "lexical",
+                "vector",
+                "hybrid"
+              ],
+              "title": "Mode",
+              "type": "string"
+            },
+            "query": {
+              "maxLength": 2000,
+              "minLength": 1,
+              "title": "Query",
+              "type": "string"
+            },
+            "task_id": {
+              "pattern": "^[a-zA-Z0-9_-]{1,64}$",
+              "title": "Task Id",
+              "type": "string"
+            }
+          },
+          "required": [
+            "task_id",
+            "query"
+          ],
+          "title": "SearchInput",
           "type": "object"
         },
         "StartInput": {
@@ -2496,6 +2506,89 @@
             "type"
           ],
           "title": "ValidationError",
+          "type": "object"
+        },
+        "veya__api__memory__ReviewInput": {
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "enum": [
+                "activate",
+                "retract"
+              ],
+              "title": "Action",
+              "type": "string"
+            },
+            "content": {
+              "maxLength": 2000,
+              "minLength": 10,
+              "title": "Content",
+              "type": "string"
+            },
+            "revision": {
+              "minimum": 1.0,
+              "title": "Revision",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "revision",
+            "content",
+            "action"
+          ],
+          "title": "ReviewInput",
+          "type": "object"
+        },
+        "veya__research__models__ReviewInput": {
+          "additionalProperties": false,
+          "properties": {
+            "decision": {
+              "enum": [
+                "approved",
+                "rejected"
+              ],
+              "title": "Decision",
+              "type": "string"
+            },
+            "fingerprint": {
+              "pattern": "^[a-f0-9]{64}$",
+              "title": "Fingerprint",
+              "type": "string"
+            },
+            "note": {
+              "maxLength": 2000,
+              "minLength": 1,
+              "title": "Note",
+              "type": "string"
+            },
+            "revision": {
+              "minimum": 0.0,
+              "title": "Revision",
+              "type": "integer"
+            },
+            "tags": {
+              "items": {
+                "enum": [
+                  "useful",
+                  "incorrect",
+                  "incomplete",
+                  "sensitive"
+                ],
+                "type": "string"
+              },
+              "maxItems": 4,
+              "title": "Tags",
+              "type": "array"
+            }
+          },
+          "required": [
+            "revision",
+            "fingerprint",
+            "decision",
+            "tags",
+            "note"
+          ],
+          "title": "ReviewInput",
           "type": "object"
         }
       }
@@ -3419,6 +3512,229 @@
           "summary": "Health"
         }
       },
+      "/v1/memories": {
+        "get": {
+          "operationId": "listing_v1_memories_get",
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "additionalProperties": true,
+                    "title": "Response Listing V1 Memories Get",
+                    "type": "object"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            }
+          },
+          "summary": "Listing"
+        }
+      },
+      "/v1/memories/candidates": {
+        "post": {
+          "operationId": "propose_v1_memories_candidates_post",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CandidateInput"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "additionalProperties": true,
+                    "title": "Response Propose V1 Memories Candidates Post",
+                    "type": "object"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Propose"
+        }
+      },
+      "/v1/memories/export": {
+        "get": {
+          "operationId": "export_v1_memories_export_get",
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "additionalProperties": true,
+                    "title": "Response Export V1 Memories Export Get",
+                    "type": "object"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            }
+          },
+          "summary": "Export"
+        }
+      },
+      "/v1/memories/runs/{run_id}": {
+        "get": {
+          "operationId": "contributions_v1_memories_runs__run_id__get",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "run_id",
+              "required": true,
+              "schema": {
+                "title": "Run Id",
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "additionalProperties": true,
+                    "title": "Response Contributions V1 Memories Runs  Run Id  Get",
+                    "type": "object"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Contributions"
+        }
+      },
+      "/v1/memories/{memory_id}/erase": {
+        "post": {
+          "operationId": "erase_v1_memories__memory_id__erase_post",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "memory_id",
+              "required": true,
+              "schema": {
+                "title": "Memory Id",
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EraseInput"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "additionalProperties": true,
+                    "title": "Response Erase V1 Memories  Memory Id  Erase Post",
+                    "type": "object"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Erase"
+        }
+      },
+      "/v1/memories/{memory_id}/review": {
+        "post": {
+          "operationId": "review_v1_memories__memory_id__review_post",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "memory_id",
+              "required": true,
+              "schema": {
+                "title": "Memory Id",
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/veya__api__memory__ReviewInput"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "additionalProperties": true,
+                    "title": "Response Review V1 Memories  Memory Id  Review Post",
+                    "type": "object"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Review"
+        }
+      },
       "/v1/metrics": {
         "get": {
           "operationId": "metrics_v1_metrics_get",
@@ -3706,7 +4022,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ReviewInput"
+                  "$ref": "#/components/schemas/veya__research__models__ReviewInput"
                 }
               }
             },
@@ -3735,6 +4051,87 @@
             }
           },
           "summary": "Review"
+        }
+      },
+      "/v1/retrieval/documents/{document_id}/index": {
+        "post": {
+          "operationId": "index_v1_retrieval_documents__document_id__index_post",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "document_id",
+              "required": true,
+              "schema": {
+                "title": "Document Id",
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "additionalProperties": true,
+                    "title": "Response Index V1 Retrieval Documents  Document Id  Index Post",
+                    "type": "object"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Index"
+        }
+      },
+      "/v1/retrieval/search": {
+        "post": {
+          "operationId": "retrieve_v1_retrieval_search_post",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchInput"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "additionalProperties": true,
+                    "title": "Response Retrieve V1 Retrieval Search Post",
+                    "type": "object"
+                  }
+                }
+              },
+              "description": "Successful Response"
+            },
+            "422": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              },
+              "description": "Validation Error"
+            }
+          },
+          "summary": "Retrieve"
         }
       },
       "/v1/runs/{run_id}": {
