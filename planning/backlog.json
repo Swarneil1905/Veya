@@ -6778,7 +6778,9 @@
         "Partial embedding failures remain retryable without marking the whole source indexed"
       ],
       "code_paths": [
-        "services/runtime/veya/retrieval/embeddings.py"
+        "services/runtime/veya/retrieval/embeddings.py",
+        "services/runtime/migrations/028_evidence_memory.sql",
+        "services/runtime/tests/test_retrieval_batch.py"
       ],
       "verification": "Exercise the changed entry point and assert: Unchanged chunks reuse embeddings and changed model versions reindex safely. Negative case: Partial embedding failures remain retryable without marking the whole source indexed. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -6792,14 +6794,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Resumable content-addressed indexing reuses unchanged chunks, isolates model revisions, validates dimensions, and fences late/revoked publication. A failed job remains retryable. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-03T01:16:47.552863+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -6859,18 +6863,19 @@
       "milestone_id": "M4",
       "actor": "agent engineer",
       "user_value": "retrieve relevant permitted evidence and identify retrieval failures",
-      "code_change": "Combine lexical and vector candidates with configurable reciprocal-rank fusion",
+      "code_change": "Combine authorized lexical and local vector candidates using configurable reciprocal-rank fusion; retain PostgreSQL as the separate team-mode adapter story",
       "acceptance_criteria": [
         "Evaluation can compare lexical, vector and fused rankings on identical queries",
         "Empty candidate sets produce an explicit no-evidence result"
       ],
       "code_paths": [
-        "services/runtime/veya/retrieval/hybrid.py"
+        "services/runtime/veya/retrieval/hybrid.py",
+        "services/runtime/tests/test_retrieval_batch.py"
       ],
       "verification": "Exercise the changed entry point and assert: Evaluation can compare lexical, vector and fused rankings on identical queries. Negative case: Empty candidate sets produce an explicit no-evidence result. Retain the test command, result and evidence artifact.",
       "depends_on": [
         "VEY-112",
-        "VEY-113"
+        "VEY-111"
       ],
       "estimate_hours": {
         "low": 4,
@@ -6879,14 +6884,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Lexical, vector and reciprocal-rank fusion operate over the same authorized local corpus. Empty results are explicit. SQLite supports the local slice; PostgreSQL remains VEY-113. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-03T01:16:47.552863+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -6908,7 +6915,9 @@
         "Cross-tenant matches cannot leak through ranking or cache results"
       ],
       "code_paths": [
-        "services/runtime/veya/retrieval/filters.py"
+        "services/runtime/veya/retrieval/filters.py",
+        "services/runtime/veya/tools/read_only.py",
+        "services/runtime/tests/test_memory_retrieval_api.py"
       ],
       "verification": "Exercise the changed entry point and assert: Revoked or future-dated policies are excluded from retrieved context. Negative case: Cross-tenant matches cannot leak through ranking or cache results. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -6923,14 +6932,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Attachment, tenant, source-version and effective-time checks run before ranking and again before context consumption. Revoked/future sources are excluded, including late reranker revocation. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-03T01:16:47.552863+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -6952,7 +6963,9 @@
         "Reranker failure falls back explicitly without fabricating relevance scores"
       ],
       "code_paths": [
-        "services/runtime/veya/retrieval/rerank.py"
+        "services/runtime/veya/retrieval/rerank.py",
+        "services/runtime/veya/api/retrieval.py",
+        "services/runtime/tests/test_retrieval_batch.py"
       ],
       "verification": "Exercise the changed entry point and assert: Reranking preserves source identities and can be disabled for a baseline. Negative case: Reranker failure falls back explicitly without fabricating relevance scores. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -6966,14 +6979,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Optional trusted asynchronous reranking preserves source identity, supports a disabled baseline and reports timeout/invalid-score fallback without invented scores. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-03T01:16:47.552863+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -6995,7 +7010,9 @@
         "Truncation cannot cut away source identity or turn document text into instructions"
       ],
       "code_paths": [
-        "services/runtime/veya/retrieval/context.py"
+        "services/runtime/veya/retrieval/context.py",
+        "services/runtime/veya/tools/read_only.py",
+        "services/runtime/tests/test_retrieval_batch.py"
       ],
       "verification": "Exercise the changed entry point and assert: Highest-priority permitted evidence fits the configured budget. Negative case: Truncation cannot cut away source identity or turn document text into instructions. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -7010,14 +7027,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Context includes whole permitted source records with identity, version, offsets and an untrusted-data envelope. Oversized records are skipped explicitly; default counting is conservative UTF-8 bytes. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-03T01:16:47.552863+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -7039,7 +7058,8 @@
         "A correct answer without retrieved support is not counted as grounded success"
       ],
       "code_paths": [
-        "packages/evals/retrieval/labels.py"
+        "packages/evals/retrieval/labels.py",
+        "services/runtime/tests/test_retrieval_batch.py"
       ],
       "verification": "Exercise the changed entry point and assert: Reports separate retrieval quality from answer-generation failures. Negative case: A correct answer without retrieved support is not counted as grounded success. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -7053,14 +7073,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Retrieval labels distinguish missed evidence, omitted context, unsupported answers, permission failures and generation failures. Unsupported correct answers cannot count as grounded success. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-03T01:16:47.552863+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -7082,7 +7104,8 @@
         "Training/query leakage is detected and prevents a clean result label"
       ],
       "code_paths": [
-        "packages/evals/retrieval/runner.py"
+        "packages/evals/retrieval/runner.py",
+        "services/runtime/tests/test_retrieval_batch.py"
       ],
       "verification": "Exercise the changed entry point and assert: Repeated benchmark runs record corpus, model and query versions. Negative case: Training/query leakage is detected and prevents a clean result label. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -7096,14 +7119,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Repeated lexical/vector/hybrid benchmark runs retain corpus/model/query versions, query digest, complete failure denominators and family/exact-query leakage flags. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-03T01:16:47.552863+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -7125,7 +7150,9 @@
         "Deleted chunks cannot reappear through an old retrieval cache"
       ],
       "code_paths": [
-        "services/runtime/veya/retrieval/reindex.py"
+        "services/runtime/veya/retrieval/reindex.py",
+        "services/runtime/veya/files/grants.py",
+        "services/runtime/tests/test_retrieval_batch.py"
       ],
       "verification": "Exercise the changed entry point and assert: Updated searches reflect the new version after an observable indexing checkpoint. Negative case: Deleted chunks cannot reappear through an old retrieval cache. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -7140,14 +7167,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "New source versions require an observable indexing checkpoint; revocation purges indexes and cached vectors/responses. Existing tasks retain explicitly attached historical versions. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-03T01:16:47.552863+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -7216,7 +7245,8 @@
         "Unsupported generalizations and secret-bearing text are rejected"
       ],
       "code_paths": [
-        "services/runtime/veya/memory/candidates.py"
+        "services/runtime/veya/memory/store.py",
+        "services/runtime/tests/test_memory_batch.py"
       ],
       "verification": "Exercise the changed entry point and assert: Candidates link to the supporting run and concrete observed failure. Negative case: Unsupported generalizations and secret-bearing text are rejected. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -7231,14 +7261,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Candidate lessons come from bounded known durable failure codes and source runs. They remain drafts. Secret-bearing text, unsupported universal rules and unsupported failures are rejected. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-03T01:16:47.552863+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -7258,14 +7290,15 @@
       "acceptance_criteria": [
         "Reviewed memory becomes active with an editor and source history",
         "Stale candidate revisions cannot overwrite a newer reviewed lesson",
-        "Implement this screen within the approved Ramp-led Veya design system and verify rendered, keyboard and relevant failure states during this story",
-        "Implement the approved Ramp-led design in Angular with Public Sans/Phosphor; preserve Superhuman keyboard/type consistency, Basecamp work context and Linear status/row polish during this story.",
-        "Expose user operations through explicit authenticated Go commands; retain model/tool execution and durable safety invariants in the private Python runtime."
+        "Expose user operations through explicit authenticated Go commands; retain model/tool execution and durable safety invariants in the private Python runtime.",
+        "Integrate with the approved Veya Work console and verify rendered, keyboard, empty, error and revision-conflict states during this story."
       ],
       "code_paths": [
-        "services/runtime/veya/memory/review.py",
+        "services/runtime/veya/memory/store.py",
+        "services/runtime/veya/api/memory.py",
         "apps/desktop/src/features/memory/memory-review.ts",
-        "services/platform/internal/workspace"
+        "services/platform/internal/workspace/commands.go",
+        "scripts/test-memory-browser.mjs"
       ],
       "verification": "Exercise the changed entry point and assert: Reviewed memory becomes active with an editor and source history. Negative case: Stale candidate revisions cannot overwrite a newer reviewed lesson. Retain the test command, result and evidence artifact. Design gate: apply the project design_direction references during implementation and retain rendered/keyboard evidence; do not defer visual integration to a later redesign.",
       "depends_on": [
@@ -7279,14 +7312,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Data review → Lessons supports editing, explicit activation/retraction, revision conflict recovery and preserved drafts through authenticated Go commands. Reviewer identity is host-owned. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-24T22:26:50+00:00",
+      "updated_at": "2026-11-03T01:16:47.552863+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -7315,7 +7350,10 @@
         "A memory from another user cannot appear through semantic similarity"
       ],
       "code_paths": [
-        "services/runtime/veya/memory/retrieval.py"
+        "services/runtime/veya/memory/store.py",
+        "services/runtime/veya/execution/agent_loop.py",
+        "services/runtime/tests/test_memory_batch.py",
+        "services/runtime/tests/test_routing_batch.py"
       ],
       "verification": "Exercise the changed entry point and assert: Only current user/tenant-authorized memories enter the next task context. Negative case: A memory from another user cannot appear through semantic similarity. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -7329,14 +7367,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Only current same-tenant/workspace/owner active lessons enter local-only model task context. Hosted selections omit prior-task memory because existing remote consent does not cover it. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-03T01:16:47.552863+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -7358,7 +7398,8 @@
         "Frequency of repetition alone cannot override current policy"
       ],
       "code_paths": [
-        "services/runtime/veya/memory/conflicts.py"
+        "services/runtime/veya/memory/store.py",
+        "services/runtime/tests/test_memory_batch.py"
       ],
       "verification": "Exercise the changed entry point and assert: Conflicting active lessons are surfaced and require resolution. Negative case: Frequency of repetition alone cannot override current policy. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -7372,14 +7413,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Different active lessons for the same failure topic cannot silently override one another. Explicit retraction is required before activating conflicting content; lessons never change tool policy. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-03T01:16:47.552863+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -7401,7 +7444,10 @@
         "Retraction preserves historical run evidence without reactivating the lesson"
       ],
       "code_paths": [
-        "services/runtime/veya/memory/lifecycle.py"
+        "services/runtime/veya/memory/store.py",
+        "services/runtime/veya/execution/agent_loop.py",
+        "services/runtime/tests/test_memory_batch.py",
+        "services/runtime/tests/test_routing_batch.py"
       ],
       "verification": "Exercise the changed entry point and assert: Retracted memory stops affecting subsequent task context. Negative case: Retraction preserves historical run evidence without reactivating the lesson. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -7415,14 +7461,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Thirty-day expiry and explicit retraction stop subsequent use; in-flight tasks reject stale lesson revisions. Immutable historical attribution remains visible. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-03T01:16:47.552863+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -7443,7 +7491,9 @@
         "Cycles and high-degree nodes respect traversal and output limits"
       ],
       "code_paths": [
-        "services/runtime/veya/memory/context_graph.py"
+        "services/runtime/veya/memory/context_graph.py",
+        "services/runtime/veya/api/memory.py",
+        "services/runtime/tests/test_memory_batch.py"
       ],
       "verification": "Exercise the changed entry point and assert: Inspecting an entity returns traceable relationships to permitted evidence. Negative case: Cycles and high-degree nodes respect traversal and output limits. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -7458,14 +7508,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Bounded traversal exposes actual run/memory/source relationships with cycle detection, owner filtering, depth/node/edge limits and explicit truncation. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-03T01:16:47.552863+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -7484,14 +7536,14 @@
       "acceptance_criteria": [
         "A reviewer can inspect the exact memory revision used by a decision",
         "Missing memory sources are visible rather than silently removed from history",
-        "Implement this screen within the approved Ramp-led Veya design system and verify rendered, keyboard and relevant failure states during this story",
-        "Implement the approved Ramp-led design in Angular with Public Sans/Phosphor; preserve Superhuman keyboard/type consistency, Basecamp work context and Linear status/row polish during this story.",
-        "Expose user operations through explicit authenticated Go commands; retain model/tool execution and durable safety invariants in the private Python runtime."
+        "Expose user operations through explicit authenticated Go commands; retain model/tool execution and durable safety invariants in the private Python runtime.",
+        "Integrate with the approved Veya Work console and verify rendered, keyboard, empty, error and revision-conflict states during this story."
       ],
       "code_paths": [
-        "services/runtime/veya/memory/attribution.py",
+        "services/runtime/veya/memory/store.py",
         "apps/desktop/src/features/activity/memory-evidence.ts",
-        "services/platform/internal/workspace"
+        "apps/desktop/src/workspace/activity.ts",
+        "scripts/test-memory-browser.mjs"
       ],
       "verification": "Exercise the changed entry point and assert: A reviewer can inspect the exact memory revision used by a decision. Negative case: Missing memory sources are visible rather than silently removed from history. Retain the test command, result and evidence artifact. Design gate: apply the project design_direction references during implementation and retain rendered/keyboard evidence; do not defer visual integration to a later redesign.",
       "depends_on": [
@@ -7505,14 +7557,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Activity shows exact contributed lesson revisions and historical source runs. Erased lessons remain explicitly unavailable in history instead of disappearing. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-24T22:26:50+00:00",
+      "updated_at": "2026-11-03T01:16:47.552863+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -7540,7 +7594,8 @@
         "Gains from memorizing identical answers are excluded from transfer claims"
       ],
       "code_paths": [
-        "packages/evals/memory/transfer.py"
+        "packages/evals/memory/transfer.py",
+        "services/runtime/tests/test_memory_batch.py"
       ],
       "verification": "Exercise the changed entry point and assert: Results report held-out success changes and cross-scope contamination checks. Negative case: Gains from memorizing identical answers are excluded from transfer claims. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -7555,14 +7610,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Paired held-out memory reports retain complete outcomes and scope contamination flags. Training-family or answer-hash overlap excludes transfer eligibility; fixture reports do not demonstrate model improvement. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-03T01:16:47.552863+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -7584,7 +7641,10 @@
         "Erasure does not remove unrelated tenant policy or conceal retention exceptions"
       ],
       "code_paths": [
-        "services/runtime/veya/memory/privacy.py"
+        "services/runtime/veya/memory/store.py",
+        "services/runtime/veya/api/memory.py",
+        "apps/desktop/src/features/memory/memory-review.ts",
+        "services/runtime/tests/test_memory_batch.py"
       ],
       "verification": "Exercise the changed entry point and assert: Export includes only the requesting user's permitted records. Negative case: Erasure does not remove unrelated tenant policy or conceal retention exceptions. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -7599,14 +7659,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Owner-scoped JSON export includes reviewed records and history. Confirmed erasure removes lesson text from all revisions, invalidates inference cache and names retained source/audit evidence. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-03T01:16:47.552863+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -9633,7 +9695,9 @@
         "Final rewards and held-out labels cannot enter routing inputs"
       ],
       "code_paths": [
-        "services/runtime/veya/routing/features.py"
+        "services/runtime/veya/routing/features.py",
+        "services/runtime/veya/execution/agent_loop.py",
+        "services/runtime/tests/test_routing_batch.py"
       ],
       "verification": "Exercise the changed entry point and assert: Features are reproducible and available before choosing a model. Negative case: Final rewards and held-out labels cannot enter routing inputs. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -9648,14 +9712,16 @@
       },
       "scope": "Research",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Versioned reproducible routing features use only pre-decision instruction/evidence sizes, document count, tool requirements and data classification. Final rewards/labels are not accepted inputs. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-03T01:16:47.552863+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -9677,7 +9743,9 @@
         "A cheap unsupported model is never selected solely for its price"
       ],
       "code_paths": [
-        "services/runtime/veya/routing/static.py"
+        "services/runtime/veya/routing/static.py",
+        "services/runtime/veya/execution/agent_loop.py",
+        "services/runtime/tests/test_routing_batch.py"
       ],
       "verification": "Exercise the changed entry point and assert: A small model handles eligible tasks while constrained tasks use a qualified model. Negative case: A cheap unsupported model is never selected solely for its price. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -9692,14 +9760,16 @@
       },
       "scope": "Research",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Trusted-host cost routing selects only qualified exact model fingerprints within task scope, capabilities, destination policy and comparable prices. Desktop defaults to explicit user selection; no real model is newly qualified. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-03T01:16:47.552863+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -9765,7 +9835,9 @@
         "Mutating actions, revoked sources and cross-tenant keys cannot reuse unsafe results"
       ],
       "code_paths": [
-        "services/runtime/veya/routing/cache.py"
+        "services/runtime/veya/routing/cache.py",
+        "services/runtime/veya/execution/agent_loop.py",
+        "services/runtime/tests/test_routing_batch.py"
       ],
       "verification": "Exercise the changed entry point and assert: Equivalent permitted read-only requests can reuse a traceable cached result. Negative case: Mutating actions, revoked sources and cross-tenant keys cannot reuse unsafe results. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -9780,14 +9852,16 @@
       },
       "scope": "Research",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Bounded read-only final-response cache keys exact model inputs, tenant/owner, grants and memory revisions. It requires a succeeded source run, rejects actions, records hits and rechecks evidence before result publication. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-03T01:16:47.552863+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -15381,6 +15455,246 @@
         "planning/evidence/batch20-2026-10-31/acceptance.json"
       ],
       "acceptance_note": "Credential-free contributor command runs eight adapter success/fault/permission contracts against explicit synthetic fixtures and reports unsupported production/native capabilities. Local implementation only; user commits and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-03T01:16:47.552863+00:00",
+      "story_id": "VEY-112",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Local retrieval does not require team PostgreSQL deployment.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Resumable content-addressed indexing reuses unchanged chunks, isolates model revisions, validates dimensions, and fences late/revoked publication. A failed job remains retryable. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-03T01:16:47.552863+00:00",
+      "story_id": "VEY-114",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Local retrieval does not require team PostgreSQL deployment.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Lexical, vector and reciprocal-rank fusion operate over the same authorized local corpus. Empty results are explicit. SQLite supports the local slice; PostgreSQL remains VEY-113. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-03T01:16:47.552863+00:00",
+      "story_id": "VEY-115",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Local retrieval does not require team PostgreSQL deployment.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Attachment, tenant, source-version and effective-time checks run before ranking and again before context consumption. Revoked/future sources are excluded, including late reranker revocation. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-03T01:16:47.552863+00:00",
+      "story_id": "VEY-116",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Local retrieval does not require team PostgreSQL deployment.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Optional trusted asynchronous reranking preserves source identity, supports a disabled baseline and reports timeout/invalid-score fallback without invented scores. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-03T01:16:47.552863+00:00",
+      "story_id": "VEY-117",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Local retrieval does not require team PostgreSQL deployment.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Context includes whole permitted source records with identity, version, offsets and an untrusted-data envelope. Oversized records are skipped explicitly; default counting is conservative UTF-8 bytes. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-03T01:16:47.552863+00:00",
+      "story_id": "VEY-118",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Local retrieval does not require team PostgreSQL deployment.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Retrieval labels distinguish missed evidence, omitted context, unsupported answers, permission failures and generation failures. Unsupported correct answers cannot count as grounded success. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-03T01:16:47.552863+00:00",
+      "story_id": "VEY-119",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Local retrieval does not require team PostgreSQL deployment.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Repeated lexical/vector/hybrid benchmark runs retain corpus/model/query versions, query digest, complete failure denominators and family/exact-query leakage flags. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-03T01:16:47.552863+00:00",
+      "story_id": "VEY-120",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Local retrieval does not require team PostgreSQL deployment.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "New source versions require an observable indexing checkpoint; revocation purges indexes and cached vectors/responses. Existing tasks retain explicitly attached historical versions. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-03T01:16:47.552863+00:00",
+      "story_id": "VEY-122",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Local retrieval does not require team PostgreSQL deployment.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Candidate lessons come from bounded known durable failure codes and source runs. They remain drafts. Secret-bearing text, unsupported universal rules and unsupported failures are rejected. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-03T01:16:47.552863+00:00",
+      "story_id": "VEY-123",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Local retrieval does not require team PostgreSQL deployment.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Data review → Lessons supports editing, explicit activation/retraction, revision conflict recovery and preserved drafts through authenticated Go commands. Reviewer identity is host-owned. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-03T01:16:47.552863+00:00",
+      "story_id": "VEY-124",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Local retrieval does not require team PostgreSQL deployment.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Only current same-tenant/workspace/owner active lessons enter local-only model task context. Hosted selections omit prior-task memory because existing remote consent does not cover it. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-03T01:16:47.552863+00:00",
+      "story_id": "VEY-125",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Local retrieval does not require team PostgreSQL deployment.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Different active lessons for the same failure topic cannot silently override one another. Explicit retraction is required before activating conflicting content; lessons never change tool policy. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-03T01:16:47.552863+00:00",
+      "story_id": "VEY-126",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Local retrieval does not require team PostgreSQL deployment.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Thirty-day expiry and explicit retraction stop subsequent use; in-flight tasks reject stale lesson revisions. Immutable historical attribution remains visible. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-03T01:16:47.552863+00:00",
+      "story_id": "VEY-127",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Local retrieval does not require team PostgreSQL deployment.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Bounded traversal exposes actual run/memory/source relationships with cycle detection, owner filtering, depth/node/edge limits and explicit truncation. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-03T01:16:47.552863+00:00",
+      "story_id": "VEY-128",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Local retrieval does not require team PostgreSQL deployment.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Activity shows exact contributed lesson revisions and historical source runs. Erased lessons remain explicitly unavailable in history instead of disappearing. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-03T01:16:47.552863+00:00",
+      "story_id": "VEY-129",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Local retrieval does not require team PostgreSQL deployment.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Paired held-out memory reports retain complete outcomes and scope contamination flags. Training-family or answer-hash overlap excludes transfer eligibility; fixture reports do not demonstrate model improvement. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-03T01:16:47.552863+00:00",
+      "story_id": "VEY-130",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Local retrieval does not require team PostgreSQL deployment.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Owner-scoped JSON export includes reviewed records and history. Confirmed erasure removes lesson text from all revisions, invalidates inference cache and names retained source/audit evidence. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-03T01:16:47.552863+00:00",
+      "story_id": "VEY-171",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Local retrieval does not require team PostgreSQL deployment.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Versioned reproducible routing features use only pre-decision instruction/evidence sizes, document count, tool requirements and data classification. Final rewards/labels are not accepted inputs. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-03T01:16:47.552863+00:00",
+      "story_id": "VEY-172",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Local retrieval does not require team PostgreSQL deployment.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Trusted-host cost routing selects only qualified exact model fingerprints within task scope, capabilities, destination policy and comparable prices. Desktop defaults to explicit user selection; no real model is newly qualified. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-03T01:16:47.552863+00:00",
+      "story_id": "VEY-174",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Local retrieval does not require team PostgreSQL deployment.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-02/acceptance.json"
+      ],
+      "acceptance_note": "Bounded read-only final-response cache keys exact model inputs, tenant/owner, grants and memory revisions. It requires a succeeded source run, rejects actions, records hits and rechecks evidence before result publication. Local implementation verified; user commit and formal prerequisite acceptance pending."
     }
   ],
   "planning_deliverables": [

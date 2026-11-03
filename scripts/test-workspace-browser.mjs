@@ -126,12 +126,12 @@ if(process.argv.includes('--serve')){
     assert.ok(await page.getByRole('button',{name:'Save task',exact:true}).evaluate(el=>{const r=el.getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight;}),'save is reachable at the native minimum window size');
     await page.keyboard.press('Escape');
     await page.setViewportSize({width:1440,height:1000});await page.goto(origin+'/');
-    await page.getByRole('heading',{name:'Your work starts here'}).waitFor();
+    await page.getByRole('heading',{name:'No tasks yet'}).waitFor();
     await screenshot('empty-browser');await accessibility('Disconnected empty workspace');
     assert.equal(await page.locator('veya-work-welcome').getAttribute('aria-hidden'),'true','decorative welcome is excluded from announcements');
     assert.equal(await page.locator('veya-work-welcome').evaluate(el=>el.getAnimations({subtree:true}).length),0,'reduced motion disables welcome animation');
     await page.emulateMedia({reducedMotion:'no-preference'});
-    await page.reload();await page.getByRole('heading',{name:'Your work starts here'}).waitFor();
+    await page.reload();await page.getByRole('heading',{name:'No tasks yet'}).waitFor();
     assert.notEqual(await page.locator('veya-work-welcome .stack').evaluate(el=>getComputedStyle(el).animationName),'none','normal motion enables the finite entrance');
     await page.waitForFunction(()=>document.querySelector('veya-work-welcome').getAnimations({subtree:true}).every(a=>a.playState==='finished'));
     await screenshot('glass-welcome');
@@ -152,7 +152,7 @@ if(process.argv.includes('--serve')){
     await page.goto(origin+'/fixture?list-error=1');
     await page.getByRole('alert').filter({hasText:'The runtime is busy.'}).waitFor();
     assert.equal(await page.locator('veya-work-welcome').count(),0,'failed loads do not show a welcome illustration');
-    assert.equal(await page.getByRole('heading',{name:'Your work starts here'}).count(),0,'failed loads are not presented as an empty workspace');
+    assert.equal(await page.getByRole('heading',{name:'No tasks yet'}).count(),0,'failed loads are not presented as an empty workspace');
     await accessibility('Task list failure');
     checks.push('PASS: decorative glass icons and welcome, finite 3D entrance, reduced motion, forced colors, empty workspace at 800/375/320px, keyboard first-task entry, filtered and failed-load states.');
     assert.deepEqual(errors,[]);

@@ -22,3 +22,6 @@ def revoke(db, tenant: str, document_id: str) -> None:
         connection.execute(
             'UPDATE documents SET revoked=1 WHERE tenant_id=? AND id=?', (tenant, document_id)
         )
+        from veya.retrieval.reindex import purge
+
+        purge(connection, tenant, document_id)

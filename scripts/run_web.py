@@ -30,7 +30,7 @@ def main():
             raise RuntimeError('Platform readiness failed')
         print('Local workspace connection link (private to this session):', flush=True)
         print(f'http://127.0.0.1:{ready["port"]}/#session={token}', flush=True)
-        print('Keep this terminal open. Press Ctrl+C to stop. AI execution is not connected yet.', flush=True)
+        print('Keep this terminal open. Press Ctrl+C to stop. Configure a model in Connection to run saved tasks.', flush=True)
         child.wait()
     except KeyboardInterrupt:
         pass

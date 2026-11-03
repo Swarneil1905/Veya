@@ -17,10 +17,12 @@ from veya.api.connections import router as connections_router
 from veya.api.documents import router as document_router
 from veya.api.events import router as event_router
 from veya.api.execution import router as execution_router
+from veya.api.memory import router as memory_router
 from veya.api.proposals import router as proposal_router
 from veya.api.providers import router as provider_router
 from veya.api.research import router as research_router
 from veya.api.results import router as result_router
+from veya.api.retrieval import router as retrieval_router
 from veya.api.runs import router as run_router
 from veya.api.task_list import router as task_list_router
 from veya.api.tasks import router as task_router
@@ -224,6 +226,8 @@ def create_app(
     app.include_router(approval_router(approval_inbox, reviewer_token))
     app.include_router(usage_router(db, settings.tenant_id))
     app.include_router(document_router(db, settings.tenant_id))
+    app.include_router(memory_router(db, settings.tenant_id))
+    app.include_router(retrieval_router(db, settings.tenant_id))
     app.include_router(result_router(db, settings.tenant_id))
     app.include_router(research_router(db, settings.tenant_id))
     app.include_router(task_router(db, settings.tenant_id, catalog))

@@ -28,8 +28,11 @@ type Command struct {
 func Route(c Command) (method, path string, body []byte, err error) {
 	allowed, ok := map[string][]string{
 		"list_tasks": {"status", "search", "sort", "cursor"}, "recovery": {},
-		"get_task":             {"task_id"},
-		"export_diagnostics":   {},
+		"get_task":           {"task_id"},
+		"export_diagnostics": {},
+		"list_memories":      {}, "export_memories": {}, "propose_memory": {"run_id"},
+		"review_memory": {"id", "revision", "content", "action"}, "erase_memory": {"id", "revision"},
+		"memory_evidence": {"run_id"}, "index_document": {"id"}, "search_evidence": {"task_id", "query", "mode"},
 		"external_connections": {}, "remove_external_connection": {"id"},
 		"list_evaluations": {"after"}, "get_evaluation": {"id"},
 		"list_trajectories": {"after"}, "get_trajectory": {"id"}, "review_trajectory": {"id", "revision", "fingerprint", "decision", "tags", "note"},
@@ -63,6 +66,47 @@ func Route(c Command) (method, path string, body []byte, err error) {
 	}
 	text := func(key string) string { var s string; _ = json.Unmarshal(c.Args[key], &s); return s }
 	switch c.Operation {
+	case "list_memories", "export_memories":
+		path = "/v1/memories"
+		if c.Operation == "export_memories" {
+			path += "/export"
+		}
+		return "GET", path, nil, nil
+	case "propose_memory", "memory_evidence":
+		if !identifier.MatchString(text("run_id")) {
+			return "", "", nil, ErrInput
+		}
+		if c.Operation == "memory_evidence" {
+			return "GET", "/v1/memories/runs/" + text("run_id"), nil, nil
+		}
+		body, err = json.Marshal(map[string]string{"run_id": text("run_id")})
+		return "POST", "/v1/memories/candidates", body, err
+	case "review_memory", "erase_memory":
+		var revision int64
+		if !identifier.MatchString(text("id")) || json.Unmarshal(c.Args["revision"], &revision) != nil || revision < 1 {
+			return "", "", nil, ErrInput
+		}
+		payload := map[string]any{"revision": revision}
+		action := "erase"
+		if c.Operation == "review_memory" {
+			if len(text("content")) < 10 || len(text("content")) > 8000 || (text("action") != "activate" && text("action") != "retract") {
+				return "", "", nil, ErrInput
+			}
+			payload["content"], payload["action"], action = text("content"), text("action"), "review"
+		}
+		body, err = json.Marshal(payload)
+		return "POST", "/v1/memories/" + text("id") + "/" + action, body, err
+	case "index_document":
+		if !identifier.MatchString(text("id")) {
+			return "", "", nil, ErrInput
+		}
+		return "POST", "/v1/retrieval/documents/" + text("id") + "/index", []byte("{}"), nil
+	case "search_evidence":
+		if !identifier.MatchString(text("task_id")) || strings.TrimSpace(text("query")) == "" || len(text("query")) > 8000 || (text("mode") != "lexical" && text("mode") != "vector" && text("mode") != "hybrid") {
+			return "", "", nil, ErrInput
+		}
+		body, err = json.Marshal(c.Args)
+		return "POST", "/v1/retrieval/search", body, err
 	case "external_connections":
 		return "GET", "/v1/connections/external", nil, nil
 	case "remove_external_connection":
