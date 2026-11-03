@@ -1,0 +1,8 @@
+Work list: axe WCAG A/AA checks passed
+Task overview: axe WCAG A/AA checks passed
+Task activity: axe WCAG A/AA checks passed
+Task editor: axe WCAG A/AA checks passed
+Disconnected empty workspace: axe WCAG A/AA checks passed
+Task list failure: axe WCAG A/AA checks passed
+PASS: decorative glass icons and welcome, finite 3D entrance, reduced motion, forced colors, empty workspace at 800/375/320px, keyboard first-task entry, filtered and failed-load states.
+PASS: navigation persistence, search, filters, Overview/Activity keyboard tabs, modal focus containment/restoration, draft close/reopen, submit opens activity, narrow and minimum windows, long title wrapping, disabled browser submission; no page errors.

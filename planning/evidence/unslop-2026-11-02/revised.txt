@@ -1,0 +1,13 @@
+No tasks yet
+
+Create a task to keep its instructions and progress together.
+
+Describe the task
+
+Save tasks, import documents and inspect their sources and activity locally. Model execution requires a tested provider and an explicit start for each task.
+
+This task can read its attachments and calculate. It cannot send messages or change business records.
+
+I permit this task and its attachments as internal data for the displayed hosted providers, including fallback. Provider charges may apply.
+
+Erase this lesson and its historical text? Source tasks and audit identifiers will remain.

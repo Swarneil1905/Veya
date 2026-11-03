@@ -1,0 +1,345 @@
+{
+  "upstream": "https://github.com/theclaymethod/unslop",
+  "revision": "17ed39c9d0b522f44190ff0c6233867eadee192a",
+  "mode": "reviewed minimal copy rewrites; crisp-human preset",
+  "findings": [
+    {
+      "id": "empty_heading",
+      "before": "Your work starts here",
+      "after": "No tasks yet",
+      "finding": "Generic opening does not identify the empty task-list state."
+    },
+    {
+      "id": "empty_description",
+      "before": "Give a task a clear brief. Keep its instructions and progress together, from the first note onward.",
+      "after": "Create a task to keep its instructions and progress together.",
+      "finding": "Remove vague clear-brief advice and ornamental from-the-first-note ending; retain the task and progress relationship."
+    },
+    {
+      "id": "composer_heading",
+      "before": "A clear brief. A place to start.",
+      "after": "Describe the task",
+      "finding": "Two abstract fragments repeat the form context without helping the user fill it in."
+    },
+    {
+      "id": "connection_description",
+      "before": "Task saving and recorded activity are available through the local platform. Document imports and source inspection are available. Model execution requires a tested provider and an explicit start for each task.",
+      "after": "Save tasks, import documents and inspect their sources and activity locally. Model execution requires a tested provider and an explicit start for each task.",
+      "finding": "Replace repeated availability statements with the existing concrete operations; preserve the execution precondition exactly."
+    }
+  ],
+  "protected": "Read-only restrictions, hosted-provider consent, provider charges and erasure retention notice remain byte-for-byte unchanged.",
+  "results": {
+    "extract_constraints_before": {
+      "exit_code": 0,
+      "result": {
+        "input_length": 717,
+        "constraint_count": 0,
+        "constraints": []
+      }
+    },
+    "extract_constraints_after": {
+      "exit_code": 0,
+      "result": {
+        "input_length": 602,
+        "constraint_count": 0,
+        "constraints": []
+      }
+    },
+    "banned_phrase_scan_before": {
+      "exit_code": 0,
+      "result": {
+        "total_violations": 0,
+        "by_severity": {
+          "hard": 0,
+          "soft": 0
+        },
+        "by_category": {},
+        "violations": []
+      }
+    },
+    "banned_phrase_scan_after": {
+      "exit_code": 0,
+      "result": {
+        "total_violations": 0,
+        "by_severity": {
+          "hard": 0,
+          "soft": 0
+        },
+        "by_category": {},
+        "violations": []
+      }
+    },
+    "structure_scan_before": {
+      "exit_code": 1,
+      "result": {
+        "flags": [
+          {
+            "metric": "sentence_burstiness",
+            "value": 0.446,
+            "threshold": "< 0.55 over at least 8 prose sentences",
+            "severity": "soft",
+            "detail": "Sentence lengths are unusually uniform for running prose.",
+            "suggestion": "Vary sentence length and cadence; if this is formal reference prose, review before treating it as blocking."
+          }
+        ],
+        "flagged": {
+          "sentence_burstiness": true
+        },
+        "metrics": {
+          "sentence_burstiness": 0.446,
+          "summary_sandwich": 0.0,
+          "paragraph_cv": 0.527,
+          "sentence_mean_len": 8.5,
+          "triad_density": 0.0,
+          "em_dash_per_1k": 0.0,
+          "bold_colon_listicle_count": 0,
+          "one_line_staccato_share": 0.143,
+          "connective_paragraph_openers": 0,
+          "every_template_openers": 0,
+          "signpost_density": 0.0,
+          "opener_unique_ratio": 1.0,
+          "top_opener_share": 0.091,
+          "max_consecutive_opener": 1,
+          "participial_closer_share": 0.0,
+          "conclusion_coda": false
+        },
+        "genre": "prose",
+        "prose_sentences": 13,
+        "prose_paragraphs": 7
+      }
+    },
+    "structure_scan_after": {
+      "exit_code": 1,
+      "result": {
+        "flags": [
+          {
+            "metric": "sentence_burstiness",
+            "value": 0.397,
+            "threshold": "< 0.55 over at least 8 prose sentences",
+            "severity": "soft",
+            "detail": "Sentence lengths are unusually uniform for running prose.",
+            "suggestion": "Vary sentence length and cadence; if this is formal reference prose, review before treating it as blocking."
+          }
+        ],
+        "flagged": {
+          "sentence_burstiness": true
+        },
+        "metrics": {
+          "sentence_burstiness": 0.397,
+          "summary_sandwich": 0.0,
+          "paragraph_cv": 0.584,
+          "sentence_mean_len": 10.1,
+          "triad_density": 0.0,
+          "em_dash_per_1k": 0.0,
+          "bold_colon_listicle_count": 0,
+          "one_line_staccato_share": 0.429,
+          "connective_paragraph_openers": 0,
+          "every_template_openers": 0,
+          "signpost_density": 0.0,
+          "opener_unique_ratio": 1.0,
+          "top_opener_share": 0.111,
+          "max_consecutive_opener": 1,
+          "participial_closer_share": 0.0,
+          "conclusion_coda": false
+        },
+        "genre": "prose",
+        "prose_sentences": 9,
+        "prose_paragraphs": 7
+      }
+    },
+    "silhouette_scan_before": {
+      "exit_code": 0,
+      "result": {
+        "genre": "prose",
+        "prose_paragraphs": 7,
+        "flags": [],
+        "flagged": {},
+        "metrics": {
+          "scaffold_opener_share": 0.0,
+          "role_entropy_bits": -0.0,
+          "heading_preview": null,
+          "preview_fulfillment": 0.0,
+          "callback_content": 0.0
+        },
+        "contributions": {
+          "scaffold_opener_share": 0.0,
+          "role_entropy_bits": 0.0,
+          "heading_preview": null,
+          "preview_fulfillment": 0.0,
+          "callback_content": 0.0
+        },
+        "penalty": 0.0
+      }
+    },
+    "silhouette_scan_after": {
+      "exit_code": 0,
+      "result": {
+        "genre": "prose",
+        "prose_paragraphs": 7,
+        "flags": [],
+        "flagged": {},
+        "metrics": {
+          "scaffold_opener_share": 0.0,
+          "role_entropy_bits": -0.0,
+          "heading_preview": null,
+          "preview_fulfillment": 0.0,
+          "callback_content": 0.0
+        },
+        "contributions": {
+          "scaffold_opener_share": 0.0,
+          "role_entropy_bits": 0.0,
+          "heading_preview": null,
+          "preview_fulfillment": 0.0,
+          "callback_content": 0.0
+        },
+        "penalty": 0.0
+      }
+    },
+    "readability_metrics_before": {
+      "exit_code": 0,
+      "result": {
+        "flesch_kincaid_grade": 7.3,
+        "flesch_reading_ease": 57.5,
+        "sentence_count": 13,
+        "word_count": 110,
+        "avg_sentence_length": 8.5,
+        "sentence_length_variance": 14.2,
+        "min_sentence_length": 3,
+        "max_sentence_length": 17,
+        "consecutive_similar_length": 2,
+        "word_repetition_score": 6.8,
+        "top_repeated_words": [
+          [
+            "task",
+            5
+          ],
+          [
+            "clear",
+            2
+          ],
+          [
+            "brief",
+            2
+          ],
+          [
+            "start",
+            2
+          ],
+          [
+            "available",
+            2
+          ],
+          [
+            "source",
+            2
+          ],
+          [
+            "provider",
+            2
+          ],
+          [
+            "attachments",
+            2
+          ],
+          [
+            "your",
+            1
+          ],
+          [
+            "work",
+            1
+          ]
+        ],
+        "paragraph_count": 1,
+        "avg_paragraph_length": 110.0,
+        "flags": []
+      }
+    },
+    "readability_metrics_after": {
+      "exit_code": 0,
+      "result": {
+        "flesch_kincaid_grade": 8.5,
+        "flesch_reading_ease": 52.5,
+        "sentence_count": 9,
+        "word_count": 91,
+        "avg_sentence_length": 10.1,
+        "sentence_length_variance": 16.1,
+        "min_sentence_length": 4,
+        "max_sentence_length": 17,
+        "consecutive_similar_length": 2,
+        "word_repetition_score": 13.3,
+        "top_repeated_words": [
+          [
+            "task",
+            5
+          ],
+          [
+            "tasks",
+            3
+          ],
+          [
+            "provider",
+            2
+          ],
+          [
+            "attachments",
+            2
+          ],
+          [
+            "yet",
+            1
+          ],
+          [
+            "create",
+            1
+          ],
+          [
+            "keep",
+            1
+          ],
+          [
+            "instructions",
+            1
+          ],
+          [
+            "progress",
+            1
+          ],
+          [
+            "together",
+            1
+          ]
+        ],
+        "paragraph_count": 1,
+        "avg_paragraph_length": 91.0,
+        "flags": []
+      }
+    },
+    "validate_preservation": {
+      "exit_code": 0,
+      "result": {
+        "passed": true,
+        "total_constraints": 0,
+        "preserved": 0,
+        "missing_count": 0,
+        "missing": [],
+        "warnings": []
+      }
+    },
+    "diff_check": {
+      "exit_code": 0,
+      "result": {
+        "original_word_count": 125,
+        "transformed_word_count": 102,
+        "similarity_ratio": 0.74,
+        "change_percentage": 40.0,
+        "words_added": 6,
+        "words_removed": 0,
+        "words_changed": 44,
+        "excessive_change": false,
+        "flags": []
+      }
+    }
+  }
+}

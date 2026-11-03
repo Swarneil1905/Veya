@@ -1,0 +1,36 @@
+{
+  "date": "2026-11-02",
+  "upstream": "https://github.com/theclaymethod/unslop",
+  "revision": "17ed39c9d0b522f44190ff0c6233867eadee192a",
+  "installation": "Existing global v2.3.0 preserved; pinned source installed outside repository at Documents/Codex/tools/unslop.",
+  "scope": [
+    "Clearer empty-state and composer instructions",
+    "Lesson topic and status labels",
+    "Keyboard-accessible source details disclosure",
+    "Separate factual correction: stale execution availability message in composer and web launcher"
+  ],
+  "skills": [
+    "unslop: crisp-human preset",
+    "skill-installer",
+    "frontend-design",
+    "frontend-ui-engineering",
+    "accessibility-compliance"
+  ],
+  "checks": {
+    "pnpm check": "passed",
+    "pnpm build": "passed: 343.67 kB raw / 80.61 kB estimated transfer",
+    "node scripts/test-workspace-browser.mjs": "passed",
+    "node scripts/test-memory-browser.mjs": "passed; synthetic fixtures through Angular/Go/Python",
+    "git diff --check": "passed",
+    "protected_notices": "Three original notices verified with source whitespace normalized",
+    "python scripts/project.py render": "passed; counts unchanged"
+  },
+  "visual_review": "Inspected empty workspace, desktop lesson review and 375px lesson review screenshots. Source metadata collapsed; editable text and approval controls visible.",
+  "scanner_assessment": "No phrase flags before or after; strict preservation passed. Soft sentence-burstiness warning remains on concatenated UI fragments. Readability grade rose from 7.3 to 8.5. Scores do not establish better prose or authorize further rewrites; contextual findings are in scan-results.json.",
+  "limitations": [
+    "Targeted copy and interaction refinement, not a full visual redesign",
+    "No live model or installed native release verification claimed",
+    "No additional backlog stories counted"
+  ],
+  "publication": "Local uncommitted changes; no staging, commits or pushes."
+}

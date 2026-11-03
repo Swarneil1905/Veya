@@ -1,0 +1,221 @@
+{
+  "date": "2026-11-02",
+  "status": "local_implementation_in_review",
+  "source_commit": "8cc38d3ed11e63a1f29520f184cbe1b71b3b16df",
+  "publication": "No staging, commits, pushes, remote issues, or releases performed.",
+  "scope": "Twenty local retrieval, reviewed-memory and bounded routing/cache stories.",
+  "architecture": {
+    "local_retrieval": "Use existing tenant-scoped SQLite and a deterministic lexical-trigram encoder for the local desktop slice. Requiring PostgreSQL/team deployment before local retrieval was rejected. VEY-113 and VEY-202 remain separate backlog work.",
+    "memory": "Keep coupled review/retraction/export transactions in one memory store instead of thin wrappers for each planned file. Existing typed memory contracts remain intact.",
+    "design": "Preserve the approved Veya Work console, Public Sans/Phosphor, compact navigation and contextual task Activity. Data review separates Examples and Lessons. Verify desktop/narrow layouts and keyboard/failure states in this batch."
+  },
+  "verification": {
+    "full_runtime": {
+      "tests": "641",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "170.213"
+    },
+    "final_focused_runtime": {
+      "tests": "47",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "24.734"
+    },
+    "runtime_note": "Full 641-test suite passed; final focused run covers four additional indexing/consent/reranker race tests and final guards. Counts overlap; do not add them.",
+    "python": "ruff check/format, mypy 143 source files, generated OpenAPI/TypeScript contract v9, evaluation-tooling checks passed.",
+    "go": "Go vet and all four tested packages passed, including new allowlist and identity-forgery tests.",
+    "frontend": "pnpm check, pnpm build (342.68 kB raw / 80.44 kB estimated transfer), and 9 frontend tests passed.",
+    "browser": "Real Angular → Go → Python memory approval, stale edit preservation, retraction, erasure, export, attribution and candidate flows passed. Axe and keyboard checks at 1440/375; screenshots inspected. Existing document/provider browser regressions passed.",
+    "repository": "27 unittest checks, owned module boundaries, actionlint v1.7.7 and git diff --check passed.",
+    "final_browser_fix": "Final browser pass verified proposal stays disabled until run identity is loaded; retained final screenshots show the separate Lessons selector and local-only memory disclosure."
+  },
+  "limitations": [
+    "Stories remain in_review: user commits and formal prerequisite acceptance are pending.",
+    "Local vector features are lexical, not a qualified semantic embedding model; no PostgreSQL/team deployment was implemented.",
+    "Reranking and automatic cost routing accept trusted host adapters/qualification records; no production reranker or model was qualified in this batch.",
+    "Memory is currently personal-workspace scoped and excluded from hosted-provider prompts until separate memory consent exists.",
+    "Synthetic contract/scenario tests do not establish real-model task quality, memory transfer improvements, native installed QA or signed release readiness.",
+    "GitHub CI has not run these local changes. Existing R1 model-quality and installed/signed Windows release gaps remain open."
+  ],
+  "skills_applied": [
+    "codebase-design",
+    "api-and-interface-design",
+    "database-migrations",
+    "python-resilience",
+    "security-and-hardening",
+    "agent-security-hardening",
+    "eval-harness-first",
+    "dataset-curation",
+    "frontend-ui-engineering",
+    "accessibility-compliance",
+    "golang-patterns",
+    "golang-testing",
+    "code-review-and-quality"
+  ],
+  "reference": "https://angular.dev/guide/components/lifecycle",
+  "stories": {
+    "VEY-112": {
+      "assessment": "Resumable content-addressed indexing reuses unchanged chunks, isolates model revisions, validates dimensions, and fences late/revoked publication. A failed job remains retryable.",
+      "paths": [
+        "services/runtime/veya/retrieval/embeddings.py",
+        "services/runtime/migrations/028_evidence_memory.sql",
+        "services/runtime/tests/test_retrieval_batch.py"
+      ]
+    },
+    "VEY-114": {
+      "assessment": "Lexical, vector and reciprocal-rank fusion operate over the same authorized local corpus. Empty results are explicit. SQLite supports the local slice; PostgreSQL remains VEY-113.",
+      "paths": [
+        "services/runtime/veya/retrieval/hybrid.py",
+        "services/runtime/tests/test_retrieval_batch.py"
+      ]
+    },
+    "VEY-115": {
+      "assessment": "Attachment, tenant, source-version and effective-time checks run before ranking and again before context consumption. Revoked/future sources are excluded, including late reranker revocation.",
+      "paths": [
+        "services/runtime/veya/retrieval/filters.py",
+        "services/runtime/veya/tools/read_only.py",
+        "services/runtime/tests/test_memory_retrieval_api.py"
+      ]
+    },
+    "VEY-116": {
+      "assessment": "Optional trusted asynchronous reranking preserves source identity, supports a disabled baseline and reports timeout/invalid-score fallback without invented scores.",
+      "paths": [
+        "services/runtime/veya/retrieval/rerank.py",
+        "services/runtime/veya/api/retrieval.py",
+        "services/runtime/tests/test_retrieval_batch.py"
+      ]
+    },
+    "VEY-117": {
+      "assessment": "Context includes whole permitted source records with identity, version, offsets and an untrusted-data envelope. Oversized records are skipped explicitly; default counting is conservative UTF-8 bytes.",
+      "paths": [
+        "services/runtime/veya/retrieval/context.py",
+        "services/runtime/veya/tools/read_only.py",
+        "services/runtime/tests/test_retrieval_batch.py"
+      ]
+    },
+    "VEY-118": {
+      "assessment": "Retrieval labels distinguish missed evidence, omitted context, unsupported answers, permission failures and generation failures. Unsupported correct answers cannot count as grounded success.",
+      "paths": [
+        "packages/evals/retrieval/labels.py",
+        "services/runtime/tests/test_retrieval_batch.py"
+      ]
+    },
+    "VEY-119": {
+      "assessment": "Repeated lexical/vector/hybrid benchmark runs retain corpus/model/query versions, query digest, complete failure denominators and family/exact-query leakage flags.",
+      "paths": [
+        "packages/evals/retrieval/runner.py",
+        "services/runtime/tests/test_retrieval_batch.py"
+      ]
+    },
+    "VEY-120": {
+      "assessment": "New source versions require an observable indexing checkpoint; revocation purges indexes and cached vectors/responses. Existing tasks retain explicitly attached historical versions.",
+      "paths": [
+        "services/runtime/veya/retrieval/reindex.py",
+        "services/runtime/veya/files/grants.py",
+        "services/runtime/tests/test_retrieval_batch.py"
+      ]
+    },
+    "VEY-122": {
+      "assessment": "Candidate lessons come from bounded known durable failure codes and source runs. They remain drafts. Secret-bearing text, unsupported universal rules and unsupported failures are rejected.",
+      "paths": [
+        "services/runtime/veya/memory/store.py",
+        "services/runtime/tests/test_memory_batch.py"
+      ]
+    },
+    "VEY-123": {
+      "assessment": "Data review → Lessons supports editing, explicit activation/retraction, revision conflict recovery and preserved drafts through authenticated Go commands. Reviewer identity is host-owned.",
+      "paths": [
+        "services/runtime/veya/memory/store.py",
+        "services/runtime/veya/api/memory.py",
+        "apps/desktop/src/features/memory/memory-review.ts",
+        "services/platform/internal/workspace/commands.go",
+        "scripts/test-memory-browser.mjs"
+      ]
+    },
+    "VEY-124": {
+      "assessment": "Only current same-tenant/workspace/owner active lessons enter local-only model task context. Hosted selections omit prior-task memory because existing remote consent does not cover it.",
+      "paths": [
+        "services/runtime/veya/memory/store.py",
+        "services/runtime/veya/execution/agent_loop.py",
+        "services/runtime/tests/test_memory_batch.py",
+        "services/runtime/tests/test_routing_batch.py"
+      ]
+    },
+    "VEY-125": {
+      "assessment": "Different active lessons for the same failure topic cannot silently override one another. Explicit retraction is required before activating conflicting content; lessons never change tool policy.",
+      "paths": [
+        "services/runtime/veya/memory/store.py",
+        "services/runtime/tests/test_memory_batch.py"
+      ]
+    },
+    "VEY-126": {
+      "assessment": "Thirty-day expiry and explicit retraction stop subsequent use; in-flight tasks reject stale lesson revisions. Immutable historical attribution remains visible.",
+      "paths": [
+        "services/runtime/veya/memory/store.py",
+        "services/runtime/veya/execution/agent_loop.py",
+        "services/runtime/tests/test_memory_batch.py",
+        "services/runtime/tests/test_routing_batch.py"
+      ]
+    },
+    "VEY-127": {
+      "assessment": "Bounded traversal exposes actual run/memory/source relationships with cycle detection, owner filtering, depth/node/edge limits and explicit truncation.",
+      "paths": [
+        "services/runtime/veya/memory/context_graph.py",
+        "services/runtime/veya/api/memory.py",
+        "services/runtime/tests/test_memory_batch.py"
+      ]
+    },
+    "VEY-128": {
+      "assessment": "Activity shows exact contributed lesson revisions and historical source runs. Erased lessons remain explicitly unavailable in history instead of disappearing.",
+      "paths": [
+        "services/runtime/veya/memory/store.py",
+        "apps/desktop/src/features/activity/memory-evidence.ts",
+        "apps/desktop/src/workspace/activity.ts",
+        "scripts/test-memory-browser.mjs"
+      ]
+    },
+    "VEY-129": {
+      "assessment": "Paired held-out memory reports retain complete outcomes and scope contamination flags. Training-family or answer-hash overlap excludes transfer eligibility; fixture reports do not demonstrate model improvement.",
+      "paths": [
+        "packages/evals/memory/transfer.py",
+        "services/runtime/tests/test_memory_batch.py"
+      ]
+    },
+    "VEY-130": {
+      "assessment": "Owner-scoped JSON export includes reviewed records and history. Confirmed erasure removes lesson text from all revisions, invalidates inference cache and names retained source/audit evidence.",
+      "paths": [
+        "services/runtime/veya/memory/store.py",
+        "services/runtime/veya/api/memory.py",
+        "apps/desktop/src/features/memory/memory-review.ts",
+        "services/runtime/tests/test_memory_batch.py"
+      ]
+    },
+    "VEY-171": {
+      "assessment": "Versioned reproducible routing features use only pre-decision instruction/evidence sizes, document count, tool requirements and data classification. Final rewards/labels are not accepted inputs.",
+      "paths": [
+        "services/runtime/veya/routing/features.py",
+        "services/runtime/veya/execution/agent_loop.py",
+        "services/runtime/tests/test_routing_batch.py"
+      ]
+    },
+    "VEY-172": {
+      "assessment": "Trusted-host cost routing selects only qualified exact model fingerprints within task scope, capabilities, destination policy and comparable prices. Desktop defaults to explicit user selection; no real model is newly qualified.",
+      "paths": [
+        "services/runtime/veya/routing/static.py",
+        "services/runtime/veya/execution/agent_loop.py",
+        "services/runtime/tests/test_routing_batch.py"
+      ]
+    },
+    "VEY-174": {
+      "assessment": "Bounded read-only final-response cache keys exact model inputs, tenant/owner, grants and memory revisions. It requires a succeeded source run, rejects actions, records hits and rechecks evidence before result publication.",
+      "paths": [
+        "services/runtime/veya/routing/cache.py",
+        "services/runtime/veya/execution/agent_loop.py",
+        "services/runtime/tests/test_routing_batch.py"
+      ]
+    }
+  }
+}
