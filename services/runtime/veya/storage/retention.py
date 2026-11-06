@@ -53,15 +53,42 @@ class Retention:
             is not None
         )
 
-    def prune(self, tenant: str, before: str, *, limit: int = 100) -> dict:
+    def prune(
+        self,
+        tenant: str,
+        before: str,
+        *,
+        limit: int = 100,
+        policy_version: int | None = None,
+        job_id: str | None = None,
+    ) -> dict:
+        import json
+
         identifier(tenant)
         cutoff = instant(before)
         if type(limit) is not int or not 1 <= limit <= 1000:
             raise ValueError('Invalid retention batch size')
         deleted = runs = 0
         with self.db.transaction() as conn:
+            if policy_version is not None:
+                policy = conn.execute(
+                    'SELECT version FROM retention_policies WHERE tenant_id=?', (tenant,)
+                ).fetchone()
+                if policy is None or policy[0] != policy_version or job_id is None:
+                    raise DomainError('conflict', 'Retention policy changed before deletion')
+                identifier(job_id)
+                prior = conn.execute(
+                    'SELECT result_json FROM retention_jobs WHERE tenant_id=? AND id=?',
+                    (tenant, job_id),
+                ).fetchone()
+                if prior:
+                    return json.loads(prior[0])
             rows = conn.execute(
-                "SELECT a.payload FROM artifacts a JOIN runs r ON r.tenant_id=a.tenant_id AND r.id=a.run_id WHERE a.tenant_id=? AND r.state IN ('succeeded','failed','cancelled') ORDER BY a.rowid",
+                (
+                    'SELECT a.payload FROM artifacts a JOIN runs r ON r.tenant_id=a.tenant_id'
+                    ' AND r.id=a.run_id WHERE a.tenant_id=? AND r.state IN '
+                    "('succeeded','failed','cancelled') ORDER BY a.rowid"
+                ),
                 (tenant,),
             )
             for row in rows:
@@ -74,15 +101,24 @@ class Retention:
                     continue
                 # Structured event references are retained evidence, even without a FK.
                 referenced = conn.execute(
-                    'SELECT 1 FROM events,json_tree(events.data) j WHERE tenant_id=? AND j.atom=? LIMIT 1',
+                    (
+                        'SELECT 1 FROM events,json_tree(events.data) j WHERE tenant_id=? AND '
+                        'j.atom=? LIMIT 1'
+                    ),
                     (tenant, artifact.id),
                 ).fetchone()
                 referenced_proposal = conn.execute(
-                    'SELECT 1 FROM proposals p,json_tree(p.arguments_json) j WHERE p.tenant_id=? AND j.atom=? LIMIT 1',
+                    (
+                        'SELECT 1 FROM proposals p,json_tree(p.arguments_json) j WHERE '
+                        'p.tenant_id=? AND j.atom=? LIMIT 1'
+                    ),
                     (tenant, artifact.id),
                 ).fetchone()
                 referenced_audit = conn.execute(
-                    'SELECT 1 FROM audit_entries a,json_tree(a.payload_json) j WHERE a.tenant_id=? AND j.atom=? LIMIT 1',
+                    (
+                        'SELECT 1 FROM audit_entries a,json_tree(a.payload_json) j WHERE '
+                        'a.tenant_id=? AND j.atom=? LIMIT 1'
+                    ),
                     (tenant, artifact.id),
                 ).fetchone()
                 if referenced or referenced_proposal or referenced_audit:
@@ -94,7 +130,11 @@ class Retention:
                 except sqlite3.IntegrityError:
                     continue
                 conn.execute(
-                    'INSERT INTO artifact_deletions(tenant_id,artifact_id,run_id,sha256,deleted_at) VALUES (?,?,?,?,?)',
+                    (
+                        'INSERT INTO '
+                        'artifact_deletions(tenant_id,artifact_id,run_id,sha256,deleted_at) '
+                        'VALUES (?,?,?,?,?)'
+                    ),
                     (tenant, artifact.id, artifact.run.id, artifact.sha256, utc_now()),
                 )
                 append_in_transaction(
@@ -111,7 +151,10 @@ class Retention:
                 if deleted >= limit:
                     break
             candidates = conn.execute(
-                "SELECT payload FROM runs WHERE tenant_id=? AND state IN ('succeeded','failed','cancelled') ORDER BY rowid",
+                (
+                    'SELECT payload FROM runs WHERE tenant_id=? AND state IN '
+                    "('succeeded','failed','cancelled') ORDER BY rowid"
+                ),
                 (tenant,),
             )
             for row in candidates:
@@ -133,14 +176,25 @@ class Retention:
                 runs += 1
                 if runs >= limit:
                     break
+            result = {'artifacts': deleted, 'runs': runs}
+            if policy_version is not None:
+                conn.execute(
+                    'INSERT INTO retention_jobs VALUES (?,?,?,?,?)',
+                    (tenant, job_id, policy_version, before, json.dumps(result)),
+                )
         self.reclaim(tenant, limit=limit)
-        return {'artifacts': deleted, 'runs': runs}
+        return result
 
     def reclaim(self, tenant: str, *, limit: int = 100) -> None:
         identifier(tenant)
         with self.db.transaction() as conn:
             rows = conn.execute(
-                'SELECT d.* FROM artifact_deletions d WHERE d.tenant_id=? AND d.reclaimed=0 AND NOT EXISTS (SELECT 1 FROM artifacts a WHERE a.tenant_id=d.tenant_id AND a.sha256=d.sha256) ORDER BY d.sequence LIMIT ?',
+                (
+                    'SELECT d.* FROM artifact_deletions d WHERE d.tenant_id=? AND '
+                    'd.reclaimed=0 AND NOT EXISTS (SELECT 1 FROM artifacts a WHERE '
+                    'a.tenant_id=d.tenant_id AND a.sha256=d.sha256) ORDER BY d.sequence LIMIT'
+                    ' ?'
+                ),
                 (tenant, limit),
             ).fetchall()
             for row in rows:
