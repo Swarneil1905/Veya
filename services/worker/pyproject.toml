@@ -1,0 +1,22 @@
+[project]
+name = "veya-worker"
+version = "0.1.0"
+requires-python = ">=3.11,<3.14"
+dependencies = ["temporalio==1.35.0"]
+
+[project.scripts]
+veya-worker = "veya_worker.main:main"
+
+[build-system]
+requires = ["hatchling>=1.25,<2"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = ["pytest>=8.2,<9", "pytest-asyncio>=1.0,<2"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100

@@ -2,7 +2,7 @@
 
 Veya is an AI employee application under development, using **Angular/TypeScript**, a **Go platform service**, a **private Python execution runtime**, and **Rust/Tauri** for the Windows desktop host.
 
-The current workspace saves briefs, searches and pages through saved tasks, preserves filters and selection, shows recorded activity and recovers saved work after unexpected runtime exits. The approval inbox shows exact operation arguments, deadlines and revision-checked decisions for configured workflows; an unconfigured workspace has an empty inbox. Tasks start only after a model passes the streaming/tool connection test and the user explicitly starts a run. Read-only execution can inspect attached evidence and calculate, with cancellation, bounded loops and verified result publication. Model quality still needs task-specific qualification; business connectors are not enabled in the agent. Selected text PDFs, UTF-8 CSVs, XLSX workbooks and bounded EML exports can be imported, inspected and attached to a brief. Recorded outputs have source citations, version history and unavailable-evidence states. The local web application and desktop share the same command boundary and Ramp-inspired interface. This is not yet a hosted multi-tenant SaaS release.
+The current workspace saves briefs, searches and pages through saved tasks, preserves filters and selection, shows recorded activity and recovers saved work after unexpected runtime exits. The approval inbox shows exact operation arguments, deadlines and revision-checked decisions for configured workflows; an unconfigured workspace has an empty inbox. Tasks start only after a model passes the streaming/tool connection test and the user explicitly starts a run. Read-only execution can inspect attached evidence and calculate, with cancellation, bounded loops and verified result publication. Model quality still needs task-specific qualification; business connectors are not enabled in the agent. Selected text PDFs, UTF-8 CSVs, XLSX workbooks and bounded EML exports can be imported, inspected and attached to a brief. Recorded outputs have source citations, version history and unavailable-evidence states. The local web application and desktop share the same command boundary and Work console interface. This is not yet a hosted multi-tenant SaaS release.
 
 ## Source layout
 
@@ -89,7 +89,7 @@ CI covers Angular builds, browser interactions/accessibility, real Angularâ†’Goâ
 
 Add up to 10 documents to a new task, each up to 512 KiB. The Windows desktop offers file and folder pickers; folder imports include only top-level supported documents. The web workspace uses the browser file picker. Veya snapshots selected bytes locally, without granting parent-directory access. Removing a draft attachment detaches it from that brief; **Remove source access** in a saved task revokes that version for every task using it.
 
-Imports are durable and content-deduplicated. A failed or interrupted extraction can be retried from the draft. Replacements retain separate source versions; citations always address the original version and extracted page/block or sheet/cell. Scanned PDFs need OCR (not yet implemented); encrypted PDFs, unsafe workbook links, macros and oversized expansions are rejected. Formulas are displayed as untrusted text and never executed. Parser work has an eight-second deadline and bounded input/output; this is not an operating-system security sandbox.
+Imports are durable and content-deduplicated. A failed or interrupted extraction can be retried from the draft. Replacements retain separate source versions; citations always address the original version and extracted page/block or sheet/cell. Scanned PDFs require the optional local OCR dependencies; encrypted PDFs, unsafe workbook links, macros and oversized expansions are rejected. Formulas are displayed as untrusted text and never executed. Parser work has an eight-second deadline and bounded input/output; this is not an operating-system security sandbox.
 
 The Results tab opens recorded output artifacts, exceptions and source evidence. Missing or revoked sources are marked unavailable. No results are manufactured for queued tasks. Press **Ctrl+K** (or **Command+K**) for implemented workspace commands. Installed Windows dialog interaction and assistive-technology listening remain manual release checks.
 
@@ -122,3 +122,56 @@ uv run --project services/runtime --locked python scripts/run_invoice_evaluation
 Use your server's actual configured context limit. Each invocation creates a fresh workspace and local evidence under ignored `artifacts/invoice-evaluations/`. The report pins the task, source bytes, prompt, grading inputs, model digest and provider configuration. Exit status 1 preserves a failed or incomplete result. Seeds identify fixture runs; they do not make stochastic model inference deterministic. The included case is an arithmetic smoke test, not a realistic invoice-workflow benchmark or model qualification.
 
 Headless execution uses the same bounded read-only runtime and execution contract as the app. Fixture ERP writes use the existing exact-approval gateway separately; approval and fault controls are host-only and unavailable in the evaluated tool surface. Final business state, policy compliance and completion are graded separately. Expected answers stay outside model messages. The fixture workspace isolates test data but is not a sandbox for arbitrary executable agents. Installed desktop QA and production connector integration remain separate work.
+
+
+## Durable fixture workflows
+
+The optional Temporal worker runs reviewed synthetic operations. It retains
+operation identities across worker restarts, reconciles lost responses, and
+reports effects that could not be reversed. It does not connect to a live ERP or
+identity provider. The desktop remote-run attachment is separate work.
+
+Install the worker and start the local Temporal development service:
+
+```powershell
+uv sync --project services/worker --locked
+docker compose -f infra/compose.temporal.yml up -d
+uv run --project services/worker --locked veya-worker --storage ./artifacts/worker-state
+```
+
+The Compose service binds its published ports to loopback and retains its
+history in a named development volume. It is not a production deployment.
+The worker prints readiness after checking the service and registering its
+workflow and activities. Workflow input uses `veya_worker.contracts.TaskInput`;
+approvals are separate trusted-host records, never grants supplied by model text.
+
+Run recovery, seven-day review timeout, cancellation and replay checks with:
+
+```powershell
+pnpm test:worker
+pnpm test:reliability
+```
+
+These tests download the official Temporal CLI version pinned in the test setup.
+The timer suite uses the SDK's experimental per-workflow time-skipping feature
+on its disposable local server. Server startup failure fails the test.
+Stored V1 history is replayed in CI; an incompatible workflow fixture must fail.
+The recovery report records final fixture state, attempted operations and elapsed
+time. Synthetic results do not qualify a model or a production connector.
+
+## Local governance commands
+
+Run `python scripts/governance.py --help` with the runtime environment to inspect
+host-only commands for source withdrawal, retention policies, and reviewed
+instruction packages. Every command requires an explicit workspace and tenant.
+Retention is opt-in: configure its duration and revision, then run a named job.
+Existing holds and evidence references prevent deletion.
+
+Source withdrawal blocks future dataset exports and flags registered model
+lineage for review. It does not claim to remove knowledge from an existing model.
+Instruction packages require a named reviewer and a content digest; installation
+checks existing tool grants and executes no hooks. Rollback rechecks those grants.
+
+New code uses a 100-column formatting target. Wrap arguments and conditions at
+logical boundaries; keep URLs and indivisible literals intact. Review interface
+copy and documentation with Unslop, and review code with language tooling and tests.

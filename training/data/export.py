@@ -30,7 +30,7 @@ def export(store, path: Path, ids: tuple[str, ...], *, rules, held_out: tuple[Ex
         'scrub:' + fingerprint([r.model_dump(mode='json') for r in rules]),
         'dedup-v1',
     )
-    with store.db.transaction():
+    with store.db.transaction() as connection:
         manifest = build(store, ids, transforms)
         cleaned = {}
         examples = []
@@ -103,6 +103,10 @@ def export(store, path: Path, ids: tuple[str, ...], *, rules, held_out: tuple[Ex
                 'unique_families': quality['family_count'],
             },
         }
+        connection.execute(
+            'INSERT OR IGNORE INTO dataset_lineage VALUES (?,?,?,0)',
+            (store.tenant, manifest.fingerprint, manifest.model_dump_json()),
+        )
         encoded = canonical_json(payload, 1048576)
         require_clean(encoded.encode('utf8'))
         with path.open('x', encoding='utf8', newline='\n') as output:
