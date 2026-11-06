@@ -1,0 +1,8 @@
+Checking: C:\Users\Swarneil Pradhan\Veya\services\runtime\.venv\Scripts\python.exe -m ruff check services/runtime/veya services/runtime/tests
+All checks passed!
+Checking: C:\Users\Swarneil Pradhan\Veya\services\runtime\.venv\Scripts\python.exe -m ruff format --check services/runtime/veya services/runtime/tests
+218 files already formatted
+Checking: C:\Users\Swarneil Pradhan\Veya\services\runtime\.venv\Scripts\python.exe -m mypy --config-file services/runtime/pyproject.toml services/runtime/veya
+Success: no issues found in 153 source files
+Checking: C:\Users\Swarneil Pradhan\Veya\services\runtime\.venv\Scripts\python.exe packages/contracts/generate.py --check
+PASS: OpenAPI and TypeScript contracts match

@@ -1,0 +1,168 @@
+{
+  "skill_revision": "17ed39c9d0b522f44190ff0c6233867eadee192a",
+  "mode": "audit",
+  "results": {
+    "banned_phrase_scan": {
+      "exit_code": 0,
+      "result": {
+        "total_violations": 0,
+        "by_severity": {
+          "hard": 0,
+          "soft": 0
+        },
+        "by_category": {},
+        "violations": []
+      }
+    },
+    "structure_scan": {
+      "exit_code": 1,
+      "result": {
+        "flags": [
+          {
+            "metric": "sentence_burstiness",
+            "value": 0.472,
+            "threshold": "< 0.55 over at least 8 prose sentences",
+            "severity": "soft",
+            "detail": "Sentence lengths are unusually uniform for running prose.",
+            "suggestion": "Vary sentence length and cadence; if this is formal reference prose, review before treating it as blocking."
+          }
+        ],
+        "flagged": {
+          "sentence_burstiness": true
+        },
+        "metrics": {
+          "sentence_burstiness": 0.472,
+          "summary_sandwich": 0.0,
+          "paragraph_cv": 0.893,
+          "sentence_mean_len": 10.2,
+          "triad_density": 1.486,
+          "em_dash_per_1k": 0.0,
+          "bold_colon_listicle_count": 0,
+          "one_line_staccato_share": 0.579,
+          "connective_paragraph_openers": 0,
+          "every_template_openers": 0,
+          "signpost_density": 0.0,
+          "opener_unique_ratio": 0.746,
+          "top_opener_share": 0.085,
+          "max_consecutive_opener": 2,
+          "participial_closer_share": 0.0,
+          "conclusion_coda": false
+        },
+        "genre": "prose",
+        "prose_sentences": 66,
+        "prose_paragraphs": 38
+      }
+    },
+    "silhouette_scan": {
+      "exit_code": 1,
+      "result": {
+        "genre": "prose",
+        "prose_paragraphs": 38,
+        "flags": [
+          {
+            "metric": "silhouette_penalty",
+            "value": 2.989,
+            "threshold": ">= 1.0",
+            "severity": "soft",
+            "detail": "The document's idea arrangement matches a templated AI silhouette (preview-then-fulfill, rotating scaffold openers, recap loop).",
+            "suggestion": "Rearrange around the actual argument instead of a symmetric outline; cut previews and the closing recap."
+          },
+          {
+            "metric": "callback_content",
+            "value": 0.553,
+            "threshold": "human fence 0.3 (weight 1.5)",
+            "severity": "soft",
+            "detail": "callback_content at 0.553 clears the human upper fence 0.3.",
+            "suggestion": "The ending loops back to opening vocabulary; end on a concrete final point."
+          }
+        ],
+        "flagged": {
+          "silhouette_penalty": true,
+          "callback_content": true
+        },
+        "metrics": {
+          "scaffold_opener_share": 0.0,
+          "role_entropy_bits": -0.0,
+          "heading_preview": null,
+          "preview_fulfillment": 0.056,
+          "callback_content": 0.553
+        },
+        "contributions": {
+          "scaffold_opener_share": 0.0,
+          "role_entropy_bits": 0.0,
+          "heading_preview": null,
+          "preview_fulfillment": 0.224,
+          "callback_content": 2.765
+        },
+        "penalty": 2.989
+      }
+    },
+    "readability_metrics": {
+      "exit_code": 1,
+      "result": {
+        "flesch_kincaid_grade": 13.3,
+        "flesch_reading_ease": 19.4,
+        "sentence_count": 65,
+        "word_count": 709,
+        "avg_sentence_length": 10.9,
+        "sentence_length_variance": 59.6,
+        "min_sentence_length": 3,
+        "max_sentence_length": 54,
+        "consecutive_similar_length": 9,
+        "word_repetition_score": 36.4,
+        "top_repeated_words": [
+          [
+            "model",
+            9
+          ],
+          [
+            "review",
+            9
+          ],
+          [
+            "worker",
+            8
+          ],
+          [
+            "fixture",
+            8
+          ],
+          [
+            "reviewed",
+            6
+          ],
+          [
+            "local",
+            6
+          ],
+          [
+            "run",
+            6
+          ],
+          [
+            "workflow",
+            6
+          ],
+          [
+            "source",
+            6
+          ],
+          [
+            "durable",
+            6
+          ]
+        ],
+        "paragraph_count": 1,
+        "avg_paragraph_length": 709.0,
+        "flags": [
+          "High reading level (13.3 grade)",
+          "9+ consecutive similar-length sentences",
+          "High word repetition (36.4%)",
+          "Staccato cadence: 4 consecutive tiny sentences (anti-slop AI tell)"
+        ]
+      }
+    }
+  },
+  "manual_review": "Reviewed bio, new documentation and module docstrings. Preserved scope limits and authority language. Security terms and fixture limitations are intentional. No code logic was rewritten by prose scanners. Separate factual correction: obsolete OCR availability statement now matches implemented local OCR. Removed outdated Ramp interface wording to match the approved Work console.",
+  "advisory_assessment": "No hard or soft phrase hits. Structure, silhouette and readability flags came from concatenating short independent module docstrings and command examples with README prose. Repeated domain words are necessary identifiers; these fragments are not a single essay. Manual review found no corroborated filler, unsupported promotion claims, or reason to rewrite security limits. No scanner score is treated as proof of human authorship or code quality."
+}

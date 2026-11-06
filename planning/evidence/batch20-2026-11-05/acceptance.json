@@ -1,0 +1,217 @@
+{
+  "date": "2026-11-05",
+  "baseline": "fa35f489759afe4eb6b739a5b3717877feaa3106",
+  "status": "implemented_in_review",
+  "publication": "Only the explicitly requested GitHub About description was changed remotely. All source and tracker changes are local and uncommitted; no staging or push.",
+  "github_description": "A local-first AI workspace for delegated tasks, document evidence, and reviewed actions. Built with Angular, Go, Python, and Tauri.",
+  "checks": {
+    "runtime": "660 passed",
+    "focused_final": "22 passed, overlapping runtime coverage",
+    "temporal": "9 passed against real local native Temporal servers",
+    "recovery": "passed; see measured recovery.json",
+    "browser": "Angular-Go-Python memory lifecycle, keyboard and axe passed at desktop and narrow widths",
+    "static": "Runtime lint, format, mypy, contracts; worker and evaluation lint/format passed",
+    "workflow_lint": "actionlint v1.7.7 passed",
+    "formatting": "100-column target; touched Python files have no lines above 100 columns; long existing literals wrapped with AST-equivalence verification",
+    "tracker": "27 unittest controls passed; backlog validate and render passed",
+    "frontend": "pnpm check passed; no frontend component layout changed in this batch"
+  },
+  "skills": [
+    "unslop",
+    "temporal-developer",
+    "temporal-python-testing",
+    "python-resilience",
+    "eval-harness",
+    "code-review-and-quality",
+    "database-migrations",
+    "deployment-pipeline-design",
+    "github-actions-templates"
+  ],
+  "review_fixes": [
+    "Temporal wraps activity cancellation; propagate cancellation and reconcile before returning.",
+    "Source excerpts may contain a value field; classify arithmetic only when no citation field is present.",
+    "Model-lineage registration rechecks current dataset review and source permission.",
+    "The required CI gate now includes worker, dependency-policy, UI regression and operational-rules jobs."
+  ],
+  "limitations": [
+    "Synthetic business effects only; no live ERP or identity-provider integration.",
+    "Desktop remote-run attachment and remote authentication are separate backlog stories.",
+    "Routing callbacks are tested with deterministic adapters; no live quality or billing gain is claimed.",
+    "Main-model qualification and signed installed Windows release QA remain open.",
+    "Local workflow validation does not claim a passing GitHub Actions run.",
+    "Docker Compose configuration authored and image verified; local native Temporal server used for execution tests."
+  ],
+  "stories": [
+    {
+      "id": "VEY-090",
+      "code_paths": [
+        "packages/evals/finance/verify_state.py",
+        "services/runtime/tests/test_governance_batch.py"
+      ],
+      "acceptance": "Finance acceptance exercises approved duplicate delivery, missing receipts and imported policy injection against final SQLite ERP state. Synthetic fixtures; live model and installed UI qualification remain separate."
+    },
+    {
+      "id": "VEY-091",
+      "code_paths": [
+        "services/worker/veya_worker/main.py",
+        "services/worker/pyproject.toml",
+        "services/worker/uv.lock",
+        "infra/compose.temporal.yml"
+      ],
+      "acceptance": "Pinned Temporal worker registers V1 workflows and activities, reports readiness from a real subprocess, and rejects unsupported contracts before connecting. The official Compose image tag and digest were verified; Docker Compose launch was not tested because the Docker daemon was unavailable."
+    },
+    {
+      "id": "VEY-092",
+      "code_paths": [
+        "services/worker/veya_worker/workflows/task.py",
+        "services/worker/veya_worker/contracts.py"
+      ],
+      "acceptance": "A two-operation workflow resumes on a replacement worker after a committed effect with a lost response. Workflow orchestration performs external work through activities only."
+    },
+    {
+      "id": "VEY-093",
+      "code_paths": [
+        "services/worker/veya_worker/workflows/task.py",
+        "services/worker/veya_worker/store.py"
+      ],
+      "acceptance": "Review signals match tenant, operation identity and arguments digest; trusted host review is represented by a separate reviewed fixture journal record. Activities recheck receipt, expiry and revocation. Duplicate signals do not repeat an effect. This local development adapter is not remote authentication."
+    },
+    {
+      "id": "VEY-094",
+      "code_paths": [
+        "services/worker/veya_worker/activities/lifecycle.py",
+        "services/worker/veya_worker/workflows/task.py"
+      ],
+      "acceptance": "Activities heartbeat durable progress. Real Temporal cancellation after a fixture commit reconciles the effect and returns review_required; it starts no subsequent operation."
+    },
+    {
+      "id": "VEY-095",
+      "code_paths": [
+        "services/worker/veya_worker/store.py",
+        "services/worker/veya_worker/activities/lifecycle.py"
+      ],
+      "acceptance": "Timeout after commit resolves through the stable operation identity. An absent or mismatched effect remains unknown; no blind write retry is performed."
+    },
+    {
+      "id": "VEY-096",
+      "code_paths": [
+        "services/worker/veya_worker/store.py",
+        "services/worker/veya_worker/workflows/task.py"
+      ],
+      "acceptance": "Compensation restores the recorded previous value only for reviewed reversible operations whose resource still belongs to that operation. Irreversible or superseded effects are reported as residual."
+    },
+    {
+      "id": "VEY-097",
+      "code_paths": [
+        "services/worker/veya_worker/versioning.py",
+        "services/worker/tests/histories/task-v1.json",
+        "services/worker/tests/test_workflows.py",
+        ".github/workflows/durable-worker.yml"
+      ],
+      "acceptance": "Captured V1 history replays successfully. A deliberately incompatible workflow fails with nondeterminism. Stored history is retained as a fixture and is not regenerated by a passing test."
+    },
+    {
+      "id": "VEY-098",
+      "code_paths": [
+        "services/worker/tests/test_workflows.py"
+      ],
+      "acceptance": "A seven-day review timeout completes through real per-workflow time skipping; duplicate and cross-tenant signals cannot bypass the separate authority journal. SDK 1.35.0 and CLI 1.10.0 are pinned. Time-skipping V2 is experimental and enabled only on disposable test servers."
+    },
+    {
+      "id": "VEY-100",
+      "code_paths": [
+        "services/worker/tests/test_workflows.py",
+        "tests/reliability/scenario.py"
+      ],
+      "acceptance": "Failure scenarios assert final resource state, exact effect counts and durable attempt records after worker replacement, response loss, compensation and cancellation."
+    },
+    {
+      "id": "VEY-160",
+      "code_paths": [
+        "training/data/withdraw.py",
+        "training/data/export.py",
+        "services/runtime/veya/research/withdrawal.py",
+        "services/runtime/veya/research/store.py",
+        "services/runtime/migrations/029_data_governance.sql"
+      ],
+      "acceptance": "Source withdrawal excludes subsequent dataset builds and marks registered model lineage for review. Reviewed corpus exports register their manifests. Model registration rechecks current source permission and review. No untraining is claimed."
+    },
+    {
+      "id": "VEY-173",
+      "code_paths": [
+        "services/runtime/veya/routing/verification.py",
+        "services/runtime/veya/execution/agent_loop.py",
+        "services/runtime/tests/test_agent_execution.py"
+      ],
+      "acceptance": "Read-only completion records the host verification policy, selected evidence checks, verdict and measured latency per run. Existing evidence checks remain mandatory. Verifiers cannot add grants; optional callbacks have bounded deadlines."
+    },
+    {
+      "id": "VEY-177",
+      "code_paths": [
+        "services/runtime/veya/routing/ensemble.py",
+        "services/runtime/tests/test_governance_batch.py"
+      ],
+      "acceptance": "Two or three permitted adapters share a prevalidated total reservation. Outputs and disagreement are preserved, failures remain visible, and detected overspend stops further calls. Adapter code must enforce the reservation passed to each call; no live provider billing benchmark is claimed."
+    },
+    {
+      "id": "VEY-178",
+      "code_paths": [
+        "packages/evals/interventions/runner.py",
+        "services/runtime/tests/test_governance_batch.py"
+      ],
+      "acceptance": "Repeated intervention callbacks receive separate copies of the same fingerprinted failure snapshot and identical budgets. Unavailable interventions, failed calls and negative outcomes remain in the ledger. This is experiment infrastructure, not a measured model improvement."
+    },
+    {
+      "id": "VEY-180",
+      "code_paths": [
+        "packages/evals/routing/gates.py",
+        "services/runtime/tests/test_governance_batch.py"
+      ],
+      "acceptance": "Routing acceptance requires the declared quality floor and total budget. Expected cases form the denominator; all attempts contribute cost. Gaps, duplicate attempts, incomplete final states and policy violations fail validation or the gate."
+    },
+    {
+      "id": "VEY-190",
+      "code_paths": [
+        "tests/reliability/scenario.py",
+        ".github/workflows/durable-worker.yml"
+      ],
+      "acceptance": "A real local Temporal scenario replaces the worker after response loss and verifies the two expected final resources without duplicate effects. The report records attempted operations and measured recovery duration; it is one synthetic scenario, not a production reliability claim."
+    },
+    {
+      "id": "VEY-195",
+      "code_paths": [
+        "services/runtime/veya/privacy/retention.py",
+        "services/runtime/veya/storage/retention.py",
+        "scripts/governance.py",
+        "services/runtime/migrations/029_data_governance.sql"
+      ],
+      "acceptance": "Opt-in duration policies use optimistic revisions. Named deletion jobs recheck policy under the writer lock and record scoped results. Holds, active runs and referenced evidence retain their existing protections. Positive deletion and repeated-job behavior are tested."
+    },
+    {
+      "id": "VEY-231",
+      "code_paths": [
+        "packages/environments/onboarding/environment.py",
+        "services/runtime/veya/onboarding/agent.py"
+      ],
+      "acceptance": "Synthetic new-hire access plans derive from host-owned role policy. The named manager must approve the exact digest and subject revision before the plan can execute. Duplicate delivery is idempotent; no live identity provider is contacted."
+    },
+    {
+      "id": "VEY-232",
+      "code_paths": [
+        "packages/environments/access_review/environment.py",
+        "services/runtime/veya/access_review/agent.py",
+        "services/runtime/veya/onboarding/agent.py"
+      ],
+      "acceptance": "Access review identifies excess and missing fixture grants without changing access. Proposed corrections require exact manager review and current policy; stale plans cannot apply."
+    },
+    {
+      "id": "VEY-237",
+      "code_paths": [
+        "services/runtime/veya/skills/registry.py",
+        "scripts/governance.py",
+        "services/runtime/migrations/029_data_governance.sql"
+      ],
+      "acceptance": "Reviewed JSON instruction packages are pinned by content digest. Install and rollback require existing tool grants and current revisions. Unknown fields, installation hooks, unreviewed packages and cross-tenant references are denied. No package instructions are executed during installation."
+    }
+  ]
+}

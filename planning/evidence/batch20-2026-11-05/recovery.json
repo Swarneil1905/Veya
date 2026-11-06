@@ -1,0 +1,58 @@
+{
+  "passed": true,
+  "scope": "synthetic worker outage and response loss",
+  "duration_ms": 1620,
+  "recovery_ms": 52,
+  "final_state": {
+    "compensation": [],
+    "operations": [
+      {
+        "id": "op_0",
+        "state": "applied"
+      },
+      {
+        "id": "op_1",
+        "state": "applied"
+      }
+    ],
+    "requires_review": false,
+    "state": "succeeded"
+  },
+  "attempts": [
+    {
+      "sequence": 1,
+      "tenant": "fixture_outage",
+      "operation_id": "op_0",
+      "action": "execute",
+      "state": "applied"
+    },
+    {
+      "sequence": 2,
+      "tenant": "fixture_outage",
+      "operation_id": "op_0",
+      "action": "reconcile",
+      "state": "applied"
+    },
+    {
+      "sequence": 3,
+      "tenant": "fixture_outage",
+      "operation_id": "op_1",
+      "action": "execute",
+      "state": "applied"
+    }
+  ],
+  "resources": [
+    {
+      "tenant": "fixture_outage",
+      "id": "item_0",
+      "value": "approved",
+      "operation_id": "op_0"
+    },
+    {
+      "tenant": "fixture_outage",
+      "id": "item_1",
+      "value": "approved",
+      "operation_id": "op_1"
+    }
+  ]
+}

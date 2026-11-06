@@ -1,0 +1,116 @@
+A local-first AI workspace for delegated tasks, document evidence, and reviewed actions. Built with Angular, Go, Python, and Tauri.
+
+
+
+The optional Temporal worker runs reviewed synthetic operations. It retains
+operation identities across worker restarts, reconciles lost responses, and
+reports effects that could not be reversed. It does not connect to a live ERP or
+identity provider. The desktop remote-run attachment is separate work.
+
+Install the worker and start the local Temporal development service:
+
+```powershell
+uv sync --project services/worker --locked
+docker compose -f infra/compose.temporal.yml up -d
+uv run --project services/worker --locked veya-worker --storage ./artifacts/worker-state
+```
+
+The Compose service binds its published ports to loopback and retains its
+history in a named development volume. It is not a production deployment.
+The worker prints readiness after checking the service and registering its
+workflow and activities. Workflow input uses `veya_worker.contracts.TaskInput`;
+approvals are separate trusted-host records, never grants supplied by model text.
+
+Run recovery, seven-day review timeout, cancellation and replay checks with:
+
+```powershell
+pnpm test:worker
+pnpm test:reliability
+```
+
+These tests download the official Temporal CLI version pinned in the test setup.
+The timer suite uses the SDK's experimental per-workflow time-skipping feature
+on its disposable local server. Server startup failure fails the test.
+Stored V1 history is replayed in CI; an incompatible workflow fixture must fail.
+The recovery report records final fixture state, attempted operations and elapsed
+time. Synthetic results do not qualify a model or a production connector.
+
+## Local governance commands
+
+Run `python scripts/governance.py --help` with the runtime environment to inspect
+host-only commands for source withdrawal, retention policies, and reviewed
+instruction packages. Every command requires an explicit workspace and tenant.
+Retention is opt-in: configure its duration and revision, then run a named job.
+Existing holds and evidence references prevent deletion.
+
+Source withdrawal blocks future dataset exports and flags registered model
+lineage for review. It does not claim to remove knowledge from an existing model.
+Instruction packages require a named reviewer and a content digest; installation
+checks existing tool grants and executes no hooks. Rollback rechecks those grants.
+
+New code uses a 100-column formatting target. Wrap arguments and conditions at
+logical boundaries; keep URLs and indivisible literals intact. Review interface
+copy and documentation with Unslop, and review code with language tooling and tests.
+
+
+Bounded read-only delegation with durable admission, cancellation and verified source links.
+Model prose is a proposal, never authority. Only exact attached evidence and arithmetic
+observations are included as verified claims. No filesystem, network or write tool exists.
+
+Host ingestion, authenticated human review, immutable source bytes and revisioned decisions.
+
+Conservative retention with durable cleanup records and shared-blob protection.
+
+Append-only events/intents remain evidence references and prevent run deletion.
+The trusted host supplies an explicit cutoff; no background deletion is enabled.
+
+Create-only reviewed corpus export. Authorization is rechecked under the workspace writer lock.
+
+This is a scrubbed research corpus, not a tokenizer-specific training dataset (VEY-159).
+
+Synthetic excessive-permission case with a named reviewing manager.
+
+Reproducible employee fixture. No real identity provider is contacted.
+
+Verify observed fixture ERP state, independently of model completion text.
+
+Compare interventions on isolated copies of the same frozen failure input.
+
+Quality and complete cost accounting are required before routing promotion.
+
+Trusted local operator commands for withdrawal, retention and reviewed skills.
+
+Review fixture grants against host policy before proposing any removal.
+
+Synthetic access plans derived from host policy, with exact manager review.
+
+Versioned host retention policy using the existing conservative deletion service.
+
+Propagate revoked source access to registered dataset and model lineage.
+
+Bounded read-only model comparison; disagreement remains a review decision.
+
+Host-selected verification adds evidence, never tool permissions.
+
+Reviewed instruction packages. Installation never executes code or grants tools.
+
+Durable orchestration for explicitly approved fixture operations.
+
+Activities preserve effect identity and heartbeat only durable progress.
+
+Versioned workflow input. Instructions carry no execution authority.
+
+Local worker entry point. It registers fixture activities only.
+
+Synthetic external system and durable authority journal used by local workers.
+
+This adapter never calls a business service. Approval is a separate trusted-host
+operation; a workflow signal only supplies the identity of an existing approval.
+
+Workflow type names are immutable history contracts.
+
+V1 orchestration: review, effect, reconciliation, bounded compensation.
+
+Run an isolated Temporal outage scenario and verify durable fixture effects.
+
+Withdraw source permission and identify affected datasets and model lineage.

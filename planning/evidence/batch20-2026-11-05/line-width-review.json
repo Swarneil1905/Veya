@@ -1,0 +1,5 @@
+{
+  "target": 100,
+  "exceptions": [],
+  "note": "Existing long SQL and prompt literals in touched runtime files were wrapped with an AST-equivalence check. URLs and generated history/lockfiles are excluded."
+}

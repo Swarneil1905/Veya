@@ -1,0 +1,4 @@
+Checking: C:\Users\Swarneil Pradhan\Veya\services\runtime\.venv\Scripts\python.exe -m ruff check --config services/runtime/pyproject.toml packages/environments packages/evals training packages/fixtures/research.py scripts/run_research.py scripts/import_research.py scripts/seed_research_fixture.py scripts/seed_memory_fixture.py scripts/run_invoice_evaluation.py
+All checks passed!
+Checking: C:\Users\Swarneil Pradhan\Veya\services\runtime\.venv\Scripts\python.exe -m ruff format --check --config services/runtime/pyproject.toml packages/environments packages/evals training packages/fixtures/research.py scripts/run_research.py scripts/import_research.py scripts/seed_research_fixture.py scripts/seed_memory_fixture.py scripts/run_invoice_evaluation.py
+62 files already formatted

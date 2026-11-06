@@ -1,0 +1,4 @@
+Checking: C:\Users\Swarneil Pradhan\Veya\services\runtime\.venv\Scripts\python.exe -m ruff check --config services/runtime/pyproject.toml services/worker/veya_worker services/worker/tests tests/reliability/scenario.py scripts/governance.py
+All checks passed!
+Checking: C:\Users\Swarneil Pradhan\Veya\services\runtime\.venv\Scripts\python.exe -m ruff format --check --config services/runtime/pyproject.toml services/worker/veya_worker services/worker/tests tests/reliability/scenario.py scripts/governance.py
+13 files already formatted
