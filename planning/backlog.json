@@ -76,8 +76,18 @@
       "desktop": "Rust/Tauri: native capabilities and owned Go process",
       "deployment_boundary": "Local single-user web and desktop; production SaaS identity/tenancy/hosting remain backlog"
     },
-    "delivery_notes": "156 stories implemented or in review: 19 accepted, 137 in review; 85 backlog. Latest local batch covers 20 tool/document/connector/dataset/SDK/release-evidence stories. Full runtime suite: 604 passed, plus the subsequent isolated-plugin policy-gateway test; Go, frontend, browser, typing and workflow checks passed. All new work remains uncommitted for user review and push. R1 still requires main-model task-quality qualification and installed Windows QA. Live external connector accounts, signed releases and remote CI are not claimed. Evidence: planning/evidence/batch20-2026-10-31/acceptance.json",
-    "delivery_focus": "R1 first real delegated task. External contributor issues postponed by user. Prioritize real-model correctness, first-use/result/recovery flow and installed Windows verification; keep changes local."
+    "delivery_notes": "196 stories implemented or in review: 19 accepted, 177 in review; 45 backlog. Latest local batch covers 20 durable-workflow, finance-acceptance, governance, routing and synthetic-access stories. Runtime: 660 passed; final focused checks: 22 passed; real Temporal: 9 passed; browser, typing, formatting and workflow lint passed. All new work remains uncommitted for user review and push. Only the requested GitHub repository description was updated remotely. Main-model qualification, installed Windows QA, live business integrations and remote-run attachment remain open. Evidence: planning/evidence/batch20-2026-11-05/acceptance.json",
+    "delivery_focus": "R1 first real delegated task. External contributor issues postponed by user. Prioritize real-model correctness, first-use/result/recovery flow and installed Windows verification; keep changes local.",
+    "code_style": {
+      "line_width": 100,
+      "prose_review": "Unslop contextual audit",
+      "exceptions": [
+        "URLs",
+        "generated files",
+        "indivisible literals"
+      ],
+      "format_scope": "changed owned code"
+    }
   },
   "capacity": {
     "hours_per_week_scenarios": [
@@ -5779,8 +5789,8 @@
         "Duplicate delivery, missing receipt and injected policy text never produce unauthorized drafts"
       ],
       "code_paths": [
-        "tests/e2e/finance_flow.spec.ts",
-        "packages/evals/finance/verify_state.py"
+        "packages/evals/finance/verify_state.py",
+        "services/runtime/tests/test_governance_batch.py"
       ],
       "verification": "Exercise the changed entry point and assert: A reproducible set of invoice scenarios checks final environment state. Negative case: Duplicate delivery, missing receipt and injected policy text never produce unauthorized drafts. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -5798,14 +5808,16 @@
       },
       "scope": "Core",
       "priority": "P0",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Finance acceptance exercises approved duplicate delivery, missing receipts and imported policy injection against final SQLite ERP state. Synthetic fixtures; live model and installed UI qualification remain separate. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-06T02:47:52.064241+00:00",
       "release_ids": [
         "R2",
         "R3",
@@ -5829,6 +5841,8 @@
       ],
       "code_paths": [
         "services/worker/veya_worker/main.py",
+        "services/worker/pyproject.toml",
+        "services/worker/uv.lock",
         "infra/compose.temporal.yml"
       ],
       "verification": "Exercise the changed entry point and assert: Worker registers the versioned workflow and reports readiness. Negative case: Unsupported worker/runtime contract versions fail before polling tasks. Retain the test command, result and evidence artifact.",
@@ -5843,14 +5857,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Pinned Temporal worker registers V1 workflows and activities, reports readiness from a real subprocess, and rejects unsupported contracts before connecting. The official Compose image tag and digest were verified; Docker Compose launch was not tested because the Docker daemon was unavailable. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-06T02:47:52.064241+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -5872,7 +5888,8 @@
         "Workflow code performs no nondeterministic model or network calls directly"
       ],
       "code_paths": [
-        "services/worker/veya_worker/workflows/task.py"
+        "services/worker/veya_worker/workflows/task.py",
+        "services/worker/veya_worker/contracts.py"
       ],
       "verification": "Exercise the changed entry point and assert: A multi-step task resumes after a worker restart. Negative case: Workflow code performs no nondeterministic model or network calls directly. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -5886,14 +5903,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "A two-operation workflow resumes on a replacement worker after a committed effect with a lost response. Workflow orchestration performs external work through activities only. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-06T02:47:52.064241+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -5915,7 +5934,8 @@
         "Duplicate or stale signals cannot authorize a different action"
       ],
       "code_paths": [
-        "services/worker/veya_worker/workflows/review.py"
+        "services/worker/veya_worker/workflows/task.py",
+        "services/worker/veya_worker/store.py"
       ],
       "verification": "Exercise the changed entry point and assert: An approved review resumes the correct waiting workflow exactly once. Negative case: Duplicate or stale signals cannot authorize a different action. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -5929,14 +5949,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Review signals match tenant, operation identity and arguments digest; trusted host review is represented by a separate reviewed fixture journal record. Activities recheck receipt, expiry and revocation. Duplicate signals do not repeat an effect. This local development adapter is not remote authentication. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-06T02:47:52.064241+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -5958,7 +5980,8 @@
         "A lost worker does not make an unknown external effect appear cancelled"
       ],
       "code_paths": [
-        "services/worker/veya_worker/activities/lifecycle.py"
+        "services/worker/veya_worker/activities/lifecycle.py",
+        "services/worker/veya_worker/workflows/task.py"
       ],
       "verification": "Exercise the changed entry point and assert: Cancelled activities stop new work and report their last durable progress. Negative case: A lost worker does not make an unknown external effect appear cancelled. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -5973,14 +5996,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Activities heartbeat durable progress. Real Temporal cancellation after a fixture commit reconciles the effect and returns review_required; it starts no subsequent operation. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-06T02:47:52.064241+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -6001,7 +6026,8 @@
         "An unverifiable effect remains unknown and requires review"
       ],
       "code_paths": [
-        "services/worker/veya_worker/activities/reconcile.py"
+        "services/worker/veya_worker/store.py",
+        "services/worker/veya_worker/activities/lifecycle.py"
       ],
       "verification": "Exercise the changed entry point and assert: Timeout-after-commit resolves to the existing remote object. Negative case: An unverifiable effect remains unknown and requires review. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -6016,14 +6042,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Timeout after commit resolves through the stable operation identity. An absent or mismatched effect remains unknown; no blind write retry is performed. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-06T02:47:52.064241+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -6044,7 +6072,8 @@
         "Irreversible actions are reported as residual effects rather than falsely rolled back"
       ],
       "code_paths": [
-        "services/worker/veya_worker/workflows/compensation.py"
+        "services/worker/veya_worker/store.py",
+        "services/worker/veya_worker/workflows/task.py"
       ],
       "verification": "Exercise the changed entry point and assert: A failed multi-action task reverses only actions with valid compensation contracts. Negative case: Irreversible actions are reported as residual effects rather than falsely rolled back. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -6059,14 +6088,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Compensation restores the recorded previous value only for reviewed reversible operations whose resource still belongs to that operation. Irreversible or superseded effects are reported as residual. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-06T02:47:52.064241+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -6088,7 +6119,9 @@
       ],
       "code_paths": [
         "services/worker/veya_worker/versioning.py",
-        "services/worker/tests/test_replay.py"
+        "services/worker/tests/histories/task-v1.json",
+        "services/worker/tests/test_workflows.py",
+        ".github/workflows/durable-worker.yml"
       ],
       "verification": "Exercise the changed entry point and assert: Stored histories replay successfully against their supported worker version. Negative case: An incompatible workflow change fails replay CI before rollout. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -6101,14 +6134,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Captured V1 history replays successfully. A deliberately incompatible workflow fails with nondeterminism. Stored history is retained as a fixture and is not regenerated by a passing test. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-06T02:47:52.064241+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -6129,7 +6164,7 @@
         "Duplicate signals and activities cannot bypass approval or idempotency checks"
       ],
       "code_paths": [
-        "services/worker/tests/test_timers.py"
+        "services/worker/tests/test_workflows.py"
       ],
       "verification": "Exercise the changed entry point and assert: Long timer scenarios finish quickly and assert exact lifecycle outcomes. Negative case: Duplicate signals and activities cannot bypass approval or idempotency checks. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -6144,14 +6179,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "A seven-day review timeout completes through real per-workflow time skipping; duplicate and cross-tenant signals cannot bypass the separate authority journal. SDK 1.35.0 and CLI 1.10.0 are pinned. Time-skipping V2 is experimental and enabled only on disposable test servers. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-06T02:47:52.064241+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -6227,7 +6264,8 @@
         "No test treats a process restart alone as proof of successful remote recovery"
       ],
       "code_paths": [
-        "services/worker/tests/test_failure_recovery.py"
+        "services/worker/tests/test_workflows.py",
+        "tests/reliability/scenario.py"
       ],
       "verification": "Exercise the changed entry point and assert: Recovery preserves final state and records each attempted operation. Negative case: No test treats a process restart alone as proof of successful remote recovery. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -6242,14 +6280,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Failure scenarios assert final resource state, exact effect counts and durable attempt records after worker replacement, response loss, compensation and cancellation. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-06T02:47:52.064241+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -7319,7 +7359,7 @@
       "evidence": [
         "planning/evidence/batch20-2026-11-02/acceptance.json"
       ],
-      "acceptance_note": "Data review → Lessons supports editing, explicit activation/retraction, revision conflict recovery and preserved drafts through authenticated Go commands. Reviewer identity is host-owned. Local implementation verified; user commit and formal prerequisite acceptance pending.",
+      "acceptance_note": "Data review Ã¢â€ â€™ Lessons supports editing, explicit activation/retraction, revision conflict recovery and preserved drafts through authenticated Go commands. Reviewer identity is host-owned. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
       "updated_at": "2026-11-03T01:16:47.552863+00:00",
       "release_ids": [
@@ -9200,7 +9240,11 @@
         "Existing model lineage is flagged for review rather than falsely described as untrained"
       ],
       "code_paths": [
-        "training/data/withdraw.py"
+        "training/data/withdraw.py",
+        "training/data/export.py",
+        "services/runtime/veya/research/withdrawal.py",
+        "services/runtime/veya/research/store.py",
+        "services/runtime/migrations/029_data_governance.sql"
       ],
       "verification": "Exercise the changed entry point and assert: Withdrawn examples are excluded from subsequent approved dataset versions. Negative case: Existing model lineage is flagged for review rather than falsely described as untrained. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -9215,14 +9259,16 @@
       },
       "scope": "Research",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Source withdrawal excludes subsequent dataset builds and marks registered model lineage for review. Reviewed corpus exports register their manifests. Model registration rechecks current source permission and review. No untraining is claimed. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-06T02:47:52.064241+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -9791,7 +9837,9 @@
         "Verification cannot grant additional tool permissions"
       ],
       "code_paths": [
-        "services/runtime/veya/routing/verification.py"
+        "services/runtime/veya/routing/verification.py",
+        "services/runtime/veya/execution/agent_loop.py",
+        "services/runtime/tests/test_agent_execution.py"
       ],
       "verification": "Exercise the changed entry point and assert: Verification decisions and added latency are recorded per task. Negative case: Verification cannot grant additional tool permissions. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -9806,14 +9854,16 @@
       },
       "scope": "Research",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Read-only completion records the host verification policy, selected evidence checks, verdict and measured latency per run. Existing evidence checks remain mandatory. Verifiers cannot add grants; optional callbacks have bounded deadlines. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-06T02:47:52.064241+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -9966,7 +10016,8 @@
         "Disagreement cannot be hidden by selecting whichever answer passes a judge"
       ],
       "code_paths": [
-        "services/runtime/veya/routing/ensemble.py"
+        "services/runtime/veya/routing/ensemble.py",
+        "services/runtime/tests/test_governance_batch.py"
       ],
       "verification": "Exercise the changed entry point and assert: Ensemble calls respect the same total budget and preserve both outputs. Negative case: Disagreement cannot be hidden by selecting whichever answer passes a judge. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -9981,14 +10032,16 @@
       },
       "scope": "Stretch",
       "priority": "P2",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Two or three permitted adapters share a prevalidated total reservation. Outputs and disagreement are preserved, failures remain visible, and detected overspend stops further calls. Adapter code must enforce the reservation passed to each call; no live provider billing benchmark is claimed. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-06T02:47:52.064241+00:00",
       "release_ids": [
         "R5"
       ]
@@ -10008,7 +10061,8 @@
         "Unavailable interventions and negative outcomes remain visible in comparison data"
       ],
       "code_paths": [
-        "packages/evals/interventions/runner.py"
+        "packages/evals/interventions/runner.py",
+        "services/runtime/tests/test_governance_batch.py"
       ],
       "verification": "Exercise the changed entry point and assert: Each intervention is evaluated against the same failure snapshot and budget. Negative case: Unavailable interventions and negative outcomes remain visible in comparison data. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -10024,14 +10078,16 @@
       },
       "scope": "Research",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Repeated intervention callbacks receive separate copies of the same fingerprinted failure snapshot and identical budgets. Unavailable interventions, failed calls and negative outcomes remain in the ledger. This is experiment infrastructure, not a measured model improvement. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-06T02:47:52.064241+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -10095,7 +10151,8 @@
         "Cheap failed runs and omitted retries cannot improve the score"
       ],
       "code_paths": [
-        "packages/evals/routing/gates.py"
+        "packages/evals/routing/gates.py",
+        "services/runtime/tests/test_governance_batch.py"
       ],
       "verification": "Exercise the changed entry point and assert: A routing candidate must meet the declared quality floor and budget targets. Negative case: Cheap failed runs and omitted retries cannot improve the score. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -10110,14 +10167,16 @@
       },
       "scope": "Research",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Routing acceptance requires the declared quality floor and total budget. Expected cases form the denominator; all attempts contribute cost. Gaps, duplicate attempts, incomplete final states and policy violations fail validation or the gate. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-06T02:47:52.064241+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -10558,7 +10617,8 @@
         "No unauthorized duplicate effect occurs during the injected outage sequence"
       ],
       "code_paths": [
-        "tests/reliability/scenario.py"
+        "tests/reliability/scenario.py",
+        ".github/workflows/durable-worker.yml"
       ],
       "verification": "Exercise the changed entry point and assert: The scenario verifies final task states and records recovery duration. Negative case: No unauthorized duplicate effect occurs during the injected outage sequence. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -10573,14 +10633,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "A real local Temporal scenario replaces the worker after response loss and verifies the two expected final resources without duplicate effects. The report records attempted operations and measured recovery duration; it is one synthetic scenario, not a production reliability claim. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-06T02:47:52.064241+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -10782,7 +10844,10 @@
         "Active holds and referenced evidence prevent destructive cleanup"
       ],
       "code_paths": [
-        "services/runtime/veya/privacy/retention.py"
+        "services/runtime/veya/privacy/retention.py",
+        "services/runtime/veya/storage/retention.py",
+        "scripts/governance.py",
+        "services/runtime/migrations/029_data_governance.sql"
       ],
       "verification": "Exercise the changed entry point and assert: Deletion jobs respect policy versions and produce scoped audit evidence. Negative case: Active holds and referenced evidence prevent destructive cleanup. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -10797,14 +10862,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Opt-in duration policies use optimistic revisions. Named deletion jobs recheck policy under the writer lock and record scoped results. Holds, active runs and referenced evidence retain their existing protections. Positive deletion and repeated-job behavior are tested. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-06T02:47:52.064241+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -12407,14 +12474,16 @@
       },
       "scope": "Stretch",
       "priority": "P2",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Synthetic new-hire access plans derive from host-owned role policy. The named manager must approve the exact digest and subject revision before the plan can execute. Duplicate delivery is idempotent; no live identity provider is contacted. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-06T02:47:52.064241+00:00",
       "release_ids": [
         "R5"
       ]
@@ -12435,7 +12504,8 @@
       ],
       "code_paths": [
         "packages/environments/access_review/environment.py",
-        "services/runtime/veya/access_review/agent.py"
+        "services/runtime/veya/access_review/agent.py",
+        "services/runtime/veya/onboarding/agent.py"
       ],
       "verification": "Exercise the changed entry point and assert: The agent identifies fixture policy violations and proposes scoped changes. Negative case: A false-positive candidate cannot revoke access without required review. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -12450,14 +12520,16 @@
       },
       "scope": "Stretch",
       "priority": "P2",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Access review identifies excess and missing fixture grants without changing access. Proposed corrections require exact manager review and current policy; stale plans cannot apply. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-06T02:47:52.064241+00:00",
       "release_ids": [
         "R5"
       ]
@@ -12659,7 +12731,9 @@
         "Package instructions cannot expand granted tools or execute installation hooks automatically"
       ],
       "code_paths": [
-        "services/runtime/veya/skills/registry.py"
+        "services/runtime/veya/skills/registry.py",
+        "scripts/governance.py",
+        "services/runtime/migrations/029_data_governance.sql"
       ],
       "verification": "Exercise the changed entry point and assert: A reviewed package can be installed for a workspace and rolled back. Negative case: Package instructions cannot expand granted tools or execute installation hooks automatically. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -12674,14 +12748,16 @@
       },
       "scope": "Stretch",
       "priority": "P2",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Reviewed JSON instruction packages are pinned by content digest. Install and rollback require existing tool grants and current revisions. Unknown fields, installation hooks, unreviewed packages and cross-tenant references are denied. No package instructions are executed during installation. Local implementation verified; user commit and formal prerequisite acceptance pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-06T02:47:52.064241+00:00",
       "release_ids": [
         "R5"
       ]
@@ -15574,7 +15650,7 @@
       "evidence": [
         "planning/evidence/batch20-2026-11-02/acceptance.json"
       ],
-      "acceptance_note": "Data review → Lessons supports editing, explicit activation/retraction, revision conflict recovery and preserved drafts through authenticated Go commands. Reviewer identity is host-owned. Local implementation verified; user commit and formal prerequisite acceptance pending."
+      "acceptance_note": "Data review Ã¢â€ â€™ Lessons supports editing, explicit activation/retraction, revision conflict recovery and preserved drafts through authenticated Go commands. Reviewer identity is host-owned. Local implementation verified; user commit and formal prerequisite acceptance pending."
     },
     {
       "at": "2026-11-03T01:16:47.552863+00:00",
@@ -15695,6 +15771,246 @@
         "planning/evidence/batch20-2026-11-02/acceptance.json"
       ],
       "acceptance_note": "Bounded read-only final-response cache keys exact model inputs, tenant/owner, grants and memory revisions. It requires a succeeded source run, rejects actions, records hits and rechecks evidence before result publication. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-06T02:47:52.064241+00:00",
+      "story_id": "VEY-090",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Synthetic workflows do not satisfy live-model or installed-release gates.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Finance acceptance exercises approved duplicate delivery, missing receipts and imported policy injection against final SQLite ERP state. Synthetic fixtures; live model and installed UI qualification remain separate. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-06T02:47:52.064241+00:00",
+      "story_id": "VEY-091",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Synthetic workflows do not satisfy live-model or installed-release gates.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Pinned Temporal worker registers V1 workflows and activities, reports readiness from a real subprocess, and rejects unsupported contracts before connecting. The official Compose image tag and digest were verified; Docker Compose launch was not tested because the Docker daemon was unavailable. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-06T02:47:52.064241+00:00",
+      "story_id": "VEY-092",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Synthetic workflows do not satisfy live-model or installed-release gates.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "A two-operation workflow resumes on a replacement worker after a committed effect with a lost response. Workflow orchestration performs external work through activities only. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-06T02:47:52.064241+00:00",
+      "story_id": "VEY-093",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Synthetic workflows do not satisfy live-model or installed-release gates.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Review signals match tenant, operation identity and arguments digest; trusted host review is represented by a separate reviewed fixture journal record. Activities recheck receipt, expiry and revocation. Duplicate signals do not repeat an effect. This local development adapter is not remote authentication. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-06T02:47:52.064241+00:00",
+      "story_id": "VEY-094",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Synthetic workflows do not satisfy live-model or installed-release gates.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Activities heartbeat durable progress. Real Temporal cancellation after a fixture commit reconciles the effect and returns review_required; it starts no subsequent operation. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-06T02:47:52.064241+00:00",
+      "story_id": "VEY-095",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Synthetic workflows do not satisfy live-model or installed-release gates.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Timeout after commit resolves through the stable operation identity. An absent or mismatched effect remains unknown; no blind write retry is performed. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-06T02:47:52.064241+00:00",
+      "story_id": "VEY-096",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Synthetic workflows do not satisfy live-model or installed-release gates.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Compensation restores the recorded previous value only for reviewed reversible operations whose resource still belongs to that operation. Irreversible or superseded effects are reported as residual. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-06T02:47:52.064241+00:00",
+      "story_id": "VEY-097",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Synthetic workflows do not satisfy live-model or installed-release gates.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Captured V1 history replays successfully. A deliberately incompatible workflow fails with nondeterminism. Stored history is retained as a fixture and is not regenerated by a passing test. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-06T02:47:52.064241+00:00",
+      "story_id": "VEY-098",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Synthetic workflows do not satisfy live-model or installed-release gates.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "A seven-day review timeout completes through real per-workflow time skipping; duplicate and cross-tenant signals cannot bypass the separate authority journal. SDK 1.35.0 and CLI 1.10.0 are pinned. Time-skipping V2 is experimental and enabled only on disposable test servers. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-06T02:47:52.064241+00:00",
+      "story_id": "VEY-100",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Synthetic workflows do not satisfy live-model or installed-release gates.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Failure scenarios assert final resource state, exact effect counts and durable attempt records after worker replacement, response loss, compensation and cancellation. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-06T02:47:52.064241+00:00",
+      "story_id": "VEY-160",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Synthetic workflows do not satisfy live-model or installed-release gates.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Source withdrawal excludes subsequent dataset builds and marks registered model lineage for review. Reviewed corpus exports register their manifests. Model registration rechecks current source permission and review. No untraining is claimed. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-06T02:47:52.064241+00:00",
+      "story_id": "VEY-173",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Synthetic workflows do not satisfy live-model or installed-release gates.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Read-only completion records the host verification policy, selected evidence checks, verdict and measured latency per run. Existing evidence checks remain mandatory. Verifiers cannot add grants; optional callbacks have bounded deadlines. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-06T02:47:52.064241+00:00",
+      "story_id": "VEY-177",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Synthetic workflows do not satisfy live-model or installed-release gates.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Two or three permitted adapters share a prevalidated total reservation. Outputs and disagreement are preserved, failures remain visible, and detected overspend stops further calls. Adapter code must enforce the reservation passed to each call; no live provider billing benchmark is claimed. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-06T02:47:52.064241+00:00",
+      "story_id": "VEY-178",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Synthetic workflows do not satisfy live-model or installed-release gates.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Repeated intervention callbacks receive separate copies of the same fingerprinted failure snapshot and identical budgets. Unavailable interventions, failed calls and negative outcomes remain in the ledger. This is experiment infrastructure, not a measured model improvement. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-06T02:47:52.064241+00:00",
+      "story_id": "VEY-180",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Synthetic workflows do not satisfy live-model or installed-release gates.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Routing acceptance requires the declared quality floor and total budget. Expected cases form the denominator; all attempts contribute cost. Gaps, duplicate attempts, incomplete final states and policy violations fail validation or the gate. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-06T02:47:52.064241+00:00",
+      "story_id": "VEY-190",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Synthetic workflows do not satisfy live-model or installed-release gates.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "A real local Temporal scenario replaces the worker after response loss and verifies the two expected final resources without duplicate effects. The report records attempted operations and measured recovery duration; it is one synthetic scenario, not a production reliability claim. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-06T02:47:52.064241+00:00",
+      "story_id": "VEY-195",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Synthetic workflows do not satisfy live-model or installed-release gates.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Opt-in duration policies use optimistic revisions. Named deletion jobs recheck policy under the writer lock and record scoped results. Holds, active runs and referenced evidence retain their existing protections. Positive deletion and repeated-job behavior are tested. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-06T02:47:52.064241+00:00",
+      "story_id": "VEY-231",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Synthetic workflows do not satisfy live-model or installed-release gates.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Synthetic new-hire access plans derive from host-owned role policy. The named manager must approve the exact digest and subject revision before the plan can execute. Duplicate delivery is idempotent; no live identity provider is contacted. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-06T02:47:52.064241+00:00",
+      "story_id": "VEY-232",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Synthetic workflows do not satisfy live-model or installed-release gates.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Access review identifies excess and missing fixture grants without changing access. Proposed corrections require exact manager review and current policy; stale plans cannot apply. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-06T02:47:52.064241+00:00",
+      "story_id": "VEY-237",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local twenty-story batch. Implemented prerequisite code exists; formal prerequisite acceptance remains pending. Synthetic workflows do not satisfy live-model or installed-release gates.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-05/acceptance.json"
+      ],
+      "acceptance_note": "Reviewed JSON instruction packages are pinned by content digest. Install and rollback require existing tool grants and current revisions. Unknown fields, installation hooks, unreviewed packages and cross-tenant references are denied. No package instructions are executed during installation. Local implementation verified; user commit and formal prerequisite acceptance pending."
     }
   ],
   "planning_deliverables": [
