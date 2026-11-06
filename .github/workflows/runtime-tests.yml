@@ -34,6 +34,8 @@ jobs:
         run: node scripts/check.mjs python
       - name: Evaluation harness and grader quality
         run: node scripts/check.mjs evaluations
+      - name: Durable worker and governance source quality
+        run: node scripts/check.mjs worker
       - name: Operator, connector and policy tooling quality
         run: node scripts/check.mjs operations
       - name: Connector, SDK and supply-chain tooling quality
