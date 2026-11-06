@@ -27,9 +27,16 @@ class ResearchStore:
             raise ValueError('Explicit authorization required')
         with self.db.transaction() as c:
             c.execute(
-                'INSERT INTO research_authorizations VALUES (?,?,?) ON CONFLICT(tenant_id,source_id) DO UPDATE SET allowed=excluded.allowed',
+                (
+                    'INSERT INTO research_authorizations VALUES (?,?,?) ON '
+                    'CONFLICT(tenant_id,source_id) DO UPDATE SET allowed=excluded.allowed'
+                ),
                 (self.tenant, source_id, int(allowed)),
             )
+            if not allowed:
+                from veya.research.withdrawal import affected
+
+                affected(c, self.tenant, source_id)
 
     def put(self, record):
         if type(record) is EvaluationReport:
@@ -59,7 +66,10 @@ class ResearchStore:
                     )
                 return digest
             c.execute(
-                'INSERT INTO research_records(tenant_id,id,kind,fingerprint,payload) VALUES (?,?,?,?,?)',
+                (
+                    'INSERT INTO research_records(tenant_id,id,kind,fingerprint,payload) '
+                    'VALUES (?,?,?,?,?)'
+                ),
                 (self.tenant, record.id, kind, digest, payload),
             )
         return digest
@@ -68,7 +78,10 @@ class ResearchStore:
         identifier(key)
         with self.db.connection() as c:
             row = c.execute(
-                'SELECT payload,fingerprint FROM research_records WHERE tenant_id=? AND kind=? AND id=?',
+                (
+                    'SELECT payload,fingerprint FROM research_records WHERE tenant_id=? AND '
+                    'kind=? AND id=?'
+                ),
                 (self.tenant, kind, key),
             ).fetchone()
         if row is None:
@@ -87,7 +100,10 @@ class ResearchStore:
             reviews = [
                 dict(r)
                 for r in c.execute(
-                    'SELECT revision,reviewer,decision,tags,note,source_hash FROM trajectory_reviews WHERE tenant_id=? AND id=? ORDER BY revision',
+                    (
+                        'SELECT revision,reviewer,decision,tags,note,source_hash FROM '
+                        'trajectory_reviews WHERE tenant_id=? AND id=? ORDER BY revision'
+                    ),
                     (self.tenant, key),
                 )
             ]
@@ -144,7 +160,10 @@ class ResearchStore:
             raise ValueError('Invalid research page')
         with self.db.connection() as c:
             rows = c.execute(
-                'SELECT sequence,id,payload FROM research_records WHERE tenant_id=? AND kind=? AND sequence>? ORDER BY sequence LIMIT 26',
+                (
+                    'SELECT sequence,id,payload FROM research_records WHERE tenant_id=? AND '
+                    'kind=? AND sequence>? ORDER BY sequence LIMIT 26'
+                ),
                 (self.tenant, kind, after),
             ).fetchall()
         items = []
