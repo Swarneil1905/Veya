@@ -88,6 +88,17 @@ def test_real_runtime_loop_publishes_observed_evidence_and_durable_events(tmp_pa
     asyncio.run(scenario())
     with db.connection() as c:
         assert c.execute('SELECT COUNT(*) FROM artifacts').fetchone()[0] == 1
+        verification = json.loads(
+            c.execute(
+                'SELECT data FROM events WHERE tenant_id=? AND run_id=? '
+                "AND kind='agent.verification'",
+                ('t', run.id),
+            ).fetchone()[0]
+        )
+        assert verification['verdict'] == 'passed'
+        assert verification['reasons'] == ['source_citations']
+        assert verification['policy_version'] == 'read_only_evidence_v1'
+        assert verification['grants'] == []
 
 
 def test_ungranted_content_and_injection_cannot_expand_tools(tmp_path):
