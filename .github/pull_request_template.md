@@ -1,19 +1,28 @@
-## Outcome and scope
+<!-- See CONTRIBUTING.md. Keep answers proportional to the change; use N/A with a reason. -->
 
-What user outcome changes? What acceptance criteria apply?
+## What changes and why
 
-## Design and tradeoffs
+Describe the problem and resulting behavior. Link an issue if one exists.
 
-Which interfaces change? Why this approach? Which relevant skills were applied?
+## Approach
 
-## Evidence
+Explain decisions a reviewer needs to assess, including changed interfaces or dependencies.
 
-List commands actually run and their results. Attach rendered UI evidence for UI changes and native interaction evidence for desktop changes. For model changes, link the baseline, held-out comparison, uncertainty, latency, and cost report. State unavailable checks explicitly.
+## Checks and evidence
 
-## Failure and recovery
+- Commands actually run and results:
+- Checks not run and why:
+- UI changes: before/after screenshots at desktop and narrow widths, plus keyboard checks.
+- Native changes: the desktop interaction exercised and any installed-build gaps.
+- Model changes: baseline, held-out comparison, uncertainty, latency, and full-workflow cost.
 
-Describe relevant failure handling, permission checks, migration impact, and rollback. Use N/A with a reason where appropriate.
+## Failure handling and remaining work
 
-## Remaining limitations
+Describe relevant permission checks, retries, migration compatibility, and recovery.
+Identify incomplete behavior, synthetic adapters, or unverified claims.
 
-Name incomplete behavior, synthetic adapters, and unverified claims.
+## Before requesting review
+
+- [ ] The change has a focused scope and relevant tests or documentation checks.
+- [ ] I reviewed the diff for credentials, personal data, and generated artifacts.
+- [ ] Any copied material retains its required license and attribution.

@@ -14,6 +14,19 @@ The current workspace saves briefs, searches and pages through saved tasks, pres
 
 See [API contracts](docs/RUNTIME_API.md) for the public platform boundary and private runtime contracts.
 
+## Contributing
+
+Start with the [contributor guide](CONTRIBUTING.md) for setup, a first change,
+checks by area, troubleshooting, and the fork-to-pull-request workflow.
+Bug reports, documentation fixes, tests, accessibility improvements, and code
+contributions are welcome. Discuss substantial changes before implementing them.
+
+## License
+
+Veya's original code is available under the [MIT License](LICENSE).
+Third-party code, assets, and imported skills retain their own licenses and
+notices, including those in `.agents/upstream-licenses/`.
+
 ## Setup
 
 Pins: Node 22.23.2, pnpm 11.0.9, Angular 22.2.3, TypeScript 6.0.3, Go 1.27.3, Rust 1.96.0, Python 3.13.14 and uv 0.11.23. Angular requires Node 22.22.3 or later within 22.x. Python 3.10–3.13 is supported. Windows desktop development also needs C++ Build Tools and WebView2.
