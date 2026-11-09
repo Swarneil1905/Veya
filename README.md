@@ -70,7 +70,33 @@ This builds Go and starts the Angular development server with Tauri. Build an un
 
 The native identifier `dev.swarneil.relaystudio` and `%LOCALAPPDATA%/dev.swarneil.relaystudio/workspace-v1` are retained to preserve existing saved tasks. Rust owns Go; Go owns the private Python worker. Each connection uses a separate ephemeral credential. UI code cannot select arbitrary worker URLs, tenants or privileged execution operations.
 
+Before opening an older supported workspace, desktop startup saves a verified
+snapshot beside its folder with a `.pre-upgrade-` suffix. Backup limits are
+256 MiB, 10,000 artifacts and 30 seconds; exceeding a limit stops startup before
+migration. Current workspaces do not create another snapshot on each launch.
+Snapshots contain private workspace data; keep them in your local workspace area.
+
 ## Verification
+
+Optional team-service development uses the `team` Python extra:
+`uv sync --project services/runtime --locked --extra team`.
+The private API stores task graphs in PostgreSQL and searches authorized chunks
+with pgvector. The separate Go command `services/platform/cmd/veya-team` validates
+OIDC sessions and supplies workspace membership to that API. Desktop sign-in and
+remote task execution are not connected to these services yet.
+
+Use `python -m scripts.team_database migrate` with `VEYA_TEAM_DATABASE_URL` set
+to a migration account. Application requests require a separate role that does
+not own tables, bypass row policies or have superuser privileges. The private API
+also requires `VEYA_TEAM_GATEWAY_TOKEN`. Keep those values outside the repository.
+The integration tests require an explicitly disposable local database named
+`veya_test_*`, selected through `VEYA_TEAM_TEST_DSN`; missing configuration fails
+the suite. Run them with the team environment and `python -m pytest tests/team`.
+
+Release tooling is under development. `scripts/verify_release.py` checks evidence
+for an exact commit and artifact; missing checks block its release-ready result.
+The update metadata signer does not sign Windows executables. Container, cluster,
+installed-update and publisher-signature verification remain release gates.
 
 ```powershell
 pnpm test

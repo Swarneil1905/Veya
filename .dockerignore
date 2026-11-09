@@ -1,0 +1,17 @@
+**
+!services/
+!services/runtime/
+!services/runtime/pyproject.toml
+!services/runtime/uv.lock
+!services/runtime/veya/
+!services/runtime/veya/**
+!services/runtime/migrations/
+!services/runtime/migrations/**
+!services/worker/
+!services/worker/pyproject.toml
+!services/worker/uv.lock
+!services/worker/veya_worker/
+!services/worker/veya_worker/**
+**/__pycache__/
+**/*.pyc
+**/.env*

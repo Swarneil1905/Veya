@@ -38,3 +38,5 @@ out-tsc/
 apps/desktop/src-tauri/binaries/
 
 .tools/
+.veya-host.lock
+*.pre-upgrade-*/

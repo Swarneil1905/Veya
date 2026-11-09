@@ -10,6 +10,7 @@ from temporalio.client import Client
 from temporalio.worker import Worker
 
 from veya_worker.activities.lifecycle import Activities
+from veya_worker.health import monitor
 from veya_worker.store import FixtureStore
 from veya_worker.versioning import TASK_QUEUE, validate_version
 from veya_worker.workflows.task import TaskWorkflow
@@ -17,6 +18,9 @@ from veya_worker.workflows.task import TaskWorkflow
 
 async def serve(args):
     validate_version(args.contract_version)
+    args.storage.mkdir(parents=True, exist_ok=True)
+    health = args.storage / 'worker-health.json'
+    health.unlink(missing_ok=True)
     address = urlsplit('http://' + args.address)
     if (
         address.hostname not in {'127.0.0.1', 'localhost', 'temporal'}
@@ -37,7 +41,7 @@ async def serve(args):
         activities=activities.registered(),
     ):
         print(json.dumps({'ready': True, 'queue': TASK_QUEUE, 'contract_version': 1}), flush=True)
-        await asyncio.Event().wait()
+        await monitor(client, health)
 
 
 def main():
