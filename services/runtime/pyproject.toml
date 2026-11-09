@@ -33,7 +33,7 @@ team = [
 
 [dependency-groups]
 dev = [
-    "pytest>=8.2,<9",
+    "pytest>=8.2,<10",
     "ruff==0.17.2",
     "mypy==2.4.0",
     "types-openpyxl>=3.1.5.20261017",
