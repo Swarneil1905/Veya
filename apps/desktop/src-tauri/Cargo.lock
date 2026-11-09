@@ -3755,7 +3755,7 @@ name = "veya-desktop"
 version = "0.1.0"
 dependencies = [
  "base64 0.22.1",
- "getrandom 0.2.17",
+ "getrandom 0.4.2",
  "rfd",
  "serde",
  "serde_json",
