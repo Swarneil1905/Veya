@@ -115,6 +115,26 @@ def test_incompatible_protocol_fails_without_opening_workspace(tmp_path):
         stop(process)
 
 
+def test_second_host_cannot_open_workspace_and_crash_releases_ownership(tmp_path):
+    first, ready = launch(tmp_path)
+    try:
+        assert ready['status'] == 'ready'
+        second, denied = launch(tmp_path)
+        try:
+            assert denied == {'status': 'failed', 'code': 'workspace_unavailable'}
+        finally:
+            stop(second)
+        first.kill()
+        first.wait(timeout=5)
+    finally:
+        stop(first)
+    resumed, ready = launch(tmp_path)
+    try:
+        assert ready['status'] == 'ready'
+    finally:
+        stop(resumed)
+
+
 def test_native_task_page_fits_transport_even_with_maximum_json_escaping(client):
     for index in range(11):
         response = client.post(
