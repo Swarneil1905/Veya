@@ -91,7 +91,8 @@ func Start(ctx context.Context, python, source, storage string) (*Process, error
 		p.port = r.Port
 	case <-ctx.Done():
 		return nil, ctx.Err()
-	case <-time.After(10 * time.Second):
+	// Include the bounded pre-upgrade snapshot before Python announces readiness.
+	case <-time.After(60 * time.Second):
 		return nil, errors.New("worker startup timeout")
 	}
 	status, body, err := p.Request(ctx, "GET", "/v1/health", nil)

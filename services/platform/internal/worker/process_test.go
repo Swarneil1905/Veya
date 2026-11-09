@@ -26,6 +26,37 @@ func settings(t *testing.T) (string, string) {
 	return python, source
 }
 
+func TestStartupAllowsBoundedUpgradePreparation(t *testing.T) {
+	python, source := settings(t)
+	fixture := t.TempDir()
+	module := filepath.Join(fixture, "veya")
+	if err := os.Mkdir(module, 0700); err != nil {
+		t.Fatal(err)
+	}
+	encoded, _ := json.Marshal(filepath.Join(source, "veya"))
+	init := "__path__.append(" + string(encoded) + ")\n"
+	if err := os.WriteFile(filepath.Join(module, "__init__.py"), []byte(init), 0600); err != nil {
+		t.Fatal(err)
+	}
+	entry, _ := json.Marshal(filepath.Join(source, "veya", "desktop.py"))
+	shim := "import runpy,time\ntime.sleep(11)\nrunpy.run_path(" + string(entry) +
+		",run_name='__main__')\n"
+	if err := os.WriteFile(filepath.Join(module, "desktop.py"), []byte(shim), 0600); err != nil {
+		t.Fatal(err)
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+	process, err := Start(ctx, python, fixture, t.TempDir())
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer process.Close()
+	status, _, err := process.Request(ctx, "GET", "/v1/health", nil)
+	if err != nil || status != http.StatusOK {
+		t.Fatal("delayed worker failed its authenticated health check")
+	}
+}
+
 func TestPrivateWorkerDurabilityAndIsolation(t *testing.T) {
 	python, source := settings(t)
 	storage := t.TempDir()
