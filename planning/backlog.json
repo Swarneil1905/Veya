@@ -76,7 +76,7 @@
       "desktop": "Rust/Tauri: native capabilities and owned Go process",
       "deployment_boundary": "Local single-user web and desktop; production SaaS identity/tenancy/hosting remain backlog"
     },
-    "delivery_notes": "196 stories implemented or in review: 19 accepted, 177 in review; 45 backlog. Latest local batch covers 20 durable-workflow, finance-acceptance, governance, routing and synthetic-access stories. Runtime: 660 passed; final focused checks: 22 passed; real Temporal: 9 passed; browser, typing, formatting and workflow lint passed. All new work remains uncommitted for user review and push. Only the requested GitHub repository description was updated remotely. Main-model qualification, installed Windows QA, live business integrations and remote-run attachment remain open. Evidence: planning/evidence/batch20-2026-11-05/acceptance.json",
+    "delivery_notes": "November 8 batch is incomplete: 5 stories have local acceptance evidence and are in review; 6 remain in progress; 9 are blocked. No new stories marked done. Checks: 677 runtime tests, 15 release/security tests and 19 final startup/release tests, 10 real PostgreSQL tests, 2 worker readiness tests, all Go packages and 14 Windows native tests passed. OIDC, Kubernetes and Windows signing are unconfigured; Docker engine is unavailable. Native/team integration gaps are recorded per story. Changes remain unstaged and uncommitted; user handles pushes. Overall codebase audit and GitHub issue creation remain pending until this batch is complete. Evidence: planning/evidence/batch20-2026-11-08/acceptance.json",
     "delivery_focus": "R1 first real delegated task. External contributor issues postponed by user. Prioritize real-model correctness, first-use/result/recovery flow and installed Windows verification; keep changes local.",
     "code_style": {
       "line_width": 100,
@@ -6865,8 +6865,9 @@
         "Unfiltered queries and dimension mismatches fail validation"
       ],
       "code_paths": [
-        "services/runtime/veya/storage/pgvector.py",
-        "services/runtime/migrations/010_vectors.sql"
+        "services/runtime/veya/team/vectors.py",
+        "services/runtime/veya/team/migrations/002_vectors.sql",
+        "tests/team/test_repositories.py"
       ],
       "verification": "Exercise the changed entry point and assert: Tenant-filtered vector searches return only authorized chunk IDs. Negative case: Unfiltered queries and dimension mismatches fail validation. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -6880,14 +6881,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "PostgreSQL vector migrations and scoped similarity queries pass real pgvector tests. Explicit source authorization, revocation and dimension validation are covered. User commit and formal prerequisite acceptance remain pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-08T18:28:19+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -10982,7 +10985,8 @@
         "Guessable IDs or semantic similarity cannot reveal another tenant's data"
       ],
       "code_paths": [
-        "tests/security/test_tenant_isolation.py"
+        "services/runtime/tests/test_tenant_adversarial.py",
+        "tests/team/test_repositories.py"
       ],
       "verification": "Exercise the changed entry point and assert: Every surface denies cross-tenant references and reports scoped failures. Negative case: Guessable IDs or semantic similarity cannot reveal another tenant's data. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -10999,14 +11003,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Two populated tenants exercise API references, lexical/hybrid/vector retrieval, memory export and inference-cache scope. PostgreSQL role and policy tests also pass. User commit and formal prerequisite acceptance remain pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-08T18:28:19+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -11125,7 +11131,9 @@
       "code_paths": [
         "services/runtime/veya/auth/oidc.py",
         "apps/desktop/src/features/auth/sign-in.ts",
-        "services/platform/internal/workspace"
+        "services/platform/internal/workspace",
+        "services/platform/internal/remoteauth",
+        "services/platform/cmd/veya-team"
       ],
       "verification": "Exercise the changed entry point and assert: An authenticated desktop receives only the permitted workspace session. Negative case: Invalid issuer, audience, state or expired token is rejected. Retain the test command, result and evidence artifact. Design gate: apply the project design_direction references during implementation and retain rendered/keyboard evidence; do not defer visual integration to a later redesign.",
       "depends_on": [
@@ -11139,14 +11147,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "blocked",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
-      "blocked_reason": null,
-      "updated_at": "2026-10-24T22:26:50+00:00",
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Go OIDC/PKCE validation, session revocation and the private membership gateway are implemented and tested. No OIDC provider is configured; desktop login integration and rendered sign-in acceptance remain incomplete.",
+      "blocked_reason": "Go OIDC/PKCE validation, session revocation and the private membership gateway are implemented and tested. No OIDC provider is configured; desktop login integration and rendered sign-in acceptance remain incomplete.",
+      "updated_at": "2026-11-08T18:28:19+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -11175,8 +11185,9 @@
         "Transactions preserve consistency on connection loss and retry"
       ],
       "code_paths": [
-        "services/runtime/veya/storage/postgres.py",
-        "services/runtime/migrations/020_team.sql"
+        "services/runtime/veya/team/postgres.py",
+        "services/runtime/veya/team/migrations/001_tasks.sql",
+        "tests/team/test_repositories.py"
       ],
       "verification": "Exercise the changed entry point and assert: The same domain contract suite passes for SQLite and PostgreSQL. Negative case: Transactions preserve consistency on connection loss and retry. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -11190,14 +11201,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "SQLite/PostgreSQL task-graph contracts pass. A real terminated PostgreSQL connection rolls back the uncommitted graph; reconnect and duplicate-write tests preserve state. This repository adapter does not implement remote model execution. User commit and formal prerequisite acceptance remain pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-08T18:28:19+00:00",
       "release_ids": [
         "R3",
         "R4",
@@ -11219,8 +11232,9 @@
         "Connection pooling cannot leak a prior request's tenant context"
       ],
       "code_paths": [
-        "services/runtime/veya/auth/roles.py",
-        "services/runtime/migrations/021_rls.sql"
+        "services/runtime/veya/team/roles.py",
+        "services/runtime/veya/team/postgres.py",
+        "tests/team/test_repositories.py"
       ],
       "verification": "Exercise the changed entry point and assert: Operators, reviewers and admins receive their declared capabilities. Negative case: Connection pooling cannot leak a prior request's tenant context. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -11234,14 +11248,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Role capabilities, transaction-local tenant settings and forced row policies are implemented. Tests cover pooled-connection reuse, forbidden writes, privileged-role rejection and readiness failures for weakened policies or revoked permissions. User commit and formal prerequisite acceptance remain pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-08T18:28:19+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -11262,7 +11278,8 @@
         "Expired access URLs and cross-tenant object keys are denied"
       ],
       "code_paths": [
-        "services/runtime/veya/artifacts/object_store.py"
+        "services/runtime/veya/artifacts/object_store.py",
+        "services/runtime/veya/team/artifacts.py"
       ],
       "verification": "Exercise the changed entry point and assert: Remote runs retrieve and produce artifacts without sharing local filesystem paths. Negative case: Expired access URLs and cross-tenant object keys are denied. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -11277,14 +11294,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Tenant/content-addressed S3 adapter has bounded reads, checksums and short download URLs. Tests use a synthetic object client. Real object-store expiry and remote-run artifact integration remain incomplete.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-08T18:28:19+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -11307,7 +11326,10 @@
       "code_paths": [
         "services/runtime/Dockerfile",
         "services/worker/Dockerfile",
-        "infra/compose.yml"
+        "infra/compose.yml",
+        "infra/containers/team.Dockerfile",
+        "infra/containers/worker.Dockerfile",
+        "services/worker/veya_worker/health.py"
       ],
       "verification": "Exercise the changed entry point and assert: Containers start from locked dependencies with declared writable paths. Negative case: Missing config and unhealthy dependencies cause readiness failure. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -11322,14 +11344,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "blocked",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
-      "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Locked non-root team and fixture-worker Dockerfiles include readiness checks. Docker Desktop crashes before its engine starts; image builds and runtime checks were not executed locally. The worker still executes synthetic activities only.",
+      "blocked_reason": "Locked non-root team and fixture-worker Dockerfiles include readiness checks. Docker Desktop crashes before its engine starts; image builds and runtime checks were not executed locally. The worker still executes synthetic activities only.",
+      "updated_at": "2026-11-08T18:28:19+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -11351,7 +11375,9 @@
       ],
       "code_paths": [
         "infra/helm/veya/templates/deployment.yaml",
-        "infra/helm/veya/templates/networkpolicy.yaml"
+        "infra/helm/veya/templates/networkpolicy.yaml",
+        "scripts/render_team_deployment.py",
+        "services/deployment/kubernetes.py"
       ],
       "verification": "Exercise the changed entry point and assert: A test cluster deploys healthy workers and enforces resource bounds. Negative case: Pods cannot access undeclared network destinations or run privileged. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -11365,14 +11391,16 @@
       },
       "scope": "Stretch",
       "priority": "P2",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "blocked",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
-      "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Private team-service Deployment, Service and NetworkPolicy renderer is implemented. No test cluster is configured. Live network enforcement and remote-worker manifests remain incomplete; rendering tests are not cluster acceptance.",
+      "blocked_reason": "Private team-service Deployment, Service and NetworkPolicy renderer is implemented. No test cluster is configured. Live network enforcement and remote-worker manifests remain incomplete; rendering tests are not cluster acceptance.",
+      "updated_at": "2026-11-08T18:28:19+00:00",
       "release_ids": [
         "R5"
       ]
@@ -11434,7 +11462,8 @@
       ],
       "code_paths": [
         "infra/helm/veya/templates/autoscaling.yaml",
-        "services/worker/veya_worker/capacity.py"
+        "services/worker/veya_worker/capacity.py",
+        "services/deployment/scaling.py"
       ],
       "verification": "Exercise the changed entry point and assert: Backlog growth scales workers within explicit resource ceilings. Negative case: Provider rate limits remain enforced when worker count increases. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -11449,14 +11478,16 @@
       },
       "scope": "Stretch",
       "priority": "P2",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "blocked",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
-      "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Replica planning clamps backlog demand to explicit ceilings and holds on missing telemetry. No test cluster is configured; an active scaler and shared provider rate-limit enforcement across workers remain incomplete.",
+      "blocked_reason": "Replica planning clamps backlog demand to explicit ceilings and holds on missing telemetry. No test cluster is configured; an active scaler and shared provider rate-limit enforcement across workers remain incomplete.",
+      "updated_at": "2026-11-08T18:28:19+00:00",
       "release_ids": [
         "R5"
       ]
@@ -11613,7 +11644,9 @@
         "Readiness failures stop tests instead of silently switching to mocks"
       ],
       "code_paths": [
-        ".github/workflows/integration.yml"
+        ".github/workflows/integration.yml",
+        ".github/workflows/team-integration.yml",
+        ".github/workflows/quality.yml"
       ],
       "verification": "Exercise the changed entry point and assert: CI runs representative repository and workflow tests against real services. Negative case: Readiness failures stop tests instead of silently switching to mocks. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -11628,14 +11661,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "blocked",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
-      "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Required CI now includes a real pgvector service and repository tests alongside the existing Temporal workflow. Ten PostgreSQL tests pass locally. GitHub has not run this unpushed workflow; container checks also await a working engine.",
+      "blocked_reason": "Required CI now includes a real pgvector service and repository tests alongside the existing Temporal workflow. Ten PostgreSQL tests pass locally. GitHub has not run this unpushed workflow; container checks also await a working engine.",
+      "updated_at": "2026-11-08T18:28:19+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -11837,7 +11872,10 @@
         "Failed migrations or regression gates prevent promotion"
       ],
       "code_paths": [
-        ".github/workflows/promote.yml"
+        ".github/workflows/promote.yml",
+        "services/deployment/promotion.py",
+        "services/deployment/kubernetes.py",
+        "scripts/deploy_team.py"
       ],
       "verification": "Exercise the changed entry point and assert: Staging runs the same artifact hash that passed integration and security checks. Negative case: Failed migrations or regression gates prevent promotion. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -11853,14 +11891,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "blocked",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
-      "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Host deployment CLI journals immutable-image intent, requires exact test-to-staging identity and reconciles unknown outcomes. First deployment and baseline adoption have adapter tests. No test/staging cluster is configured for live verification.",
+      "blocked_reason": "Host deployment CLI journals immutable-image intent, requires exact test-to-staging identity and reconciles unknown outcomes. First deployment and baseline adoption have adapter tests. No test/staging cluster is configured for live verification.",
+      "updated_at": "2026-11-08T18:28:19+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -11882,7 +11922,9 @@
       ],
       "code_paths": [
         ".github/workflows/canary.yml",
-        "scripts/rollback.py"
+        "scripts/rollback.py",
+        "services/deployment/promotion.py",
+        "scripts/deploy_team.py"
       ],
       "verification": "Exercise the changed entry point and assert: An injected regression triggers rollback with a verified previous artifact. Negative case: Missing telemetry blocks automatic continuation rather than assuming success. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -11897,14 +11939,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "blocked",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
-      "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Canary thresholds hold on missing telemetry and trigger verified rollback in fixture tests. CLI uses the Kubernetes adapter. No cluster or production-shaped telemetry source is configured; live canary rollback remains unverified.",
+      "blocked_reason": "Canary thresholds hold on missing telemetry and trigger verified rollback in fixture tests. CLI uses the Kubernetes adapter. No cluster or production-shaped telemetry source is configured; live canary rollback remains unverified.",
+      "updated_at": "2026-11-08T18:28:19+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -11972,7 +12016,8 @@
       ],
       "code_paths": [
         ".github/dependabot.yml",
-        ".github/workflows/dependency-update.yml"
+        ".github/workflows/dependency-update.yml",
+        "scripts/dependency_update.py"
       ],
       "verification": "Exercise the changed entry point and assert: A compatible update can produce reproducible validated artifacts. Negative case: Major version changes or failed checks cannot auto-merge. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -11987,14 +12032,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Dependabot paths/groups cover Angular, Cargo, Go and uv. The local review helper rejects major/downgrade updates and failed checks without auto-merging. A real dependency-update PR and reproducible artifact verification remain untested.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-08T18:28:19+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -12060,7 +12107,9 @@
       ],
       "code_paths": [
         ".github/workflows/release-sign.yml",
-        "scripts/verify_signature.ps1"
+        "scripts/verify_signature.ps1",
+        ".github/workflows/sign-update.yml",
+        "scripts/sign_update.py"
       ],
       "verification": "Exercise the changed entry point and assert: Signed artifacts verify against the configured publisher identity. Negative case: Missing signing credentials produce an explicitly unsigned build, never a signed claim. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -12074,14 +12123,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "blocked",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
-      "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Protected detached update-metadata signing workflow and pinned-key verification are authored. User confirmed no Windows code-signing setup. Authenticode signing and publisher verification are not implemented or claimed by the metadata signer.",
+      "blocked_reason": "Protected detached update-metadata signing workflow and pinned-key verification are authored. User confirmed no Windows code-signing setup. Authenticode signing and publisher verification are not implemented or claimed by the metadata signer.",
+      "updated_at": "2026-11-08T18:28:19+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -12103,7 +12154,8 @@
       ],
       "code_paths": [
         "apps/desktop/src-tauri/src/updater.rs",
-        "services/updates/manifest.py"
+        "services/updates/manifest.py",
+        "scripts/verify_update.py"
       ],
       "verification": "Exercise the changed entry point and assert: The installed app accepts only a valid configured-channel update. Negative case: Tampered or downgraded unapproved updates are rejected. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -12117,14 +12169,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Signed-manifest and artifact verification reject tampering, expiry, wrong channel and downgrade attempts. The host CLI is tested with ephemeral fixture keys. Installed-app update discovery, download and application remain incomplete.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-08T18:28:19+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -12146,7 +12200,12 @@
       ],
       "code_paths": [
         "apps/desktop/src-tauri/src/upgrade.rs",
-        "services/runtime/veya/storage/upgrade.py"
+        "services/runtime/veya/storage/upgrade.py",
+        "scripts/workspace_upgrade.py",
+        "services/runtime/veya/storage/ownership.py",
+        "services/runtime/veya/desktop.py",
+        "services/platform/internal/worker/process.go",
+        "apps/desktop/src-tauri/src/runtime.rs"
       ],
       "verification": "Exercise the changed entry point and assert: An old supported workspace opens with intact runs and credentials after upgrade. Negative case: A migration failure preserves a recoverable pre-upgrade backup. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -12161,14 +12220,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Automatic owned desktop startup and the manual upgrade command preserve a verified pre-migration snapshot. Real child-process tests preserve tasks, runs and host settings; failed backups prevent migration. OS ownership excludes another cooperating host and is released on crash. Startup deadlines include the snapshot budget. Installed upgrade lifecycle and real credential-vault preservation remain unverified; stop older pre-lock Veya versions before upgrading.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-08T18:39:03+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -12231,7 +12292,8 @@
         "Opt-out prevents transmission and clears unsent reports according to policy"
       ],
       "code_paths": [
-        "apps/desktop/src-tauri/src/crash_reporting.rs"
+        "apps/desktop/src-tauri/src/crash_reporting.rs",
+        "services/runtime/veya/privacy/crashes.py"
       ],
       "verification": "Exercise the changed entry point and assert: Crash reports include versions and stack context without task content. Negative case: Opt-out prevents transmission and clears unsent reports according to policy. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -12245,14 +12307,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Crash metadata queue is opt-in, bounded and clears unsent reports on opt-out. Allowlist and consent tests pass. Native panic capture, user consent controls and a configured bounded upload transport remain incomplete.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-08T18:28:19+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -12274,7 +12338,8 @@
       ],
       "code_paths": [
         "scripts/demo.ps1",
-        "packages/fixtures/demo_manifest.json"
+        "packages/fixtures/demo_manifest.json",
+        "scripts/demo.py"
       ],
       "verification": "Exercise the changed entry point and assert: A reviewer can run the invoice scenario with clear model prerequisites. Negative case: Missing inference access cannot be masked by switching to fake model results. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -12288,14 +12353,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Demo entry point validates an installed Ollama model and uses the existing arithmetic smoke scenario without fake inference fallback. A portable installed bundle and the complete invoice scenario remain incomplete.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-08T18:28:19+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -12332,14 +12399,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "in_review",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Release evidence verifier binds required reports to one commit and artifact hash. Missing, stale, failed, synthetic or tampered evidence cannot produce release-ready. Passing fixture tests do not establish a releasable Veya artifact. User commit and formal prerequisite acceptance remain pending.",
       "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "updated_at": "2026-11-08T18:28:19+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -12416,7 +12485,8 @@
       ],
       "code_paths": [
         ".github/workflows/cross-platform.yml",
-        "apps/desktop/src-tauri/src/platform.rs"
+        "apps/desktop/src-tauri/src/platform.rs",
+        "apps/desktop/src-tauri/tauri.conf.json"
       ],
       "verification": "Exercise the changed entry point and assert: Unsupported native capabilities fail clearly while shared code compiles. Negative case: Windows credential or installer logic is not assumed available on other platforms. Retain the test command, result and evidence artifact.",
       "depends_on": [
@@ -12430,14 +12500,16 @@
       },
       "scope": "Core",
       "priority": "P1",
-      "status": "backlog",
-      "owner": "Unassigned",
+      "status": "blocked",
+      "owner": "Swarneil1905",
       "actual_hours": null,
       "commit": null,
-      "evidence": [],
-      "acceptance_note": null,
-      "blocked_reason": null,
-      "updated_at": "2026-10-20",
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Optional Linux/macOS compilation workflow, platform capability command and portable resource mapping are authored. Fourteen Windows native tests and clippy pass. Linux/macOS runners have not executed the unpushed workflow.",
+      "blocked_reason": "Optional Linux/macOS compilation workflow, platform capability command and portable resource mapping are authored. Fourteen Windows native tests and clippy pass. Linux/macOS runners have not executed the unpushed workflow.",
+      "updated_at": "2026-11-08T18:28:19+00:00",
       "release_ids": [
         "R4",
         "R5"
@@ -16011,6 +16083,258 @@
         "planning/evidence/batch20-2026-11-05/acceptance.json"
       ],
       "acceptance_note": "Reviewed JSON instruction packages are pinned by content digest. Install and rollback require existing tool grants and current revisions. Unknown fields, installation hooks, unreviewed packages and cross-tenant references are denied. No package instructions are executed during installation. Local implementation verified; user commit and formal prerequisite acceptance pending."
+    },
+    {
+      "at": "2026-11-08T18:28:19+00:00",
+      "story_id": "VEY-113",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local batch; record partial delivery honestly. Formal prerequisite acceptance remains pending.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "PostgreSQL vector migrations and scoped similarity queries pass real pgvector tests. Explicit source authorization, revocation and dimension validation are covered. User commit and formal prerequisite acceptance remain pending."
+    },
+    {
+      "at": "2026-11-08T18:28:19+00:00",
+      "story_id": "VEY-198",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local batch; record partial delivery honestly. Formal prerequisite acceptance remains pending.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Two populated tenants exercise API references, lexical/hybrid/vector retrieval, memory export and inference-cache scope. PostgreSQL role and policy tests also pass. User commit and formal prerequisite acceptance remain pending."
+    },
+    {
+      "at": "2026-11-08T18:28:19+00:00",
+      "story_id": "VEY-201",
+      "from": "backlog",
+      "to": "blocked",
+      "reason": "User-authorized local batch; record partial delivery honestly. Formal prerequisite acceptance remains pending.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Go OIDC/PKCE validation, session revocation and the private membership gateway are implemented and tested. No OIDC provider is configured; desktop login integration and rendered sign-in acceptance remain incomplete."
+    },
+    {
+      "at": "2026-11-08T18:28:19+00:00",
+      "story_id": "VEY-202",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local batch; record partial delivery honestly. Formal prerequisite acceptance remains pending.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "SQLite/PostgreSQL task-graph contracts pass. A real terminated PostgreSQL connection rolls back the uncommitted graph; reconnect and duplicate-write tests preserve state. This repository adapter does not implement remote model execution. User commit and formal prerequisite acceptance remain pending."
+    },
+    {
+      "at": "2026-11-08T18:28:19+00:00",
+      "story_id": "VEY-203",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local batch; record partial delivery honestly. Formal prerequisite acceptance remains pending.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Role capabilities, transaction-local tenant settings and forced row policies are implemented. Tests cover pooled-connection reuse, forbidden writes, privileged-role rejection and readiness failures for weakened policies or revoked permissions. User commit and formal prerequisite acceptance remain pending."
+    },
+    {
+      "at": "2026-11-08T18:28:19+00:00",
+      "story_id": "VEY-204",
+      "from": "backlog",
+      "to": "in_progress",
+      "reason": "User-authorized local batch; record partial delivery honestly. Formal prerequisite acceptance remains pending.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Tenant/content-addressed S3 adapter has bounded reads, checksums and short download URLs. Tests use a synthetic object client. Real object-store expiry and remote-run artifact integration remain incomplete."
+    },
+    {
+      "at": "2026-11-08T18:28:19+00:00",
+      "story_id": "VEY-205",
+      "from": "backlog",
+      "to": "blocked",
+      "reason": "User-authorized local batch; record partial delivery honestly. Formal prerequisite acceptance remains pending.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Locked non-root team and fixture-worker Dockerfiles include readiness checks. Docker Desktop crashes before its engine starts; image builds and runtime checks were not executed locally. The worker still executes synthetic activities only."
+    },
+    {
+      "at": "2026-11-08T18:28:19+00:00",
+      "story_id": "VEY-206",
+      "from": "backlog",
+      "to": "blocked",
+      "reason": "User-authorized local batch; record partial delivery honestly. Formal prerequisite acceptance remains pending.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Private team-service Deployment, Service and NetworkPolicy renderer is implemented. No test cluster is configured. Live network enforcement and remote-worker manifests remain incomplete; rendering tests are not cluster acceptance."
+    },
+    {
+      "at": "2026-11-08T18:28:19+00:00",
+      "story_id": "VEY-208",
+      "from": "backlog",
+      "to": "blocked",
+      "reason": "User-authorized local batch; record partial delivery honestly. Formal prerequisite acceptance remains pending.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Replica planning clamps backlog demand to explicit ceilings and holds on missing telemetry. No test cluster is configured; an active scaler and shared provider rate-limit enforcement across workers remain incomplete."
+    },
+    {
+      "at": "2026-11-08T18:28:19+00:00",
+      "story_id": "VEY-212",
+      "from": "backlog",
+      "to": "blocked",
+      "reason": "User-authorized local batch; record partial delivery honestly. Formal prerequisite acceptance remains pending.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Required CI now includes a real pgvector service and repository tests alongside the existing Temporal workflow. Ten PostgreSQL tests pass locally. GitHub has not run this unpushed workflow; container checks also await a working engine."
+    },
+    {
+      "at": "2026-11-08T18:28:19+00:00",
+      "story_id": "VEY-217",
+      "from": "backlog",
+      "to": "blocked",
+      "reason": "User-authorized local batch; record partial delivery honestly. Formal prerequisite acceptance remains pending.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Host deployment CLI journals immutable-image intent, requires exact test-to-staging identity and reconciles unknown outcomes. First deployment and baseline adoption have adapter tests. No test/staging cluster is configured for live verification."
+    },
+    {
+      "at": "2026-11-08T18:28:19+00:00",
+      "story_id": "VEY-218",
+      "from": "backlog",
+      "to": "blocked",
+      "reason": "User-authorized local batch; record partial delivery honestly. Formal prerequisite acceptance remains pending.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Canary thresholds hold on missing telemetry and trigger verified rollback in fixture tests. CLI uses the Kubernetes adapter. No cluster or production-shaped telemetry source is configured; live canary rollback remains unverified."
+    },
+    {
+      "at": "2026-11-08T18:28:19+00:00",
+      "story_id": "VEY-220",
+      "from": "backlog",
+      "to": "in_progress",
+      "reason": "User-authorized local batch; record partial delivery honestly. Formal prerequisite acceptance remains pending.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Dependabot paths/groups cover Angular, Cargo, Go and uv. The local review helper rejects major/downgrade updates and failed checks without auto-merging. A real dependency-update PR and reproducible artifact verification remain untested."
+    },
+    {
+      "at": "2026-11-08T18:28:19+00:00",
+      "story_id": "VEY-222",
+      "from": "backlog",
+      "to": "blocked",
+      "reason": "User-authorized local batch; record partial delivery honestly. Formal prerequisite acceptance remains pending.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Protected detached update-metadata signing workflow and pinned-key verification are authored. User confirmed no Windows code-signing setup. Authenticode signing and publisher verification are not implemented or claimed by the metadata signer."
+    },
+    {
+      "at": "2026-11-08T18:28:19+00:00",
+      "story_id": "VEY-223",
+      "from": "backlog",
+      "to": "in_progress",
+      "reason": "User-authorized local batch; record partial delivery honestly. Formal prerequisite acceptance remains pending.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Signed-manifest and artifact verification reject tampering, expiry, wrong channel and downgrade attempts. The host CLI is tested with ephemeral fixture keys. Installed-app update discovery, download and application remain incomplete."
+    },
+    {
+      "at": "2026-11-08T18:28:19+00:00",
+      "story_id": "VEY-224",
+      "from": "backlog",
+      "to": "in_progress",
+      "reason": "User-authorized local batch; record partial delivery honestly. Formal prerequisite acceptance remains pending.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Stopped-workspace upgrade command verifies a pre-migration snapshot and retains saved task/run data on success or failure. Native upgrade lifecycle integration, credential preservation and installed-app acceptance remain incomplete."
+    },
+    {
+      "at": "2026-11-08T18:28:19+00:00",
+      "story_id": "VEY-226",
+      "from": "backlog",
+      "to": "in_progress",
+      "reason": "User-authorized local batch; record partial delivery honestly. Formal prerequisite acceptance remains pending.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Crash metadata queue is opt-in, bounded and clears unsent reports on opt-out. Allowlist and consent tests pass. Native panic capture, user consent controls and a configured bounded upload transport remain incomplete."
+    },
+    {
+      "at": "2026-11-08T18:28:19+00:00",
+      "story_id": "VEY-227",
+      "from": "backlog",
+      "to": "in_progress",
+      "reason": "User-authorized local batch; record partial delivery honestly. Formal prerequisite acceptance remains pending.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Demo entry point validates an installed Ollama model and uses the existing arithmetic smoke scenario without fake inference fallback. A portable installed bundle and the complete invoice scenario remain incomplete."
+    },
+    {
+      "at": "2026-11-08T18:28:19+00:00",
+      "story_id": "VEY-228",
+      "from": "backlog",
+      "to": "in_review",
+      "reason": "User-authorized local batch; record partial delivery honestly. Formal prerequisite acceptance remains pending.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Release evidence verifier binds required reports to one commit and artifact hash. Missing, stale, failed, synthetic or tampered evidence cannot produce release-ready. Passing fixture tests do not establish a releasable Veya artifact. User commit and formal prerequisite acceptance remain pending."
+    },
+    {
+      "at": "2026-11-08T18:28:19+00:00",
+      "story_id": "VEY-230",
+      "from": "backlog",
+      "to": "blocked",
+      "reason": "User-authorized local batch; record partial delivery honestly. Formal prerequisite acceptance remains pending.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Optional Linux/macOS compilation workflow, platform capability command and portable resource mapping are authored. Fourteen Windows native tests and clippy pass. Linux/macOS runners have not executed the unpushed workflow."
+    },
+    {
+      "at": "2026-11-08T18:39:03+00:00",
+      "story_id": "VEY-224",
+      "from": "in_progress",
+      "to": "in_progress",
+      "reason": "Integrated automatic startup backup and workspace ownership; installed acceptance remains open.",
+      "commit": null,
+      "evidence": [
+        "planning/evidence/batch20-2026-11-08/acceptance.json"
+      ],
+      "acceptance_note": "Automatic owned desktop startup and the manual upgrade command preserve a verified pre-migration snapshot. Real child-process tests preserve tasks, runs and host settings; failed backups prevent migration. OS ownership excludes another cooperating host and is released on crash. Startup deadlines include the snapshot budget. Installed upgrade lifecycle and real credential-vault preservation remain unverified; stop older pre-lock Veya versions before upgrading."
     }
   ],
   "planning_deliverables": [

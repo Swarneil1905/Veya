@@ -154,7 +154,8 @@ impl Runtime {
         });
         self.child = Some(child);
         let ready = receive
-            .recv_timeout(Duration::from_secs(16))
+            // Go allows 60 seconds for startup plus its bounded health check.
+            .recv_timeout(Duration::from_secs(75))
             .ok()
             .and_then(|s| serde_json::from_str::<Value>(&s).ok());
         let port = ready

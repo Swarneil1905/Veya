@@ -1,0 +1,59 @@
+{
+  "flesch_kincaid_grade": 12.7,
+  "flesch_reading_ease": 28.4,
+  "sentence_count": 17,
+  "word_count": 234,
+  "avg_sentence_length": 13.8,
+  "sentence_length_variance": 21.7,
+  "min_sentence_length": 6,
+  "max_sentence_length": 22,
+  "consecutive_similar_length": 1,
+  "word_repetition_score": 11.5,
+  "top_repeated_words": [
+    [
+      "workspace",
+      4
+    ],
+    [
+      "team",
+      4
+    ],
+    [
+      "private",
+      3
+    ],
+    [
+      "python",
+      3
+    ],
+    [
+      "services",
+      3
+    ],
+    [
+      "api",
+      3
+    ],
+    [
+      "before",
+      2
+    ],
+    [
+      "desktop",
+      2
+    ],
+    [
+      "startup",
+      2
+    ],
+    [
+      "snapshot",
+      2
+    ]
+  ],
+  "paragraph_count": 1,
+  "avg_paragraph_length": 234.0,
+  "flags": [
+    "High reading level (12.7 grade)"
+  ]
+}

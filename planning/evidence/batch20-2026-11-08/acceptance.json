@@ -1,0 +1,271 @@
+{
+  "recorded_at": "2026-11-08T18:39:03+00:00",
+  "source_head": "287e521",
+  "requested_stories": 20,
+  "batch_complete": false,
+  "new_done_stories": 0,
+  "local_acceptance_ready": 5,
+  "remaining_in_progress": 6,
+  "blocked": 9,
+  "committed": false,
+  "pushed": false,
+  "github_issues_created": [],
+  "github_issue_policy": "Audit overall codebase and create confirmed issues after batch completion.",
+  "environment": {
+    "postgresql": "Real isolated PostgreSQL 18.6 on loopback; real pgvector 0.8.2. Test instance stopped after verification.",
+    "docker": "Engine unavailable; Docker Desktop dockerInference socket failure.",
+    "oidc_cluster_signing": "User confirmed none configured on 2026-11-08."
+  },
+  "checks": [
+    {
+      "command": "python scripts/test_runtime.py services/runtime/tests -q",
+      "result": "677 passed after startup ownership and upgrade integration.",
+      "artifact": "runtime-batch-results.xml"
+    },
+    {
+      "command": "python -m pytest tests/team -q",
+      "result": "10 passed against real PostgreSQL.",
+      "artifact": "team-native-results.xml"
+    },
+    {
+      "command": "python scripts/test_runtime.py services/runtime/tests/test_release_controls.py services/runtime/tests/test_tenant_adversarial.py -q",
+      "result": "15 passed after final review fixes.",
+      "artifact": "release-controls-results.xml"
+    },
+    {
+      "command": "worker Python -m pytest services/worker/tests/test_health.py -q",
+      "result": "2 passed.",
+      "artifact": "worker-health-results.xml"
+    },
+    {
+      "command": "python scripts/build_platform.py --test",
+      "result": "Go vet and all Go package tests passed; sidecar build passed."
+    },
+    {
+      "command": "cargo test --manifest-path apps/desktop/src-tauri/Cargo.toml --locked",
+      "result": "14 passed."
+    },
+    {
+      "command": "cargo fmt --check and cargo clippy --locked -- -D warnings",
+      "result": "Passed."
+    },
+    {
+      "command": "node scripts/check.mjs python; release; worker",
+      "result": "Formatting, lint, 163-file typing and generated contracts passed."
+    },
+    {
+      "command": "go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.7",
+      "result": "All authored workflows passed local lint. GitHub execution not claimed."
+    },
+    {
+      "command": "python scripts/test_runtime.py services/runtime/tests/test_release_controls.py services/runtime/tests/test_desktop.py -q",
+      "result": "19 passed, including real older-workspace startup, duplicate-host denial and crash lock release.",
+      "artifact": "upgrade-release-results.xml"
+    },
+    {
+      "command": "python -m unittest discover -s tests -q",
+      "result": "27 passed; tracker and module-boundary validation passed."
+    },
+    {
+      "command": "mypy --platform linux services/runtime/veya/storage/ownership.py",
+      "result": "Unix ownership branch type-check passed; live Unix behavior awaits CI."
+    }
+  ],
+  "review": {
+    "reviewer": "Independent code-review agent; read-only.",
+    "fixed": [
+      "Interrupted deployment reconciliation and stale completion fencing.",
+      "Blank task input and duplicate identity responses.",
+      "Readiness checks actual schema, privileges, RLS flags and policy definitions.",
+      "Confirmed Kubernetes absence differs from API failure.",
+      "First deployment applies reviewed resources; existing baselines require evidence.",
+      "Staging requires the exact image recorded healthy in test.",
+      "Automatic pre-migration snapshots integrated into the owned desktop startup.",
+      "Workspace OS ownership lock covers the runtime lifetime and manual upgrade CLI.",
+      "Coordinated 60-second Go and 75-second Rust startup deadlines; real delayed-worker regression passed."
+    ],
+    "unslop": "Public-copy scan has zero banned phrases or silhouette findings. Soft cadence/reading-level flags were reviewed and retained as technical reference prose. New comments/docstrings reviewed for unsupported claims.",
+    "sources": [
+      "https://docs.github.com/en/rest/deployments/environments?apiVersion=2022-11-28#get-an-environment"
+    ],
+    "applied_guidance": [
+      "code-review-and-quality",
+      "tdd",
+      "postgres-patterns",
+      "database-migrations",
+      "security-and-hardening",
+      "deployment-pipeline-design",
+      "github-actions-templates",
+      "golang-patterns",
+      "golang-testing",
+      "rust-patterns",
+      "rust-testing",
+      "unslop"
+    ]
+  },
+  "stories": {
+    "VEY-113": {
+      "status": "in_review",
+      "assessment": "PostgreSQL vector migrations and scoped similarity queries pass real pgvector tests. Explicit source authorization, revocation and dimension validation are covered.",
+      "implemented_paths": [
+        "services/runtime/veya/team/vectors.py",
+        "services/runtime/veya/team/migrations/002_vectors.sql"
+      ]
+    },
+    "VEY-198": {
+      "status": "in_review",
+      "assessment": "Two populated tenants exercise API references, lexical/hybrid/vector retrieval, memory export and inference-cache scope. PostgreSQL role and policy tests also pass.",
+      "implemented_paths": [
+        "services/runtime/tests/test_tenant_adversarial.py",
+        "tests/team/test_repositories.py"
+      ]
+    },
+    "VEY-201": {
+      "status": "blocked",
+      "assessment": "Go OIDC/PKCE validation, session revocation and the private membership gateway are implemented and tested. No OIDC provider is configured; desktop login integration and rendered sign-in acceptance remain incomplete.",
+      "implemented_paths": [
+        "services/platform/internal/remoteauth",
+        "services/platform/cmd/veya-team"
+      ]
+    },
+    "VEY-202": {
+      "status": "in_review",
+      "assessment": "SQLite/PostgreSQL task-graph contracts pass. A real terminated PostgreSQL connection rolls back the uncommitted graph; reconnect and duplicate-write tests preserve state. This repository adapter does not implement remote model execution.",
+      "implemented_paths": [
+        "services/runtime/veya/team/postgres.py",
+        "services/runtime/veya/team/migrations/001_tasks.sql"
+      ]
+    },
+    "VEY-203": {
+      "status": "in_review",
+      "assessment": "Role capabilities, transaction-local tenant settings and forced row policies are implemented. Tests cover pooled-connection reuse, forbidden writes, privileged-role rejection and readiness failures for weakened policies or revoked permissions.",
+      "implemented_paths": [
+        "services/runtime/veya/team/roles.py",
+        "services/runtime/veya/team/postgres.py"
+      ]
+    },
+    "VEY-204": {
+      "status": "in_progress",
+      "assessment": "Tenant/content-addressed S3 adapter has bounded reads, checksums and short download URLs. Tests use a synthetic object client. Real object-store expiry and remote-run artifact integration remain incomplete.",
+      "implemented_paths": [
+        "services/runtime/veya/team/artifacts.py"
+      ]
+    },
+    "VEY-205": {
+      "status": "blocked",
+      "assessment": "Locked non-root team and fixture-worker Dockerfiles include readiness checks. Docker Desktop crashes before its engine starts; image builds and runtime checks were not executed locally. The worker still executes synthetic activities only.",
+      "implemented_paths": [
+        "infra/containers/team.Dockerfile",
+        "infra/containers/worker.Dockerfile",
+        "services/worker/veya_worker/health.py"
+      ]
+    },
+    "VEY-206": {
+      "status": "blocked",
+      "assessment": "Private team-service Deployment, Service and NetworkPolicy renderer is implemented. No test cluster is configured. Live network enforcement and remote-worker manifests remain incomplete; rendering tests are not cluster acceptance.",
+      "implemented_paths": [
+        "scripts/render_team_deployment.py",
+        "services/deployment/kubernetes.py"
+      ]
+    },
+    "VEY-208": {
+      "status": "blocked",
+      "assessment": "Replica planning clamps backlog demand to explicit ceilings and holds on missing telemetry. No test cluster is configured; an active scaler and shared provider rate-limit enforcement across workers remain incomplete.",
+      "implemented_paths": [
+        "services/deployment/scaling.py"
+      ]
+    },
+    "VEY-212": {
+      "status": "blocked",
+      "assessment": "Required CI now includes a real pgvector service and repository tests alongside the existing Temporal workflow. Ten PostgreSQL tests pass locally. GitHub has not run this unpushed workflow; container checks also await a working engine.",
+      "implemented_paths": [
+        ".github/workflows/team-integration.yml",
+        ".github/workflows/quality.yml"
+      ]
+    },
+    "VEY-217": {
+      "status": "blocked",
+      "assessment": "Host deployment CLI journals immutable-image intent, requires exact test-to-staging identity and reconciles unknown outcomes. First deployment and baseline adoption have adapter tests. No test/staging cluster is configured for live verification.",
+      "implemented_paths": [
+        "services/deployment/promotion.py",
+        "services/deployment/kubernetes.py",
+        "scripts/deploy_team.py"
+      ]
+    },
+    "VEY-218": {
+      "status": "blocked",
+      "assessment": "Canary thresholds hold on missing telemetry and trigger verified rollback in fixture tests. CLI uses the Kubernetes adapter. No cluster or production-shaped telemetry source is configured; live canary rollback remains unverified.",
+      "implemented_paths": [
+        "services/deployment/promotion.py",
+        "scripts/deploy_team.py"
+      ]
+    },
+    "VEY-220": {
+      "status": "in_progress",
+      "assessment": "Dependabot paths/groups cover Angular, Cargo, Go and uv. The local review helper rejects major/downgrade updates and failed checks without auto-merging. A real dependency-update PR and reproducible artifact verification remain untested.",
+      "implemented_paths": [
+        ".github/dependabot.yml",
+        "scripts/dependency_update.py"
+      ]
+    },
+    "VEY-222": {
+      "status": "blocked",
+      "assessment": "Protected detached update-metadata signing workflow and pinned-key verification are authored. User confirmed no Windows code-signing setup. Authenticode signing and publisher verification are not implemented or claimed by the metadata signer.",
+      "implemented_paths": [
+        ".github/workflows/sign-update.yml",
+        "scripts/sign_update.py"
+      ]
+    },
+    "VEY-223": {
+      "status": "in_progress",
+      "assessment": "Signed-manifest and artifact verification reject tampering, expiry, wrong channel and downgrade attempts. The host CLI is tested with ephemeral fixture keys. Installed-app update discovery, download and application remain incomplete.",
+      "implemented_paths": [
+        "services/updates/manifest.py",
+        "scripts/verify_update.py"
+      ]
+    },
+    "VEY-224": {
+      "status": "in_progress",
+      "assessment": "Automatic owned desktop startup and the manual upgrade command preserve a verified pre-migration snapshot. Real child-process tests preserve tasks, runs and host settings; failed backups prevent migration. OS ownership excludes another cooperating host and is released on crash. Startup deadlines include the snapshot budget. Installed upgrade lifecycle and real credential-vault preservation remain unverified; stop older pre-lock Veya versions before upgrading.",
+      "implemented_paths": [
+        "services/runtime/veya/storage/upgrade.py",
+        "services/runtime/veya/storage/ownership.py",
+        "services/runtime/veya/desktop.py",
+        "scripts/workspace_upgrade.py",
+        "services/platform/internal/worker/process.go",
+        "apps/desktop/src-tauri/src/runtime.rs"
+      ]
+    },
+    "VEY-226": {
+      "status": "in_progress",
+      "assessment": "Crash metadata queue is opt-in, bounded and clears unsent reports on opt-out. Allowlist and consent tests pass. Native panic capture, user consent controls and a configured bounded upload transport remain incomplete.",
+      "implemented_paths": [
+        "services/runtime/veya/privacy/crashes.py"
+      ]
+    },
+    "VEY-227": {
+      "status": "in_progress",
+      "assessment": "Demo entry point validates an installed Ollama model and uses the existing arithmetic smoke scenario without fake inference fallback. A portable installed bundle and the complete invoice scenario remain incomplete.",
+      "implemented_paths": [
+        "scripts/demo.ps1",
+        "scripts/demo.py"
+      ]
+    },
+    "VEY-228": {
+      "status": "in_review",
+      "assessment": "Release evidence verifier binds required reports to one commit and artifact hash. Missing, stale, failed, synthetic or tampered evidence cannot produce release-ready. Passing fixture tests do not establish a releasable Veya artifact.",
+      "implemented_paths": [
+        "scripts/verify_release.py"
+      ]
+    },
+    "VEY-230": {
+      "status": "blocked",
+      "assessment": "Optional Linux/macOS compilation workflow, platform capability command and portable resource mapping are authored. Fourteen Windows native tests and clippy pass. Linux/macOS runners have not executed the unpushed workflow.",
+      "implemented_paths": [
+        ".github/workflows/cross-platform.yml",
+        "apps/desktop/src-tauri/src/platform.rs",
+        "apps/desktop/src-tauri/tauri.conf.json"
+      ]
+    }
+  }
+}

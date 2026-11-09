@@ -4,6 +4,7 @@ fn main() {
             "runtime_health",
             "runtime_restart",
             "workspace_call",
+            "native_capabilities",
         ]),
     ))
     .expect("Veya native manifest could not be built")

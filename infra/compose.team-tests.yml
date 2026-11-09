@@ -1,0 +1,18 @@
+services:
+  postgres:
+    image: pgvector/pgvector:0.8.2-pg18-bookworm@sha256:42e7f6b4e1eceb02ff14e3e6bc6108bbe259abbe83879dc1845d0da1ddeb555d
+    environment:
+      POSTGRES_USER: fixture_admin
+      POSTGRES_PASSWORD: ${VEYA_TEAM_TEST_PASSWORD:?Set a disposable test password}
+      POSTGRES_DB: veya_test_contracts
+    ports:
+      - '127.0.0.1:55432:5432'
+    tmpfs:
+      - /var/lib/postgresql
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U fixture_admin -d veya_test_contracts']
+      interval: 2s
+      timeout: 5s
+      retries: 30

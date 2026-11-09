@@ -1,6 +1,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 mod files;
+mod platform;
 mod recovery;
 mod runtime;
 mod tracing;
@@ -12,6 +13,12 @@ use std::sync::{Arc, Mutex};
 use tauri::Manager;
 
 type Shared = Arc<Mutex<Runtime>>;
+
+#[tauri::command]
+fn native_capabilities(window: tauri::WebviewWindow) -> Result<platform::Capabilities, String> {
+    main_window(&window)?;
+    Ok(platform::capabilities())
+}
 
 fn main_window(window: &tauri::WebviewWindow) -> Result<(), String> {
     if window.label() != "main" {
@@ -121,7 +128,8 @@ fn main() {
             runtime_health,
             runtime_restart,
             workspace_call,
-            select_documents
+            select_documents,
+            native_capabilities
         ])
         .setup(|app| {
             let folder = app.path().app_local_data_dir()?;
@@ -149,9 +157,11 @@ fn main() {
     match application {
         Ok(app) => app.run(|handle, event| {
             if matches!(event, tauri::RunEvent::Exit) {
-                if let Ok(mut runtime) = handle.state::<Shared>().lock() { runtime.stop(); }
+                if let Ok(mut runtime) = handle.state::<Shared>().lock() {
+                    runtime.stop();
+                }
             }
         }),
-        Err(_) => diagnostic("Veya could not open its desktop window. Repair Microsoft Edge WebView2 and reinstall Veya with its packaged assets. Startup diagnostics: %LOCALAPPDATA%\\dev.swarneil.relaystudio\\startup.log"),
+        Err(_) => diagnostic(platform::startup_failure()),
     }
 }

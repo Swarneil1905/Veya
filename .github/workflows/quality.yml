@@ -19,6 +19,8 @@ jobs:
     uses: ./.github/workflows/runtime-tests.yml
   durable-worker:
     uses: ./.github/workflows/durable-worker.yml
+  team:
+    uses: ./.github/workflows/team-integration.yml
   platform:
     uses: ./.github/workflows/platform-tests.yml
   browser:
@@ -122,6 +124,7 @@ jobs:
       - native-check
       - runtime
       - durable-worker
+      - team
       - platform
       - browser
       - workflows
