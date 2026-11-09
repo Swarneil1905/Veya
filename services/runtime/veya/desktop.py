@@ -48,11 +48,29 @@ def main():
     except (ValueError, TypeError, KeyError):
         print(json.dumps({'status': 'failed', 'code': 'invalid_bootstrap'}), flush=True)
         return 1
+    from veya.storage.ownership import own_workspace
+
+    try:
+        with own_workspace(root):
+            return serve(config, root, reviewer)
+    except OSError:
+        print(json.dumps({'status': 'failed', 'code': 'workspace_unavailable'}), flush=True)
+        return 1
+
+
+def serve(config, root, reviewer):
     try:
         from veya.storage.recovery import inspect
 
         if inspect(root)['state'] == 'damaged':
             print(json.dumps({'status': 'failed', 'code': 'storage_recovery_required'}), flush=True)
+            return 1
+        from veya.storage.upgrade import prepare_startup
+
+        try:
+            prepare_startup(root)
+        except Exception:
+            print(json.dumps({'status': 'failed', 'code': 'workspace_upgrade_failed'}), flush=True)
             return 1
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as listener:
             listener.bind(('127.0.0.1', 0))

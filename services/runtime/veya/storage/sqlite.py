@@ -32,13 +32,16 @@ def migration_directory() -> Path:
 
 
 class Database:
-    def __init__(self, root: Path):
+    def __init__(self, root: Path, *, migrate: bool = True):
         self.root = root.resolve()
+        if not migrate and not (self.root / 'veya.sqlite3').is_file():
+            raise ValueError('A pre-migration open requires an existing workspace')
         self.root.mkdir(parents=True, exist_ok=True)
         self.path = self.root / 'veya.sqlite3'
         with self.connection() as connection:
             connection.execute('PRAGMA journal_mode=WAL')
-        self._migrate()
+        if migrate:
+            self._migrate()
 
     @contextmanager
     def connection(self) -> Iterator[sqlite3.Connection]:
