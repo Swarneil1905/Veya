@@ -10,7 +10,34 @@ const python =
     process.platform === 'win32' ? 'Scripts/python.exe' : 'bin/python',
   );
 const pnpm = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm';
+const releaseSources = [
+  'services/deployment',
+  'services/updates',
+  'tests/team',
+  'scripts/demo.py',
+  'scripts/dependency_update.py',
+  'scripts/deploy_team.py',
+  'scripts/render_team_deployment.py',
+  'scripts/sign_update.py',
+  'scripts/team_database.py',
+  'scripts/verify_release.py',
+  'scripts/verify_update.py',
+  'scripts/workspace_upgrade.py',
+];
 const groups = {
+  release: [
+    [
+      python,
+      ['-m', 'ruff', 'check', '--config', 'services/runtime/pyproject.toml', ...releaseSources],
+    ],
+    [
+      python,
+      [
+        '-m', 'ruff', 'format', '--check',
+        '--config', 'services/runtime/pyproject.toml', ...releaseSources,
+      ],
+    ],
+  ],
   worker: [
     [
       python,
