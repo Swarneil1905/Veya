@@ -40,7 +40,7 @@ jobs:
           if not path.resolve().is_relative_to(root) or path.stat().st_size > 16384:
               raise SystemExit('Manifest is outside the checkout or oversized')
           PY
-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
         with:
           python-version-file: .python-version
       - name: Require configured independent environment approval
